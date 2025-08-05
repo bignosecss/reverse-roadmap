@@ -18,7 +18,7 @@ importers:
         specifier: 5.8.3
         version: 5.8.3
 
-  apps/backend:
+  apps/api:
     dependencies:
       '@nestjs/common':
         specifier: ^11.0.1
@@ -51,6 +51,12 @@ importers:
       '@nestjs/testing':
         specifier: ^11.0.1
         version: 11.1.5(@nestjs/common@11.1.5(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.5(@nestjs/common@11.1.5(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.1.5)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/platform-express@11.1.5(@nestjs/common@11.1.5(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@11.1.5))
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../../packages/eslint-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../../packages/typescript-config
       '@types/express':
         specifier: ^5.0.0
         version: 5.0.3
@@ -106,7 +112,7 @@ importers:
         specifier: ^8.20.0
         version: 8.37.0(eslint@9.31.0)(typescript@5.8.3)
 
-  apps/frontend:
+  apps/front:
     dependencies:
       '@repo/ui':
         specifier: workspace:*
