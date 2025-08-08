@@ -1,3 +1,6 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import { MoreHorizontal } from "lucide-react";
 import {
   DropdownMenu,
@@ -16,10 +19,29 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import Link from "next/link";
+import type { RrRoot } from "@/lib/types/models";
+import { getRrRoots } from "@/lib/api";
 
-export async function SidebarCustomContent() {
-  const data = await fetch("http://localhost:3001/rr-roots");
-  const projects = await data.json();
+export function SidebarCustomContent() {
+  const [projects, setProjects] = useState<RrRoot[]>([]);
+
+  useEffect(() => {
+    async function fetchProjects() {
+      try {
+        const res = await getRrRoots();
+
+        if (!res || !res.success || !res.data) {
+          throw new Error(res.error);
+        }
+
+        setProjects(res.data);
+      } catch (error) {
+        console.error("获取项目列表失败:", error);
+      }
+    }
+
+    fetchProjects();
+  }, []);
 
   return (
     <SidebarContent>
@@ -29,10 +51,10 @@ export async function SidebarCustomContent() {
         </SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
-            {projects.map((item: any) => (
+            {projects.map((item: RrRoot) => (
               <SidebarMenuItem key={item._id}>
                 <SidebarMenuButton asChild>
-                  <Link href="#">
+                  <Link href={`/g/${item._id}`}>
                     <span>{item.title}</span>
                   </Link>
                 </SidebarMenuButton>
