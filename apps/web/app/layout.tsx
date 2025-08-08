@@ -15,7 +15,8 @@ const geistMono = localFont({
 
 export const metadata: Metadata = {
   title: "Reverse Roadmap",
-  description: "Reverse Roadmap 是一个基于“目标分解 -> 反向路线组织”思维方式的个人知识/行动组织工具。用户可以自定义最终目标，将其层层分解成经过点、分类、知识点和可执行的行动等节点，最终形成树状结构。",
+  description:
+    "Reverse Roadmap 是一个基于“目标分解 -> 反向路线组织”思维方式的个人知识/行动组织工具。用户可以自定义最终目标，将其层层分解成经过点、分类、知识点和可执行的行动等节点，最终形成树状结构。",
 };
 
 export default function RootLayout({

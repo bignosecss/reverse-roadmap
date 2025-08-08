@@ -49,7 +49,7 @@ pnpm run seed:stats
 包含学习路线图的主要分类：
 
 - 前端开发路线图
-- 后端开发路线图  
+- 后端开发路线图
 - 全栈开发路线图
 - 移动端开发路线图
 
@@ -80,8 +80,8 @@ export const rootsSeeds: Partial<RrRoots>[] = [
   // 现有数据...
   {
     title: '你的新路线图',
-    status: 'active'
-  }
+    status: 'active',
+  },
 ];
 ```
 
@@ -93,7 +93,7 @@ export const rootsSeeds: Partial<RrRoots>[] = [
 export const yourNodes = {
   root: createNode('根节点标题', '描述'),
   child1: createNode('子节点1', '描述'),
-  child2: createNode('子节点2', '描述')
+  child2: createNode('子节点2', '描述'),
 };
 ```
 
@@ -104,10 +104,10 @@ export function buildYourTree(): RrNode {
   // 设置父子关系
   yourNodes.child1.parentId = yourNodes.root._id.toString();
   yourNodes.child2.parentId = yourNodes.root._id.toString();
-  
+
   // 设置子节点数组
   yourNodes.root.children = [yourNodes.child1, yourNodes.child2];
-  
+
   return yourNodes.root;
 }
 ```
@@ -177,24 +177,30 @@ for (const item of dataArray) {
 ### 常见错误
 
 1. **连接失败**
+
    ```
    ❌ 种子程序执行失败: MongoNetworkError
    ```
+
    - 检查网络连接
    - 验证数据库 URI
    - 确认数据库服务状态
 
 2. **权限错误**
+
    ```
    ❌ 种植根节点失败: MongoServerError: not authorized
    ```
+
    - 检查数据库用户权限
    - 验证认证信息
 
 3. **Schema 错误**
+
    ```
    ❌ ValidationError: Path `title` is required
    ```
+
    - 检查种子数据完整性
    - 验证 Schema 定义
 
