@@ -2,7 +2,7 @@
  * 数据模型类型定义
  */
 
-import type { ObjectId } from "./base";
+import type { ObjectId } from "./common";
 
 /** 侧边栏数据 */
 export interface RrRoot {
@@ -29,4 +29,28 @@ export interface RrTree {
   _id: ObjectId;
   rootId: ObjectId;
   rootNode: RrNode;
+}
+
+export interface FlowNode {
+  id: string;
+  type?: "rrNode";
+  position: { x: number; y: number };
+  data: {
+    label: string;
+    rrNode: RrNode;
+    level: number;
+  };
+}
+
+export interface FlowEdge {
+  id: string;
+  source: string;
+  target: string;
+  type: "smoothstep" | "straight" | "step";
+}
+
+// 转换结果类型
+export interface FlowData {
+  nodes: FlowNode[];
+  edges: FlowEdge[];
 }

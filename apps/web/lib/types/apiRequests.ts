@@ -1,4 +1,4 @@
-import type { ObjectId } from "./base";
+import type { ObjectId } from "./common";
 
 /** 创建根节点请求 */
 export interface CreateRootRequest {
