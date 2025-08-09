@@ -1,6 +1,15 @@
 {
   "$schema": "https://turborepo.com/schema.json",
   "ui": "tui",
+  "globalEnv": [
+    "NODE_ENV",
+    "PORT",
+    "FRONTEND_URL",
+    "MONGODB_URI",
+    "NEXT_PUBLIC_API_URL",
+    "ENABLE_VERBOSE_LOGGING",
+    "ENABLE_API_DOCS"
+  ],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],

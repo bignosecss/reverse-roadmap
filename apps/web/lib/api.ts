@@ -3,7 +3,7 @@ import { ObjectId } from "./types/base";
 import type { RrRoot, RrTree } from "./types/models";
 
 const API_BASE_URL =
-  process.env.NEST_PUBLIC_API_URL || "http://localhost:3001/api";
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
 
 async function apiRequest<T>(
   endpoint: string,
