@@ -1,6 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import { MoreHorizontal } from "lucide-react";
 import {
   DropdownMenu,
@@ -20,28 +19,18 @@ import {
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import type { RrRoot } from "@/lib/types/models";
-import { getRrRoots } from "@/lib/api";
+import { useRrRoots } from "@/lib/service/useRrRoots";
 
 export function SidebarCustomContent() {
-  const [projects, setProjects] = useState<RrRoot[]>([]);
+  const { data: rrRoots, isLoading } = useRrRoots();
 
-  useEffect(() => {
-    async function fetchProjects() {
-      try {
-        const res = await getRrRoots();
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
-        if (!res || !res.success || !res.data) {
-          throw new Error(res.error);
-        }
-
-        setProjects(res.data);
-      } catch (error) {
-        console.error("获取项目列表失败:", error);
-      }
-    }
-
-    fetchProjects();
-  }, []);
+  if (!rrRoots) {
+    return <div>Error: No data</div>;
+  }
 
   return (
     <SidebarContent>
@@ -51,7 +40,7 @@ export function SidebarCustomContent() {
         </SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
-            {projects.map((item: RrRoot) => (
+            {rrRoots.map((item: RrRoot) => (
               <SidebarMenuItem key={item._id}>
                 <SidebarMenuButton asChild>
                   <Link href={`/g/${item._id}`}>
@@ -60,7 +49,6 @@ export function SidebarCustomContent() {
                 </SidebarMenuButton>
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    {/* todo: show on hover even when the menu is focused */}
                     <SidebarMenuAction showOnHover className="cursor-pointer">
                       <MoreHorizontal />
                     </SidebarMenuAction>
