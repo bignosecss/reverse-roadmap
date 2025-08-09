@@ -8,7 +8,7 @@ import { useApiQuery } from "./baseApi";
  * @param rootId - 根节点 ID
  * @returns UseQueryResult<RrTree | null> - 思维导图树结构或 null
  */
-export const useRrTree = (rootId: string): UseQueryResult<RrTree | null> => {
+export const useGetRrTree = (rootId: string): UseQueryResult<RrTree | null> => {
   return useApiQuery<RrTree, RrTree | null>({
     endpoint: `/rr-tree?rootId=${rootId}`,
     queryKey: ["rr-tree", rootId],

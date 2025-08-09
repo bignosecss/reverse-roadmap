@@ -7,7 +7,7 @@ import { useApiQuery } from "./baseApi";
  *
  * @returns UseQueryResult<RrRoot[]> - 根节点数组
  */
-export const useRrRoots = (): UseQueryResult<RrRoot[]> => {
+export const useGetAllRrRoots = (): UseQueryResult<RrRoot[]> => {
   return useApiQuery<RrRoot[], RrRoot[]>({
     endpoint: "/rr-roots",
     queryKey: ["rr-roots"],

@@ -19,10 +19,10 @@ import {
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import type { RrRoot } from "@/lib/types/models";
-import { useRrRoots } from "@/lib/service/rrRootApi";
+import { useGetAllRrRoots } from "@/lib/service/rrRootApi";
 
 export function SidebarCustomContent() {
-  const { data: rrRoots, isLoading } = useRrRoots();
+  const { data: rrRoots, isLoading } = useGetAllRrRoots();
 
   if (isLoading) {
     return <div>Loading...</div>;
