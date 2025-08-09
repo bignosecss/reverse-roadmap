@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import type { RrRoot } from "@/lib/types/models";
-import { useRrRoots } from "@/lib/service";
+import { useRrRoots } from "@/lib/service/rrRootApi";
 
 export function SidebarCustomContent() {
   const { data: rrRoots, isLoading } = useRrRoots();

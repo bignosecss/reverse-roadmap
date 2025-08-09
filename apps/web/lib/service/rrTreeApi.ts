@@ -1,6 +1,6 @@
 import { UseQueryResult } from "@tanstack/react-query";
 import { RrTree } from "../types/models";
-import { useApiQuery } from "./useApiQuery";
+import { useApiQuery } from "./baseApi";
 
 /**
  * 获取指定根节点的思维导图树结构

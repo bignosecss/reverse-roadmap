@@ -1,6 +1,6 @@
 import { UseQueryResult } from "@tanstack/react-query";
 import { RrRoot } from "../types/models";
-import { useApiQuery } from "./useApiQuery";
+import { useApiQuery } from "./baseApi";
 
 /**
  * 获取所有根节点列表
