@@ -9,8 +9,8 @@ import { useApiQuery } from "./baseApi";
  */
 export const useGetAllRrRoots = (): UseQueryResult<RrRoot[]> => {
   return useApiQuery<RrRoot[], RrRoot[]>({
-    endpoint: "/rr-roots",
-    queryKey: ["rr-roots"],
+    endpoint: "/rr-root",
+    queryKey: ["rr-root"],
     select: (response) => response.data || [], // 🔥 关键：提取真正的数组数据
   });
 };

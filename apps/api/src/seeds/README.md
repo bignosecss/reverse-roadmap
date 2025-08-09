@@ -44,7 +44,7 @@ pnpm run seed:stats
 
 ## 📊 数据结构
 
-### 根节点 (RrRoots)
+### 根节点 (RrRoot)
 
 包含学习路线图的主要分类：
 
@@ -53,7 +53,7 @@ pnpm run seed:stats
 - 全栈开发路线图
 - 移动端开发路线图
 
-### 树结构 (RrTrees)
+### 树结构 (RrTree)
 
 每个根节点对应一个完整的学习树：
 
@@ -76,7 +76,7 @@ pnpm run seed:stats
 在 `seed-data.ts` 中修改 `rootsSeeds` 数组：
 
 ```typescript
-export const rootsSeeds: Partial<RrRoots>[] = [
+export const rootSeeds: Partial<RrRoot>[] = [
   // 现有数据...
   {
     title: '你的新路线图',

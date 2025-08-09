@@ -57,7 +57,7 @@ retryDelay: exponentialBackoff,  // 指数退避算法
 ```typescript
 // 强类型约束，编译时错误检测
 useApiQuery<RrRoot[], RrRoot[]>({
-  endpoint: "/rr-roots",
+  endpoint: "/rr-root",
   select: (response) => response.data || [],
 });
 ```

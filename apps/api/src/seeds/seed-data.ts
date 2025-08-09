@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
-import { RrRoots } from '../schemas/rr-roots.schema';
+import { RrRoot } from '../schemas/rr-root.schema';
 import { RrNode } from '../schemas/rr-node.schema';
-import { RrTrees } from '../schemas/rr-trees.schema';
+import { RrTree } from '../schemas/rr-tree.schema';
 
 /**
  * 种子数据定义
@@ -9,7 +9,7 @@ import { RrTrees } from '../schemas/rr-trees.schema';
  */
 
 // 根节点种子数据
-export const rootsSeeds: Partial<RrRoots>[] = [
+export const rootSeeds: Partial<RrRoot>[] = [
   {
     title: '前端开发路线图',
     status: 'active',
@@ -224,10 +224,10 @@ export function buildBackendTree(): RrNode {
 }
 
 // 树结构种子数据生成函数
-export function generateTreesSeeds(
+export function generateTreeSeeds(
   rootIds: Types.ObjectId[],
-): Partial<RrTrees>[] {
-  const trees: Partial<RrTrees>[] = [];
+): Partial<RrTree>[] {
+  const trees: Partial<RrTree>[] = [];
 
   if (rootIds.length >= 1) {
     const frontendTree = buildFrontendTree();

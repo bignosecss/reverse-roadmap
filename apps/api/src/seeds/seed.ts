@@ -3,9 +3,9 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Module } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { getModelToken } from '@nestjs/mongoose';
-import { RrRoots, RrRootsSchema } from '../schemas/rr-roots.schema';
-import { RrTrees, RrTreesSchema } from '../schemas/rr-trees.schema';
-import { rootsSeeds, generateTreesSeeds } from './seed-data';
+import { RrRoot, RrRootSchema } from '../schemas/rr-root.schema';
+import { RrTree, RrTreeSchema } from '../schemas/rr-tree.schema';
+import { rootSeeds, generateTreeSeeds } from './seed-data';
 import { Types } from 'mongoose';
 
 /**
@@ -18,8 +18,8 @@ import { Types } from 'mongoose';
       'mongodb+srv://pterosaurscannotfly:CrhLYfRwJMScZqCh@cluster0.c48gslh.mongodb.net/reverse-roadmap?retryWrites=true&w=majority&appName=Cluster0',
     ),
     MongooseModule.forFeature([
-      { name: RrRoots.name, schema: RrRootsSchema },
-      { name: RrTrees.name, schema: RrTreesSchema },
+      { name: RrRoot.name, schema: RrRootSchema },
+      { name: RrTree.name, schema: RrTreeSchema },
     ]),
   ],
 })
@@ -31,8 +31,8 @@ export class SeedModule {}
  */
 class DatabaseSeeder {
   constructor(
-    private readonly rrRootsModel: Model<RrRoots>,
-    private readonly rrTreesModel: Model<RrTrees>,
+    private readonly rrRootModel: Model<RrRoot>,
+    private readonly rrTreeModel: Model<RrTree>,
   ) {}
 
   /**
@@ -42,8 +42,8 @@ class DatabaseSeeder {
     console.log('🗑️  清空数据库中...');
 
     try {
-      await this.rrTreesModel.deleteMany({});
-      await this.rrRootsModel.deleteMany({});
+      await this.rrTreeModel.deleteMany({});
+      await this.rrRootModel.deleteMany({});
       console.log('✅ 数据库清空完成');
     } catch (error) {
       console.error('❌ 清空数据库失败:', error);
@@ -59,7 +59,7 @@ class DatabaseSeeder {
     console.log('🌱 种植根节点数据中...');
 
     try {
-      const createdRoots = await this.rrRootsModel.insertMany(rootsSeeds);
+      const createdRoots = await this.rrRootModel.insertMany(rootSeeds);
       const rootIds = createdRoots.map((root) => root._id);
 
       console.log(`✅ 成功创建 ${createdRoots.length} 个根节点:`);
@@ -82,8 +82,8 @@ class DatabaseSeeder {
     console.log('🌳 种植树结构数据中...');
 
     try {
-      const treesData = generateTreesSeeds(rootIds);
-      const createdTrees = await this.rrTreesModel.insertMany(treesData);
+      const treesData = generateTreeSeeds(rootIds);
+      const createdTrees = await this.rrTreeModel.insertMany(treesData);
 
       console.log(`✅ 成功创建 ${createdTrees.length} 个树结构:`);
       createdTrees.forEach((tree, index) => {
@@ -131,14 +131,14 @@ class DatabaseSeeder {
     console.log('📊 数据库统计信息:');
 
     try {
-      const rootsCount = await this.rrRootsModel.countDocuments();
-      const treesCount = await this.rrTreesModel.countDocuments();
+      const rootsCount = await this.rrRootModel.countDocuments();
+      const treesCount = await this.rrTreeModel.countDocuments();
 
       console.log(`   根节点数量: ${rootsCount}`);
       console.log(`   树结构数量: ${treesCount}`);
 
       // 显示每个根节点的详细信息
-      const roots = await this.rrRootsModel.find();
+      const roots = await this.rrRootModel.find();
       console.log('\n📋 根节点详情:');
       roots.forEach((root, index) => {
         console.log(
@@ -165,11 +165,11 @@ async function runSeed() {
     });
 
     // 获取模型实例
-    const rrRootsModel = app.get<Model<RrRoots>>(getModelToken(RrRoots.name));
-    const rrTreesModel = app.get<Model<RrTrees>>(getModelToken(RrTrees.name));
+    const rrRootModel = app.get<Model<RrRoot>>(getModelToken(RrRoot.name));
+    const rrTreeModel = app.get<Model<RrTree>>(getModelToken(RrTree.name));
 
     // 创建种子服务实例
-    const seeder = new DatabaseSeeder(rrRootsModel, rrTreesModel);
+    const seeder = new DatabaseSeeder(rrRootModel, rrTreeModel);
 
     // 解析命令行参数
     const args = process.argv.slice(2);
