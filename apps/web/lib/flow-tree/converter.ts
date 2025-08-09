@@ -15,13 +15,13 @@ export function convertTreeToFlow(rrTree: RrTree): FlowData {
     // 创建 Flow 节点
     const flowNode: FlowNode = {
       id: nodeId,
-      type: 'rrNode',
+      type: "rrNode",
       position: { x: 0, y: 0 }, // 稍后计算
       data: {
         label: node.title, // React Flow 需要的 label 属性
         rrNode: node,
-        level
-      }
+        level,
+      },
     };
 
     nodes.push(flowNode);

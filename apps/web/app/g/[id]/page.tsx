@@ -12,6 +12,7 @@ import {
   BackgroundVariant,
   type Node,
   type Edge,
+  type Connection,
 } from "@xyflow/react";
 import { useParams } from "next/navigation";
 import { useGetRrTree } from "@/lib/service/rrTreeApi";
@@ -28,7 +29,7 @@ export default function GoalPage() {
   const [edges, setEdges, onEdgesChange] = useEdgesState([] as Edge[]);
 
   const onConnect = useCallback(
-    (params: any) => setEdges((eds) => addEdge(params, eds)),
+    (params: Connection) => setEdges((eds) => addEdge(params, eds)),
     [setEdges],
   );
 

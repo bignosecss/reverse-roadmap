@@ -23,7 +23,8 @@ export function calculateNodePositions(nodes: FlowNode[]): FlowNode[] {
     if (levelNodes.length === 0) return;
 
     // 计算整层的总宽度：节点宽度 × 节点数 + 间距 × (节点数-1)
-    const totalWidth = levelNodes.length * NODE_WIDTH + (levelNodes.length - 1) * NODE_SPACING;
+    const totalWidth =
+      levelNodes.length * NODE_WIDTH + (levelNodes.length - 1) * NODE_SPACING;
     const startX = -totalWidth / 2 + NODE_WIDTH / 2; // 第一个节点的中心位置
 
     levelNodes.forEach((node, index) => {
