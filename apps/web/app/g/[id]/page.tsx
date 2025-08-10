@@ -2,21 +2,17 @@
 
 import { useCallback, useEffect } from "react";
 import {
-  ReactFlow,
-  MiniMap,
-  Controls,
-  Background,
   useNodesState,
   useEdgesState,
   addEdge,
-  BackgroundVariant,
   type Node,
   type Edge,
   type Connection,
 } from "@xyflow/react";
 import { useParams } from "next/navigation";
 import { useGetRrTree } from "@/lib/service/rrTreeApi";
-import { convertTreeToFlow } from "@/lib/flow-tree/converter";
+import { convertTreeToFlow } from "@/lib/flow-tree";
+import FlowContent from "@/components/flow/flow-content";
 
 import "@xyflow/react/dist/style.css";
 
@@ -34,12 +30,11 @@ export default function GoalPage() {
   );
 
   useEffect(() => {
-    console.log("rrTree", rrTree);
-
-    if (rrTree) {
-      const flowData = convertTreeToFlow(rrTree);
-      setNodes(flowData.nodes);
-      setEdges(flowData.edges);
+    if (!isLoading && rrTree) {
+      const { nodes: nodeWithDefaultPosition, edges: convertedEdges } =
+        convertTreeToFlow(rrTree);
+      setNodes(nodeWithDefaultPosition);
+      setEdges(convertedEdges);
     }
   }, [isLoading, rrTree, setEdges, setNodes]);
 
@@ -55,34 +50,15 @@ export default function GoalPage() {
       </div>
 
       <div className="flex-1 border rounded-lg overflow-hidden">
-        {isLoading ? (
-          <div className="flex items-center justify-center h-full bg-gray-50">
-            <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-              <p className="text-gray-600">Loading roadmap...</p>
-            </div>
-          </div>
-        ) : rrTree && nodes.length > 0 ? (
-          <ReactFlow
-            nodes={nodes}
-            edges={edges}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            onConnect={onConnect}
-            fitView
-            className="bg-gray-50"
-          >
-            <Controls />
-            <MiniMap />
-            <Background variant={BackgroundVariant.Dots} />
-          </ReactFlow>
-        ) : (
-          <div className="flex items-center justify-center h-full bg-gray-50">
-            <div className="text-center">
-              <p className="text-gray-600">No roadmap data available</p>
-            </div>
-          </div>
-        )}
+        <FlowContent
+          isLoading={isLoading}
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          hasData={!!rrTree}
+        />
       </div>
     </div>
   );

@@ -1,5 +1,4 @@
 import { FlowData, FlowEdge, FlowNode, RrNode, RrTree } from "../types/models";
-import { calculateNodePositions } from "./layout";
 
 /**
  * 将 RrTree 转换为 React Flow 数据格式
@@ -48,11 +47,8 @@ export function convertTreeToFlow(rrTree: RrTree): FlowData {
   // 从根节点开始遍历
   traverseNode(rrTree.rootNode, 0);
 
-  // 计算节点位置
-  const nodesWithPositions = calculateNodePositions(nodes);
-
   return {
-    nodes: nodesWithPositions,
+    nodes,
     edges,
   };
 }

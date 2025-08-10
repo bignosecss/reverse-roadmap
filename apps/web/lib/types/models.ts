@@ -2,6 +2,7 @@
  * 数据模型类型定义
  */
 
+import type { Node, Edge } from "@xyflow/react";
 import type { ObjectId } from "./common";
 
 /** 侧边栏数据 */
@@ -31,23 +32,16 @@ export interface RrTree {
   rootNode: RrNode;
 }
 
-export interface FlowNode {
-  id: string;
-  type?: "rrNode";
-  position: { x: number; y: number };
-  data: {
+export type FlowNode = Node<
+  {
     label: string;
     rrNode: RrNode;
     level: number;
-  };
-}
+  },
+  "rrNode"
+>;
 
-export interface FlowEdge {
-  id: string;
-  source: string;
-  target: string;
-  type: "smoothstep" | "straight" | "step";
-}
+export type FlowEdge = Edge;
 
 // 转换结果类型
 export interface FlowData {
