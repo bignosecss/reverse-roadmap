@@ -103,10 +103,10 @@ function FlowContentInner({
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center h-full bg-gray-50">
+      <div className="flex items-center justify-center h-full bg-background">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading roadmap...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading roadmap...</p>
         </div>
       </div>
     );
@@ -114,9 +114,9 @@ function FlowContentInner({
 
   if (!hasData || nodes.length === 0) {
     return (
-      <div className="flex items-center justify-center h-full bg-gray-50">
+      <div className="flex items-center justify-center h-full bg-background">
         <div className="text-center">
-          <p className="text-gray-600">No roadmap data available</p>
+          <p className="text-muted-foreground">No roadmap data available</p>
         </div>
       </div>
     );
@@ -133,7 +133,7 @@ function FlowContentInner({
       fitView
       minZoom={0.1}
       maxZoom={2.0}
-      className="bg-gray-50"
+      className="bg-background"
     >
       <CustomControls />
       <MiniMap />
