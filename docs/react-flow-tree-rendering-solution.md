@@ -65,7 +65,6 @@ interface FlowNode {
   position: { x: number; y: number };
   data: {
     rrNode: RrNode;
-    level: number;
   };
 }
 
@@ -95,8 +94,8 @@ sequenceDiagram
 
     Client->>Converter: convertTreeToFlow(rrTree)
     Converter->>Converter: 深度优先遍历树结构
-    Converter->>Layout: 计算节点位置(层级布局)
-    Layout-->>Converter: 返回位置坐标
+    Converter->>Layout: 使用 Dagre 自动布局算法
+    Layout-->>Converter: 返回优化后的节点位置
     Converter->>Converter: 提取父子关系为边
     Converter-->>Client: { nodes, edges }
     Client->>ReactFlow: 渲染流程图
@@ -113,17 +112,16 @@ function convertTreeToFlow(rrTree: RrTree): FlowData {
   const edges: FlowEdge[] = [];
 
   // 深度优先遍历，收集所有节点
-  function traverseNode(node: RrNode, level: number, parentId?: string) {
+  function traverseNode(node: RrNode, parentId?: string) {
     const nodeId = node._id.toString();
 
     // 创建 Flow 节点
     const flowNode: FlowNode = {
       id: nodeId,
       type: "rrNode",
-      position: { x: 0, y: 0 }, // 稍后计算
+      position: { x: 0, y: 0 }, // 由 Dagre 布局算法计算
       data: {
         rrNode: node,
-        level,
       },
     };
 
@@ -143,19 +141,16 @@ function convertTreeToFlow(rrTree: RrTree): FlowData {
     // 递归处理子节点
     if (node.children) {
       node.children.forEach((child) => {
-        traverseNode(child, level + 1, nodeId);
+        traverseNode(child, nodeId);
       });
     }
   }
 
   // 从根节点开始遍历
-  traverseNode(rrTree.rootNode, 0);
-
-  // 计算节点位置
-  const nodesWithPositions = calculateNodePositions(nodes);
+  traverseNode(rrTree.rootNode);
 
   return {
-    nodes: nodesWithPositions,
+    nodes,
     edges,
   };
 }
@@ -163,40 +158,46 @@ function convertTreeToFlow(rrTree: RrTree): FlowData {
 
 ### 4. 布局算法策略
 
-#### 层级布局 (Hierarchical Layout)
+#### Dagre 自动布局 (Dagre Auto Layout)
+
+使用 Dagre 算法进行自动布局，无需手动计算节点位置：
 
 ```typescript
+import dagre from 'dagre';
+
 /**
- * 计算节点位置 - 层级布局算法
+ * 使用 Dagre 算法计算节点位置
  */
-function calculateNodePositions(nodes: FlowNode[]): FlowNode[] {
-  const LEVEL_HEIGHT = 150; // 垂直间距
-  const NODE_WIDTH = 200; // 水平间距
+function getLayoutedNodes(nodes: FlowNode[], edges: FlowEdge[], direction = 'TB') {
+  const dagreGraph = new dagre.graphlib.Graph();
+  dagreGraph.setDefaultEdgeLabel(() => ({}));
+  dagreGraph.setGraph({ rankdir: direction });
 
-  // 按层级分组
-  const nodesByLevel = new Map<number, FlowNode[]>();
   nodes.forEach((node) => {
-    const level = node.data.level;
-    if (!nodesByLevel.has(level)) {
-      nodesByLevel.set(level, []);
-    }
-    nodesByLevel.get(level)!.push(node);
-  });
-
-  // 为每层计算位置
-  nodesByLevel.forEach((levelNodes, level) => {
-    const totalWidth = (levelNodes.length - 1) * NODE_WIDTH;
-    const startX = -totalWidth / 2;
-
-    levelNodes.forEach((node, index) => {
-      node.position = {
-        x: startX + index * NODE_WIDTH,
-        y: level * LEVEL_HEIGHT,
-      };
+    dagreGraph.setNode(node.id, {
+      width: node.measured?.width ?? 200,
+      height: node.measured?.height ?? 100,
     });
   });
 
-  return nodes;
+  edges.forEach((edge) => {
+    dagreGraph.setEdge(edge.source, edge.target);
+  });
+
+  dagre.layout(dagreGraph);
+
+  const newNodes = nodes.map((node) => {
+    const nodeWithPosition = dagreGraph.node(node.id);
+    return {
+      ...node,
+      position: {
+        x: nodeWithPosition.x - (node.measured?.width ?? 200) / 2,
+        y: nodeWithPosition.y - (node.measured?.height ?? 100) / 2,
+      },
+    };
+  });
+
+  return { newNodes, newEdges: edges };
 }
 ```
 
@@ -204,28 +205,13 @@ function calculateNodePositions(nodes: FlowNode[]): FlowNode[] {
 
 ```mermaid
 graph TD
-    subgraph "Level 0 (y=0)"
-        A[Root Node]
-    end
-    subgraph "Level 1 (y=150)"
-        B[Child 1]
-        C[Child 2]
-        D[Child 3]
-    end
-    subgraph "Level 2 (y=300)"
-        E[Grandchild 1]
-        F[Grandchild 2]
-        G[Grandchild 3]
-        H[Grandchild 4]
-    end
-
-    A --> B
-    A --> C
-    A --> D
-    B --> E
-    B --> F
-    C --> G
-    D --> H
+    A[Root Node] --> B[Child 1]
+    A --> C[Child 2]
+    A --> D[Child 3]
+    B --> E[Grandchild 1]
+    B --> F[Grandchild 2]
+    C --> G[Grandchild 3]
+    D --> H[Grandchild 4]
 
     style A fill:#e1f5fe
     style B fill:#f3e5f5
@@ -237,6 +223,8 @@ graph TD
     style H fill:#fff3e0
 ```
 
+> **注意**: 使用 Dagre 算法后，节点位置由算法自动计算，无需手动指定层级坐标。
+
 ### 5. 自定义节点组件设计
 
 ```typescript
@@ -244,10 +232,11 @@ graph TD
  * 自定义 RrNode 组件
  */
 const RrNodeComponent: React.FC<NodeProps> = ({ data, selected }) => {
-  const { rrNode, level } = data;
+  const { rrNode } = data;
+  const isRootNode = !rrNode.parentId;
 
   return (
-    <div className={`rr-node level-${level} ${selected ? 'selected' : ''}`}>
+    <div className={`rr-node ${isRootNode ? 'root-node' : 'child-node'} ${selected ? 'selected' : ''}`}>
       <div className="node-header">
         <h3>{rrNode.title}</h3>
       </div>
@@ -259,8 +248,10 @@ const RrNodeComponent: React.FC<NodeProps> = ({ data, selected }) => {
       )}
 
       {/* React Flow Handles */}
-      <Handle type="target" position={Position.Top} />
-      <Handle type="source" position={Position.Bottom} />
+      {!isRootNode && <Handle type="target" position={Position.Top} />}
+      {rrNode.children && rrNode.children.length > 0 && (
+        <Handle type="source" position={Position.Bottom} />
+      )}
     </div>
   );
 };

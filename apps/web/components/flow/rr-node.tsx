@@ -9,11 +9,13 @@ import { RrNode } from "@/lib/types/models";
  * 用于在 React Flow 中渲染思维导图节点
  */
 const RrNodeComponent: React.FC<NodeProps> = ({ data, selected }) => {
-  const { rrNode, level } = data as {
+  const { rrNode } = data as {
     label: string;
     rrNode: RrNode;
-    level: number;
   };
+
+  // 判断是否为根节点（没有 parentId）
+  const isRootNode = !rrNode.parentId;
 
   return (
     <div
@@ -23,12 +25,12 @@ const RrNodeComponent: React.FC<NodeProps> = ({ data, selected }) => {
         bg-white border-2 rounded-lg shadow-md
         transition-all duration-200
         ${selected ? "border-blue-500 shadow-lg" : "border-gray-300"}
-        ${level === 0 ? "bg-blue-50 border-blue-400" : ""}
+        ${isRootNode ? "bg-blue-50 border-blue-400" : ""}
         hover:shadow-lg hover:border-gray-400
       `}
     >
       {/* 输入连接点 */}
-      {level > 0 && (
+      {!isRootNode && (
         <Handle
           type="target"
           position={Position.Top}
@@ -42,7 +44,7 @@ const RrNodeComponent: React.FC<NodeProps> = ({ data, selected }) => {
           <h3
             className={`
             font-semibold text-sm leading-tight
-            ${level === 0 ? "text-blue-800" : "text-gray-800"}
+            ${isRootNode ? "text-blue-800" : "text-gray-800"}
           `}
           >
             {rrNode.title}
@@ -57,15 +59,15 @@ const RrNodeComponent: React.FC<NodeProps> = ({ data, selected }) => {
           </div>
         )}
 
-        {/* 层级指示器 */}
+        {/* 节点信息 */}
         <div className="mt-2 flex items-center justify-between">
           <span
             className={`
             text-xs px-2 py-1 rounded-full
-            ${level === 0 ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-600"}
+            ${isRootNode ? "bg-blue-100 text-blue-700" : "bg-gray-100 text-gray-600"}
           `}
           >
-            Level {level}
+            {isRootNode ? "根节点" : "子节点"}
           </span>
 
           {rrNode.children && rrNode.children.length > 0 && (

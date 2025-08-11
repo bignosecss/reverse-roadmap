@@ -36,7 +36,6 @@ export type FlowNode = Node<
   {
     label: string;
     rrNode: RrNode;
-    level: number;
   },
   "rrNode"
 >;

@@ -8,18 +8,17 @@ export function convertTreeToFlow(rrTree: RrTree): FlowData {
   const edges: FlowEdge[] = [];
 
   // 深度优先遍历，收集所有节点
-  function traverseNode(node: RrNode, level: number, parentId?: string) {
+  function traverseNode(node: RrNode, parentId?: string) {
     const nodeId = node._id.toString();
 
     // 创建 Flow 节点
     const flowNode: FlowNode = {
       id: nodeId,
       type: "rrNode",
-      position: { x: 0, y: 0 }, // 稍后计算
+      position: { x: 0, y: 0 }, // 由 dagre 布局算法计算
       data: {
         label: node.title, // React Flow 需要的 label 属性
         rrNode: node,
-        level,
       },
     };
 
@@ -39,13 +38,13 @@ export function convertTreeToFlow(rrTree: RrTree): FlowData {
     // 递归处理子节点
     if (node.children) {
       node.children.forEach((child) => {
-        traverseNode(child, level + 1, nodeId);
+        traverseNode(child, nodeId);
       });
     }
   }
 
   // 从根节点开始遍历
-  traverseNode(rrTree.rootNode, 0);
+  traverseNode(rrTree.rootNode);
 
   return {
     nodes,

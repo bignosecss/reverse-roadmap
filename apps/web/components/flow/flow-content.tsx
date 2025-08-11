@@ -49,46 +49,56 @@ function FlowContentInner({
   const { fitView } = useReactFlow();
 
   useEffect(() => {
-    if (hasData && nodes.length > 0) {
-      // 检查是否需要重新布局：节点数量变化或者还没有应用过布局
-      const needsLayout =
-        !layoutAppliedRef.current || nodes.length !== nodesLengthRef.current;
-
-      // 检查节点是否有真实的 measured 尺寸
-      const hasMeasuredNodes = nodes.some(
-        (node) => node.measured?.width && node.measured?.height,
-      );
-
-      if (needsLayout && hasMeasuredNodes) {
-        const { newNodes } = getLayoutedNodes(nodes, edges, "TB");
-
-        // 更新节点位置
-        onNodesChange(
-          newNodes.map((node) => ({
-            type: "position",
-            id: node.id,
-            position: node.position,
-          })),
-        );
-
-        // 标记已应用布局
-        layoutAppliedRef.current = true;
-        nodesLengthRef.current = nodes.length;
-
-        // 在下一个渲染周期调用 fitView
-         setTimeout(() => {
-           fitView({
-             padding: 0.1,
-             maxZoom: 1.5,
-             minZoom: 0.1,
-           });
-         }, 0);
-      }
-    } else {
-      // 重置布局状态
+    // 早期返回：没有数据或节点为空时重置状态
+    if (!hasData || nodes.length === 0) {
       layoutAppliedRef.current = false;
       nodesLengthRef.current = 0;
+      return;
     }
+
+    // 检查是否需要重新布局：节点数量变化或者还没有应用过布局
+    const needsLayout =
+      !layoutAppliedRef.current || nodes.length !== nodesLengthRef.current;
+
+    // 早期返回：不需要布局时直接退出
+    if (!needsLayout) {
+      return;
+    }
+
+    // 检查节点是否有真实的 measured 尺寸
+    const hasMeasuredNodes = nodes.some(
+      (node) => node.measured?.width && node.measured?.height,
+    );
+
+    // 早期返回：节点尺寸未测量完成时直接退出
+    if (!hasMeasuredNodes) {
+      return;
+    }
+
+    // 执行布局逻辑
+    const { newNodes } = getLayoutedNodes(nodes, edges, "TB");
+
+    // 更新节点位置
+    onNodesChange(
+      newNodes.map((node) => ({
+        type: "position",
+        id: node.id,
+        position: node.position,
+      })),
+    );
+
+    // 标记已应用布局
+    layoutAppliedRef.current = true;
+    nodesLengthRef.current = nodes.length;
+
+    // 在下一个渲染周期调用 fitView
+    setTimeout(() => {
+      fitView({
+        padding: 0.1,
+        maxZoom: 1.5,
+        minZoom: 0.1,
+      });
+    }, 0);
   }, [hasData, nodes, edges, onNodesChange, fitView]);
 
   if (isLoading) {

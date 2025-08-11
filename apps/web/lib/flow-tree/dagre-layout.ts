@@ -8,7 +8,14 @@ export const getLayoutedNodes = (
   edges: Edge[],
   direction: "TB" | "LR" | "BT" | "RL",
 ) => {
-  dagreGraph.setGraph({ rankdir: direction });
+  dagreGraph.setGraph({ 
+    rankdir: direction,
+    ranksep: 100,    // 增加层级间距到 80 像素
+    nodesep: 60,    // 增加同层节点间距到 60 像素
+    edgesep: 20,    // 增加边间距到 20 像素
+    marginx: 20,    // 添加水平边距
+    marginy: 20     // 添加垂直边距
+  });
 
   nodes.forEach((node) => {
     dagreGraph.setNode(node.id, {
