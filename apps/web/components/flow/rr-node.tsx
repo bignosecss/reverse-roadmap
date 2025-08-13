@@ -1,5 +1,5 @@
 import React from "react";
-import { Handle, Position, type NodeProps } from "@xyflow/react";
+import { Handle, Position, type NodeProps, NodeToolbar } from "@xyflow/react";
 import { RrNode } from "@/lib/types/models";
 import {
   Card,
@@ -8,6 +8,8 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Plus, Edit, Trash2 } from "lucide-react";
 
 /**
  * 自定义 RrNode 组件
@@ -22,16 +24,70 @@ const RrNodeComponent: React.FC<NodeProps> = ({ data, selected }) => {
   // 判断是否为根节点（没有 parentId）
   const isRootNode = !rrNode.parentId;
 
+  // 处理工具栏操作
+  const handleAddNode = () => {
+    console.log('添加子节点:', rrNode._id);
+    // TODO: 实现添加子节点逻辑
+  };
+
+  const handleEditNode = () => {
+    console.log('编辑节点:', rrNode._id);
+    // TODO: 实现编辑节点逻辑
+  };
+
+  const handleDeleteNode = () => {
+    console.log('删除节点:', rrNode._id);
+    // TODO: 实现删除节点逻辑
+  };
+
   return (
-    <Card
-      className={`
-        rr-node
-        min-w-[250px] max-w-[300px]
-        transition-all duration-200
-        ${selected ? "ring-2 ring-primary shadow-lg" : ""}
-        hover:shadow-lg
-      `}
-    >
+    <>
+      {/* NodeToolbar - 节点工具栏 */}
+      <NodeToolbar
+        isVisible={selected}
+        position={Position.Top}
+        className="flex gap-1 p-1 bg-background border rounded-md shadow-lg"
+      >
+        <Button
+          size="sm"
+          variant="ghost"
+          onClick={handleAddNode}
+          className="h-7 w-7 p-0"
+          title="添加子节点"
+        >
+          <Plus className="h-3 w-3" />
+        </Button>
+        <Button
+          size="sm"
+          variant="ghost"
+          onClick={handleEditNode}
+          className="h-7 w-7 p-0"
+          title="编辑节点"
+        >
+          <Edit className="h-3 w-3" />
+        </Button>
+        {!isRootNode && (
+          <Button
+            size="sm"
+            variant="ghost"
+            onClick={handleDeleteNode}
+            className="h-7 w-7 p-0 text-destructive hover:text-destructive"
+            title="删除节点"
+          >
+            <Trash2 className="h-3 w-3" />
+          </Button>
+        )}
+      </NodeToolbar>
+
+      <Card
+        className={`
+          rr-node
+          min-w-[250px] max-w-[300px]
+          transition-all duration-200
+          ${selected ? "ring-2 ring-primary shadow-lg" : ""}
+          hover:shadow-lg
+        `}
+      >
       {/* 输入连接点 */}
       {!isRootNode && (
         <Handle
@@ -84,7 +140,8 @@ const RrNodeComponent: React.FC<NodeProps> = ({ data, selected }) => {
           className="w-3 h-3 bg-accent border-2 border-background"
         />
       )}
-    </Card>
+      </Card>
+    </>
   );
 };
 
