@@ -4,6 +4,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RrRootModule } from './rr-root/rr-root.module';
 import { RrTreeModule } from './rr-tree/rr-tree.module';
+import { RrNodeModule } from './rr-node/rr-node.module';
+import { ValidationService } from './common/validation/validation.service';
+import { ErrorHandlerService } from './common/error-handler/error-handler.service';
 
 @Module({
   imports: [
@@ -13,8 +16,9 @@ import { RrTreeModule } from './rr-tree/rr-tree.module';
     ),
     RrRootModule,
     RrTreeModule,
+    RrNodeModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, ValidationService, ErrorHandlerService],
 })
 export class AppModule {}

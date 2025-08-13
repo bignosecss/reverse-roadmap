@@ -15,8 +15,13 @@ export class RrNode {
   @Prop({ type: Types.ObjectId, default: null })
   parentId!: Types.ObjectId | null;
 
-  @Prop({ type: [Object], default: null }) // 递归定义子节点
+  @Prop({ type: [{ type: Object }], default: null }) // 递归定义子节点
   children!: RrNode[] | null;
 }
 
 export const RrNodeSchema = SchemaFactory.createForClass(RrNode);
+
+// 设置递归引用
+RrNodeSchema.add({
+  children: [RrNodeSchema]
+});
