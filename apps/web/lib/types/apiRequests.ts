@@ -11,6 +11,7 @@ export interface CreateNodeRequest {
   title: string;
   description?: string;
   parentId: ObjectId;
+  rootId: ObjectId;
 }
 
 /** 更新节点请求 */

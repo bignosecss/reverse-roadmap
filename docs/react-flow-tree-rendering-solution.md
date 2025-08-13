@@ -163,12 +163,16 @@ function convertTreeToFlow(rrTree: RrTree): FlowData {
 使用 Dagre 算法进行自动布局，无需手动计算节点位置：
 
 ```typescript
-import dagre from 'dagre';
+import dagre from "dagre";
 
 /**
  * 使用 Dagre 算法计算节点位置
  */
-function getLayoutedNodes(nodes: FlowNode[], edges: FlowEdge[], direction = 'TB') {
+function getLayoutedNodes(
+  nodes: FlowNode[],
+  edges: FlowEdge[],
+  direction = "TB",
+) {
   const dagreGraph = new dagre.graphlib.Graph();
   dagreGraph.setDefaultEdgeLabel(() => ({}));
   dagreGraph.setGraph({ rankdir: direction });

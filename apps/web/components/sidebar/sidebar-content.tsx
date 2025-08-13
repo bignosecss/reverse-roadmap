@@ -30,7 +30,7 @@ interface SidebarProjectItemProps {
   onSelect: () => void;
 }
 
-function SidebarProjectItem({
+function SidebarTreeItem({
   item,
   isActive,
   onSelect,
@@ -64,17 +64,17 @@ function SidebarProjectItem({
 export function SidebarCustomContent() {
   const { data: rrRoots, isLoading } = useGetAllRrRoots();
   const pathname = usePathname();
-  const { selectedItemId, setSelectedItemId } = useSidebarStore();
+  const { selectedTreeId, setSelectedTreeId } = useSidebarStore();
 
   // 同步路由变化到 Zustand 状态
   useEffect(() => {
     if (pathname.startsWith("/g/")) {
       const currentId = pathname.split("/g/")[1];
-      if (currentId && currentId !== selectedItemId) {
-        setSelectedItemId(currentId);
+      if (currentId && currentId !== selectedTreeId) {
+        setSelectedTreeId(currentId);
       }
     }
-  }, [pathname, selectedItemId, setSelectedItemId]);
+  }, [pathname, selectedTreeId, setSelectedTreeId]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -92,14 +92,14 @@ export function SidebarCustomContent() {
         </SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
-            {rrRoots.map((item: RrRoot) => (
-              <SidebarProjectItem
-                key={item._id}
-                item={item}
+            {rrRoots.map((tree: RrRoot) => (
+              <SidebarTreeItem
+                key={tree._id}
+                item={tree}
                 isActive={
-                  selectedItemId === item._id || pathname === `/g/${item._id}`
+                  selectedTreeId === tree._id || pathname === `/g/${tree._id}`
                 }
-                onSelect={() => setSelectedItemId(item._id)}
+                onSelect={() => setSelectedTreeId(tree._id)}
               />
             ))}
           </SidebarMenu>
