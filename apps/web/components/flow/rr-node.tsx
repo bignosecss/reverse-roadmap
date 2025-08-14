@@ -32,8 +32,6 @@ const RrNodeComponent: React.FC<NodeProps> = ({ data, selected }) => {
   // 获取根节点ID
   const rootTreeId = pathname.split("/g/")[1] || "";
 
-
-
   const handleEditNode = () => {
     console.log("编辑节点:", rrNode._id);
     // TODO: 实现编辑节点逻辑

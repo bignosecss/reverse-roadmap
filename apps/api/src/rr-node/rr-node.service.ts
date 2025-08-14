@@ -14,9 +14,14 @@ export class RrNodeService {
   ) {}
 
   async create(createRrNodeDto: CreateRrNodeDto) {
-    const tree = await this.rrTreeService.findOne(createRrNodeDto.rootId.toString());
+    const tree = await this.rrTreeService.findOne(
+      createRrNodeDto.rootId.toString(),
+    );
     if (!tree) {
-      this.errorHandlerService.throwNotFound('树结构', createRrNodeDto.rootId.toString());
+      this.errorHandlerService.throwNotFound(
+        '树结构',
+        createRrNodeDto.rootId.toString(),
+      );
     }
 
     const newNode: RrNode = {
@@ -28,16 +33,27 @@ export class RrNodeService {
     };
 
     // 直接在原始树结构上添加节点
-    const success = this.addNodeToTree(tree.rootNode, new Types.ObjectId(createRrNodeDto.parentId.toString()), newNode);
+    const success = this.addNodeToTree(
+      tree.rootNode,
+      new Types.ObjectId(createRrNodeDto.parentId.toString()),
+      newNode,
+    );
     if (!success) {
-      this.errorHandlerService.throwNotFound('父节点', createRrNodeDto.parentId.toString());
+      this.errorHandlerService.throwNotFound(
+        '父节点',
+        createRrNodeDto.parentId.toString(),
+      );
     }
-    
+
     await this.rrTreeService.save(tree.rootId.toString(), tree);
-    
+
     return newNode;
   }
-  private addNodeToTree(rootNode: RrNode, parentId: Types.ObjectId, newNode: RrNode): boolean {
+  private addNodeToTree(
+    rootNode: RrNode,
+    parentId: Types.ObjectId,
+    newNode: RrNode,
+  ): boolean {
     if (parentId.equals(rootNode._id)) {
       if (rootNode.children === null) {
         rootNode.children = [];
@@ -93,7 +109,6 @@ export class RrNodeService {
 
     return null;
   }
-
 
   update(id: number, updateRrNodeDto: UpdateRrNodeDto) {
     return `This action updates a #${id} rrNode`;

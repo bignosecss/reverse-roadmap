@@ -34,7 +34,7 @@ interface AddNodeDialogProps {
 
 /**
  * 添加节点专用Dialog组件
- * 
+ *
  * 功能特性：
  * - 支持添加根节点或子节点
  * - 表单验证和错误处理
@@ -50,7 +50,7 @@ export function AddNodeDialog({
   onOpenChange: externalOnOpenChange,
 }: AddNodeDialogProps) {
   const [internalOpen, setInternalOpen] = useState(false);
-  
+
   // 使用外部控制的open状态，如果没有则使用内部状态
   const open = externalOpen !== undefined ? externalOpen : internalOpen;
   const setOpen = externalOnOpenChange || setInternalOpen;
@@ -68,17 +68,17 @@ export function AddNodeDialog({
   // 表单验证
   const validateForm = () => {
     const newErrors: typeof errors = {};
-    
+
     if (!formData.title.trim()) {
       newErrors.title = "节点标题不能为空";
     } else if (formData.title.length > 100) {
       newErrors.title = "节点标题不能超过100个字符";
     }
-    
+
     if (formData.description && formData.description.length > 500) {
       newErrors.description = "节点描述不能超过500个字符";
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -86,7 +86,7 @@ export function AddNodeDialog({
   // 处理表单提交
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
@@ -105,20 +105,21 @@ export function AddNodeDialog({
             setFormData({ title: "", description: "" });
             setErrors({});
             setOpen(false);
-            
+
             // 显示成功提示
             toast.success("节点创建成功", {
               description: `已成功创建节点「${newNode.title}」`,
             });
-            
+
             console.log("节点创建成功:", newNode);
           },
           onError: (error) => {
             console.error("创建节点失败:", error);
-            
+
             // 显示错误提示
             toast.error("节点创建失败", {
-              description: error instanceof Error ? error.message : "请稍后重试",
+              description:
+                error instanceof Error ? error.message : "请稍后重试",
             });
           },
         },
@@ -145,22 +146,21 @@ export function AddNodeDialog({
   );
 
   // 默认标题
-  const dialogTitle = title || (parentNode ? `为"${parentNode.title}"添加子节点` : "添加新节点");
+  const dialogTitle =
+    title || (parentNode ? `为"${parentNode.title}"添加子节点` : "添加新节点");
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       {/* 只有在没有外部控制时才显示触发器 */}
       {externalOpen === undefined && (
-        <DialogTrigger asChild>
-          {trigger || defaultTrigger}
-        </DialogTrigger>
+        <DialogTrigger asChild>{trigger || defaultTrigger}</DialogTrigger>
       )}
-      
+
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>{dialogTitle}</DialogTitle>
         </DialogHeader>
-        
+
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* 节点标题 */}
           <div className="space-y-2">
@@ -170,10 +170,10 @@ export function AddNodeDialog({
               placeholder="请输入节点标题"
               value={formData.title}
               onChange={(e) => {
-                setFormData(prev => ({ ...prev, title: e.target.value }));
+                setFormData((prev) => ({ ...prev, title: e.target.value }));
                 // 清除标题错误
                 if (errors.title) {
-                  setErrors(prev => ({ ...prev, title: undefined }));
+                  setErrors((prev) => ({ ...prev, title: undefined }));
                 }
               }}
               className={errors.title ? "border-destructive" : ""}
@@ -192,10 +192,13 @@ export function AddNodeDialog({
               placeholder="请输入节点描述（可选）"
               value={formData.description}
               onChange={(e) => {
-                setFormData(prev => ({ ...prev, description: e.target.value }));
+                setFormData((prev) => ({
+                  ...prev,
+                  description: e.target.value,
+                }));
                 // 清除描述错误
                 if (errors.description) {
-                  setErrors(prev => ({ ...prev, description: undefined }));
+                  setErrors((prev) => ({ ...prev, description: undefined }));
                 }
               }}
               className={errors.description ? "border-destructive" : ""}

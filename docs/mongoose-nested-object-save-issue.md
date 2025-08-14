@@ -17,9 +17,9 @@
 
 ```typescript
 // RrTree Schema - 树结构
-@Schema({ timestamps: true, collection: 'rr_trees' })
+@Schema({ timestamps: true, collection: "rr_trees" })
 export class RrTree {
-  @Prop({ type: Types.ObjectId, ref: 'RrRoot', unique: true })
+  @Prop({ type: Types.ObjectId, ref: "RrRoot", unique: true })
   rootId!: Types.ObjectId;
 
   @Prop({ type: RrNode, required: true })
@@ -48,6 +48,7 @@ export class RrNode {
 ### 1. 查询与更新方法不一致
 
 **错误代码：**
+
 ```typescript
 // rr-tree.service.ts - 原始错误版本
 async findOne(id: string): Promise<RrTree> {
@@ -64,6 +65,7 @@ async save(treeRootId: string, tree: RrTree): Promise<RrTree | null> {
 ```
 
 **问题分析：**
+
 - `findOne` 方法通过 `rootId` 字段查询
 - `save` 方法使用 `findByIdAndUpdate` 期望文档的 `_id`
 - 传入的 `treeRootId` 实际是 `rootId` 值，不是文档 `_id`
@@ -72,12 +74,14 @@ async save(treeRootId: string, tree: RrTree): Promise<RrTree | null> {
 ### 2. 递归 Schema 定义错误
 
 **错误代码：**
+
 ```typescript
 @Prop({ type: [Object], default: null }) // 错误：使用通用 Object 类型
 children!: RrNode[] | null;
 ```
 
 **问题分析：**
+
 - 使用 `[Object]` 无法正确处理递归结构
 - Mongoose 无法识别嵌套对象的具体类型
 - 导致序列化和反序列化问题
@@ -85,15 +89,17 @@ children!: RrNode[] | null;
 ### 3. 嵌套对象变更检测失效
 
 **错误代码：**
+
 ```typescript
 const result = await this.rrTreeModel.findOneAndUpdate(
   { rootId: new Types.ObjectId(treeRootId) },
   { rootNode: tree.rootNode }, // 直接替换，无法检测深层变更
-  { new: true }
+  { new: true },
 );
 ```
 
 **问题分析：**
+
 - `findOneAndUpdate` 直接替换字段值
 - 对于嵌套对象的深层变更，Mongoose 无法自动检测
 - 需要显式调用 `markModified()` 标记变更
@@ -101,6 +107,7 @@ const result = await this.rrTreeModel.findOneAndUpdate(
 ### 4. 对象引用不一致（核心问题）
 
 **错误代码：**
+
 ```typescript
 // 查找父节点（返回副本）
 const parentNode = this.findNode(parentId, tree.rootNode);
@@ -113,6 +120,7 @@ const savedTree = await this.rrTreeService.save(tree.rootId.toString(), tree);
 ```
 
 **调试日志证据：**
+
 ```
 添加节点前 children 长度: 0
 添加节点后 children 长度: 1  // 在副本上成功添加
@@ -121,6 +129,7 @@ const savedTree = await this.rrTreeService.save(tree.rootId.toString(), tree);
 ```
 
 **问题分析：**
+
 - `findNode` 方法返回的是对象副本，不是原始引用
 - 在副本上的修改无法反映到原始数据结构
 - 保存时使用的是未修改的原始结构
@@ -128,6 +137,7 @@ const savedTree = await this.rrTreeService.save(tree.rootId.toString(), tree);
 ### 5. 异常处理缺陷
 
 **错误代码：**
+
 ```typescript
 catch (error) {
   this.errorHandlerService.handleDatabaseError(error, 'save_tree');
@@ -143,23 +153,23 @@ catch (error) {
 async save(treeRootId: string, tree: RrTree): Promise<RrTree | null> {
   try {
     // 先查找文档
-    const document = await this.rrTreeModel.findOne({ 
-      rootId: new Types.ObjectId(treeRootId) 
+    const document = await this.rrTreeModel.findOne({
+      rootId: new Types.ObjectId(treeRootId)
     });
-    
+
     if (!document) {
       this.errorHandlerService.throwNotFound('树结构', treeRootId);
     }
-    
+
     // 更新 rootNode
     document.rootNode = tree.rootNode;
-    
+
     // 标记嵌套对象已修改
     document.markModified('rootNode');
-    
+
     // 保存文档
     const result = await document.save();
-    
+
     return result;
   } catch (error) {
     this.errorHandlerService.handleDatabaseError(error, 'save_tree');
@@ -174,7 +184,7 @@ async save(treeRootId: string, tree: RrTree): Promise<RrTree | null> {
 @Schema()
 export class RrNode {
   // ... 其他字段
-  
+
   @Prop({ type: [{ type: Object }], default: null })
   children!: RrNode[] | null;
 }
@@ -183,7 +193,7 @@ export const RrNodeSchema = SchemaFactory.createForClass(RrNode);
 
 // 设置递归引用
 RrNodeSchema.add({
-  children: [RrNodeSchema]
+  children: [RrNodeSchema],
 });
 ```
 
@@ -257,7 +267,7 @@ class TreeService {
   async findByRootId(rootId: string) {
     return await this.model.findOne({ rootId: new Types.ObjectId(rootId) });
   }
-  
+
   async updateByRootId(rootId: string, data: any) {
     const doc = await this.findByRootId(rootId);
     // 更新逻辑
@@ -271,13 +281,13 @@ class TreeService {
 // ✅ 推荐：查找 + 修改 + markModified + 保存
 async updateNestedObject(id: string, updates: any) {
   const document = await this.model.findById(id);
-  
+
   // 修改嵌套对象
   document.nestedField = updates;
-  
+
   // 标记变更
   document.markModified('nestedField');
-  
+
   // 保存
   return await document.save();
 }
@@ -288,18 +298,22 @@ async updateNestedObject(id: string, updates: any) {
 ```typescript
 // ✅ 推荐：直接在原始结构上操作
 class TreeOperations {
-  private modifyInPlace(root: TreeNode, targetId: string, operation: Function): boolean {
+  private modifyInPlace(
+    root: TreeNode,
+    targetId: string,
+    operation: Function,
+  ): boolean {
     if (root.id === targetId) {
       operation(root); // 直接修改原始对象
       return true;
     }
-    
+
     for (const child of root.children || []) {
       if (this.modifyInPlace(child, targetId, operation)) {
         return true;
       }
     }
-    
+
     return false;
   }
 }
@@ -316,10 +330,10 @@ async saveData(data: any) {
   } catch (error) {
     // 记录错误
     this.logger.error('Save operation failed', error);
-    
+
     // 处理特定错误
     this.errorHandler.handle(error);
-    
+
     // 重新抛出，确保调用方知道失败
     throw error;
   }
@@ -343,7 +357,10 @@ console.log(`Object ${objectId} after:`, obj.children?.length);
 ```typescript
 // 在关键节点验证数据状态
 const validateDataFlow = (stage: string, data: any) => {
-  console.log(`[${stage}] Children count:`, data.rootNode.children?.length || 0);
+  console.log(
+    `[${stage}] Children count:`,
+    data.rootNode.children?.length || 0,
+  );
 };
 ```
 
@@ -351,11 +368,11 @@ const validateDataFlow = (stage: string, data: any) => {
 
 ```typescript
 // 启用 Mongoose 调试模式
-mongoose.set('debug', true);
+mongoose.set("debug", true);
 
 // 监听变更事件
-document.on('save', () => console.log('Document saved'));
-document.on('validate', () => console.log('Document validated'));
+document.on("save", () => console.log("Document saved"));
+document.on("validate", () => console.log("Document validated"));
 ```
 
 ## 总结

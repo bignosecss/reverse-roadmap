@@ -18,7 +18,9 @@ export class RrTreeService {
    */
   async findOne(id: string): Promise<RrTree> {
     try {
-      const tree = await this.rrTreeModel.findOne({ rootId: new Types.ObjectId(id) }).exec();
+      const tree = await this.rrTreeModel
+        .findOne({ rootId: new Types.ObjectId(id) })
+        .exec();
 
       if (!tree) {
         this.errorHandlerService.throwNotFound('树结构', id);
@@ -39,21 +41,23 @@ export class RrTreeService {
   async save(treeRootId: string, tree: RrTree): Promise<RrTree | null> {
     try {
       // 先查找文档
-      const document = await this.rrTreeModel.findOne({ rootId: new Types.ObjectId(treeRootId) });
-      
+      const document = await this.rrTreeModel.findOne({
+        rootId: new Types.ObjectId(treeRootId),
+      });
+
       if (!document) {
         this.errorHandlerService.throwNotFound('树结构', treeRootId);
       }
-      
+
       // 更新 rootNode
       document.rootNode = tree.rootNode;
-      
+
       // 标记嵌套对象已修改
       document.markModified('rootNode');
-      
+
       // 保存文档
       const result = await document.save();
-      
+
       return result;
     } catch (error) {
       this.errorHandlerService.handleDatabaseError(error, 'save_tree');

@@ -23,5 +23,5 @@ export const RrNodeSchema = SchemaFactory.createForClass(RrNode);
 
 // 设置递归引用
 RrNodeSchema.add({
-  children: [RrNodeSchema]
+  children: [RrNodeSchema],
 });
