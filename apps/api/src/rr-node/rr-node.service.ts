@@ -1,14 +1,16 @@
 import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model, Types } from 'mongoose';
 import { CreateRrNodeDto } from './dto/create-rr-node.dto';
 import { UpdateRrNodeDto } from './dto/update-rr-node.dto';
 import { RrTreeService } from 'src/rr-tree/rr-tree.service';
 import { ErrorHandlerService } from 'src/common/error-handler/error-handler.service';
 import { RrNode } from 'src/schemas/rr-node.schema';
-import { Types } from 'mongoose';
 
 @Injectable()
 export class RrNodeService {
   constructor(
+    @InjectModel(RrNode.name) private rrNodeModel: Model<RrNode>,
     private readonly rrTreeService: RrTreeService,
     private readonly errorHandlerService: ErrorHandlerService,
   ) {}
@@ -24,13 +26,12 @@ export class RrNodeService {
       );
     }
 
-    const newNode: RrNode = {
+    // 创建新节点并保存到数据库以生成 _id
+    const newNode = new this.rrNodeModel({
+      ...createRrNodeDto,
       _id: new Types.ObjectId(),
-      title: createRrNodeDto.title,
-      description: createRrNodeDto.description,
-      parentId: new Types.ObjectId(createRrNodeDto.parentId.toString()),
       children: null,
-    };
+    });
 
     // 直接在原始树结构上添加节点
     const success = this.addNodeToTree(

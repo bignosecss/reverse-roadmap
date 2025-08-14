@@ -3,7 +3,6 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { RrTreeService } from './rr-tree.service';
 import { RrTreeController } from './rr-tree.controller';
 import { RrTree, RrTreeSchema } from 'src/schemas/rr-tree.schema';
-import { ValidationService } from 'src/common/validation/validation.service';
 import { ErrorHandlerService } from 'src/common/error-handler/error-handler.service';
 
 @Module({
@@ -11,7 +10,7 @@ import { ErrorHandlerService } from 'src/common/error-handler/error-handler.serv
     MongooseModule.forFeature([{ name: RrTree.name, schema: RrTreeSchema }]),
   ],
   controllers: [RrTreeController],
-  providers: [RrTreeService, ValidationService, ErrorHandlerService],
+  providers: [RrTreeService, ErrorHandlerService],
   exports: [RrTreeService],
 })
 export class RrTreeModule {}
