@@ -134,9 +134,7 @@ export function UpdateNodeDialog({
     }
   };
 
-  const dialogTitle = node
-    ? `更新节点「${node.title}」`
-    : "更新节点";
+  const dialogTitle = node ? `更新节点「${node.title}」` : "更新节点";
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
