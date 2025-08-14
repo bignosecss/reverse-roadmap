@@ -34,11 +34,11 @@ export function RemoveNodeDialog({
         rootId: rootId,
       },
       {
-        onSuccess: () => {
+        onSuccess: (deletedNode) => {
           onOpenChange(false);
 
           toast.success("节点已删除", {
-            description: `已成功删除节点「${node.title}」`,
+            description: `已成功删除节点「${deletedNode.title}」`,
           });
         },
         onError: (error) => {

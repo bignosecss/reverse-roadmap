@@ -98,7 +98,7 @@ export const useUpdateNode = (): UseMutationResult<
  * 删除节点后自动刷新缓存
  */
 export const useDeleteNode = (): UseMutationResult<
-  void,
+  RrNode,
   Error,
   DeleteNodeRequest,
   unknown
@@ -106,7 +106,7 @@ export const useDeleteNode = (): UseMutationResult<
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (request: DeleteNodeRequest): Promise<void> => {
+    mutationFn: async (request: DeleteNodeRequest): Promise<RrNode> => {
       const response = await fetch(`${API_BASE_URL}/rr-node`, {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
@@ -119,6 +119,9 @@ export const useDeleteNode = (): UseMutationResult<
       if (!response.ok) {
         throw new Error(`Failed to delete node: ${response.statusText}`);
       }
+
+      const result = await response.json();
+      return result.data;
     },
     onSuccess: (_, variables) => {
       // 🔥 删除成功后刷新整个树的缓存
