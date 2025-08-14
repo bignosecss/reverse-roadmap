@@ -3,7 +3,7 @@ import {
   useQueryClient,
   UseMutationResult,
 } from "@tanstack/react-query";
-import { CreateNodeRequest } from "../types/apiRequests";
+import { CreateNodeRequest, DeleteNodeRequest } from "../types/apiRequests";
 import { RrNode } from "../types/models";
 
 const API_BASE_URL =
@@ -44,6 +44,49 @@ export const useCreateNode = (): UseMutationResult<
     },
     onError: (error) => {
       console.error("创建失败:", error);
+      // 这里可以添加 toast 通知
+    },
+  });
+};
+
+/**
+ * 删除节点的 Mutation Hook
+ * 删除节点后自动刷新缓存
+ */
+export const useDeleteNode = (): UseMutationResult<
+  void,
+  Error,
+  DeleteNodeRequest,
+  unknown
+> => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (request: DeleteNodeRequest): Promise<void> => {
+      const response = await fetch(
+        `${API_BASE_URL}/rr-node`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            nodeId: request.nodeId,
+            rootId: request.rootId,
+          }),
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error(`Failed to delete node: ${response.statusText}`);
+      }
+    },
+    onSuccess: (_, variables) => {
+      // 🔥 删除成功后刷新整个树的缓存
+      queryClient.invalidateQueries({
+        queryKey: ["rr-tree", variables.rootId.toString()],
+      });
+    },
+    onError: (error) => {
+      console.error("删除失败:", error);
       // 这里可以添加 toast 通知
     },
   });

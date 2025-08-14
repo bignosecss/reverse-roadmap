@@ -6,6 +6,7 @@ import { UpdateRrNodeDto } from './dto/update-rr-node.dto';
 import { RrTreeService } from 'src/rr-tree/rr-tree.service';
 import { ErrorHandlerService } from 'src/common/error-handler/error-handler.service';
 import { RrNode } from 'src/schemas/rr-node.schema';
+import { DeleteNodeDto } from './dto/delete-rr-node.dto';
 
 @Injectable()
 export class RrNodeService {
@@ -115,7 +116,66 @@ export class RrNodeService {
     return `This action updates a #${id} rrNode`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} rrNode`;
+  async removeNode(deleteNodeDto: DeleteNodeDto) {
+    const tree = await this.rrTreeService.findOne(deleteNodeDto.rootId);
+    if (!tree) {
+      this.errorHandlerService.throwNotFound('树结构', deleteNodeDto.rootId);
+    }
+
+    const nodeObjectId = new Types.ObjectId(deleteNodeDto.nodeId);
+
+    // 不能删除根节点
+    if (nodeObjectId.equals(tree.rootNode._id)) {
+      throw new Error('不能删除根节点');
+    }
+
+    const success = this.removeNodeFromTree(tree.rootNode, nodeObjectId);
+    if (!success) {
+      this.errorHandlerService.throwNotFound('节点', deleteNodeDto.nodeId);
+    }
+
+    await this.rrTreeService.save(tree.rootId.toString(), tree);
+  }
+
+  /**
+   * 从树中递归删除指定节点及其所有子节点
+   * @param rootNode - 根节点
+   * @param nodeIdToDelete - 要删除的节点ID
+   * @returns boolean - 是否成功删除
+   */
+  private removeNodeFromTree(
+    rootNode: RrNode,
+    nodeIdToDelete: Types.ObjectId,
+  ): boolean {
+    // 如果当前节点没有子节点，直接返回false
+    if (!rootNode.children?.length) {
+      return false;
+    }
+
+    // 在直接子节点中查找要删除的节点
+    const childIndex = rootNode.children.findIndex((child) =>
+      nodeIdToDelete.equals(child._id),
+    );
+
+    if (childIndex !== -1) {
+      // 找到了要删除的节点，直接从数组中移除
+      rootNode.children.splice(childIndex, 1);
+
+      // 如果删除后没有子节点了，将children设为null
+      if (rootNode.children.length === 0) {
+        rootNode.children = null;
+      }
+
+      return true;
+    }
+
+    // 在子节点中递归查找
+    for (const child of rootNode.children) {
+      if (this.removeNodeFromTree(child, nodeIdToDelete)) {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

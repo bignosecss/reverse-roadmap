@@ -19,3 +19,9 @@ export interface UpdateNodeRequest {
   title?: string;
   description?: string;
 }
+
+/** 删除节点请求 */
+export interface DeleteNodeRequest {
+  nodeId: ObjectId;
+  rootId: ObjectId;
+}

@@ -21,9 +21,9 @@ interface AddNodeDialogProps {
   /** 根节点ID */
   rootId: string;
   /** 外部控制对话框开关状态 */
-  open?: boolean;
+  open: boolean;
   /** 外部控制对话框开关状态的回调 */
-  onOpenChange?: (open: boolean) => void;
+  onOpenChange: (open: boolean) => void;
 }
 
 /**
@@ -91,7 +91,7 @@ export function AddNodeDialog({
             // 重置表单
             setFormData({ title: "", description: "" });
             setErrors({});
-            onOpenChange?.(false);
+            onOpenChange(false);
 
             // 显示成功提示
             toast.success("节点创建成功", {
@@ -116,7 +116,7 @@ export function AddNodeDialog({
 
   // 处理对话框关闭
   const handleOpenChange = (newOpen: boolean) => {
-    onOpenChange?.(newOpen);
+    onOpenChange(newOpen);
     if (!newOpen) {
       // 关闭时重置表单
       setFormData({ title: "", description: "" });
@@ -124,7 +124,9 @@ export function AddNodeDialog({
     }
   };
 
-  const dialogTitle = parentNode ? `为「${parentNode.title}」添加子节点` : "添加根节点";
+  const dialogTitle = parentNode
+    ? `为「${parentNode.title}」添加子节点`
+    : "添加根节点";
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -187,7 +189,7 @@ export function AddNodeDialog({
             <Button
               type="button"
               variant="outline"
-              onClick={() => onOpenChange?.(false)}
+              onClick={() => onOpenChange(false)}
               disabled={isPending}
             >
               取消

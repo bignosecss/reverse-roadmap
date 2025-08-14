@@ -10,6 +10,7 @@ import {
 import { RrNodeService } from './rr-node.service';
 import { CreateRrNodeDto } from './dto/create-rr-node.dto';
 import { UpdateRrNodeDto } from './dto/update-rr-node.dto';
+import { DeleteNodeDto } from './dto/delete-rr-node.dto';
 
 @Controller('rr-node')
 export class RrNodeController {
@@ -35,8 +36,8 @@ export class RrNodeController {
     return this.rrNodeService.update(+id, updateRrNodeDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.rrNodeService.remove(+id);
+  @Delete()
+  remove(@Body() deleteNodeDto: DeleteNodeDto) {
+    return this.rrNodeService.removeNode(deleteNodeDto);
   }
 }
