@@ -16,7 +16,7 @@ export class RrNodeService {
     private readonly errorHandlerService: ErrorHandlerService,
   ) {}
 
-  async create(createRrNodeDto: CreateRrNodeDto) {
+  async createNode(createRrNodeDto: CreateRrNodeDto) {
     const tree = await this.rrTreeService.findOne(
       createRrNodeDto.rootId.toString(),
     );
@@ -52,34 +52,30 @@ export class RrNodeService {
     return newNode;
   }
   private addNodeToTree(
-    rootNode: RrNode,
+    node: RrNode,
     parentId: Types.ObjectId,
     newNode: RrNode,
   ): boolean {
-    if (parentId.equals(rootNode._id)) {
-      if (rootNode.children === null) {
-        rootNode.children = [];
+    if (parentId.equals(node._id)) {
+      if (node.children === null) {
+        node.children = [];
       }
-      rootNode.children.push(newNode);
+      node.children.push(newNode);
       // 节点已成功添加
       return true;
     }
 
-    if (!rootNode.children?.length) {
+    if (!node.children?.length) {
       return false;
     }
 
-    for (const child of rootNode.children) {
+    for (const child of node.children) {
       if (this.addNodeToTree(child, parentId, newNode)) {
         return true;
       }
     }
 
     return false;
-  }
-
-  findAll() {
-    return `This action returns all rrNode`;
   }
 
   async findOneNode(treeRootId: string, nodeId: string): Promise<RrNode> {
@@ -112,8 +108,47 @@ export class RrNodeService {
     return null;
   }
 
-  update(id: number, updateRrNodeDto: UpdateRrNodeDto) {
-    return `This action updates a #${id} rrNode`;
+  async updateNode(updateRrNodeDto: UpdateRrNodeDto) {
+    const tree = await this.rrTreeService.findOne(updateRrNodeDto.rootId);
+    if (!tree) {
+      this.errorHandlerService.throwNotFound('树结构', updateRrNodeDto.rootId);
+    }
+
+    const nodeObjectId = new Types.ObjectId(updateRrNodeDto.nodeId);
+
+    const updatedNode = this.updateNodeInTree(tree.rootNode, nodeObjectId, updateRrNodeDto);
+    if (!updatedNode) {
+      this.errorHandlerService.throwNotFound('节点', updateRrNodeDto.nodeId);
+    }
+
+    await this.rrTreeService.save(tree.rootId.toString(), tree);
+
+    return updatedNode;
+  }
+  private updateNodeInTree(
+    node: RrNode,
+    nodeId: Types.ObjectId,
+    updateData: UpdateRrNodeDto,
+  ): RrNode | null {
+    if (nodeId.equals(node._id)) {
+      const { title, description } = updateData;
+      if (title !== undefined) node.title = title;
+      if (description !== undefined) node.description = description;
+      return node;
+    }
+
+    if (!node.children?.length) {
+      return null;
+    }
+
+    for (const child of node.children) {
+      const updatedChild = this.updateNodeInTree(child, nodeId, updateData);
+      if (updatedChild) {
+        return updatedChild;
+      }
+    }
+
+    return null;
   }
 
   async removeNode(deleteNodeDto: DeleteNodeDto) {
@@ -136,41 +171,40 @@ export class RrNodeService {
 
     await this.rrTreeService.save(tree.rootId.toString(), tree);
   }
-
   /**
    * 从树中递归删除指定节点及其所有子节点
-   * @param rootNode - 根节点
+   * @param node - 根节点
    * @param nodeIdToDelete - 要删除的节点ID
    * @returns boolean - 是否成功删除
    */
   private removeNodeFromTree(
-    rootNode: RrNode,
+    node: RrNode,
     nodeIdToDelete: Types.ObjectId,
   ): boolean {
     // 如果当前节点没有子节点，直接返回false
-    if (!rootNode.children?.length) {
+    if (!node.children?.length) {
       return false;
     }
 
     // 在直接子节点中查找要删除的节点
-    const childIndex = rootNode.children.findIndex((child) =>
+    const childIndex = node.children.findIndex((child) =>
       nodeIdToDelete.equals(child._id),
     );
 
     if (childIndex !== -1) {
       // 找到了要删除的节点，直接从数组中移除
-      rootNode.children.splice(childIndex, 1);
+      node.children.splice(childIndex, 1);
 
       // 如果删除后没有子节点了，将children设为null
-      if (rootNode.children.length === 0) {
-        rootNode.children = null;
+      if (node.children.length === 0) {
+        node.children = null;
       }
 
       return true;
     }
 
     // 在子节点中递归查找
-    for (const child of rootNode.children) {
+    for (const child of node.children) {
       if (this.removeNodeFromTree(child, nodeIdToDelete)) {
         return true;
       }

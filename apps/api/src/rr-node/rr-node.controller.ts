@@ -18,12 +18,7 @@ export class RrNodeController {
 
   @Post()
   create(@Body() createRrNodeDto: CreateRrNodeDto) {
-    return this.rrNodeService.create(createRrNodeDto);
-  }
-
-  @Get()
-  findAll() {
-    return this.rrNodeService.findAll();
+    return this.rrNodeService.createNode(createRrNodeDto);
   }
 
   @Get(':treeId/:nodeId')
@@ -31,9 +26,9 @@ export class RrNodeController {
     return this.rrNodeService.findOneNode(treeId, nodeId);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRrNodeDto: UpdateRrNodeDto) {
-    return this.rrNodeService.update(+id, updateRrNodeDto);
+  @Patch()
+  update(@Body() updateRrNodeDto: UpdateRrNodeDto) {
+    return this.rrNodeService.updateNode(updateRrNodeDto);
   }
 
   @Delete()

@@ -13,6 +13,7 @@ import { Plus, Edit, Trash2 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { AddNodeDialog } from "./add-node-dialog";
 import { RemoveNodeDialog } from "./remove-node-dialog";
+import { UpdateNodeDialog } from "./update-node-dialog";
 
 /**
  * 自定义 RrNode 组件
@@ -25,6 +26,7 @@ const RrNodeComponent: React.FC<NodeProps> = ({ data, selected }) => {
   };
 
   const [showAddDialog, setShowAddDialog] = useState(false);
+  const [showUpdateDialog, setShowUpdateDialog] = useState(false);
   const [showRemoveDialog, setShowRemoveDialog] = useState(false);
 
   // 判断是否为根节点（没有 parentId）
@@ -33,11 +35,6 @@ const RrNodeComponent: React.FC<NodeProps> = ({ data, selected }) => {
   // 获取根节点ID
   const pathname = usePathname();
   const rootTreeId = pathname.split("/g/")[1] || "";
-
-  const handleEditNode = () => {
-    console.log("编辑节点:", rrNode._id);
-    // TODO: 实现编辑节点逻辑
-  };
 
   return (
     <>
@@ -59,7 +56,7 @@ const RrNodeComponent: React.FC<NodeProps> = ({ data, selected }) => {
         <Button
           size="sm"
           variant="ghost"
-          onClick={handleEditNode}
+          onClick={() => setShowUpdateDialog(true)}
           className="h-7 w-7 p-0"
           title="编辑"
         >
@@ -147,6 +144,14 @@ const RrNodeComponent: React.FC<NodeProps> = ({ data, selected }) => {
         rootId={rootTreeId}
         open={showAddDialog}
         onOpenChange={setShowAddDialog}
+      />
+
+      {/* 更新节点对话框 */}
+      <UpdateNodeDialog
+        node={rrNode}
+        rootId={rootTreeId}
+        open={showUpdateDialog}
+        onOpenChange={setShowUpdateDialog}
       />
 
       {/* 删除节点对话框 */}

@@ -18,6 +18,8 @@ export interface CreateNodeRequest {
 export interface UpdateNodeRequest {
   title?: string;
   description?: string;
+  nodeId: ObjectId;
+  rootId: ObjectId;
 }
 
 /** 删除节点请求 */

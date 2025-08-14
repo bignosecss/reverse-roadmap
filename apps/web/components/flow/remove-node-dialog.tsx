@@ -58,7 +58,8 @@ export function RemoveNodeDialog({
         <AlertDialogHeader>
           <AlertDialogTitle>永久删除</AlertDialogTitle>
           <AlertDialogDescription>
-            这会删除<strong>&quot;{node.title}&quot;</strong>节点，以及所有子节点且不可恢复。确认删除吗？
+            这会删除<strong>&quot;{node.title}&quot;</strong>
+            节点，以及所有子节点且不可恢复。确认删除吗？
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
