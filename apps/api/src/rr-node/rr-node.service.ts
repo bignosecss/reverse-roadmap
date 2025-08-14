@@ -122,7 +122,7 @@ export class RrNodeService {
     );
   }
 
-  async findOneNode(treeRootId: string, nodeId: string): Promise<RrNode> {
+  async findNode(treeRootId: string, nodeId: string): Promise<RrNode> {
     const tree = await this.rrTreeService.findOne(treeRootId);
     if (!tree) {
       this.errorHandlerService.throwNotFound('树结构', treeRootId);

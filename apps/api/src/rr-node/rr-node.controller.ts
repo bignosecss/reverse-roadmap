@@ -23,7 +23,7 @@ export class RrNodeController {
 
   @Get(':treeId/:nodeId')
   findOne(@Param('treeId') treeId: string, @Param('nodeId') nodeId: string) {
-    return this.rrNodeService.findOneNode(treeId, nodeId);
+    return this.rrNodeService.findNode(treeId, nodeId);
   }
 
   @Patch()
