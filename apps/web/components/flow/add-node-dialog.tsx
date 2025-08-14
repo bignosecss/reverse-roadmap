@@ -6,13 +6,11 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Plus } from "lucide-react";
 import { toast } from "sonner";
 import { useCreateNode } from "@/lib/service/rrNodeApi";
 import type { RrNode } from "@/lib/types/models";
@@ -22,10 +20,6 @@ interface AddNodeDialogProps {
   parentNode?: RrNode;
   /** 根节点ID */
   rootId: string;
-  /** 触发按钮的自定义内容 */
-  trigger?: React.ReactNode;
-  /** 对话框标题 */
-  title?: string;
   /** 外部控制对话框开关状态 */
   open?: boolean;
   /** 外部控制对话框开关状态的回调 */
@@ -44,16 +38,9 @@ interface AddNodeDialogProps {
 export function AddNodeDialog({
   parentNode,
   rootId,
-  trigger,
-  title,
-  open: externalOpen,
-  onOpenChange: externalOnOpenChange,
+  open,
+  onOpenChange,
 }: AddNodeDialogProps) {
-  const [internalOpen, setInternalOpen] = useState(false);
-
-  // 使用外部控制的open状态，如果没有则使用内部状态
-  const open = externalOpen !== undefined ? externalOpen : internalOpen;
-  const setOpen = externalOnOpenChange || setInternalOpen;
   const [formData, setFormData] = useState({
     title: "",
     description: "",
@@ -104,7 +91,7 @@ export function AddNodeDialog({
             // 重置表单
             setFormData({ title: "", description: "" });
             setErrors({});
-            setOpen(false);
+            onOpenChange?.(false);
 
             // 显示成功提示
             toast.success("节点创建成功", {
@@ -129,7 +116,7 @@ export function AddNodeDialog({
 
   // 处理对话框关闭
   const handleOpenChange = (newOpen: boolean) => {
-    setOpen(newOpen);
+    onOpenChange?.(newOpen);
     if (!newOpen) {
       // 关闭时重置表单
       setFormData({ title: "", description: "" });
@@ -137,25 +124,10 @@ export function AddNodeDialog({
     }
   };
 
-  // 默认触发按钮
-  const defaultTrigger = (
-    <Button size="sm" className="gap-1.5">
-      <Plus className="size-3.5" />
-      {parentNode ? "添加子节点" : "添加节点"}
-    </Button>
-  );
-
-  // 默认标题
-  const dialogTitle =
-    title || (parentNode ? `为"${parentNode.title}"添加子节点` : "添加新节点");
+  const dialogTitle = parentNode ? `为「${parentNode.title}」添加子节点` : "添加根节点";
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
-      {/* 只有在没有外部控制时才显示触发器 */}
-      {externalOpen === undefined && (
-        <DialogTrigger asChild>{trigger || defaultTrigger}</DialogTrigger>
-      )}
-
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>{dialogTitle}</DialogTitle>
@@ -215,7 +187,7 @@ export function AddNodeDialog({
             <Button
               type="button"
               variant="outline"
-              onClick={() => setOpen(false)}
+              onClick={() => onOpenChange?.(false)}
               disabled={isPending}
             >
               取消
@@ -232,6 +204,3 @@ export function AddNodeDialog({
     </Dialog>
   );
 }
-
-// 导出类型定义供其他组件使用
-export type { AddNodeDialogProps };
