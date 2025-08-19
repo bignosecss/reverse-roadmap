@@ -57,7 +57,6 @@ export default function GoalPage() {
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
-          hasData={!!rrTree}
         />
       </div>
     </div>

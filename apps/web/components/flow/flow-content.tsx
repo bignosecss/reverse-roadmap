@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import {
   ReactFlow,
   ReactFlowProvider,
@@ -8,6 +8,7 @@ import {
   Background,
   BackgroundVariant,
   useReactFlow,
+  useNodesInitialized,
   type Node,
   type Edge,
   type OnNodesChange,
@@ -32,7 +33,6 @@ interface FlowContentProps {
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
-  hasData: boolean;
 }
 
 function FlowContentInner({
@@ -42,64 +42,37 @@ function FlowContentInner({
   onNodesChange,
   onEdgesChange,
   onConnect,
-  hasData,
 }: FlowContentProps) {
-  const layoutAppliedRef = useRef(false);
-  const nodesLengthRef = useRef(0);
-  const { fitView } = useReactFlow();
+  const { fitView, getNodes, setNodes } = useReactFlow();
+  const nodesInitialized = useNodesInitialized();
+  console.log("nodesInitialized", nodesInitialized);
 
+  // 当节点初始化完成且测量完成后，触发布局
   useEffect(() => {
-    // 早期返回：没有数据或节点为空时重置状态
-    if (!hasData || nodes.length === 0) {
-      layoutAppliedRef.current = false;
-      nodesLengthRef.current = 0;
-      return;
+    if (nodesInitialized && nodes.length > 0) {
+      const currentNodes = getNodes();
+
+      console.log("所有节点已测量完成，触发布局算法");
+
+      // 使用测量后的尺寸重新计算布局
+      const { newNodes } = getLayoutedNodes(currentNodes, edges, "TB");
+
+      // 更新节点位置
+      setNodes(newNodes);
+
+      // 标记已触发布局，避免重复触发
+      // hasTriggeredLayout.current = true;
+
+      // 在下一个渲染周期调用 fitView
+      setTimeout(() => {
+        fitView({
+          padding: 0.1,
+          maxZoom: 1.5,
+          minZoom: 0.1,
+        });
+      }, 0);
     }
-
-    // 检查是否需要重新布局：节点数量变化或者还没有应用过布局
-    const needsLayout =
-      !layoutAppliedRef.current || nodes.length !== nodesLengthRef.current;
-
-    // 早期返回：不需要布局时直接退出
-    if (!needsLayout) {
-      return;
-    }
-
-    // 检查节点是否有真实的 measured 尺寸
-    const hasMeasuredNodes = nodes.some(
-      (node) => node.measured?.width && node.measured?.height,
-    );
-
-    // 早期返回：节点尺寸未测量完成时直接退出
-    if (!hasMeasuredNodes) {
-      return;
-    }
-
-    // 执行布局逻辑
-    const { newNodes } = getLayoutedNodes(nodes, edges, "TB");
-
-    // 更新节点位置
-    onNodesChange(
-      newNodes.map((node) => ({
-        type: "position",
-        id: node.id,
-        position: node.position,
-      })),
-    );
-
-    // 标记已应用布局
-    layoutAppliedRef.current = true;
-    nodesLengthRef.current = nodes.length;
-
-    // 在下一个渲染周期调用 fitView
-    setTimeout(() => {
-      fitView({
-        padding: 0.1,
-        maxZoom: 1.5,
-        minZoom: 0.1,
-      });
-    }, 0);
-  }, [hasData, nodes, edges, onNodesChange, fitView]);
+  }, [nodesInitialized, nodes.length, getNodes, setNodes, edges, fitView]);
 
   if (isLoading) {
     return (
@@ -112,7 +85,7 @@ function FlowContentInner({
     );
   }
 
-  if (!hasData || nodes.length === 0) {
+  if (nodes.length === 0 && edges.length === 0) {
     return (
       <div className="flex items-center justify-center h-full bg-background">
         <div className="text-center">
