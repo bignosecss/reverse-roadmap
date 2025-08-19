@@ -11,9 +11,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
-import { useCreateNode } from "@/lib/service/rrNodeApi";
 import type { RrNode } from "@/lib/types/models";
+
+interface CreateNodeData {
+  title: string;
+  description?: string;
+  parentId: string;
+  rootId: string;
+}
 
 interface AddNodeDialogProps {
   /** 父节点信息，用于创建子节点 */
@@ -24,6 +29,10 @@ interface AddNodeDialogProps {
   open: boolean;
   /** 外部控制对话框开关状态的回调 */
   onOpenChange: (open: boolean) => void;
+  /** 创建节点的回调函数 */
+  onSubmit: (data: CreateNodeData) => void;
+  /** 是否正在提交 */
+  isSubmitting?: boolean;
 }
 
 /**
@@ -40,6 +49,8 @@ export function AddNodeDialog({
   rootId,
   open,
   onOpenChange,
+  onSubmit,
+  isSubmitting = false,
 }: AddNodeDialogProps) {
   const [formData, setFormData] = useState({
     title: "",
@@ -49,8 +60,6 @@ export function AddNodeDialog({
     title?: string;
     description?: string;
   }>({});
-
-  const { mutate: createNode, isPending } = useCreateNode();
 
   // 表单验证
   const validateForm = () => {
@@ -74,44 +83,24 @@ export function AddNodeDialog({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validateForm()) {
+    if (!validateForm() || !parentNode?._id) {
       return;
     }
 
-    if (parentNode?._id && rootId) {
-      createNode(
-        {
-          title: formData.title.trim(),
-          description: formData.description.trim() || undefined,
-          parentId: parentNode._id,
-          rootId,
-        },
-        {
-          onSuccess: (newNode) => {
-            // 重置表单
-            setFormData({ title: "", description: "" });
-            setErrors({});
-            onOpenChange(false);
+    const nodeData: CreateNodeData = {
+      title: formData.title.trim(),
+      description: formData.description.trim() || undefined,
+      parentId: parentNode._id,
+      rootId,
+    };
 
-            // 显示成功提示
-            toast.success("节点创建成功", {
-              description: `已成功创建节点「${newNode.title}」`,
-            });
+    // 调用父组件传入的回调函数
+    onSubmit(nodeData);
 
-            console.log("节点创建成功:", newNode);
-          },
-          onError: (error) => {
-            console.error("创建节点失败:", error);
-
-            // 显示错误提示
-            toast.error("节点创建失败", {
-              description:
-                error instanceof Error ? error.message : "请稍后重试",
-            });
-          },
-        },
-      );
-    }
+    // 重置表单并关闭对话框
+    setFormData({ title: "", description: "" });
+    setErrors({});
+    onOpenChange(false);
   };
 
   // 处理对话框关闭
@@ -151,7 +140,7 @@ export function AddNodeDialog({
                 }
               }}
               className={errors.title ? "border-destructive" : ""}
-              disabled={isPending}
+              disabled={isSubmitting}
             />
             {errors.title && (
               <p className="text-sm text-destructive">{errors.title}</p>
@@ -176,7 +165,7 @@ export function AddNodeDialog({
                 }
               }}
               className={errors.description ? "border-destructive" : ""}
-              disabled={isPending}
+              disabled={isSubmitting}
               rows={3}
             />
             {errors.description && (
@@ -190,15 +179,15 @@ export function AddNodeDialog({
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
-              disabled={isPending}
+              disabled={isSubmitting}
             >
               取消
             </Button>
             <Button
               type="submit"
-              disabled={isPending || !formData.title.trim()}
+              disabled={isSubmitting || !formData.title.trim()}
             >
-              {isPending ? "创建中..." : "创建节点"}
+              {isSubmitting ? "创建中..." : "创建节点"}
             </Button>
           </div>
         </form>

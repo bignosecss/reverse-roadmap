@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, createContext, useContext } from "react";
 import {
   ReactFlow,
   ReactFlowProvider,
@@ -21,6 +21,37 @@ import { CustomControls } from "./custom-controls";
 
 import "@xyflow/react/dist/style.css";
 
+// 创建 context 来传递回调函数
+interface FlowContextType {
+  rootId: string;
+  onCreateNode: (data: {
+    title: string;
+    description?: string;
+    parentId: string;
+    rootId: string;
+  }) => void;
+  onUpdateNode: (data: {
+    nodeId: string;
+    title: string;
+    description?: string;
+    rootId: string;
+  }) => void;
+  onDeleteNode: (data: { nodeId: string; rootId: string }) => void;
+  isCreating: boolean;
+  isUpdating: boolean;
+  isDeleting: boolean;
+}
+
+export const FlowContext = createContext<FlowContextType | null>(null);
+
+export const useFlowContext = () => {
+  const context = useContext(FlowContext);
+  if (!context) {
+    throw new Error("useFlowContext must be used within FlowContext.Provider");
+  }
+  return context;
+};
+
 // 注册自定义节点类型
 const nodeTypes = {
   rrNode: RrNodeComponent,
@@ -33,6 +64,23 @@ interface FlowContentProps {
   onNodesChange: OnNodesChange;
   onEdgesChange: OnEdgesChange;
   onConnect: OnConnect;
+  rootId: string;
+  onCreateNode: (data: {
+    title: string;
+    description?: string;
+    parentId: string;
+    rootId: string;
+  }) => void;
+  onUpdateNode: (data: {
+    nodeId: string;
+    title: string;
+    description?: string;
+    rootId: string;
+  }) => void;
+  onDeleteNode: (data: { nodeId: string; rootId: string }) => void;
+  isCreating: boolean;
+  isUpdating: boolean;
+  isDeleting: boolean;
 }
 
 function FlowContentInner({
@@ -42,6 +90,13 @@ function FlowContentInner({
   onNodesChange,
   onEdgesChange,
   onConnect,
+  rootId,
+  onCreateNode,
+  onUpdateNode,
+  onDeleteNode,
+  isCreating,
+  isUpdating,
+  isDeleting,
 }: FlowContentProps) {
   const { fitView, getNodes, setNodes } = useReactFlow();
   const nodesInitialized = useNodesInitialized();
@@ -90,22 +145,34 @@ function FlowContentInner({
   }
 
   return (
-    <ReactFlow
-      nodes={nodes}
-      edges={edges}
-      onNodesChange={onNodesChange}
-      onEdgesChange={onEdgesChange}
-      onConnect={onConnect}
-      nodeTypes={nodeTypes}
-      fitView
-      minZoom={0.1}
-      maxZoom={2.0}
-      className="bg-background"
+    <FlowContext.Provider
+      value={{
+        rootId,
+        onCreateNode,
+        onUpdateNode,
+        onDeleteNode,
+        isCreating,
+        isUpdating,
+        isDeleting,
+      }}
     >
-      <CustomControls />
-      <MiniMap />
-      <Background variant={BackgroundVariant.Dots} />
-    </ReactFlow>
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        onNodesChange={onNodesChange}
+        onEdgesChange={onEdgesChange}
+        onConnect={onConnect}
+        nodeTypes={nodeTypes}
+        fitView
+        minZoom={0.1}
+        maxZoom={2.0}
+        className="bg-background"
+      >
+        <CustomControls />
+        <MiniMap />
+        <Background variant={BackgroundVariant.Dots} />
+      </ReactFlow>
+    </FlowContext.Provider>
   );
 }
 

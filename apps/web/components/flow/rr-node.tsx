@@ -10,10 +10,10 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus, Edit, Trash2 } from "lucide-react";
-import { usePathname } from "next/navigation";
 import { AddNodeDialog } from "./add-node-dialog";
 import { RemoveNodeDialog } from "./remove-node-dialog";
 import { UpdateNodeDialog } from "./update-node-dialog";
+import { useFlowContext } from "./flow-content";
 
 /**
  * 自定义 RrNode 组件
@@ -29,12 +29,18 @@ const RrNodeComponent: React.FC<NodeProps> = ({ data, selected }) => {
   const [showUpdateDialog, setShowUpdateDialog] = useState(false);
   const [showRemoveDialog, setShowRemoveDialog] = useState(false);
 
+  const {
+    rootId,
+    onCreateNode,
+    onUpdateNode,
+    onDeleteNode,
+    isCreating,
+    isUpdating,
+    isDeleting,
+  } = useFlowContext();
+
   // 判断是否为根节点（没有 parentId）
   const isRootNode = !rrNode.parentId;
-
-  // 获取根节点ID
-  const pathname = usePathname();
-  const rootTreeId = pathname.split("/g/")[1] || "";
 
   return (
     <>
@@ -141,25 +147,31 @@ const RrNodeComponent: React.FC<NodeProps> = ({ data, selected }) => {
       {/* 添加节点对话框 */}
       <AddNodeDialog
         parentNode={rrNode}
-        rootId={rootTreeId}
+        rootId={rootId}
         open={showAddDialog}
         onOpenChange={setShowAddDialog}
+        onSubmit={onCreateNode}
+        isSubmitting={isCreating}
       />
 
       {/* 更新节点对话框 */}
       <UpdateNodeDialog
         node={rrNode}
-        rootId={rootTreeId}
+        rootId={rootId}
         open={showUpdateDialog}
         onOpenChange={setShowUpdateDialog}
+        onSubmit={onUpdateNode}
+        isSubmitting={isUpdating}
       />
 
       {/* 删除节点对话框 */}
       <RemoveNodeDialog
         node={rrNode}
-        rootId={rootTreeId}
+        rootId={rootId}
         open={showRemoveDialog}
         onOpenChange={setShowRemoveDialog}
+        onConfirm={onDeleteNode}
+        isDeleting={isDeleting}
       />
     </>
   );

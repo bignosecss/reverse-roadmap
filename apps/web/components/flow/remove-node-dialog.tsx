@@ -8,15 +8,26 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { RrNode } from "@/lib/types/models";
-import { useDeleteNode } from "@/lib/service/rrNodeApi";
-import { toast } from "sonner";
+import type { RrNode } from "@/lib/types/models";
+
+interface RemoveNodeData {
+  nodeId: string;
+  rootId: string;
+}
 
 interface RemoveNodeDialogProps {
-  node: RrNode;
+  /** 要删除的节点信息 */
+  node?: RrNode;
+  /** 根节点ID */
   rootId: string;
+  /** 外部控制对话框开关状态 */
   open: boolean;
+  /** 外部控制对话框开关状态的回调 */
   onOpenChange: (open: boolean) => void;
+  /** 删除节点的回调函数 */
+  onConfirm: (data: RemoveNodeData) => void;
+  /** 是否正在删除 */
+  isDeleting?: boolean;
 }
 
 export function RemoveNodeDialog({
@@ -24,32 +35,16 @@ export function RemoveNodeDialog({
   rootId,
   open,
   onOpenChange,
+  onConfirm,
+  isDeleting = false,
 }: RemoveNodeDialogProps) {
-  const { mutate: deleteNode, isPending } = useDeleteNode();
-
   const handleDelete = () => {
-    deleteNode(
-      {
-        nodeId: node._id,
-        rootId: rootId,
-      },
-      {
-        onSuccess: (deletedNode) => {
-          onOpenChange(false);
+    if (!node) return;
 
-          toast.success("节点已删除", {
-            description: `已成功删除节点「${deletedNode.title}」`,
-          });
-        },
-        onError: (error) => {
-          console.error("删除节点失败:", error);
-
-          toast.error("删除节点失败", {
-            description: `删除节点「${node.title}」失败`,
-          });
-        },
-      },
-    );
+    onConfirm({
+      nodeId: node._id,
+      rootId: rootId,
+    });
   };
 
   return (
@@ -58,14 +53,17 @@ export function RemoveNodeDialog({
         <AlertDialogHeader>
           <AlertDialogTitle>永久删除</AlertDialogTitle>
           <AlertDialogDescription>
-            这会删除<strong>&quot;{node.title}&quot;</strong>
+            这会删除<strong>&quot;{node?.title}&quot;</strong>
             节点，以及所有子节点且不可恢复。确认删除吗？
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>取消</AlertDialogCancel>
-          <AlertDialogAction onClick={handleDelete} disabled={isPending}>
-            {isPending ? "删除中..." : "删除"}
+          <AlertDialogAction
+            onClick={handleDelete}
+            disabled={isDeleting || !node}
+          >
+            {isDeleting ? "删除中..." : "删除"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

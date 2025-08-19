@@ -11,9 +11,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
-import { useUpdateNode } from "@/lib/service/rrNodeApi";
 import type { RrNode } from "@/lib/types/models";
+
+interface UpdateNodeData {
+  nodeId: string;
+  title: string;
+  description?: string;
+  rootId: string;
+}
 
 interface UpdateNodeDialogProps {
   /** 节点信息，用于更新节点 */
@@ -24,6 +29,10 @@ interface UpdateNodeDialogProps {
   open: boolean;
   /** 外部控制对话框开关状态的回调 */
   onOpenChange: (open: boolean) => void;
+  /** 更新节点的回调函数 */
+  onSubmit: (data: UpdateNodeData) => void;
+  /** 是否正在提交 */
+  isSubmitting?: boolean;
 }
 
 /**
@@ -40,6 +49,8 @@ export function UpdateNodeDialog({
   rootId,
   open,
   onOpenChange,
+  onSubmit,
+  isSubmitting = false,
 }: UpdateNodeDialogProps) {
   const [formData, setFormData] = useState({
     title: "",
@@ -49,8 +60,6 @@ export function UpdateNodeDialog({
     title?: string;
     description?: string;
   }>({});
-
-  const { mutate: updateNode, isPending } = useUpdateNode();
 
   // 当节点数据变化时，更新表单数据
   useEffect(() => {
@@ -84,44 +93,22 @@ export function UpdateNodeDialog({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (!validateForm()) {
+    if (!validateForm() || !node) {
       return;
     }
 
-    if (node?._id && rootId) {
-      updateNode(
-        {
-          title: formData.title.trim(),
-          description: formData.description.trim() || undefined,
-          nodeId: node._id,
-          rootId,
-        },
-        {
-          onSuccess: (updatedNode: RrNode) => {
-            // 重置表单
-            setFormData({ title: "", description: "" });
-            setErrors({});
-            onOpenChange(false);
+    const updateData: UpdateNodeData = {
+      nodeId: node._id,
+      title: formData.title.trim(),
+      description: formData.description.trim() || undefined,
+      rootId,
+    };
 
-            // 显示成功提示
-            toast.success("节点更新成功", {
-              description: `已成功更新节点「${updatedNode.title}」`,
-            });
+    // 调用父组件传入的回调函数
+    onSubmit(updateData);
 
-            console.log("节点更新成功:", updatedNode);
-          },
-          onError: (error: Error) => {
-            console.error("更新节点失败:", error);
-
-            // 显示错误提示
-            toast.error("节点更新失败", {
-              description:
-                error instanceof Error ? error.message : "请稍后重试",
-            });
-          },
-        },
-      );
-    }
+    // 关闭对话框
+    onOpenChange(false);
   };
 
   // 处理对话框关闭
@@ -159,7 +146,7 @@ export function UpdateNodeDialog({
                 }
               }}
               className={errors.title ? "border-destructive" : ""}
-              disabled={isPending}
+              disabled={isSubmitting}
             />
             {errors.title && (
               <p className="text-sm text-destructive">{errors.title}</p>
@@ -184,7 +171,7 @@ export function UpdateNodeDialog({
                 }
               }}
               className={errors.description ? "border-destructive" : ""}
-              disabled={isPending}
+              disabled={isSubmitting}
               rows={3}
             />
             {errors.description && (
@@ -198,15 +185,15 @@ export function UpdateNodeDialog({
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
-              disabled={isPending}
+              disabled={isSubmitting}
             >
               取消
             </Button>
             <Button
               type="submit"
-              disabled={isPending || !formData.title.trim()}
+              disabled={isSubmitting || !formData.title.trim()}
             >
-              {isPending ? "更新中..." : "更新节点"}
+              {isSubmitting ? "更新中..." : "更新节点"}
             </Button>
           </div>
         </form>
