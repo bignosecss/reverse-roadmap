@@ -46,17 +46,19 @@ const fetchApi = async <T>(endpoint: string): Promise<ApiResponse<T>> => {
  */
 const fetchApiMutation = async <TData, TVariables>(
   endpoint: string,
-  method: 'POST' | 'PATCH' | 'DELETE',
-  variables: TVariables
+  method: "POST" | "PATCH" | "DELETE",
+  variables: TVariables,
 ): Promise<TData> => {
   const response = await fetch(`${API_BASE_URL}${endpoint}`, {
     method,
-    headers: { 'Content-Type': 'application/json' },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(variables),
   });
 
   if (!response.ok) {
-    throw new Error(`Failed to ${method.toLowerCase()} ${endpoint}: ${response.statusText}`);
+    throw new Error(
+      `Failed to ${method.toLowerCase()} ${endpoint}: ${response.statusText}`,
+    );
   }
 
   const result = await response.json();
@@ -112,7 +114,7 @@ interface UseApiMutationConfig<TData, TVariables> {
   /** API 端点路径 */
   endpoint: string;
   /** HTTP 方法 */
-  method: 'POST' | 'PATCH' | 'DELETE';
+  method: "POST" | "PATCH" | "DELETE";
   /** 获取需要失效的缓存键的函数 */
   getInvalidateKeys?: (variables: TVariables) => string[];
   /** 成功回调函数 */
@@ -120,7 +122,7 @@ interface UseApiMutationConfig<TData, TVariables> {
   /** 自定义 Mutation 选项 */
   options?: Omit<
     UseMutationOptions<TData, Error, TVariables>,
-    'mutationFn' | 'onSuccess'
+    "mutationFn" | "onSuccess"
   >;
 }
 
@@ -134,30 +136,34 @@ export const useApiMutation = <TData, TVariables>({
   getInvalidateKeys,
   onSuccess,
   options = {},
-}: UseApiMutationConfig<TData, TVariables>): UseMutationResult<TData, Error, TVariables> => {
+}: UseApiMutationConfig<TData, TVariables>): UseMutationResult<
+  TData,
+  Error,
+  TVariables
+> => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (variables: TVariables) => 
+    mutationFn: (variables: TVariables) =>
       fetchApiMutation<TData, TVariables>(endpoint, method, variables),
     onSuccess: (data, variables) => {
       // 如果提供了缓存键获取函数，则失效相关缓存
       if (getInvalidateKeys) {
         const keysToInvalidate = getInvalidateKeys(variables);
-        
-        keysToInvalidate.forEach(key => {
+
+        keysToInvalidate.forEach((key) => {
           // 使用 predicate 精确匹配缓存键
           queryClient.invalidateQueries({
             predicate: (query) => query.queryKey[0] === key,
           });
-          
+
           // 立即重新获取数据
           queryClient.refetchQueries({
             predicate: (query) => query.queryKey[0] === key,
           });
         });
       }
-      
+
       // 调用用户自定义的 onSuccess
       onSuccess?.(data, variables);
     },

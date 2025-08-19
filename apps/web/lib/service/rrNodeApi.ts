@@ -20,7 +20,9 @@ export const useCreateNode = (): UseMutationResult<
   return useApiMutation<RrNode, CreateNodeRequest>({
     endpoint: "/rr-node",
     method: "POST",
-    getInvalidateKeys: (variables) => [`/rr-tree/${variables.rootId.toString()}`],
+    getInvalidateKeys: (variables) => [
+      `/rr-tree/${variables.rootId.toString()}`,
+    ],
   });
 };
 
@@ -37,7 +39,9 @@ export const useUpdateNode = (): UseMutationResult<
   return useApiMutation<RrNode, UpdateNodeRequest>({
     endpoint: "/rr-node",
     method: "PATCH",
-    getInvalidateKeys: (variables) => [`/rr-tree/${variables.rootId.toString()}`],
+    getInvalidateKeys: (variables) => [
+      `/rr-tree/${variables.rootId.toString()}`,
+    ],
   });
 };
 
@@ -54,6 +58,8 @@ export const useDeleteNode = (): UseMutationResult<
   return useApiMutation<RrNode, DeleteNodeRequest>({
     endpoint: "/rr-node",
     method: "DELETE",
-    getInvalidateKeys: (variables) => [`/rr-tree/${variables.rootId.toString()}`],
+    getInvalidateKeys: (variables) => [
+      `/rr-tree/${variables.rootId.toString()}`,
+    ],
   });
 };
