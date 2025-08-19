@@ -41,14 +41,24 @@ export const useCreateNode = (): UseMutationResult<
       return result.data;
     },
     onSuccess: (newNode, variables) => {
-      // 🔥 正确的缓存失效：使用 rootId 而不是 parentId
+      const rootId = variables.rootId.toString();
+
+      // 使用正确的缓存键匹配
       queryClient.invalidateQueries({
-        queryKey: ["rr-tree", variables.rootId.toString()],
+        predicate: (query) => {
+          return query.queryKey[0] === `/rr-tree/${rootId}`;
+        },
+      });
+
+      // 立即重新获取数据，确保UI立即更新
+      queryClient.refetchQueries({
+        predicate: (query) => {
+          return query.queryKey[0] === `/rr-tree/${rootId}`;
+        },
       });
     },
     onError: (error) => {
       console.error("创建失败:", error);
-      // 这里可以添加 toast 通知
     },
   });
 };
@@ -81,14 +91,22 @@ export const useUpdateNode = (): UseMutationResult<
       return result.data;
     },
     onSuccess: (_, variables) => {
-      // 🔥 更新成功后刷新整个树的缓存
+      const rootId = variables.rootId.toString();
+
       queryClient.invalidateQueries({
-        queryKey: ["rr-tree", variables.rootId.toString()],
+        predicate: (query) => {
+          return query.queryKey[0] === `/rr-tree/${rootId}`;
+        },
+      });
+
+      queryClient.refetchQueries({
+        predicate: (query) => {
+          return query.queryKey[0] === `/rr-tree/${rootId}`;
+        },
       });
     },
     onError: (error) => {
       console.error("更新失败:", error);
-      // 这里可以添加 toast 通知
     },
   });
 };
@@ -124,14 +142,22 @@ export const useDeleteNode = (): UseMutationResult<
       return result.data;
     },
     onSuccess: (_, variables) => {
-      // 🔥 删除成功后刷新整个树的缓存
+      const rootId = variables.rootId.toString();
+
       queryClient.invalidateQueries({
-        queryKey: ["rr-tree", variables.rootId.toString()],
+        predicate: (query) => {
+          return query.queryKey[0] === `/rr-tree/${rootId}`;
+        },
+      });
+
+      queryClient.refetchQueries({
+        predicate: (query) => {
+          return query.queryKey[0] === `/rr-tree/${rootId}`;
+        },
       });
     },
     onError: (error) => {
       console.error("删除失败:", error);
-      // 这里可以添加 toast 通知
     },
   });
 };

@@ -71,10 +71,10 @@ export const useApiQuery = <TData, TSelected = ApiResponse<TData>>({
     queryFn: () => fetchApi<TData>(endpoint),
     select,
     enabled,
-    // 默认配置：生产环境验证的最佳实践
-    staleTime: 5 * 60 * 1000, // 5分钟内认为数据是新鲜的
+    staleTime: 30 * 1000, // 30秒内认为数据是新鲜的
     retry: 3, // 失败时重试3次
     retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // 指数退避：1s, 2s, 4s, 最大30s
+    refetchOnWindowFocus: true, // 窗口重新获得焦点时重新获取数据
     ...options, // 允许覆盖默认配置
   });
 };
