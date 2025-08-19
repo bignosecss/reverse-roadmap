@@ -13,7 +13,7 @@ sequenceDiagram
     participant API as 后端API
     participant Cache as React Query缓存
     participant Tree as 树组件
-    
+
     User->>Mutation: 节点操作
     Mutation->>API: 发送请求
     API->>Mutation: 返回结果
@@ -38,41 +38,43 @@ sequenceDiagram
 // 伪代码示例
 const useOptimisticNodeMutation = () => {
   const queryClient = useQueryClient();
-  
+
   return useMutation({
     mutationFn: nodeOperation,
     onMutate: async (variables) => {
       // 1. 取消正在进行的查询
-      await queryClient.cancelQueries(['rr-tree']);
-      
+      await queryClient.cancelQueries(["rr-tree"]);
+
       // 2. 获取当前数据快照
-      const previousTree = queryClient.getQueryData(['rr-tree']);
-      
+      const previousTree = queryClient.getQueryData(["rr-tree"]);
+
       // 3. 乐观更新：立即修改本地缓存
-      queryClient.setQueryData(['rr-tree'], (old) => {
+      queryClient.setQueryData(["rr-tree"], (old) => {
         return applyOptimisticUpdate(old, variables);
       });
-      
+
       return { previousTree };
     },
     onError: (err, variables, context) => {
       // 4. 出错时回滚
-      queryClient.setQueryData(['rr-tree'], context.previousTree);
+      queryClient.setQueryData(["rr-tree"], context.previousTree);
     },
     onSettled: () => {
       // 5. 最终同步服务端数据
-      queryClient.invalidateQueries(['rr-tree']);
-    }
+      queryClient.invalidateQueries(["rr-tree"]);
+    },
   });
 };
 ```
 
 **优势：**
+
 - 用户操作立即生效，无等待
 - React diff算法只处理实际变化的节点
 - 错误时可以优雅回滚
 
 **挑战：**
+
 - 需要实现复杂的本地状态更新逻辑
 - 错误处理复杂度增加
 
@@ -81,7 +83,7 @@ const useOptimisticNodeMutation = () => {
 ```typescript
 // 后端API设计
 interface NodeOperationResponse {
-  operation: 'create' | 'update' | 'delete';
+  operation: "create" | "update" | "delete";
   affectedNodes: TreeNode[];
   parentPath: string[];
   timestamp: number;
@@ -91,20 +93,22 @@ interface NodeOperationResponse {
 const useIncrementalUpdate = () => {
   return useMutation({
     onSuccess: (response: NodeOperationResponse) => {
-      queryClient.setQueryData(['rr-tree'], (oldTree) => {
+      queryClient.setQueryData(["rr-tree"], (oldTree) => {
         return applyIncrementalUpdate(oldTree, response);
       });
-    }
+    },
   });
 };
 ```
 
 **优势：**
+
 - 只传输变化的数据，网络效率高
 - React diff算法精确处理变化
 - 服务端逻辑相对简单
 
 **挑战：**
+
 - 需要重新设计API接口
 - 复杂的树结构更新逻辑
 
@@ -113,27 +117,32 @@ const useIncrementalUpdate = () => {
 ```typescript
 // 稳定的节点Key生成
 const generateStableKey = (node: TreeNode, path: number[]) => {
-  return `${node.id}-${path.join('-')}-${node.version || 0}`;
+  return `${node.id}-${path.join("-")}-${node.version || 0}`;
 };
 
 // 组件优化
-const TreeNode = React.memo(({ node, path }) => {
-  // 只有当节点数据真正变化时才重新渲染
-}, (prevProps, nextProps) => {
-  return (
-    prevProps.node.id === nextProps.node.id &&
-    prevProps.node.version === nextProps.node.version &&
-    JSON.stringify(prevProps.path) === JSON.stringify(nextProps.path)
-  );
-});
+const TreeNode = React.memo(
+  ({ node, path }) => {
+    // 只有当节点数据真正变化时才重新渲染
+  },
+  (prevProps, nextProps) => {
+    return (
+      prevProps.node.id === nextProps.node.id &&
+      prevProps.node.version === nextProps.node.version &&
+      JSON.stringify(prevProps.path) === JSON.stringify(nextProps.path)
+    );
+  },
+);
 ```
 
 **优势：**
+
 - 最小化代码改动
 - 充分利用React内置优化
 - 向后兼容性好
 
 **挑战：**
+
 - 需要在数据结构中添加版本信息
 - 深度比较可能有性能开销
 
@@ -154,10 +163,10 @@ interface OptimizedTreeNode {
   id: string;
   title: string;
   children: TreeNode[];
-  version: number;        // 用于diff比较
-  lastModified: number;   // 时间戳
-  parentId?: string;      // 父节点引用
-  depth: number;          // 层级深度
+  version: number; // 用于diff比较
+  lastModified: number; // 时间戳
+  parentId?: string; // 父节点引用
+  depth: number; // 层级深度
 }
 ```
 
@@ -167,13 +176,13 @@ interface OptimizedTreeNode {
 // React Flow节点更新策略
 const useFlowNodes = (treeData: TreeNode[]) => {
   return useMemo(() => {
-    return treeData.map(node => ({
+    return treeData.map((node) => ({
       id: node.id,
-      type: 'custom',
+      type: "custom",
       position: calculatePosition(node),
       data: { ...node },
       // 关键：稳定的key确保React diff正确工作
-      key: `${node.id}-${node.version}`
+      key: `${node.id}-${node.version}`,
     }));
   }, [treeData]);
 };
@@ -181,12 +190,12 @@ const useFlowNodes = (treeData: TreeNode[]) => {
 
 ## 性能对比分析
 
-| 方案 | 网络请求 | 渲染性能 | 用户体验 | 实现复杂度 |
-|------|----------|----------|----------|------------|
-| 当前方案 | 完整数据 | 全量重渲染 | 有延迟 | 简单 |
-| 乐观更新 | 最少 | 最优 | 最佳 | 高 |
-| 增量获取 | 最少 | 优 | 好 | 中等 |
-| 智能Key | 完整数据 | 优 | 好 | 低 |
+| 方案     | 网络请求 | 渲染性能   | 用户体验 | 实现复杂度 |
+| -------- | -------- | ---------- | -------- | ---------- |
+| 当前方案 | 完整数据 | 全量重渲染 | 有延迟   | 简单       |
+| 乐观更新 | 最少     | 最优       | 最佳     | 高         |
+| 增量获取 | 最少     | 优         | 好       | 中等       |
+| 智能Key  | 完整数据 | 优         | 好       | 低         |
 
 ## Linus式判断
 
@@ -207,11 +216,13 @@ const useFlowNodes = (treeData: TreeNode[]) => {
 ### 推荐方案
 
 **阶段一：智能Key + React.memo**
+
 - 最小改动，立即生效
 - 充分利用React内置优化
 - 零破坏性
 
 **阶段二：考虑乐观更新**
+
 - 当节点数量增长到影响用户体验时
 - 有充足时间进行架构重构时
 
@@ -225,4 +236,4 @@ const useFlowNodes = (treeData: TreeNode[]) => {
 
 ---
 
-*"好的架构不是一开始就完美的，而是能够优雅演进的。"*
+_"好的架构不是一开始就完美的，而是能够优雅演进的。"_

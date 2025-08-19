@@ -10,9 +10,11 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus, Edit, Trash2 } from "lucide-react";
-import { AddNodeDialog } from "./add-node-dialog";
-import { RemoveNodeDialog } from "./remove-node-dialog";
-import { UpdateNodeDialog } from "./update-node-dialog";
+import {
+  AddNodeDialog,
+  UpdateNodeDialog,
+  RemoveNodeDialog,
+} from "./node-operation-dialog";
 import { useFlowContext } from "./flow-content";
 
 /**
