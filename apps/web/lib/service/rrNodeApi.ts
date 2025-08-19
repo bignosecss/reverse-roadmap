@@ -1,17 +1,11 @@
-import {
-  useMutation,
-  useQueryClient,
-  UseMutationResult,
-} from "@tanstack/react-query";
+import { UseMutationResult } from "@tanstack/react-query";
 import {
   CreateNodeRequest,
   UpdateNodeRequest,
   DeleteNodeRequest,
 } from "../types/apiRequests";
 import { RrNode } from "../types/models";
-
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
+import { useApiMutation } from "./baseApi";
 
 /**
  * 创建新节点的 Mutation Hook
@@ -23,43 +17,10 @@ export const useCreateNode = (): UseMutationResult<
   CreateNodeRequest,
   unknown
 > => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: async (request: CreateNodeRequest): Promise<RrNode> => {
-      const response = await fetch(`${API_BASE_URL}/rr-node`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(request),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to create node: ${response.statusText}`);
-      }
-
-      const result = await response.json();
-      return result.data;
-    },
-    onSuccess: (newNode, variables) => {
-      const rootId = variables.rootId.toString();
-
-      // 使用正确的缓存键匹配
-      queryClient.invalidateQueries({
-        predicate: (query) => {
-          return query.queryKey[0] === `/rr-tree/${rootId}`;
-        },
-      });
-
-      // 立即重新获取数据，确保UI立即更新
-      queryClient.refetchQueries({
-        predicate: (query) => {
-          return query.queryKey[0] === `/rr-tree/${rootId}`;
-        },
-      });
-    },
-    onError: (error) => {
-      console.error("创建失败:", error);
-    },
+  return useApiMutation<RrNode, CreateNodeRequest>({
+    endpoint: "/rr-node",
+    method: "POST",
+    getInvalidateKeys: (variables) => [`/rr-tree/${variables.rootId.toString()}`],
   });
 };
 
@@ -73,41 +34,10 @@ export const useUpdateNode = (): UseMutationResult<
   UpdateNodeRequest,
   unknown
 > => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: async (request: UpdateNodeRequest): Promise<RrNode> => {
-      const response = await fetch(`${API_BASE_URL}/rr-node`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(request),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to update node: ${response.statusText}`);
-      }
-
-      const result = await response.json();
-      return result.data;
-    },
-    onSuccess: (_, variables) => {
-      const rootId = variables.rootId.toString();
-
-      queryClient.invalidateQueries({
-        predicate: (query) => {
-          return query.queryKey[0] === `/rr-tree/${rootId}`;
-        },
-      });
-
-      queryClient.refetchQueries({
-        predicate: (query) => {
-          return query.queryKey[0] === `/rr-tree/${rootId}`;
-        },
-      });
-    },
-    onError: (error) => {
-      console.error("更新失败:", error);
-    },
+  return useApiMutation<RrNode, UpdateNodeRequest>({
+    endpoint: "/rr-node",
+    method: "PATCH",
+    getInvalidateKeys: (variables) => [`/rr-tree/${variables.rootId.toString()}`],
   });
 };
 
@@ -121,43 +51,9 @@ export const useDeleteNode = (): UseMutationResult<
   DeleteNodeRequest,
   unknown
 > => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: async (request: DeleteNodeRequest): Promise<RrNode> => {
-      const response = await fetch(`${API_BASE_URL}/rr-node`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          nodeId: request.nodeId,
-          rootId: request.rootId,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`Failed to delete node: ${response.statusText}`);
-      }
-
-      const result = await response.json();
-      return result.data;
-    },
-    onSuccess: (_, variables) => {
-      const rootId = variables.rootId.toString();
-
-      queryClient.invalidateQueries({
-        predicate: (query) => {
-          return query.queryKey[0] === `/rr-tree/${rootId}`;
-        },
-      });
-
-      queryClient.refetchQueries({
-        predicate: (query) => {
-          return query.queryKey[0] === `/rr-tree/${rootId}`;
-        },
-      });
-    },
-    onError: (error) => {
-      console.error("删除失败:", error);
-    },
+  return useApiMutation<RrNode, DeleteNodeRequest>({
+    endpoint: "/rr-node",
+    method: "DELETE",
+    getInvalidateKeys: (variables) => [`/rr-tree/${variables.rootId.toString()}`],
   });
 };

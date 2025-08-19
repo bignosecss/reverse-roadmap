@@ -45,23 +45,17 @@ function FlowContentInner({
 }: FlowContentProps) {
   const { fitView, getNodes, setNodes } = useReactFlow();
   const nodesInitialized = useNodesInitialized();
-  console.log("nodesInitialized", nodesInitialized);
 
   // 当节点初始化完成且测量完成后，触发布局
   useEffect(() => {
     if (nodesInitialized && nodes.length > 0) {
       const currentNodes = getNodes();
 
-      console.log("所有节点已测量完成，触发布局算法");
-
       // 使用测量后的尺寸重新计算布局
       const { newNodes } = getLayoutedNodes(currentNodes, edges, "TB");
 
       // 更新节点位置
       setNodes(newNodes);
-
-      // 标记已触发布局，避免重复触发
-      // hasTriggeredLayout.current = true;
 
       // 在下一个渲染周期调用 fitView
       setTimeout(() => {
