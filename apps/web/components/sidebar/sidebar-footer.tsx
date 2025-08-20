@@ -20,8 +20,11 @@ export function SidebarFooterComponent() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <SidebarMenuButton>
-                <User2 /> Username
-                <ChevronUp className="ml-auto" />
+                <User2 />
+                <span className="group-data-[collapsible=icon]:hidden">
+                  Username
+                </span>
+                <ChevronUp className="ml-auto group-data-[collapsible=icon]:hidden" />
               </SidebarMenuButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent

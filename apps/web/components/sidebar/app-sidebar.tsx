@@ -1,20 +1,21 @@
+"use client";
+
 import { Sidebar } from "@/components/ui/sidebar";
 import { SidebarHeaderComponent } from "./sidebar-header";
 import { SidebarCustomContent } from "./sidebar-content";
 import { SidebarFooterComponent } from "./sidebar-footer";
+import { useGetAllRrRoots } from "@/lib/service/rrRootApi";
 
 export function AppSidebar() {
+  const { data: rrRoots, isLoading } = useGetAllRrRoots();
+
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon" className="flex flex-col">
       <SidebarHeaderComponent />
-      <SidebarCustomContent />
-      <SidebarFooterComponent />
+      <SidebarCustomContent rrRoots={rrRoots} isLoading={isLoading} />
+      <div className="mt-auto">
+        <SidebarFooterComponent />
+      </div>
     </Sidebar>
   );
 }
-
-// Re-export individual components for flexibility
-export { SidebarHeaderComponent } from "./sidebar-header";
-export { SidebarCustomContent } from "./sidebar-content";
-export { SidebarFooterComponent } from "./sidebar-footer";
-export { HEAD_MENU_ITEMS, type HeadMenuItem } from "./constants";

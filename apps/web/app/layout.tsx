@@ -1,11 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import {
-  SidebarProvider,
-  SidebarTrigger,
-  SidebarInset,
-} from "@/components/ui/sidebar";
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import Providers from "@/components/providers";
 
@@ -36,9 +32,6 @@ export default function RootLayout({
           <SidebarProvider defaultOpen={true}>
             <AppSidebar />
             <SidebarInset>
-              <header className="flex h-16 shrink-0 items-center gap-2 border-b px-4">
-                <SidebarTrigger className="-ml-1" />
-              </header>
               <div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
             </SidebarInset>
           </SidebarProvider>

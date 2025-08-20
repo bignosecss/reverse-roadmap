@@ -19,27 +19,26 @@ import {
 } from "@/components/ui/sidebar";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
 import type { RrRoot } from "@/lib/types/models";
-import { useGetAllRrRoots } from "@/lib/service/rrRootApi";
-import { useSidebarStore } from "@/lib/stores/sidebar-store";
+
+interface SidebarCustomContentProps {
+  rrRoots?: RrRoot[];
+  isLoading: boolean;
+}
 
 interface SidebarProjectItemProps {
   item: RrRoot;
   isActive: boolean;
-  onSelect: () => void;
 }
 
-function SidebarTreeItem({
-  item,
-  isActive,
-  onSelect,
-}: SidebarProjectItemProps) {
+function SidebarTreeItem({ item, isActive }: SidebarProjectItemProps) {
   return (
-    <SidebarMenuItem onClick={onSelect}>
+    <SidebarMenuItem>
       <SidebarMenuButton asChild isActive={isActive}>
         <Link href={`/g/${item._id}`}>
-          <span>{item.title}</span>
+          <span className="group-data-[collapsible=icon]:hidden">
+            {item.title}
+          </span>
         </Link>
       </SidebarMenuButton>
       <DropdownMenu>
@@ -61,20 +60,16 @@ function SidebarTreeItem({
   );
 }
 
-export function SidebarCustomContent() {
-  const { data: rrRoots, isLoading } = useGetAllRrRoots();
+export function SidebarCustomContent({
+  rrRoots,
+  isLoading,
+}: SidebarCustomContentProps) {
   const pathname = usePathname();
-  const { selectedTreeId, setSelectedTreeId } = useSidebarStore();
 
-  // 同步路由变化到 Zustand 状态
-  useEffect(() => {
-    if (pathname.startsWith("/g/")) {
-      const currentId = pathname.split("/g/")[1];
-      if (currentId && currentId !== selectedTreeId) {
-        setSelectedTreeId(currentId);
-      }
-    }
-  }, [pathname, selectedTreeId, setSelectedTreeId]);
+  // 直接从URL派生当前选中的树ID，消除冗余状态
+  const currentTreeId = pathname.startsWith("/g/")
+    ? pathname.split("/g/")[1]
+    : null;
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -85,9 +80,9 @@ export function SidebarCustomContent() {
   }
 
   return (
-    <SidebarContent>
+    <SidebarContent className="group-data-[collapsible=icon]:hidden">
       <SidebarGroup>
-        <SidebarGroupLabel className="text-muted-foreground">
+        <SidebarGroupLabel className="text-muted-foreground group-data-[collapsible=icon]:hidden">
           Overview
         </SidebarGroupLabel>
         <SidebarGroupContent>
@@ -96,10 +91,7 @@ export function SidebarCustomContent() {
               <SidebarTreeItem
                 key={tree._id}
                 item={tree}
-                isActive={
-                  selectedTreeId === tree._id || pathname === `/g/${tree._id}`
-                }
-                onSelect={() => setSelectedTreeId(tree._id)}
+                isActive={currentTreeId === tree._id}
               />
             ))}
           </SidebarMenu>
