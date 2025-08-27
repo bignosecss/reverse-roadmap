@@ -146,7 +146,9 @@ class SeedGenerator {
     // 显示每个根节点的详细信息
     const roots = await this.rrRootModel.find().lean();
     for (const root of roots) {
-      const treeNodeCount = await this.countTreeNodes(root.treeRootNodeId as unknown as mongoose.Types.ObjectId);
+      const treeNodeCount = await this.countTreeNodes(
+        root.treeRootNodeId as unknown as mongoose.Types.ObjectId,
+      );
       console.log(`   "${root.title}": ${treeNodeCount} 个节点`);
     }
   }
@@ -164,7 +166,9 @@ class SeedGenerator {
 
     // 递归计算子节点
     for (const childId of node.children) {
-      count += await this.countTreeNodes(childId as unknown as mongoose.Types.ObjectId);
+      count += await this.countTreeNodes(
+        childId as unknown as mongoose.Types.ObjectId,
+      );
     }
 
     return count;
