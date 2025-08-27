@@ -67,69 +67,37 @@ class SeedGenerator {
    * 创建根节点和对应的思维导图树
    */
   private async createRootWithTree(data: SeedRootData): Promise<void> {
-    // 1. 创建根节点的第一个子节点（实际的树根）
+    // 1. 递归构建嵌套的子节点结构
+    const children = data.children ? this.buildNestedChildren(data.children) : [];
+
+    // 2. 创建根节点（包含完整的嵌套结构）
     const treeRoot = await this.rrNodeModel.create({
       title: data.title,
       description: data.description,
       parentId: null,
-      children: [],
+      children: children,
     });
 
-    // 2. 创建RrRoot记录
+    // 3. 创建RrRoot记录
     const rrRoot = await this.rrRootModel.create({
       title: data.title,
       treeRootNodeId: treeRoot._id,
       status: 'active',
     });
 
-    // 3. 递归创建子节点
-    if (data.children && data.children.length > 0) {
-      const childIds = await this.createChildNodes(data.children, treeRoot._id);
-
-      // 4. 更新根节点的children数组
-      await this.rrNodeModel.findByIdAndUpdate(treeRoot._id, {
-        children: childIds,
-      });
-    }
-
     console.log(`✅ 创建根节点: ${data.title}`);
   }
 
   /**
-   * 递归创建子节点
+   * 递归构建嵌套的子节点结构（纯数据，不保存到数据库）
    */
-  private async createChildNodes(
-    children: SeedNodeData[],
-    parentId: mongoose.Types.ObjectId,
-  ): Promise<mongoose.Types.ObjectId[]> {
-    const childIds: mongoose.Types.ObjectId[] = [];
-
-    for (const childData of children) {
-      // 创建子节点
-      const childNode = await this.rrNodeModel.create({
-        title: childData.title,
-        description: childData.description,
-        parentId: parentId,
-        children: [],
-      });
-
-      childIds.push(childNode._id);
-
-      // 递归创建孙子节点
-      if (childData.children && childData.children.length > 0) {
-        const grandChildIds = await this.createChildNodes(
-          childData.children,
-          childNode._id,
-        );
-
-        // 更新子节点的children数组
-        await this.rrNodeModel.findByIdAndUpdate(childNode._id, {
-          children: grandChildIds,
-        });
-      }
-    }
-
-    return childIds;
+  private buildNestedChildren(children: SeedNodeData[]): any[] {
+    return children.map(childData => ({
+      title: childData.title,
+      description: childData.description,
+      parentId: null, // 嵌套文档中不需要 parentId
+      children: childData.children ? this.buildNestedChildren(childData.children) : [],
+    }));
   }
 
   /**
@@ -154,7 +122,7 @@ class SeedGenerator {
   }
 
   /**
-   * 递归计算树的节点数量
+   * 递归计算树的节点数量（嵌套文档版本）
    */
   private async countTreeNodes(
     nodeId: mongoose.Types.ObjectId,
@@ -164,11 +132,26 @@ class SeedGenerator {
 
     let count = 1; // 当前节点
 
-    // 递归计算子节点
-    for (const childId of node.children) {
-      count += await this.countTreeNodes(
-        childId as unknown as mongoose.Types.ObjectId,
-      );
+    // 递归计算嵌套的子节点
+    if (node.children && Array.isArray(node.children)) {
+      for (const child of node.children) {
+        count += this.countNestedNodes(child);
+      }
+    }
+
+    return count;
+  }
+
+  /**
+   * 递归计算嵌套文档中的节点数量
+   */
+  private countNestedNodes(node: any): number {
+    let count = 1; // 当前节点
+
+    if (node.children && Array.isArray(node.children)) {
+      for (const child of node.children) {
+        count += this.countNestedNodes(child);
+      }
     }
 
     return count;
