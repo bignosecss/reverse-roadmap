@@ -4,199 +4,208 @@ import { Module } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { getModelToken } from '@nestjs/mongoose';
 import { RrRoot, RrRootSchema } from '../schemas/rr-root.schema';
-import { RrTree, RrTreeSchema } from '../schemas/rr-tree.schema';
-import { rootSeeds, generateTreeSeeds } from './seed-data';
-import { Types } from 'mongoose';
+import { RrNode, RrNodeSchema } from '../schemas/rr-node.schema';
+import { SEED_DATA, SeedRootData, SeedNodeData } from './seed-data';
+import * as dotenv from 'dotenv';
+import mongoose from 'mongoose';
 
-/**
- * 数据库种子模块
- * 用于注册所需的 Mongoose 模型
- */
+// 加载环境变量
+dotenv.config({ path: '../../../.env' });
+
 @Module({
   imports: [
     MongooseModule.forRoot(
-      'mongodb+srv://pterosaurscannotfly:CrhLYfRwJMScZqCh@cluster0.c48gslh.mongodb.net/reverse-roadmap?retryWrites=true&w=majority&appName=Cluster0',
+      process.env.MONGODB_URI ||
+        'mongodb+srv://pterosaurscannotfly:CrhLYfRwJMScZqCh@cluster0.c48gslh.mongodb.net/reverse-roadmap?retryWrites=true&w=majority&appName=Cluster0',
     ),
     MongooseModule.forFeature([
       { name: RrRoot.name, schema: RrRootSchema },
-      { name: RrTree.name, schema: RrTreeSchema },
+      { name: RrNode.name, schema: RrNodeSchema },
     ]),
   ],
 })
-export class SeedModule {}
+class SeedModule {}
 
 /**
- * 数据库种子服务类
- * 负责执行数据库种子操作
+ * 种子数据生成器
+ * 用于生成测试数据到数据库
  */
-class DatabaseSeeder {
-  constructor(
-    private readonly rrRootModel: Model<RrRoot>,
-    private readonly rrTreeModel: Model<RrTree>,
-  ) {}
+class SeedGenerator {
+  private rrRootModel: Model<RrRoot>;
+  private rrNodeModel: Model<RrNode>;
+
+  constructor(rrRootModel: Model<RrRoot>, rrNodeModel: Model<RrNode>) {
+    this.rrRootModel = rrRootModel;
+    this.rrNodeModel = rrNodeModel;
+  }
 
   /**
-   * 清空所有集合的数据
+   * 清空数据库
    */
   async clearDatabase(): Promise<void> {
-    console.log('🗑️  清空数据库中...');
-
-    try {
-      await this.rrTreeModel.deleteMany({});
-      await this.rrRootModel.deleteMany({});
-      console.log('✅ 数据库清空完成');
-    } catch (error) {
-      console.error('❌ 清空数据库失败:', error);
-      throw error;
-    }
+    console.log('🧹 清空现有数据...');
+    await this.rrRootModel.deleteMany({});
+    await this.rrNodeModel.deleteMany({});
+    console.log('✅ 数据库已清空');
   }
 
   /**
-   * 种植根节点数据
-   * @returns 创建的根节点ID数组
+   * 生成种子数据
    */
-  async seedRoots(): Promise<Types.ObjectId[]> {
-    console.log('🌱 种植根节点数据中...');
+  async generateSeeds(): Promise<void> {
+    console.log('🌱 开始生成种子数据...');
+    console.log(`📦 准备生成 ${SEED_DATA.length} 个根节点的数据`);
 
-    try {
-      const createdRoots = await this.rrRootModel.insertMany(rootSeeds);
-      const rootIds = createdRoots.map((root) => root._id);
+    for (const rootData of SEED_DATA) {
+      await this.createRootWithTree(rootData);
+    }
 
-      console.log(`✅ 成功创建 ${createdRoots.length} 个根节点:`);
-      createdRoots.forEach((root, index) => {
-        console.log(`   ${index + 1}. ${root.title} (${root.status})`);
+    console.log('🎉 种子数据生成完成!');
+  }
+
+  /**
+   * 创建根节点和对应的思维导图树
+   */
+  private async createRootWithTree(data: SeedRootData): Promise<void> {
+    // 1. 创建根节点的第一个子节点（实际的树根）
+    const treeRoot = await this.rrNodeModel.create({
+      title: data.title,
+      description: data.description,
+      parentId: null,
+      children: [],
+    });
+
+    // 2. 创建RrRoot记录
+    const rrRoot = await this.rrRootModel.create({
+      title: data.title,
+      treeRootNodeId: treeRoot._id,
+      status: 'active',
+    });
+
+    // 3. 递归创建子节点
+    if (data.children && data.children.length > 0) {
+      const childIds = await this.createChildNodes(data.children, treeRoot._id);
+      
+      // 4. 更新根节点的children数组
+      await this.rrNodeModel.findByIdAndUpdate(treeRoot._id, {
+        children: childIds,
+      });
+    }
+
+    console.log(`✅ 创建根节点: ${data.title}`);
+  }
+
+  /**
+   * 递归创建子节点
+   */
+  private async createChildNodes(
+    children: SeedNodeData[],
+    parentId: mongoose.Types.ObjectId,
+  ): Promise<mongoose.Types.ObjectId[]> {
+    const childIds: mongoose.Types.ObjectId[] = [];
+
+    for (const childData of children) {
+      // 创建子节点
+      const childNode = await this.rrNodeModel.create({
+        title: childData.title,
+        description: childData.description,
+        parentId: parentId,
+        children: [],
       });
 
-      return rootIds;
-    } catch (error) {
-      console.error('❌ 种植根节点失败:', error);
-      throw error;
-    }
-  }
+      childIds.push(childNode._id);
 
-  /**
-   * 种植树结构数据
-   * @param rootIds 根节点ID数组
-   */
-  async seedTrees(rootIds: Types.ObjectId[]): Promise<void> {
-    console.log('🌳 种植树结构数据中...');
-
-    try {
-      const treesData = generateTreeSeeds(rootIds);
-      const createdTrees = await this.rrTreeModel.insertMany(treesData);
-
-      console.log(`✅ 成功创建 ${createdTrees.length} 个树结构:`);
-      createdTrees.forEach((tree, index) => {
-        if (tree.rootNode) {
-          const childrenCount = tree.rootNode.children?.length || 0;
-          console.log(
-            `   ${index + 1}. ${tree.rootNode.title} (${childrenCount} 个子节点)`,
-          );
-        }
-      });
-    } catch (error) {
-      console.error('❌ 种植树结构失败:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * 执行完整的数据库种子操作
-   * @param clearFirst 是否先清空数据库，默认为 true
-   */
-  async runSeeds(clearFirst: boolean = true): Promise<void> {
-    console.log('🚀 开始执行数据库种子操作...');
-    const startTime = Date.now();
-
-    try {
-      if (clearFirst) {
-        await this.clearDatabase();
+      // 递归创建孙子节点
+      if (childData.children && childData.children.length > 0) {
+        const grandChildIds = await this.createChildNodes(
+          childData.children,
+          childNode._id,
+        );
+        
+        // 更新子节点的children数组
+        await this.rrNodeModel.findByIdAndUpdate(childNode._id, {
+          children: grandChildIds,
+        });
       }
-
-      const rootIds = await this.seedRoots();
-      await this.seedTrees(rootIds);
-
-      const duration = Date.now() - startTime;
-      console.log(`🎉 数据库种子操作完成! 耗时: ${duration}ms`);
-    } catch (error) {
-      console.error('💥 数据库种子操作失败:', error);
-      throw error;
     }
+
+    return childIds;
   }
 
   /**
    * 显示数据库统计信息
    */
   async showStats(): Promise<void> {
-    console.log('📊 数据库统计信息:');
-
-    try {
-      const rootsCount = await this.rrRootModel.countDocuments();
-      const treesCount = await this.rrTreeModel.countDocuments();
-
-      console.log(`   根节点数量: ${rootsCount}`);
-      console.log(`   树结构数量: ${treesCount}`);
-
-      // 显示每个根节点的详细信息
-      const roots = await this.rrRootModel.find();
-      console.log('\n📋 根节点详情:');
-      roots.forEach((root, index) => {
-        console.log(
-          `   ${index + 1}. ${root.title} (${root.status}) - ID: ${root._id.toString()}`,
-        );
-      });
-    } catch (error) {
-      console.error('❌ 获取统计信息失败:', error);
+    const rootCount = await this.rrRootModel.countDocuments();
+    const nodeCount = await this.rrNodeModel.countDocuments();
+    
+    console.log('\n📊 数据库统计:');
+    console.log(`   根节点数量: ${rootCount}`);
+    console.log(`   思维导图节点数量: ${nodeCount}`);
+    
+    // 显示每个根节点的详细信息
+    const roots = await this.rrRootModel.find().lean();
+    for (const root of roots) {
+      const treeNodeCount = await this.countTreeNodes(root.treeRootNodeId);
+      console.log(`   "${root.title}": ${treeNodeCount} 个节点`);
     }
+  }
+
+  /**
+   * 递归计算树的节点数量
+   */
+  private async countTreeNodes(nodeId: mongoose.Types.ObjectId): Promise<number> {
+    const node = await this.rrNodeModel.findById(nodeId).lean();
+    if (!node) return 0;
+    
+    let count = 1; // 当前节点
+    
+    // 递归计算子节点
+    for (const childId of node.children) {
+      count += await this.countTreeNodes(childId);
+    }
+    
+    return count;
   }
 }
 
 /**
- * 主执行函数
- * 创建 NestJS 应用并执行种子操作
+ * 主函数
  */
-async function runSeed() {
-  console.log('🌟 启动数据库种子程序...');
+async function main() {
+  const args = process.argv.slice(2);
+  const noClear = args.includes('--no-clear');
+  const statsOnly = args.includes('--stats');
 
   try {
-    // 创建 NestJS 应用
-    const app = await NestFactory.create(SeedModule, {
-      logger: false, // 禁用默认日志以保持输出清洁
-    });
-
-    // 获取模型实例
+    console.log('🚀 启动种子数据生成器...');
+    
+    const app = await NestFactory.createApplicationContext(SeedModule);
+    
     const rrRootModel = app.get<Model<RrRoot>>(getModelToken(RrRoot.name));
-    const rrTreeModel = app.get<Model<RrTree>>(getModelToken(RrTree.name));
-
-    // 创建种子服务实例
-    const seeder = new DatabaseSeeder(rrRootModel, rrTreeModel);
-
-    // 解析命令行参数
-    const args = process.argv.slice(2);
-    const shouldClear = !args.includes('--no-clear');
-    const showStatsOnly = args.includes('--stats');
-
-    if (showStatsOnly) {
-      // 仅显示统计信息
-      await seeder.showStats();
+    const rrNodeModel = app.get<Model<RrNode>>(getModelToken(RrNode.name));
+    
+    const generator = new SeedGenerator(rrRootModel, rrNodeModel);
+    
+    if (statsOnly) {
+      await generator.showStats();
     } else {
-      // 执行种子操作
-      await seeder.runSeeds(shouldClear);
-      await seeder.showStats();
+      if (!noClear) {
+        await generator.clearDatabase();
+      }
+      
+      await generator.generateSeeds();
+      await generator.showStats();
     }
-
-    // 关闭应用
+    
     await app.close();
-    console.log('👋 种子程序执行完毕');
+    console.log('\n🎯 任务完成!');
+    process.exit(0);
   } catch (error) {
-    console.error('💀 种子程序执行失败:', error);
+    console.error('❌ 种子数据生成失败:', error);
     process.exit(1);
   }
 }
 
-// 如果直接运行此文件，则执行种子操作
-if (require.main === module) {
-  void runSeed();
-}
-
-export { runSeed };
+// 运行主函数
+main();

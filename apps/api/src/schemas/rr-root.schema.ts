@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose from 'mongoose';
 
 /**
  * 所有的字段都需要添加 ! 告诉 TypeScript 这个属性会被外部赋值
@@ -11,6 +12,9 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 export class RrRoot {
   @Prop({ required: true })
   title!: string; // 侧边栏显示的标题
+
+  @Prop({ required: true })
+  treeRootNodeId!: mongoose.Types.ObjectId; // 关联的树的根节点ID
 
   @Prop({ type: String, enum: ['active', 'archived'], default: 'active' })
   status!: string;
