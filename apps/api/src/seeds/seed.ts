@@ -85,7 +85,7 @@ class SeedGenerator {
     // 3. 递归创建子节点
     if (data.children && data.children.length > 0) {
       const childIds = await this.createChildNodes(data.children, treeRoot._id);
-      
+
       // 4. 更新根节点的children数组
       await this.rrNodeModel.findByIdAndUpdate(treeRoot._id, {
         children: childIds,
@@ -121,7 +121,7 @@ class SeedGenerator {
           childData.children,
           childNode._id,
         );
-        
+
         // 更新子节点的children数组
         await this.rrNodeModel.findByIdAndUpdate(childNode._id, {
           children: grandChildIds,
@@ -138,15 +138,15 @@ class SeedGenerator {
   async showStats(): Promise<void> {
     const rootCount = await this.rrRootModel.countDocuments();
     const nodeCount = await this.rrNodeModel.countDocuments();
-    
+
     console.log('\n📊 数据库统计:');
     console.log(`   根节点数量: ${rootCount}`);
     console.log(`   思维导图节点数量: ${nodeCount}`);
-    
+
     // 显示每个根节点的详细信息
     const roots = await this.rrRootModel.find().lean();
     for (const root of roots) {
-      const treeNodeCount = await this.countTreeNodes(root.treeRootNodeId);
+      const treeNodeCount = await this.countTreeNodes(root.treeRootNodeId as unknown as mongoose.Types.ObjectId);
       console.log(`   "${root.title}": ${treeNodeCount} 个节点`);
     }
   }
@@ -154,17 +154,19 @@ class SeedGenerator {
   /**
    * 递归计算树的节点数量
    */
-  private async countTreeNodes(nodeId: mongoose.Types.ObjectId): Promise<number> {
+  private async countTreeNodes(
+    nodeId: mongoose.Types.ObjectId,
+  ): Promise<number> {
     const node = await this.rrNodeModel.findById(nodeId).lean();
     if (!node) return 0;
-    
+
     let count = 1; // 当前节点
-    
+
     // 递归计算子节点
     for (const childId of node.children) {
-      count += await this.countTreeNodes(childId);
+      count += await this.countTreeNodes(childId as unknown as mongoose.Types.ObjectId);
     }
-    
+
     return count;
   }
 }
@@ -179,25 +181,25 @@ async function main() {
 
   try {
     console.log('🚀 启动种子数据生成器...');
-    
+
     const app = await NestFactory.createApplicationContext(SeedModule);
-    
+
     const rrRootModel = app.get<Model<RrRoot>>(getModelToken(RrRoot.name));
     const rrNodeModel = app.get<Model<RrNode>>(getModelToken(RrNode.name));
-    
+
     const generator = new SeedGenerator(rrRootModel, rrNodeModel);
-    
+
     if (statsOnly) {
       await generator.showStats();
     } else {
       if (!noClear) {
         await generator.clearDatabase();
       }
-      
+
       await generator.generateSeeds();
       await generator.showStats();
     }
-    
+
     await app.close();
     console.log('\n🎯 任务完成!');
     process.exit(0);

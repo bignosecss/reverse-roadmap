@@ -9,11 +9,11 @@ export class RrNode {
   @Prop({ type: String })
   description?: string;
 
-  @Prop({ type: mongoose.Types.ObjectId, default: null })
-  parentId!: mongoose.Types.ObjectId | null;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'RrNode', default: null })
+  parentId!: mongoose.Schema.Types.ObjectId | null;
 
-  @Prop({ type: [mongoose.Types.ObjectId], default: [] }) // 递归定义子节点
-  children!: mongoose.Types.ObjectId[];
+  @Prop({ type: [mongoose.Schema.Types.ObjectId], default: [] })
+  children!: mongoose.Schema.Types.ObjectId[];
 }
 
 export const RrNodeSchema = SchemaFactory.createForClass(RrNode);
