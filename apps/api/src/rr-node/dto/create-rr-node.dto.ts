@@ -1,1 +1,4 @@
-export class CreateRrNodeDto {}
+export class CreateRrNodeDto {
+  title!: string;
+  description?: string;
+}

@@ -68,7 +68,9 @@ class SeedGenerator {
    */
   private async createRootWithTree(data: SeedRootData): Promise<void> {
     // 1. 递归构建嵌套的子节点结构
-    const children = data.children ? this.buildNestedChildren(data.children) : [];
+    const children = data.children
+      ? this.buildNestedChildren(data.children)
+      : [];
 
     // 2. 创建根节点（包含完整的嵌套结构）
     const treeRoot = await this.rrNodeModel.create({
@@ -92,11 +94,13 @@ class SeedGenerator {
    * 递归构建嵌套的子节点结构（纯数据，不保存到数据库）
    */
   private buildNestedChildren(children: SeedNodeData[]): any[] {
-    return children.map(childData => ({
+    return children.map((childData) => ({
       title: childData.title,
       description: childData.description,
       parentId: null, // 嵌套文档中不需要 parentId
-      children: childData.children ? this.buildNestedChildren(childData.children) : [],
+      children: childData.children
+        ? this.buildNestedChildren(childData.children)
+        : [],
     }));
   }
 

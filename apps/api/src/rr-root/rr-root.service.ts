@@ -17,8 +17,8 @@ export class RrRootService {
     return this.rrRootModel.find().exec();
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} rrRoot`;
+  findOne(nodeId: string, treeId: string) {
+    return `This action returns a #${nodeId} rrRoot from tree #${treeId}`;
   }
 
   update(id: string, updateRrRootDto: UpdateRrRootDto) {

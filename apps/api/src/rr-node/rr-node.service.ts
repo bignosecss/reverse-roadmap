@@ -1,31 +1,41 @@
 import { Injectable } from '@nestjs/common';
 import { CreateRrNodeDto } from './dto/create-rr-node.dto';
 import { UpdateRrNodeDto } from './dto/update-rr-node.dto';
-import { InjectModel } from '@nestjs/mongoose';
-import { RrNode } from 'src/schemas/rr-node.schema';
-import { Model } from 'mongoose';
+import { RrNodeMapper } from './mapper/rr-node.mapper';
 
 @Injectable()
 export class RrNodeService {
-  constructor(@InjectModel(RrNode.name) private rrNodeModel: Model<RrNode>) {}
+  constructor(private readonly rrNodeMapper: RrNodeMapper) {}
 
-  create(createRrNodeDto: CreateRrNodeDto) {
-    return 'This action adds a new rrNode';
+  createTree(createRrNodeDto: CreateRrNodeDto) {
+    return this.rrNodeMapper.createTree(createRrNodeDto);
+  }
+
+  createNode(
+    treeId: string,
+    parentNodeId: string,
+    createRrNodeDto: CreateRrNodeDto,
+  ) {
+    return this.rrNodeMapper.createNode(treeId, parentNodeId, createRrNodeDto);
   }
 
   findAll() {
-    return this.rrNodeModel.find().exec();
+    return this.rrNodeMapper.findAllTrees();
   }
 
-  findOne(id: string) {
-    return this.rrNodeModel.findById(id).exec();
+  findOne(treeId: string, nodeId: string) {
+    return this.rrNodeMapper.findNodeById(nodeId, treeId);
   }
 
-  update(id: string, updateRrNodeDto: UpdateRrNodeDto) {
-    return `This action updates a #${id} rrNode`;
+  update(treeId: string, nodeId: string, updateRrNodeDto: UpdateRrNodeDto) {
+    return this.rrNodeMapper.updateNode(treeId, nodeId, updateRrNodeDto);
   }
 
-  remove(id: string) {
-    return this.rrNodeModel.findByIdAndDelete(id).exec();
+  removeTree(treeId: string) {
+    return this.rrNodeMapper.deleteTree(treeId);
+  }
+
+  removeNode(treeId: string, nodeId: string) {
+    return this.rrNodeMapper.deleteNodeFromTree(treeId, nodeId);
   }
 }
