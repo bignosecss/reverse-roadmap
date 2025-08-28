@@ -1,31 +1,29 @@
-import { InjectModel } from '@nestjs/mongoose';
 import { Injectable } from '@nestjs/common';
-import { Model } from 'mongoose';
 import { CreateRrRootDto } from './dto/create-rr-root.dto';
 import { UpdateRrRootDto } from './dto/update-rr-root.dto';
-import { RrRoot } from 'src/schemas/rr-root.schema';
+import { RrRootMapper } from './mapper/rr-root.mapper';
 
 @Injectable()
 export class RrRootService {
-  constructor(@InjectModel(RrRoot.name) private rrRootModel: Model<RrRoot>) {}
+  constructor(private readonly rrRootMapper: RrRootMapper) {}
 
   create(createRrRootDto: CreateRrRootDto) {
-    return 'This action adds a new rrRoot';
+    return this.rrRootMapper.create(createRrRootDto);
   }
 
   findAll() {
-    return this.rrRootModel.find().exec();
+    return this.rrRootMapper.findAll();
   }
 
-  findOne(nodeId: string, treeId: string) {
-    return `This action returns a #${nodeId} rrRoot from tree #${treeId}`;
+  findOne(id: string) {
+    return this.rrRootMapper.findOne(id);
   }
 
   update(id: string, updateRrRootDto: UpdateRrRootDto) {
-    return `This action updates a #${id} rrRoot`;
+    return this.rrRootMapper.update(id, updateRrRootDto);
   }
 
   remove(id: string) {
-    return `This action removes a #${id} rrRoot`;
+    return this.rrRootMapper.remove(id);
   }
 }

@@ -11,5 +11,6 @@ import { RrNodeMapper } from './mapper/rr-node.mapper';
   ],
   controllers: [RrNodeController],
   providers: [RrNodeService, RrNodeMapper],
+  exports: [RrNodeService],
 })
 export class RrNodeModule {}

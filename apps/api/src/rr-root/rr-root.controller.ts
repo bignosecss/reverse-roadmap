@@ -6,7 +6,6 @@ import {
   Patch,
   Param,
   Delete,
-  Query,
 } from '@nestjs/common';
 import { RrRootService } from './rr-root.service';
 import { CreateRrRootDto } from './dto/create-rr-root.dto';
@@ -26,9 +25,9 @@ export class RrRootController {
     return this.rrRootService.findAll();
   }
 
-  @Get('find')
-  findOne(@Query('treeId') treeId: string, @Query('nodeId') nodeId: string) {
-    return this.rrRootService.findOne(treeId, nodeId);
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.rrRootService.findOne(id);
   }
 
   @Patch(':id')

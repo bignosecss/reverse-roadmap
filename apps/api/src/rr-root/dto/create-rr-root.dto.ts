@@ -1,1 +1,3 @@
-export class CreateRrRootDto {}
+export class CreateRrRootDto {
+  title!: string;
+}
