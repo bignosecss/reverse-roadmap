@@ -124,8 +124,9 @@ export class RrNodeMapper {
         child._id.equals(nodeObjectId),
       );
       if (index !== -1) {
+        const deletedNode = node.children[index];
         node.children.splice(index, 1);
-        return node.children[index];
+        return deletedNode;
       }
     };
 
