@@ -35,7 +35,18 @@ export class RrNodeService {
     return this.rrNodeMapper.deleteTree(treeId);
   }
 
-  removeNode(treeId: string, nodeId: string) {
+  async removeNode(treeId: string, nodeId: string) {
+    const targetNode = await this.rrNodeMapper.findNodeById(treeId, nodeId);
+    if (!targetNode) {
+      throw new Error('Node not found when trying to delete a node');
+    }
+
+    // 如果 parentId 字段为 null，证明这个节点是跟节点
+    // 需要报错，因为该方法处理子节点
+    if (targetNode.parentId === null) {
+      throw new Error('Cannot delete the root node using this method');
+    }
+
     return this.rrNodeMapper.deleteNodeFromTree(treeId, nodeId);
   }
 }

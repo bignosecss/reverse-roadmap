@@ -65,6 +65,11 @@ export class RrRootMapper {
       .exec();
     const deletedNode = await this.rrNodeService.removeTree(linkedTreeId);
 
-    return [deletedRoot?.toJSON(), deletedNode];
+    const result = {
+      deletedRoot: deletedRoot ? deletedRoot.toJSON() : null,
+      deletedNode,
+    };
+
+    return result;
   }
 }

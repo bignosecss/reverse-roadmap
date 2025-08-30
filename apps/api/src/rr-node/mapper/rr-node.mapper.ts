@@ -28,12 +28,12 @@ export class RrNodeMapper {
 
     const targetTree = await this.rrNodeModel.findById(treeObjectId).exec();
     if (!targetTree) {
-      return null;
+      throw new Error('Tree not found when creating a new node');
     }
 
     const parentNode = this._findNodeRecursive(targetTree, parentObjectId);
     if (!parentNode) {
-      return null;
+      throw new Error('Parent node not found when creating a new node');
     }
     parentNode.children.push(newNode);
 
@@ -51,7 +51,7 @@ export class RrNodeMapper {
 
     const targetTree = await this.rrNodeModel.findById(treeObjectId).exec();
     if (!targetTree) {
-      return null;
+      throw new Error('Tree not found when trying to find a node by ID');
     }
 
     const targetNode = this._findNodeRecursive(targetTree, nodeObjectId);
@@ -69,12 +69,12 @@ export class RrNodeMapper {
 
     const targetTree = await this.rrNodeModel.findById(treeObjectId);
     if (!targetTree) {
-      return null;
+      throw new Error('Tree not found when trying to update a node');
     }
 
     const targetNode = this._findNodeRecursive(targetTree, nodeObjectId);
     if (!targetNode) {
-      return null;
+      throw new Error('Node not found when trying to update a node');
     }
 
     if (updateRrNodeDto.title) {
@@ -131,11 +131,11 @@ export class RrNodeMapper {
 
     const targetTree = await this.rrNodeModel.findById(treeObjectId).exec();
     if (!targetTree) {
-      return null;
+      throw new Error('Tree not found when trying to delete a node');
     }
     const deletedNode = deleteFromChildren(targetTree);
     if (!deletedNode) {
-      return null;
+      throw new Error('Node not found when trying to delete a node');
     }
 
     const res = await targetTree.save();
