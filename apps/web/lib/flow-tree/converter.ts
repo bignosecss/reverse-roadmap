@@ -1,19 +1,20 @@
-import { FlowData, FlowEdge, FlowNode, RrNode, RrTree } from "../types/models";
+import { RrNode, FlowData, FlowNode, FlowEdge } from "../types/models";
 
 /**
- * 将 RrTree 转换为 React Flow 数据格式
+ * 将 RrNode 转换为 React Flow Node 类型格式
+ * > rrTree 就是 RrNode 的树形结构，是跟节点的引用
  */
-export function convertTreeToFlow(rrTree: RrTree): FlowData {
+export function convertTreeToFlow(rrTree: RrNode): FlowData {
   const nodes: FlowNode[] = [];
   const edges: FlowEdge[] = [];
 
   // 深度优先遍历，收集所有节点
   function traverseNode(node: RrNode, parentId?: string) {
-    const nodeId = node._id.toString();
+    if (node === null) return;
 
     // 创建 Flow 节点
     const flowNode: FlowNode = {
-      id: nodeId,
+      id: node._id,
       type: "rrNode",
       position: { x: 0, y: 0 }, // 由 dagre 布局算法计算
       data: {
@@ -27,9 +28,9 @@ export function convertTreeToFlow(rrTree: RrTree): FlowData {
     // 创建父子连线
     if (parentId) {
       const edge: FlowEdge = {
-        id: `${parentId}-${nodeId}`,
+        id: `${parentId}-${node._id}`,
         source: parentId,
-        target: nodeId,
+        target: node._id,
         type: "smoothstep",
       };
       edges.push(edge);
@@ -38,13 +39,13 @@ export function convertTreeToFlow(rrTree: RrTree): FlowData {
     // 递归处理子节点
     if (node.children) {
       node.children.forEach((child) => {
-        traverseNode(child, nodeId);
+        traverseNode(child, node._id);
       });
     }
   }
 
   // 从根节点开始遍历
-  traverseNode(rrTree.rootNode);
+  traverseNode(rrTree);
 
   return {
     nodes,

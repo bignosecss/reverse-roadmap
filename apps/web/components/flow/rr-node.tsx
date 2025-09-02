@@ -22,10 +22,7 @@ import { useFlowContext } from "./flow-content";
  * 用于在 React Flow 中渲染思维导图节点
  */
 const RrNodeComponent: React.FC<NodeProps> = ({ data, selected }) => {
-  const { rrNode } = data as {
-    label: string;
-    rrNode: RrNode;
-  };
+  const { rrNode } = data as { rrNode: RrNode };
 
   const [showAddDialog, setShowAddDialog] = useState(false);
   const [showUpdateDialog, setShowUpdateDialog] = useState(false);

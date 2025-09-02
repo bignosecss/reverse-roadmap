@@ -9,8 +9,6 @@ import {
   BackgroundVariant,
   useReactFlow,
   useNodesInitialized,
-  type Node,
-  type Edge,
   type OnNodesChange,
   type OnEdgesChange,
   type OnConnect,
@@ -20,6 +18,7 @@ import { getLayoutedNodes } from "@/lib/flow-tree";
 import { CustomControls } from "./custom-controls";
 
 import "@xyflow/react/dist/style.css";
+import { FlowEdge, FlowNode } from "@/lib/types/models";
 
 // 创建 context 来传递回调函数
 interface FlowContextType {
@@ -59,10 +58,10 @@ const nodeTypes = {
 
 interface FlowContentProps {
   isLoading: boolean;
-  nodes: Node[];
-  edges: Edge[];
-  onNodesChange: OnNodesChange;
-  onEdgesChange: OnEdgesChange;
+  nodes: FlowNode[];
+  edges: FlowEdge[];
+  onNodesChange: OnNodesChange<FlowNode>;
+  onEdgesChange: OnEdgesChange<FlowEdge>;
   onConnect: OnConnect;
   rootId: string;
   onCreateNode: (data: {
@@ -104,10 +103,10 @@ function FlowContentInner({
   // 当节点初始化完成且测量完成后，触发布局
   useEffect(() => {
     if (nodesInitialized && nodes.length > 0) {
-      const currentNodes = getNodes();
+      const currentNodes = getNodes() as FlowNode[];
 
       // 使用测量后的尺寸重新计算布局
-      const { newNodes } = getLayoutedNodes(currentNodes, edges, "TB");
+      const { nodes: newNodes } = getLayoutedNodes(currentNodes, edges, "TB");
 
       // 更新节点位置
       setNodes(newNodes);
