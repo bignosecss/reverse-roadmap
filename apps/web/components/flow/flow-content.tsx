@@ -14,7 +14,7 @@ import {
   type OnConnect,
 } from "@xyflow/react";
 import RrNodeComponent from "./rr-node";
-import { getLayoutedNodes } from "@/lib/flow-tree";
+import { getLayoutedNodes } from "@/lib/flow-tree/dagre-layout";
 import { CustomControls } from "./custom-controls";
 
 import "@xyflow/react/dist/style.css";

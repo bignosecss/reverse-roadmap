@@ -47,8 +47,5 @@ export function convertTreeToFlow(rrTree: RrNode): FlowData {
   // 从根节点开始遍历
   traverseNode(rrTree);
 
-  return {
-    nodes,
-    edges,
-  };
+  return { nodes, edges };
 }

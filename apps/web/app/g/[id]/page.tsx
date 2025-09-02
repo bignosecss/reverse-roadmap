@@ -15,7 +15,7 @@ import {
   useDeleteNode,
 } from "@/lib/service/rrNodeApi";
 import { toast } from "sonner";
-import { convertTreeToFlow } from "@/lib/flow-tree";
+import { convertTreeToFlow } from "@/lib/flow-tree/converter";
 import FlowContent from "@/components/flow/flow-content";
 
 import "@xyflow/react/dist/style.css";
