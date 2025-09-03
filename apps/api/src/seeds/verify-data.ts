@@ -8,7 +8,7 @@ dotenv.config({ path: '../../../.env' });
 async function verifyData() {
   try {
     console.log('🔍 连接数据库并验证数据结构...');
-    
+
     await mongoose.connect(
       process.env.MONGODB_URI ||
         'mongodb+srv://pterosaurscannotfly:CrhLYfRwJMScZqCh@cluster0.c48gslh.mongodb.net/reverse-roadmap?retryWrites=true&w=majority&appName=Cluster0',
@@ -33,8 +33,12 @@ async function verifyData() {
       tree.children.forEach((child: any, i: number) => {
         console.log(`  ${i + 1}. ${child.title}`);
         console.log(`     - _id: ${child._id}`);
-        console.log(`     - parentId: ${child.parentId} (应该等于根节点ID: ${tree._id})`);
-        console.log(`     - parentId正确: ${child.parentId?.toString() === tree._id.toString() ? '✅' : '❌'}`);
+        console.log(
+          `     - parentId: ${child.parentId} (应该等于根节点ID: ${tree._id})`,
+        );
+        console.log(
+          `     - parentId正确: ${child.parentId?.toString() === tree._id.toString() ? '✅' : '❌'}`,
+        );
         console.log(`     - 子节点数量: ${child.children?.length || 0}`);
 
         if (child.children && child.children.length > 0) {
@@ -42,8 +46,12 @@ async function verifyData() {
           child.children.slice(0, 2).forEach((grandchild: any, j: number) => {
             console.log(`       ${j + 1}. ${grandchild.title}`);
             console.log(`          - _id: ${grandchild._id}`);
-            console.log(`          - parentId: ${grandchild.parentId} (应该等于父节点ID: ${child._id})`);
-            console.log(`          - parentId正确: ${grandchild.parentId?.toString() === child._id?.toString() ? '✅' : '❌'}`);
+            console.log(
+              `          - parentId: ${grandchild.parentId} (应该等于父节点ID: ${child._id})`,
+            );
+            console.log(
+              `          - parentId正确: ${grandchild.parentId?.toString() === child._id?.toString() ? '✅' : '❌'}`,
+            );
           });
         }
       });

@@ -104,7 +104,7 @@ class SeedGenerator {
     return children.map((childData) => {
       // 为每个子节点生成一个新的ObjectId
       const childId = new mongoose.Types.ObjectId();
-      
+
       return {
         _id: childId,
         title: childData.title,
