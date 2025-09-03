@@ -4,10 +4,10 @@ import { Sidebar } from "@/components/ui/sidebar";
 import { SidebarHeaderComponent } from "./sidebar-header";
 import { SidebarCustomContent } from "./sidebar-content";
 import { SidebarFooterComponent } from "./sidebar-footer";
-import { useGetAllRrRoots } from "@/lib/service/rrRootApi";
+import { useGetRrRoots } from "@/hooks/use-rr-root";
 
 export function AppSidebar() {
-  const { data: rrRoots, isLoading } = useGetAllRrRoots();
+  const { data: rrRoots, isLoading } = useGetRrRoots();
 
   return (
     <Sidebar collapsible="icon" className="flex flex-col">

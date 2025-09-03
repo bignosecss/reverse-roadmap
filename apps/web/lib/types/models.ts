@@ -3,12 +3,12 @@
  */
 
 import type { Node, Edge } from "@xyflow/react";
-import type { ObjectId } from "./common";
 
 /** 侧边栏数据 */
 export interface RrRoot {
-  _id: ObjectId;
+  _id: string;
   title: string;
+  treeRootNodeId: string;
   status: "active" | "archived";
   createdAt: Date;
   updatedAt: Date;
@@ -16,20 +16,13 @@ export interface RrRoot {
 
 /** 思维导图节点 */
 export interface RrNode {
-  _id: ObjectId;
+  _id: string;
   title: string;
   description?: string;
-  parentId: ObjectId | null;
-  children: RrNode[] | null;
+  parentId: string | null;
+  children: RrNode[];
   createdAt?: Date;
   updatedAt?: Date;
-}
-
-/** 思维导图树结构 */
-export interface RrTree {
-  _id: ObjectId;
-  rootId: ObjectId;
-  rootNode: RrNode;
 }
 
 export type FlowNode = Node<

@@ -6,33 +6,59 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { RrNodeService } from './rr-node.service';
 import { CreateRrNodeDto } from './dto/create-rr-node.dto';
 import { UpdateRrNodeDto } from './dto/update-rr-node.dto';
-import { DeleteNodeDto } from './dto/delete-rr-node.dto';
 
 @Controller('rr-node')
 export class RrNodeController {
   constructor(private readonly rrNodeService: RrNodeService) {}
 
-  @Post()
-  create(@Body() createRrNodeDto: CreateRrNodeDto) {
-    return this.rrNodeService.createNode(createRrNodeDto);
+  @Post('')
+  createTree(@Body() createRrNodeDto: CreateRrNodeDto) {
+    return this.rrNodeService.createTree(createRrNodeDto);
   }
 
-  @Get(':treeId/:nodeId')
-  findOne(@Param('treeId') treeId: string, @Param('nodeId') nodeId: string) {
+  @Post(':treeId')
+  createNode(
+    @Param('treeId') treeId: string,
+    @Body() createRrNodeDto: CreateRrNodeDto,
+  ) {
+    return this.rrNodeService.createNode(treeId, createRrNodeDto);
+  }
+
+  @Get()
+  findAll() {
+    return this.rrNodeService.findAll();
+  }
+
+  @Get('find')
+  findTree(@Query('treeId') treeId: string) {
+    return this.rrNodeService.findTree(treeId);
+  }
+
+  @Get('find')
+  findNode(@Query('treeId') treeId: string, @Query('nodeId') nodeId: string) {
     return this.rrNodeService.findNode(treeId, nodeId);
   }
 
-  @Patch()
-  update(@Body() updateRrNodeDto: UpdateRrNodeDto) {
-    return this.rrNodeService.updateNode(updateRrNodeDto);
+  @Patch(':treeId/nodes/:nodeId')
+  update(
+    @Param('treeId') treeId: string,
+    @Body() updateRrNodeDto: UpdateRrNodeDto,
+  ) {
+    return this.rrNodeService.update(treeId, updateRrNodeDto);
   }
 
-  @Delete()
-  remove(@Body() deleteNodeDto: DeleteNodeDto) {
-    return this.rrNodeService.removeNode(deleteNodeDto);
+  @Delete(':treeId')
+  removeTree(@Param('treeId') treeId: string) {
+    return this.rrNodeService.removeTree(treeId);
+  }
+
+  @Delete(':treeId/nodes/:nodeId')
+  removeNode(@Param('treeId') treeId: string, @Param('nodeId') nodeId: string) {
+    return this.rrNodeService.removeNode(treeId, nodeId);
   }
 }

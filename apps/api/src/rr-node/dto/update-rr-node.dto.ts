@@ -1,8 +1,6 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { PartialType } from '@nestjs/mapped-types';
 import { CreateRrNodeDto } from './create-rr-node.dto';
 
-export class UpdateRrNodeDto extends CreateRrNodeDto {
-  @IsNotEmpty()
-  @IsString()
+export class UpdateRrNodeDto extends PartialType(CreateRrNodeDto) {
   nodeId!: string;
 }

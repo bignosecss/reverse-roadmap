@@ -1,13 +1,14 @@
 import dagre from "@dagrejs/dagre";
-import { Position, Node, Edge } from "@xyflow/react";
+import { Position } from "@xyflow/react";
+import { FlowData, FlowEdge, FlowNode } from "../types/models";
 
 const dagreGraph = new dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
 
 export const getLayoutedNodes = (
-  nodes: Node[],
-  edges: Edge[],
+  nodes: FlowNode[],
+  edges: FlowEdge[],
   direction: "TB" | "LR" | "BT" | "RL",
-) => {
+): FlowData => {
   dagreGraph.setGraph({
     rankdir: direction,
     ranksep: 100, // 增加层级间距到 80 像素
@@ -32,7 +33,7 @@ export const getLayoutedNodes = (
 
   const newNodes = nodes.map((node) => {
     const nodeWithPosition = dagreGraph.node(node.id);
-    const newNode: Node = {
+    const newNode: FlowNode = {
       ...node,
       targetPosition: Position.Top,
       sourcePosition: Position.Bottom,
@@ -47,5 +48,5 @@ export const getLayoutedNodes = (
     return newNode;
   });
 
-  return { newNodes, edges };
+  return { nodes: newNodes, edges };
 };

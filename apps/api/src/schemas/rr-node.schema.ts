@@ -1,10 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Types } from 'mongoose';
+import mongoose from 'mongoose';
 
-@Schema()
+@Schema({ timestamps: true, collection: 'rr_nodes' })
 export class RrNode {
-  @Prop({ type: Types.ObjectId, auto: true }) // 自动生成_id
-  _id!: Types.ObjectId;
+  _id!: mongoose.Types.ObjectId;
 
   @Prop({ required: true, type: String })
   title!: string;
@@ -12,16 +11,34 @@ export class RrNode {
   @Prop({ type: String })
   description?: string;
 
-  @Prop({ type: Types.ObjectId, default: null })
-  parentId!: Types.ObjectId | null;
+  @Prop({ type: mongoose.Types.ObjectId, ref: 'RrNode', default: null })
+  parentId!: mongoose.Types.ObjectId | null;
 
-  @Prop({ type: [{ type: Object }], default: null }) // 递归定义子节点
-  children!: RrNode[] | null;
+  @Prop({ type: [mongoose.Schema.Types.Mixed], default: [] })
+  children!: RrNode[];
 }
 
 export const RrNodeSchema = SchemaFactory.createForClass(RrNode);
 
-// 设置递归引用
+// 手动定义递归结构
+const NestedNodeSchema = new mongoose.Schema(
+  {
+    title: { type: String, required: true },
+    description: { type: String },
+    parentId: {
+      type: mongoose.Types.ObjectId,
+      ref: 'RrNode',
+      default: null,
+    },
+    children: [],
+  },
+  { timestamps: true },
+);
+
+// 递归设置 children 字段
+NestedNodeSchema.add({ children: [NestedNodeSchema] });
+
+// 更新主 Schema 的 children 字段
 RrNodeSchema.add({
-  children: [RrNodeSchema],
+  children: [NestedNodeSchema],
 });

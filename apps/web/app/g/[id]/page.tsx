@@ -5,33 +5,32 @@ import {
   useNodesState,
   useEdgesState,
   addEdge,
-  type Node,
-  type Edge,
   type Connection,
 } from "@xyflow/react";
 import { useParams } from "next/navigation";
-import { useGetRrTree } from "@/lib/service/rrTreeApi";
-import {
-  useCreateNode,
-  useUpdateNode,
-  useDeleteNode,
-} from "@/lib/service/rrNodeApi";
 import { toast } from "sonner";
-import { convertTreeToFlow } from "@/lib/flow-tree";
+import { convertTreeToFlow } from "@/lib/flow-tree/converter";
 import FlowContent from "@/components/flow/flow-content";
+import {
+  useGetRrTree,
+  useCreateRrNode,
+  useUpdateRrNode,
+  useRemoveRrNode,
+} from "@/hooks/use-rr-node";
 
 import "@xyflow/react/dist/style.css";
+import { FlowEdge, FlowNode, RrNode } from "@/lib/types/models";
 
 export default function GoalPage() {
   const params = useParams();
   const id = params.id as string;
   const { data: rrTree, isLoading, refetch } = useGetRrTree(id);
-  const { mutate: createNode, isPending: isCreating } = useCreateNode();
-  const { mutate: updateNode, isPending: isUpdating } = useUpdateNode();
-  const { mutate: deleteNode, isPending: isDeleting } = useDeleteNode();
+  const { mutate: createNode, isPending: isCreating } = useCreateRrNode(id);
+  const { mutate: updateNode, isPending: isUpdating } = useUpdateRrNode(id);
+  const { mutate: deleteNode, isPending: isDeleting } = useRemoveRrNode(id);
 
-  const [nodes, setNodes, onNodesChange] = useNodesState([] as Node[]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([] as Edge[]);
+  const [nodes, setNodes, onNodesChange] = useNodesState<FlowNode>([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState<FlowEdge>([]);
 
   const onConnect = useCallback(
     (params: Connection) => setEdges((eds) => addEdge(params, eds)),
@@ -55,13 +54,13 @@ export default function GoalPage() {
     rootId: string;
   }) => {
     createNode(data, {
-      onSuccess: (newNode) => {
+      onSuccess: (newNode: RrNode) => {
         toast.success("节点创建成功", {
           description: `已成功创建节点「${newNode.title}」`,
         });
         refetch(); // 重新获取数据
       },
-      onError: (error) => {
+      onError: (error: unknown) => {
         console.error("创建节点失败:", error);
         toast.error("节点创建失败", {
           description: error instanceof Error ? error.message : "请稍后重试",
@@ -78,13 +77,13 @@ export default function GoalPage() {
     rootId: string;
   }) => {
     updateNode(data, {
-      onSuccess: (updatedNode) => {
+      onSuccess: (updatedNode: RrNode) => {
         toast.success("节点更新成功", {
           description: `已成功更新节点「${updatedNode.title}」`,
         });
         refetch(); // 重新获取数据
       },
-      onError: (error) => {
+      onError: (error: unknown) => {
         console.error("更新节点失败:", error);
         toast.error("节点更新失败", {
           description: error instanceof Error ? error.message : "请稍后重试",
@@ -96,13 +95,13 @@ export default function GoalPage() {
   // 处理删除节点
   const handleDeleteNode = (data: { nodeId: string; rootId: string }) => {
     deleteNode(data, {
-      onSuccess: (deletedNode) => {
+      onSuccess: (deletedNode: RrNode) => {
         toast.success("节点删除成功", {
           description: `已成功删除节点「${deletedNode.title}」`,
         });
         refetch(); // 重新获取数据
       },
-      onError: (error) => {
+      onError: (error: unknown) => {
         console.error("删除节点失败:", error);
         toast.error("节点删除失败", {
           description: error instanceof Error ? error.message : "请稍后重试",

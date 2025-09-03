@@ -1,29 +1,19 @@
-import type { ObjectId } from "./common";
-
-/** 创建根节点请求 */
-export interface CreateRootRequest {
+export interface CreateRrRootDto {
   title: string;
-  description?: string;
 }
 
-/** 创建子节点请求 */
-export interface CreateNodeRequest {
+export interface UpdateRrRootDto extends Partial<CreateRrRootDto> {
+  rootId: string;
+}
+
+export interface CreateRrNodeDto {
   title: string;
+  parentId: string;
   description?: string;
-  parentId: ObjectId;
-  rootId: ObjectId;
 }
 
-/** 更新节点请求 */
-export interface UpdateNodeRequest {
-  title?: string;
-  description?: string;
-  nodeId: ObjectId;
-  rootId: ObjectId;
+export interface UpdateRrNodeDto extends Partial<CreateRrNodeDto> {
+  nodeId: string;
 }
 
-/** 删除节点请求 */
-export interface DeleteNodeRequest {
-  nodeId: ObjectId;
-  rootId: ObjectId;
-}
+export type RemoveRrNodeDto = Partial<UpdateRrNodeDto>;

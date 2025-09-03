@@ -1,135 +1,82 @@
-# Turborepo starter
+# 突发奇想
 
-This Turborepo starter is maintained by the Turborepo core team.
+- **或许可以做这样的功能**：倒入 `.md` 文件，自动将其标题转换为节点，每个节点的内容转换为对应的*我们的内容(类似Notion右侧边栏的内容)*
+  > 今天看到了曾经深恶痛绝的侧边栏缩进，突然想到我的这个项目每一层刚好能够对应每个层级的缩进。所以想到了能够将我讨厌的标题缩进，转化为本项目中不同层级的节点。
 
-## Using this example
+# Reverse Roadmap 项目文档
 
-Run the following command:
+## 一、项目背景与动机
 
-```sh
-npx create-turbo@latest
-```
+在现代社会，个体往往面对多元化的目标与任务：学习技能、保持健康、研究穿搭、学习历史与文化、掌握金融与法律知识……这些目标并不会按顺序依次出现，而是同时存在，彼此交织。虽然我们一次只能专注于一件事，但却必须并行推进多个目标，才能避免停滞不前。
 
-## What's inside?
+在缺乏系统规划的情况下，很多人（包括作者自己）会陷入「广泛涉猎、但无一精通」的困境：什么都学过一点，最终却感觉人生仍在原地踏步。这不仅影响效率，更会带来心理上的挫败感与自我怀疑。人生需要信心，也需要自知之明。过度盲目自信或无规划行动，都会削弱长远的发展。
 
-This Turborepo includes the following packages/apps:
+受到 Developer Roadmaps 项目的启发，作者构思并开发了 **Reverse Roadmap** 项目，旨在通过逆向拆解目标、可视化呈现路径与任务管理的方式，帮助个人逐步实现宏观目标，并积累成长的可见轨迹。
 
-### Apps and Packages
+---
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+## 二、项目目标与意义
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+### 1. 项目目标
 
-### Utilities
+- 提供一个基于 **可视化思维导图** 的平台，让用户能够从最终目标出发，逐级拆解为类别、主题与可执行的任务。
+- 支持任务与目标的 **分层管理**，帮助用户在复杂多元的目标环境下找到清晰的路径。
+- 通过 **模态编辑器**（Modal/侧边栏托管编辑）实现节点的深度内容记录，使目标管理与知识沉淀相结合。
+- 提供直观的进度管理体验，让用户“看见自己的努力，看见自己的付出，看见自己的人生走向”。
 
-This Turborepo has some additional tools already setup for you:
+### 2. 项目意义
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+- **实践意义**：帮助用户在学习、职业发展、个人成长等领域构建系统化的目标规划路径，提高执行力。
+- **心理意义**：通过目标的可视化与拆解，降低对复杂任务的恐惧感，增强自信心与掌控感。
+- **创新意义**：将「思维导图」与「知识管理」结合，让每个目标节点不仅是任务，更是动态知识单元。
 
-### Build
+---
 
-To build all apps and packages, run the following command:
+## 三、核心功能与特色
 
-```
-cd my-turborepo
+### 1. 思维导图式目标管理
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build
+- 使用 **React Flow** 实现目标树的可视化，支持添加、删除、修改、拖拽节点。
+- 节点分层设计：目标 → 类别 → 主题 → 任务。
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build
-yarn dlx turbo build
-pnpm exec turbo build
-```
+### 2. 模态编辑器（Modal/侧边栏托管编辑）
 
-You can build a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+- 类似 Notion/Canvas 的右侧编辑区域：
+  - 支持 **Markdown 文本** 编辑与渲染。
+  - 支持插入 **图片、文件、链接**。
+  - 支持递归嵌套页面（Page in Page），实现多层次的内容承载。
+- 用途：不仅可作为任务描述，还能记录笔记、心得、反思，甚至日记，从而让目标管理与知识沉淀结合。
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo build --filter=docs
+### 3. 前后端技术架构
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo build --filter=docs
-yarn exec turbo build --filter=docs
-pnpm exec turbo build --filter=docs
-```
+- **前端**：Next.js + TailwindCSS + shadcn/ui + React Flow + Zustand + React Query。
+- **后端**：NestJS + MongoDB (Mongoose)。
+- **架构**：Turborepo Monorepo 管理，便于前后端代码复用与维护。
 
-### Develop
+### 4. 用户体验设计
 
-To develop all apps and packages, run the following command:
+- 节点的 CRUD 功能简洁直观。
+- 通过右侧编辑器，用户可以对任意节点展开更深层次的内容记录。
+- 系统帮助用户以「逆向思维」方式构建目标路径，从大目标逐步走向可执行的小任务。
 
-```
-cd my-turborepo
+---
 
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev
+## 四、预期成果
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev
-yarn exec turbo dev
-pnpm exec turbo dev
-```
+- **软件系统**：一个可运行的 Web 平台，提供目标分解、可视化展示、任务管理、模态编辑器等功能。
+- **论文文档**：总结系统设计、架构实现、功能模块、研究意义及创新点。
+- **实践价值**：通过在自身使用中的验证，积累经验并推广给更多用户。
 
-You can develop a specific package by using a [filter](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters):
+---
 
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo dev --filter=web
+## 五、研究特色与创新之处
 
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo dev --filter=web
-yarn exec turbo dev --filter=web
-pnpm exec turbo dev --filter=web
-```
+1. **逆向分解思维**：不同于传统的自下而上的任务堆叠，本项目从最终目标出发，逐级拆解路径，帮助用户建立清晰的全局观。
+2. **知识与任务融合**：通过模态编辑器，每个目标节点不仅是任务，还能成为知识单元，承载笔记与反思，实现任务管理与知识管理的统一。
+3. **灵活扩展架构**：采用 Monorepo 与现代前后端技术栈，保证系统可扩展性和可维护性。
 
-### Remote Caching
+---
 
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
+## 六、结语
 
-Turborepo can use a technique known as [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-```
-cd my-turborepo
-
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo login
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo login
-yarn exec turbo login
-pnpm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-```
-# With [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation) installed (recommended)
-turbo link
-
-# Without [global `turbo`](https://turborepo.com/docs/getting-started/installation#global-installation), use your package manager
-npx turbo link
-yarn exec turbo link
-pnpm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.com/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.com/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.com/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.com/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.com/docs/reference/configuration)
-- [CLI Usage](https://turborepo.com/docs/reference/command-line-reference)
+Reverse Roadmap 项目源于对生活与学习现状的反思，旨在通过科学的目标拆解与可视化管理，帮助个人在复杂多变的环境中稳步前行。它既是一个工具，也是作者对人生管理的一次探索和实践。
