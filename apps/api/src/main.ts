@@ -12,6 +12,8 @@ async function bootstrap() {
   // 设置全局前缀
   app.setGlobalPrefix('api');
 
+  app.enableCors();
+
   app.useGlobalInterceptors(new ResponseInterceptor());
 
   await app.listen(process.env.PORT ?? 3001);

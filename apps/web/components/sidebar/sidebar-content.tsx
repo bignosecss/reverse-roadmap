@@ -35,7 +35,7 @@ function SidebarTreeItem({ item, isActive }: SidebarProjectItemProps) {
   return (
     <SidebarMenuItem>
       <SidebarMenuButton asChild isActive={isActive}>
-        <Link href={`/g/${item._id}`}>
+        <Link href={`/g/${item.treeRootNodeId}`}>
           <span className="group-data-[collapsible=icon]:hidden">
             {item.title}
           </span>

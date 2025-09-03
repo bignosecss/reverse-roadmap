@@ -21,13 +21,12 @@ export class RrNodeController {
     return this.rrNodeService.createTree(createRrNodeDto);
   }
 
-  @Post(':treeId/nodes/:parentNodeId')
+  @Post(':treeId')
   createNode(
     @Param('treeId') treeId: string,
-    @Param('parentNodeId') parentNodeId: string,
     @Body() createRrNodeDto: CreateRrNodeDto,
   ) {
-    return this.rrNodeService.createNode(treeId, parentNodeId, createRrNodeDto);
+    return this.rrNodeService.createNode(treeId, createRrNodeDto);
   }
 
   @Get()
@@ -36,17 +35,21 @@ export class RrNodeController {
   }
 
   @Get('find')
-  findOne(@Query('treeId') treeId: string, @Query('nodeId') nodeId: string) {
-    return this.rrNodeService.findOne(treeId, nodeId);
+  findTree(@Query('treeId') treeId: string) {
+    return this.rrNodeService.findTree(treeId);
+  }
+
+  @Get('find')
+  findNode(@Query('treeId') treeId: string, @Query('nodeId') nodeId: string) {
+    return this.rrNodeService.findNode(treeId, nodeId);
   }
 
   @Patch(':treeId/nodes/:nodeId')
   update(
     @Param('treeId') treeId: string,
-    @Param('nodeId') nodeId: string,
     @Body() updateRrNodeDto: UpdateRrNodeDto,
   ) {
-    return this.rrNodeService.update(treeId, nodeId, updateRrNodeDto);
+    return this.rrNodeService.update(treeId, updateRrNodeDto);
   }
 
   @Delete(':treeId')

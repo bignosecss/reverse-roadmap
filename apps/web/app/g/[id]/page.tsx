@@ -8,15 +8,15 @@ import {
   type Connection,
 } from "@xyflow/react";
 import { useParams } from "next/navigation";
-import { useGetRrTree } from "@/lib/service/rrTreeApi";
-import {
-  useCreateNode,
-  useUpdateNode,
-  useDeleteNode,
-} from "@/lib/service/rrNodeApi";
 import { toast } from "sonner";
 import { convertTreeToFlow } from "@/lib/flow-tree/converter";
 import FlowContent from "@/components/flow/flow-content";
+import {
+  useGetRrTree,
+  useCreateRrNode,
+  useUpdateRrNode,
+  useRemoveRrNode,
+} from "@/hooks/use-rr-node";
 
 import "@xyflow/react/dist/style.css";
 import { FlowEdge, FlowNode, RrNode } from "@/lib/types/models";
@@ -25,9 +25,9 @@ export default function GoalPage() {
   const params = useParams();
   const id = params.id as string;
   const { data: rrTree, isLoading, refetch } = useGetRrTree(id);
-  const { mutate: createNode, isPending: isCreating } = useCreateNode();
-  const { mutate: updateNode, isPending: isUpdating } = useUpdateNode();
-  const { mutate: deleteNode, isPending: isDeleting } = useDeleteNode();
+  const { mutate: createNode, isPending: isCreating } = useCreateRrNode(id);
+  const { mutate: updateNode, isPending: isUpdating } = useUpdateRrNode(id);
+  const { mutate: deleteNode, isPending: isDeleting } = useRemoveRrNode(id);
 
   const [nodes, setNodes, onNodesChange] = useNodesState<FlowNode>([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState<FlowEdge>([]);

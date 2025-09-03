@@ -4,27 +4,38 @@ import mongoose, { Model } from 'mongoose';
 import { RrNode } from 'src/schemas/rr-node.schema';
 import { CreateRrNodeDto } from '../dto/create-rr-node.dto';
 import { UpdateRrNodeDto } from '../dto/update-rr-node.dto';
+import { RrRoot } from 'src/schemas/rr-root.schema';
 
 @Injectable()
 export class RrNodeMapper {
-  constructor(@InjectModel(RrNode.name) private rrNodeModel: Model<RrNode>) {}
+  constructor(
+    @InjectModel(RrNode.name) private rrNodeModel: Model<RrNode>,
+    @InjectModel(RrRoot.name) private rrRootModel: Model<RrRoot>,
+  ) {}
 
   async createTree(createRrNodeDto: CreateRrNodeDto) {
+    // 先创建树的根节点
     const newTreeRootNode = new this.rrNodeModel(createRrNodeDto);
-    const res = await newTreeRootNode.save();
+    const savedTreeRootNode = await newTreeRootNode.save();
 
-    return res.toJSON();
+    // 引用现有的跟节点
+    const newRoot = new this.rrRootModel({
+      treeRootNodeId: savedTreeRootNode._id,
+      title: createRrNodeDto.title,
+    });
+    // 保存树的根节点引用
+    await newRoot.save();
+
+    return savedTreeRootNode.toJSON();
   }
 
-  async createNode(
-    treeId: string,
-    parentNodeId: string,
-    createRrNodeDto: CreateRrNodeDto,
-  ) {
+  async createNode(treeId: string, createRrNodeDto: CreateRrNodeDto) {
     const newNode = new this.rrNodeModel(createRrNodeDto);
 
     const treeObjectId = new mongoose.Types.ObjectId(treeId);
-    const parentObjectId = new mongoose.Types.ObjectId(parentNodeId);
+    const parentObjectId = new mongoose.Types.ObjectId(
+      createRrNodeDto.parentId,
+    );
 
     const targetTree = await this.rrNodeModel.findById(treeObjectId).exec();
     if (!targetTree) {
@@ -45,6 +56,15 @@ export class RrNodeMapper {
     return this.rrNodeModel.find().exec();
   }
 
+  async findTreeById(treeId: string) {
+    const treeObjectId = new mongoose.Types.ObjectId(treeId);
+    const targetTree = await this.rrNodeModel.findById(treeObjectId).exec();
+    if (!targetTree) {
+      throw new Error(`Tree not found when trying to find by ID: ${treeId}`);
+    }
+    return targetTree;
+  }
+
   async findNodeById(treeId: string, nodeId: string) {
     const nodeObjectId = new mongoose.Types.ObjectId(nodeId);
     const treeObjectId = new mongoose.Types.ObjectId(treeId);
@@ -59,13 +79,9 @@ export class RrNodeMapper {
     return targetNode;
   }
 
-  async updateNode(
-    treeId: string,
-    nodeId: string,
-    updateRrNodeDto: UpdateRrNodeDto,
-  ) {
+  async updateNode(treeId: string, updateRrNodeDto: UpdateRrNodeDto) {
     const treeObjectId = new mongoose.Types.ObjectId(treeId);
-    const nodeObjectId = new mongoose.Types.ObjectId(nodeId);
+    const nodeObjectId = new mongoose.Types.ObjectId(updateRrNodeDto.nodeId);
 
     const targetTree = await this.rrNodeModel.findById(treeObjectId);
     if (!targetTree) {
@@ -106,16 +122,26 @@ export class RrNodeMapper {
     return null;
   }
 
-  async deleteTree(treeId: string) {
+  async removeTree(treeId: string) {
     const treeObjectId = new mongoose.Types.ObjectId(treeId);
-    const res = await this.rrNodeModel.findByIdAndDelete(treeObjectId).exec();
-    if (!res) {
+
+    const removedRootOfThisTree = await this.rrRootModel
+      .findOneAndDelete({
+        treeRootNodeId: treeObjectId,
+      })
+      .exec();
+
+    const removedTree = await this.rrNodeModel
+      .findByIdAndDelete(treeObjectId)
+      .exec();
+    if (!removedTree) {
       throw new Error('Tree not found');
     }
-    return res.toJSON();
+
+    return [removedRootOfThisTree?.toJSON(), removedTree.toJSON()];
   }
 
-  async deleteNodeFromTree(treeId: string, nodeId: string) {
+  async removeNodeFromTree(treeId: string, nodeId: string) {
     const nodeObjectId = new mongoose.Types.ObjectId(nodeId);
     const treeObjectId = new mongoose.Types.ObjectId(treeId);
 

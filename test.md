@@ -1,77 +1,136 @@
-# Reverse Roadmap 项目文档
+## 基于你的四层架构的目录组织方案
 
-## 一、项目背景与动机
+### 【核心判断】
 
-在现代社会，个体往往面对多元化的目标与任务：学习技能、保持健康、研究穿搭、学习历史与文化、掌握金融与法律知识……这些目标并不会按顺序依次出现，而是同时存在，彼此交织。虽然我们一次只能专注于一件事，但却必须并行推进多个目标，才能避免停滞不前。
+✅ 值得重新组织：当前结构缺乏清晰的分层，混合了UI组件和业务逻辑
 
-在缺乏系统规划的情况下，很多人（包括作者自己）会陷入「广泛涉猎、但无一精通」的困境：什么都学过一点，最终却感觉人生仍在原地踏步。这不仅影响效率，更会带来心理上的挫败感与自我怀疑。人生需要信心，也需要自知之明。过度盲目自信或无规划行动，都会削弱长远的发展。
+### 【关键洞察】
 
-受到 Developer Roadmaps 项目的启发，作者构思并开发了 **Reverse Roadmap** 项目，旨在通过逆向拆解目标、可视化呈现路径与任务管理的方式，帮助个人逐步实现宏观目标，并积累成长的可见轨迹。
+- **数据结构**：四层架构的核心是数据流向的单向性和职责分离
+- **复杂度**：当前hooks目录只有一个UI相关hook，可以重新规划
+- **风险点**：避免循环依赖，确保每层只依赖下层
 
----
+### 【推荐目录结构】
 
-## 二、项目目标与意义
+```
+apps/web/
+├── app/                    # Next.js App Router
+├── components/             # UI 组件层
+│   ├── ui/                # shadcn/ui 基础组件
+│   ├── business/          # 业务组件
+│   │   ├── todo/
+│   │   │   ├── todo-list.tsx
+│   │   │   ├── todo-item.tsx
+│   │   │   └── create-todo-form.tsx
+│   │   └── user/
+│   └── layout/            # 布局组件 (sidebar, flow等)
+│       ├── sidebar/
+│       └── flow/
+├── hooks/                  # Hooks 层
+│   ├── ui/                # UI相关hooks (保留shadcn的)
+│   │   └── use-mobile.ts
+│   ├── api/               # API相关hooks
+│   │   ├── todo/
+│   │   │   ├── use-todos.ts
+│   │   │   ├── use-create-todo.ts
+│   │   │   └── use-update-todo.ts
+│   │   └── user/
+│   │       ├── use-user.ts
+│   │       └── use-auth.ts
+│   └── store/             # 状态管理hooks
+│       ├── use-todo-store.ts
+│       └── use-ui-store.ts
+├── lib/
+│   ├── api/               # API 层
+│   │   ├── todo.ts        # todo相关API函数
+│   │   ├── user.ts        # user相关API函数
+│   │   └── index.ts       # 统一导出
+│   ├── client/            # Client 层
+│   │   ├── http-client.ts # 基于fetch的封装
+│   │   ├── query-client.ts# React Query配置
+│   │   └── index.ts
+│   ├── types/             # 类型定义
+│   ├── utils/             # 工具函数
+│   └── stores/            # Zustand stores
+└── providers/             # 全局Provider
+    ├── query-provider.tsx
+    └── theme-provider.tsx
+```
 
-### 1. 项目目标
+### 【核心设计原则】
 
-- 提供一个基于 **可视化思维导图** 的平台，让用户能够从最终目标出发，逐级拆解为类别、主题与可执行的任务。
-- 支持任务与目标的 **分层管理**，帮助用户在复杂多元的目标环境下找到清晰的路径。
-- 通过 **模态编辑器**（Modal/侧边栏托管编辑）实现节点的深度内容记录，使目标管理与知识沉淀相结合。
-- 提供直观的进度管理体验，让用户“看见自己的努力，看见自己的付出，看见自己的人生走向”。
+1. **"好品味"的分层**：
+   - 每层职责单一，UI层只管展示，Hooks层只管状态，API层只管接口
+   - 消除特殊情况：统一的错误处理、统一的数据格式
 
-### 2. 项目意义
+2. **"Never break userspace"**：
+   - 保持现有shadcn/ui组件位置不变
+   - 渐进式迁移，不破坏现有功能
 
-- **实践意义**：帮助用户在学习、职业发展、个人成长等领域构建系统化的目标规划路径，提高执行力。
-- **心理意义**：通过目标的可视化与拆解，降低对复杂任务的恐惧感，增强自信心与掌控感。
-- **创新意义**：将「思维导图」与「知识管理」结合，让每个目标节点不仅是任务，更是动态知识单元。
+3. **实用主义**：
+   - hooks/ui/ 保留shadcn生成的hooks
+   - hooks/api/ 专门放业务相关的React Query hooks
+   - lib/api/ 纯函数，易测试
 
----
+### 【迁移步骤】
 
-## 三、核心功能与特色
+1. **第一步：创建新目录结构**
 
-### 1. 思维导图式目标管理
+   ```bash
+   mkdir -p hooks/{api,store}
+   mkdir -p lib/{api,client}
+   mkdir -p components/business
+   ```
 
-- 使用 **React Flow** 实现目标树的可视化，支持添加、删除、修改、拖拽节点。
-- 节点分层设计：目标 → 类别 → 主题 → 任务。
+2. **第二步：移动现有文件**
 
-### 2. 模态编辑器（Modal/侧边栏托管编辑）
+   ```bash
+   # 保持hooks/use-mobile.ts位置不变
+   mv hooks/use-mobile.ts hooks/ui/use-mobile.ts
+   ```
 
-- 类似 Notion/Canvas 的右侧编辑区域：
-  - 支持 **Markdown 文本** 编辑与渲染。
-  - 支持插入 **图片、文件、链接**。
-  - 支持递归嵌套页面（Page in Page），实现多层次的内容承载。
-- 用途：不仅可作为任务描述，还能记录笔记、心得、反思，甚至日记，从而让目标管理与知识沉淀结合。
+3. **第三步：创建Client层**
 
-### 3. 前后端技术架构
+   ```typescript
+   // lib/client/http-client.ts
+   export const httpClient = {
+     get: <T>(url: string) => fetch(url).then(r => r.json() as T),
+     post: <T>(url: string, data: any) => fetch(url, {...}).then(r => r.json() as T)
+   }
+   ```
 
-- **前端**：Next.js + TailwindCSS + shadcn/ui + React Flow + Zustand + React Query。
-- **后端**：NestJS + MongoDB (Mongoose)。
-- **架构**：Turborepo Monorepo 管理，便于前后端代码复用与维护。
+4. **第四步：创建API层**
 
-### 4. 用户体验设计
+   ```typescript
+   // lib/api/todo.ts
+   export const todoApi = {
+     getTodos: () => httpClient.get<Todo[]>("/api/todos"),
+     createTodo: (data: CreateTodoData) =>
+       httpClient.post<Todo>("/api/todos", data),
+   };
+   ```
 
-- 节点的 CRUD 功能简洁直观。
-- 通过右侧编辑器，用户可以对任意节点展开更深层次的内容记录。
-- 系统帮助用户以「逆向思维」方式构建目标路径，从大目标逐步走向可执行的小任务。
+5. **第五步：创建Hooks层**
+   ```typescript
+   // hooks/api/todo/use-todos.ts
+   export const useTodos = () =>
+     useQuery({
+       queryKey: ["todos"],
+       queryFn: todoApi.getTodos,
+     });
+   ```
 
----
+### 【文件命名规范】
 
-## 四、预期成果
+- **API文件**：`todo.ts`, `user.ts` (名词，表示资源)
+- **Hook文件**：`use-todos.ts`, `use-create-todo.ts` (动词，表示行为)
+- **组件文件**：`todo-list.tsx`, `create-todo-form.tsx` (kebab-case)
 
-- **软件系统**：一个可运行的 Web 平台，提供目标分解、可视化展示、任务管理、模态编辑器等功能。
-- **论文文档**：总结系统设计、架构实现、功能模块、研究意义及创新点。
-- **实践价值**：通过在自身使用中的验证，积累经验并推广给更多用户。
+这个结构确保了：
 
----
+- 数据流向清晰：UI → Hooks → API → Client
+- 职责分离：每层只做自己该做的事
+- 易于测试：每层都是纯函数或标准React模式
+- 向后兼容：不破坏现有shadcn/ui的组织方式
 
-## 五、研究特色与创新之处
-
-1. **逆向分解思维**：不同于传统的自下而上的任务堆叠，本项目从最终目标出发，逐级拆解路径，帮助用户建立清晰的全局观。
-2. **知识与任务融合**：通过模态编辑器，每个目标节点不仅是任务，还能成为知识单元，承载笔记与反思，实现任务管理与知识管理的统一。
-3. **灵活扩展架构**：采用 Monorepo 与现代前后端技术栈，保证系统可扩展性和可维护性。
-
----
-
-## 六、结语
-
-Reverse Roadmap 项目源于对生活与学习现状的反思，旨在通过科学的目标拆解与可视化管理，帮助个人在复杂多变的环境中稳步前行。它既是一个工具，也是作者对人生管理的一次探索和实践。
+**"这不是在解决假想的问题，而是在建立真正可维护的代码结构。"**

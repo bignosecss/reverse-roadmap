@@ -4,13 +4,16 @@ import { RrNodeService } from './rr-node.service';
 import { RrNodeController } from './rr-node.controller';
 import { RrNode, RrNodeSchema } from 'src/schemas/rr-node.schema';
 import { RrNodeMapper } from './mapper/rr-node.mapper';
+import { RrRoot, RrRootSchema } from 'src/schemas/rr-root.schema';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: RrNode.name, schema: RrNodeSchema }]),
+    MongooseModule.forFeature([
+      { name: RrNode.name, schema: RrNodeSchema },
+      { name: RrRoot.name, schema: RrRootSchema },
+    ]),
   ],
   controllers: [RrNodeController],
   providers: [RrNodeService, RrNodeMapper],
-  exports: [RrNodeService],
 })
 export class RrNodeModule {}

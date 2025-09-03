@@ -3,7 +3,6 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { RrRoot } from 'src/schemas/rr-root.schema';
 import { RrNode } from 'src/schemas/rr-node.schema';
-import { RrNodeService } from 'src/rr-node/rr-node.service';
 import { CreateRrRootDto } from '../dto/create-rr-root.dto';
 import { UpdateRrRootDto } from '../dto/update-rr-root.dto';
 
@@ -12,7 +11,6 @@ export class RrRootMapper {
   constructor(
     @InjectModel(RrRoot.name) private rrRootModel: Model<RrRoot>,
     @InjectModel(RrNode.name) private rrNodeModel: Model<RrNode>,
-    private readonly rrNodeService: RrNodeService,
   ) {}
 
   async create(createRrRootDto: CreateRrRootDto) {
@@ -56,18 +54,21 @@ export class RrRootMapper {
     if (!targetRoot || !targetRoot.treeRootNodeId) {
       throw new Error('Root not found or has no treeRootNodeId');
     }
-    // MongoDB `ObjectId` type DOES have a toString method
-    // eslint-disable-next-line @typescript-eslint/no-base-to-string
-    const linkedTreeId = targetRoot.treeRootNodeId.toString();
+
+    const treeRootNodeId = targetRoot.treeRootNodeId;
 
     const deletedRoot = await this.rrRootModel
       .findByIdAndDelete(objectId)
       .exec();
-    const deletedNode = await this.rrNodeService.removeTree(linkedTreeId);
+
+    // 直接使用 rrNodeModel 删除树节点，避免循环依赖
+    const deletedNode = await this.rrNodeModel
+      .findByIdAndDelete(treeRootNodeId)
+      .exec();
 
     const result = {
       deletedRoot: deletedRoot ? deletedRoot.toJSON() : null,
-      deletedNode,
+      deletedNode: deletedNode ? deletedNode.toJSON() : null,
     };
 
     return result;
