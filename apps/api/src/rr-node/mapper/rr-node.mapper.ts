@@ -46,6 +46,7 @@ export class RrNodeMapper {
     if (!parentNode) {
       throw new Error('Parent node not found when creating a new node');
     }
+    newNode.parentId = parentNode._id;
     parentNode.children.push(newNode);
 
     await targetTree.save();

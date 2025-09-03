@@ -11,8 +11,8 @@ export class RrNode {
   @Prop({ type: String })
   description?: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'RrNode', default: null })
-  parentId!: mongoose.Schema.Types.ObjectId | null;
+  @Prop({ type: mongoose.Types.ObjectId, ref: 'RrNode', default: null })
+  parentId!: mongoose.Types.ObjectId | null;
 
   @Prop({ type: [mongoose.Schema.Types.Mixed], default: [] })
   children!: RrNode[];
@@ -26,7 +26,7 @@ const NestedNodeSchema = new mongoose.Schema(
     title: { type: String, required: true },
     description: { type: String },
     parentId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Types.ObjectId,
       ref: 'RrNode',
       default: null,
     },
