@@ -22,8 +22,9 @@ import { usePathname } from "next/navigation";
 import type { RrRoot } from "@/lib/types/models";
 
 interface SidebarCustomContentProps {
-  rrRoots?: RrRoot[];
+  rrRoots: RrRoot[];
   isLoading: boolean;
+  isError: boolean;
 }
 
 interface SidebarProjectItemProps {
@@ -63,6 +64,7 @@ function SidebarTreeItem({ item, isActive }: SidebarProjectItemProps) {
 export function SidebarCustomContent({
   rrRoots,
   isLoading,
+  isError,
 }: SidebarCustomContentProps) {
   const pathname = usePathname();
 
@@ -75,7 +77,7 @@ export function SidebarCustomContent({
     return <div>Loading...</div>;
   }
 
-  if (!rrRoots) {
+  if (isError) {
     return <div>Error: No data</div>;
   }
 

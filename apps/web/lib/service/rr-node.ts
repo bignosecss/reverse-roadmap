@@ -1,10 +1,6 @@
 import { apiClient } from "./client";
 import { RrNode } from "../types/models";
-import {
-  CreateRrNodeDto,
-  RemoveRrNodeDto,
-  UpdateRrNodeDto,
-} from "../types/apiRequests";
+import { CreateRrNodeDto, UpdateRrNodeDto } from "../types/apiRequests";
 
 export const createRrTree = async (createRrNodeDto: CreateRrNodeDto) => {
   const result = await apiClient<RrNode>("rr-node", {
@@ -61,15 +57,13 @@ export const fetchRrNodeById = async (treeId: string, nodeId: string) => {
 
 export const updateRrNode = async (
   treeId: string,
+  nodeId: string,
   updateRrNodeDto: UpdateRrNodeDto,
 ) => {
-  const result = await apiClient<RrNode>(
-    `rr-node/${treeId}/nodes/${updateRrNodeDto.nodeId}`,
-    {
-      method: "PATCH",
-      body: JSON.stringify(updateRrNodeDto),
-    },
-  );
+  const result = await apiClient<RrNode>(`rr-node/${treeId}/nodes/${nodeId}`, {
+    method: "PATCH",
+    body: JSON.stringify(updateRrNodeDto),
+  });
   const updatedNode = result.data;
 
   return updatedNode;
@@ -84,16 +78,10 @@ export const removeRrTree = async (treeId: string) => {
   return deletedTree;
 };
 
-export const removeRrNode = async (
-  treeId: string,
-  removeRrNodeDto: RemoveRrNodeDto,
-) => {
-  const result = await apiClient<RrNode>(
-    `rr-node/${treeId}/nodes/${removeRrNodeDto.nodeId}`,
-    {
-      method: "DELETE",
-    },
-  );
+export const removeRrNode = async (treeId: string, nodeId: string) => {
+  const result = await apiClient<RrNode>(`rr-node/${treeId}/nodes/${nodeId}`, {
+    method: "DELETE",
+  });
   const deletedNode = result.data;
 
   return deletedNode;

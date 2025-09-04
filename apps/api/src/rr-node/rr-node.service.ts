@@ -27,8 +27,8 @@ export class RrNodeService {
     return this.rrNodeMapper.findNodeById(nodeId, treeId);
   }
 
-  update(treeId: string, updateRrNodeDto: UpdateRrNodeDto) {
-    return this.rrNodeMapper.updateNode(treeId, updateRrNodeDto);
+  update(treeId: string, nodeId: string, updateRrNodeDto: UpdateRrNodeDto) {
+    return this.rrNodeMapper.updateNode(treeId, nodeId, updateRrNodeDto);
   }
 
   removeTree(treeId: string) {

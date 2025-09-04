@@ -9,11 +9,7 @@ import {
   removeRrTree,
   updateRrNode,
 } from "@/lib/service/rr-node";
-import {
-  CreateRrNodeDto,
-  RemoveRrNodeDto,
-  UpdateRrNodeDto,
-} from "@/lib/types/apiRequests";
+import { CreateRrNodeDto, UpdateRrNodeDto } from "@/lib/types/apiRequests";
 
 export const useCreateRrTree = () => {
   const queryClient = useQueryClient();
@@ -60,14 +56,14 @@ export const useGetRrNode = (treeId: string, nodeId: string) => {
   });
 };
 
-export const useUpdateRrNode = (treeId: string) => {
+export const useUpdateRrNode = (treeId: string, nodeId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (updateRrNodeDto: UpdateRrNodeDto) =>
-      updateRrNode(treeId, updateRrNodeDto),
+      updateRrNode(treeId, nodeId, updateRrNodeDto),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["rrNode", treeId] });
+      queryClient.invalidateQueries({ queryKey: ["rrTree", treeId] });
     },
   });
 };
@@ -84,12 +80,11 @@ export const useRemoveRrTree = (treeId: string) => {
   });
 };
 
-export const useRemoveRrNode = (treeId: string) => {
+export const useRemoveRrNode = (treeId: string, nodeId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (removeRrNodeDto: RemoveRrNodeDto) =>
-      removeRrNode(treeId, removeRrNodeDto),
+    mutationFn: () => removeRrNode(treeId, nodeId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["rrTree", treeId] });
     },

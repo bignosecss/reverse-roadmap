@@ -8,12 +8,8 @@ export interface UpdateRrRootDto extends Partial<CreateRrRootDto> {
 
 export interface CreateRrNodeDto {
   title: string;
-  parentId: string;
+  parentId: string | null;
   description?: string;
 }
 
-export interface UpdateRrNodeDto extends Partial<CreateRrNodeDto> {
-  nodeId: string;
-}
-
-export type RemoveRrNodeDto = Partial<UpdateRrNodeDto>;
+export type UpdateRrNodeDto = Partial<CreateRrNodeDto>;

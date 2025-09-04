@@ -7,12 +7,16 @@ import { SidebarFooterComponent } from "./sidebar-footer";
 import { useGetRrRoots } from "@/hooks/use-rr-root";
 
 export function AppSidebar() {
-  const { data: rrRoots, isLoading } = useGetRrRoots();
+  const { data: rrRoots, isLoading, isError } = useGetRrRoots();
 
   return (
     <Sidebar collapsible="icon" className="flex flex-col">
       <SidebarHeaderComponent />
-      <SidebarCustomContent rrRoots={rrRoots} isLoading={isLoading} />
+      <SidebarCustomContent
+        rrRoots={rrRoots!}
+        isLoading={isLoading}
+        isError={isError}
+      />
       <div className="mt-auto">
         <SidebarFooterComponent />
       </div>
