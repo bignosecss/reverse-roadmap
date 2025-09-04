@@ -42,8 +42,6 @@ export default function RrNodeComponent({
     mode: DialogMode,
     data?: Partial<typeof rrNode>,
   ) => {
-    console.log("Dialog confirmed:", { mode, data, nodeId: rrNode._id });
-
     switch (mode) {
       case "add":
         createRrNode(
@@ -56,6 +54,11 @@ export default function RrNodeComponent({
             onSuccess: (newNode: RrNode) => {
               toast.success("节点添加成功", {
                 description: `新节点 "${newNode.title}" 已添加`,
+              });
+            },
+            onError: (error: Error) => {
+              toast.error("节点添加失败", {
+                description: error?.message || "发生未知错误",
               });
             },
           },
@@ -72,6 +75,11 @@ export default function RrNodeComponent({
             onSuccess: (updatedNode: RrNode) => {
               toast.success("节点更新成功", {
                 description: `节点 "${updatedNode.title}" 已更新`,
+              });
+            },
+            onError: (error: Error) => {
+              toast.error("节点更新失败", {
+                description: error?.message || "发生未知错误",
               });
             },
           },
