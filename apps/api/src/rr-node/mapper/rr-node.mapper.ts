@@ -180,7 +180,8 @@ export class RrNodeMapper {
       throw new Error('Node not found when trying to delete a node');
     }
 
-    const res = await targetTree.save();
-    return res.toJSON();
+    await targetTree.save();
+
+    return deletedNode;
   }
 }
