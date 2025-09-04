@@ -80,9 +80,13 @@ export class RrNodeMapper {
     return targetNode;
   }
 
-  async updateNode(treeId: string, updateRrNodeDto: UpdateRrNodeDto) {
+  async updateNode(
+    treeId: string,
+    nodeId: string,
+    updateRrNodeDto: UpdateRrNodeDto,
+  ) {
     const treeObjectId = new mongoose.Types.ObjectId(treeId);
-    const nodeObjectId = new mongoose.Types.ObjectId(updateRrNodeDto.nodeId);
+    const nodeObjectId = new mongoose.Types.ObjectId(nodeId);
 
     const targetTree = await this.rrNodeModel.findById(treeObjectId);
     if (!targetTree) {
@@ -145,15 +149,25 @@ export class RrNodeMapper {
   async removeNodeFromTree(treeId: string, nodeId: string) {
     const nodeObjectId = new mongoose.Types.ObjectId(nodeId);
     const treeObjectId = new mongoose.Types.ObjectId(treeId);
+    if (nodeObjectId.equals(treeObjectId)) {
+      throw new Error('Cannot delete the root node of the tree');
+    }
 
-    const deleteFromChildren = (node: RrNode) => {
-      const index = node.children.findIndex((child: RrNode) =>
-        child._id.equals(nodeObjectId),
-      );
-      if (index !== -1) {
-        const deletedNode = node.children[index];
-        node.children.splice(index, 1);
-        return deletedNode;
+    const deleteFromChildren = (root: RrNode): RrNode | undefined => {
+      // DFS
+      while (root.children.length > 0) {
+        const i = root.children.findIndex((c) => c._id.equals(nodeObjectId));
+        if (i !== -1) {
+          const [deletedNode] = root.children.splice(i, 1);
+          return deletedNode;
+        } else {
+          for (const child of root.children) {
+            const deletedNode = deleteFromChildren(child);
+            if (deletedNode) {
+              return deletedNode;
+            }
+          }
+        }
       }
     };
 

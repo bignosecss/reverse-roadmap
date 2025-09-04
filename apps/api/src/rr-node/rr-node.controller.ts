@@ -47,9 +47,10 @@ export class RrNodeController {
   @Patch(':treeId/nodes/:nodeId')
   update(
     @Param('treeId') treeId: string,
+    @Param('nodeId') nodeId: string,
     @Body() updateRrNodeDto: UpdateRrNodeDto,
   ) {
-    return this.rrNodeService.update(treeId, updateRrNodeDto);
+    return this.rrNodeService.update(treeId, nodeId, updateRrNodeDto);
   }
 
   @Delete(':treeId')

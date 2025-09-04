@@ -1,179 +1,126 @@
+import { useParams } from "next/navigation";
 import React, { useState } from "react";
-import { Handle, Position, type NodeProps, NodeToolbar } from "@xyflow/react";
-import { RrNode } from "@/lib/types/models";
+import { NodeProps } from "@xyflow/react";
+import { FlowNode, RrNode } from "@/lib/types/models";
+import RrNodeToolbar from "./rr-node-toolbar";
+import RrNodeCard from "./rr-node-card";
+import NodeDialog from "./node-dialog";
+import { DialogState, DialogMode } from "@/lib/types/dialog";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Plus, Edit, Trash2 } from "lucide-react";
-import {
-  AddNodeDialog,
-  UpdateNodeDialog,
-  RemoveNodeDialog,
-} from "./node-operation-dialog";
-import { useFlowContext } from "./flow-content";
+  useCreateRrNode,
+  useUpdateRrNode,
+  useRemoveRrNode,
+} from "@/hooks/use-rr-node";
+import { toast } from "sonner";
 
 /**
  * 自定义 RrNode 组件
  * 用于在 React Flow 中渲染思维导图节点
  */
-const RrNodeComponent: React.FC<NodeProps> = ({ data, selected }) => {
-  const { rrNode } = data as { rrNode: RrNode };
+export default function RrNodeComponent({
+  data,
+  selected,
+}: NodeProps<FlowNode>) {
+  const { rrNode } = data;
 
-  const [showAddDialog, setShowAddDialog] = useState(false);
-  const [showUpdateDialog, setShowUpdateDialog] = useState(false);
-  const [showRemoveDialog, setShowRemoveDialog] = useState(false);
+  const [dialogState, setDialogState] = useState<DialogState>({
+    isOpen: false,
+    mode: null,
+  });
 
-  const {
-    rootId,
-    onCreateNode,
-    onUpdateNode,
-    onDeleteNode,
-    isCreating,
-    isUpdating,
-    isDeleting,
-  } = useFlowContext();
+  // 判断是否为根节点
+  const treeId = useParams().id as string;
+  const isRootNode = rrNode._id === treeId;
 
-  // 判断是否为根节点（没有 parentId）
-  const isRootNode = !rrNode.parentId;
+  // 操作节点
+  const { mutate: createRrNode } = useCreateRrNode(treeId);
+  const { mutate: updateRrNode } = useUpdateRrNode(treeId, rrNode._id);
+  const { mutate: removeRrNode } = useRemoveRrNode(treeId, rrNode._id);
+
+  // 处理 Dialog 确认操作
+  const handleDialogConfirm = (
+    mode: DialogMode,
+    data?: Partial<typeof rrNode>,
+  ) => {
+    console.log("Dialog confirmed:", { mode, data, nodeId: rrNode._id });
+
+    switch (mode) {
+      case "add":
+        createRrNode(
+          {
+            title: data!.title!,
+            parentId: rrNode._id,
+            description: data?.description,
+          },
+          {
+            onSuccess: (newNode: RrNode) => {
+              toast.success("节点添加成功", {
+                description: `新节点 "${newNode.title}" 已添加`,
+              });
+            },
+          },
+        );
+        break;
+      case "edit":
+        updateRrNode(
+          {
+            title: data!.title!,
+            parentId: isRootNode ? null : rrNode.parentId,
+            description: data?.description,
+          },
+          {
+            onSuccess: (updatedNode: RrNode) => {
+              toast.success("节点更新成功", {
+                description: `节点 "${updatedNode.title}" 已更新`,
+              });
+            },
+          },
+        );
+        break;
+      case "delete":
+        removeRrNode(undefined, {
+          onSuccess: (deletedNode: RrNode) => {
+            toast.success("节点删除成功", {
+              description: `节点 "${deletedNode.title}" 已删除`,
+            });
+          },
+          onError: (error: Error) => {
+            toast.error("节点删除失败", {
+              description: error?.message || "发生未知错误",
+            });
+          },
+        });
+        break;
+    }
+  };
 
   return (
     <>
-      {/* NodeToolbar - 节点工具栏 */}
-      <NodeToolbar
+      {/* 工具栏 */}
+      <RrNodeToolbar
         isVisible={selected}
-        position={Position.Top}
-        className="flex gap-1 p-1 bg-background border rounded-md shadow-lg"
-      >
-        <Button
-          size="sm"
-          variant="ghost"
-          onClick={() => setShowAddDialog(true)}
-          className="h-7 w-7 p-0"
-          title="添加"
-        >
-          <Plus className="h-3 w-3" />
-        </Button>
-        <Button
-          size="sm"
-          variant="ghost"
-          onClick={() => setShowUpdateDialog(true)}
-          className="h-7 w-7 p-0"
-          title="编辑"
-        >
-          <Edit className="h-3 w-3" />
-        </Button>
-        {!isRootNode && (
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={() => setShowRemoveDialog(true)}
-            className="h-7 w-7 p-0 text-destructive hover:text-destructive"
-            title="删除"
-          >
-            <Trash2 className="h-3 w-3" />
-          </Button>
-        )}
-      </NodeToolbar>
-
-      <Card
-        className={`
-          rr-node
-          min-w-[250px] max-w-[300px]
-          transition-all duration-200
-          ${selected ? "ring-2 ring-primary shadow-lg" : ""}
-          hover:shadow-lg
-        `}
-      >
-        {/* 输入连接点 */}
-        {!isRootNode && (
-          <Handle
-            type="target"
-            position={Position.Top}
-            className="w-3 h-3 bg-primary border-2 border-background"
-          />
-        )}
-
-        <CardHeader className="pb-2">
-          <CardTitle
-            className={`
-            text-sm leading-tight
-            ${isRootNode ? "text-primary" : "text-foreground"}
-          `}
-          >
-            {rrNode.title}
-          </CardTitle>
-          {rrNode.description && (
-            <CardDescription className="text-xs leading-relaxed">
-              {rrNode.description}
-            </CardDescription>
-          )}
-        </CardHeader>
-
-        <CardContent className="pt-0">
-          <div className="flex items-center justify-between">
-            <span
-              className={`
-            text-xs px-2 py-1 rounded-full
-            ${isRootNode ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"}
-          `}
-            >
-              {isRootNode ? "根节点" : "子节点"}
-            </span>
-
-            {rrNode.children && rrNode.children.length > 0 && (
-              <span className="text-xs text-muted-foreground">
-                {rrNode.children.length} 子节点
-              </span>
-            )}
-          </div>
-        </CardContent>
-
-        {/* 输出连接点 */}
-        {rrNode.children && rrNode.children.length > 0 && (
-          <Handle
-            type="source"
-            position={Position.Bottom}
-            className="w-3 h-3 bg-accent border-2 border-background"
-          />
-        )}
-      </Card>
-
-      {/* 添加节点对话框 */}
-      <AddNodeDialog
-        parentNode={rrNode}
-        rootId={rootId}
-        open={showAddDialog}
-        onOpenChange={setShowAddDialog}
-        onSubmit={onCreateNode}
-        isSubmitting={isCreating}
+        isRootNode={isRootNode}
+        onAdd={() => setDialogState({ isOpen: true, mode: "add" })}
+        onUpdate={() => setDialogState({ isOpen: true, mode: "edit" })}
+        onRemove={() => setDialogState({ isOpen: true, mode: "delete" })}
       />
 
-      {/* 更新节点对话框 */}
-      <UpdateNodeDialog
-        node={rrNode}
-        rootId={rootId}
-        open={showUpdateDialog}
-        onOpenChange={setShowUpdateDialog}
-        onSubmit={onUpdateNode}
-        isSubmitting={isUpdating}
+      {/* 节点卡片 */}
+      <RrNodeCard
+        rrNode={rrNode}
+        isSelected={selected}
+        isRootNode={isRootNode}
       />
 
-      {/* 删除节点对话框 */}
-      <RemoveNodeDialog
-        node={rrNode}
-        rootId={rootId}
-        open={showRemoveDialog}
-        onOpenChange={setShowRemoveDialog}
-        onConfirm={onDeleteNode}
-        isDeleting={isDeleting}
+      {/* 通用 Dialog */}
+      <NodeDialog
+        dialogState={dialogState}
+        onOpenChange={(open) =>
+          setDialogState((prev) => ({ ...prev, isOpen: open }))
+        }
+        currentNode={rrNode}
+        onConfirm={handleDialogConfirm}
       />
     </>
   );
-};
-
-export default RrNodeComponent;
+}

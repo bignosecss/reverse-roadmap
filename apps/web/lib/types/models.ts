@@ -2,7 +2,13 @@
  * 数据模型类型定义
  */
 
-import type { Node, Edge } from "@xyflow/react";
+import type {
+  Node,
+  Edge,
+  OnNodesChange,
+  OnEdgesChange,
+  OnConnect,
+} from "@xyflow/react";
 
 /** 侧边栏数据 */
 export interface RrRoot {
@@ -36,7 +42,17 @@ export type FlowNode = Node<
 export type FlowEdge = Edge;
 
 // 转换结果类型
-export interface FlowData {
+export type FlowData = {
   nodes: FlowNode[];
   edges: FlowEdge[];
-}
+};
+
+export type FlowState = {
+  nodes: FlowNode[];
+  edges: FlowEdge[];
+  onNodesChange: OnNodesChange<FlowNode>;
+  onEdgesChange: OnEdgesChange<FlowEdge>;
+  onConnect: OnConnect;
+  setNodes: (nodes: FlowNode[]) => void;
+  setEdges: (edges: FlowEdge[]) => void;
+};
