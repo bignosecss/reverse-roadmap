@@ -17,13 +17,14 @@ export class RrRootMapper {
     // 先创建树的根节点
     const newTreeRootNode = new this.rrNodeModel({
       title: createRrRootDto.title,
+      description: createRrRootDto.description || undefined,
     });
 
     const savedTreeRootNode = await newTreeRootNode.save();
 
     // 引用现有的跟节点
     const newRoot = new this.rrRootModel({
-      ...createRrRootDto,
+      title: createRrRootDto.title,
       treeRootNodeId: savedTreeRootNode._id,
     });
 

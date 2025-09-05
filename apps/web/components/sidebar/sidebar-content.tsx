@@ -1,64 +1,20 @@
 "use client";
 
-import { MoreHorizontal } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
-  SidebarMenuAction,
-  SidebarMenuButton,
-  SidebarMenuItem,
 } from "@/components/ui/sidebar";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { RrRoot } from "@/lib/types/models";
+import SidebarTreeItem from "./sidebar-content-item";
 
 interface SidebarCustomContentProps {
   rrRoots: RrRoot[];
   isLoading: boolean;
   isError: boolean;
-}
-
-interface SidebarProjectItemProps {
-  item: RrRoot;
-  isActive: boolean;
-}
-
-function SidebarTreeItem({ item, isActive }: SidebarProjectItemProps) {
-  return (
-    <SidebarMenuItem>
-      <SidebarMenuButton asChild isActive={isActive}>
-        <Link href={`/g/${item.treeRootNodeId}`}>
-          <span className="group-data-[collapsible=icon]:hidden">
-            {item.title}
-          </span>
-        </Link>
-      </SidebarMenuButton>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <SidebarMenuAction showOnHover className="cursor-pointer">
-            <MoreHorizontal />
-          </SidebarMenuAction>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent side="right" align="start">
-          <DropdownMenuItem>
-            <span>Edit Project</span>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <span>Delete Project</span>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-    </SidebarMenuItem>
-  );
 }
 
 export function SidebarCustomContent({
@@ -85,15 +41,15 @@ export function SidebarCustomContent({
     <SidebarContent className="group-data-[collapsible=icon]:hidden">
       <SidebarGroup>
         <SidebarGroupLabel className="text-muted-foreground group-data-[collapsible=icon]:hidden">
-          Overview
+          目标
         </SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
-            {rrRoots.map((tree: RrRoot) => (
+            {rrRoots.map((rrRoot: RrRoot) => (
               <SidebarTreeItem
-                key={tree._id}
-                item={tree}
-                isActive={currentTreeId === tree._id}
+                key={rrRoot._id}
+                rrRoot={rrRoot}
+                isActive={currentTreeId === rrRoot.treeRootNodeId}
               />
             ))}
           </SidebarMenu>

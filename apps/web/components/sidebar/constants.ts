@@ -2,12 +2,12 @@ import { SquarePen, Search } from "lucide-react";
 
 export const HEAD_MENU_ITEMS = [
   {
-    title: "Search",
+    title: "搜索",
     url: "#",
     icon: Search,
   },
   {
-    title: "New Project",
+    title: "新目标",
     url: "#",
     icon: SquarePen,
   },
