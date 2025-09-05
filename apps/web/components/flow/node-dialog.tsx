@@ -14,7 +14,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 
-import { DialogMode, DialogState, DIALOG_CONFIGS } from "@/lib/types/dialog";
+import { DialogMode, DialogState } from "@/lib/types/dialog";
+import { DIALOG_CONFIGS } from "./constants";
 import { RrNode } from "@/lib/types/models";
 
 interface NodeDialogProps {
