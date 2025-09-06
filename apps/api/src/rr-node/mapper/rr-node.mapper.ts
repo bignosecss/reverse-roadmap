@@ -37,6 +37,13 @@ export class RrNodeMapper {
       createRrNodeDto.parentId,
     );
 
+    const rrRoot = await this.rrRootModel.findOne({
+      treeRootNodeId: treeObjectId,
+    });
+    if (!rrRoot) {
+      throw new Error('Root not found when creating a node');
+    }
+
     const targetTree = await this.rrNodeModel.findById(treeObjectId).exec();
     if (!targetTree) {
       throw new Error('Tree not found when creating a new node');
@@ -48,6 +55,9 @@ export class RrNodeMapper {
     }
     newNode.parentId = parentNode._id;
     parentNode.children.push(newNode);
+
+    rrRoot.updatedAt = new Date();
+    await rrRoot.save();
 
     await targetTree.save();
     return newNode;
@@ -88,6 +98,13 @@ export class RrNodeMapper {
     const treeObjectId = new mongoose.Types.ObjectId(treeId);
     const nodeObjectId = new mongoose.Types.ObjectId(nodeId);
 
+    const rrRoot = await this.rrRootModel.findOne({
+      treeRootNodeId: treeObjectId,
+    });
+    if (!rrRoot) {
+      throw new Error('Root not found when trying to update a node');
+    }
+
     const targetTree = await this.rrNodeModel.findById(treeObjectId);
     if (!targetTree) {
       throw new Error('Tree not found when trying to update a node');
@@ -105,7 +122,14 @@ export class RrNodeMapper {
       targetNode.description = updateRrNodeDto.description;
     }
 
+    // 保存更新的树节点
     const updatedTree = await targetTree.save();
+
+    // 更新根节点的 updatedAt 字段（timestamps: true 会自动处理）
+    // assign a Date object so TypeScript matches the schema declaration
+    rrRoot.updatedAt = new Date();
+    await rrRoot.save();
+
     return updatedTree.toJSON();
   }
 
@@ -155,21 +179,30 @@ export class RrNodeMapper {
 
     const deleteFromChildren = (root: RrNode): RrNode | undefined => {
       // DFS
-      while (root.children.length > 0) {
-        const i = root.children.findIndex((c) => c._id.equals(nodeObjectId));
-        if (i !== -1) {
-          const [deletedNode] = root.children.splice(i, 1);
+      const childIndex = root.children.findIndex((c) =>
+        c._id.equals(nodeObjectId),
+      );
+      if (childIndex !== -1) {
+        const [deletedNode] = root.children.splice(childIndex, 1);
+        return deletedNode;
+      }
+
+      for (const child of root.children) {
+        const deletedNode = deleteFromChildren(child);
+        if (deletedNode) {
           return deletedNode;
-        } else {
-          for (const child of root.children) {
-            const deletedNode = deleteFromChildren(child);
-            if (deletedNode) {
-              return deletedNode;
-            }
-          }
         }
       }
+
+      return undefined;
     };
+
+    const rrRoot = await this.rrRootModel.findOne({
+      treeRootNodeId: treeObjectId,
+    });
+    if (!rrRoot) {
+      throw new Error('Root not found when trying to delete a node');
+    }
 
     const targetTree = await this.rrNodeModel.findById(treeObjectId).exec();
     if (!targetTree) {
@@ -179,6 +212,9 @@ export class RrNodeMapper {
     if (!deletedNode) {
       throw new Error('Node not found when trying to delete a node');
     }
+
+    rrRoot.updatedAt = new Date();
+    await rrRoot.save();
 
     await targetTree.save();
 

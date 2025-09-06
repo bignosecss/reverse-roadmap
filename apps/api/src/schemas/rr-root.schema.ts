@@ -1,5 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose from 'mongoose';
+// Helper type for documents that include mongoose timestamps
+export type RrRootDocument = RrRoot &
+  mongoose.Document & { createdAt: Date; updatedAt: Date };
 
 /**
  * 所有的字段都需要添加 ! 告诉 TypeScript 这个属性会被外部赋值
@@ -18,6 +21,14 @@ export class RrRoot {
 
   @Prop({ type: String, enum: ['active', 'archived'], default: 'active' })
   status!: string;
+
+  // timestamps: true will create these fields at runtime,
+  // but we declare them here so TypeScript knows they exist.
+  @Prop()
+  createdAt!: Date;
+
+  @Prop()
+  updatedAt!: Date;
 }
 
 export const RrRootSchema = SchemaFactory.createForClass(RrRoot);

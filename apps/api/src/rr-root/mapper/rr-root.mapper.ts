@@ -33,7 +33,7 @@ export class RrRootMapper {
   }
 
   findAll() {
-    return this.rrRootModel.find().exec();
+    return this.rrRootModel.find().sort({ updatedAt: -1 }).exec();
   }
 
   findOne(id: string) {
