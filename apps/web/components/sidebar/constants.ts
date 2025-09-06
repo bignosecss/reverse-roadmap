@@ -3,14 +3,12 @@ import { SquarePen, Search } from "lucide-react";
 export const HEAD_MENU_ITEMS = [
   {
     title: "搜索",
-    url: "#",
     icon: Search,
+    operation: "search",
   },
   {
     title: "新目标",
-    url: "#",
     icon: SquarePen,
+    operation: "add",
   },
 ] as const;
-
-export type HeadMenuItem = (typeof HEAD_MENU_ITEMS)[number];
