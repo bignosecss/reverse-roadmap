@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useShallow } from "zustand/react/shallow";
+import { useTheme } from "next-themes";
 import {
   ReactFlow,
   MiniMap,
@@ -9,6 +10,7 @@ import {
   BackgroundVariant,
   Controls,
   useNodesInitialized,
+  ColorMode,
 } from "@xyflow/react";
 import RrNodeComponent from "./rr-node";
 
@@ -40,6 +42,7 @@ const options = {
 };
 
 export default function FlowContent({ treeId }: { treeId: string }) {
+  const { theme } = useTheme();
   const { data: rrTree, isLoading, isError } = useGetRrTree(treeId);
   const {
     nodes,
@@ -95,6 +98,7 @@ export default function FlowContent({ treeId }: { treeId: string }) {
 
   return (
     <ReactFlow
+      colorMode={theme as ColorMode}
       nodes={nodes}
       edges={edges}
       onNodesChange={onNodesChange}
