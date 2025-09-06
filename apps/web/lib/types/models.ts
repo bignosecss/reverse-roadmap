@@ -56,3 +56,8 @@ export type FlowState = {
   setNodes: (nodes: FlowNode[]) => void;
   setEdges: (edges: FlowEdge[]) => void;
 };
+
+export type SidebarState = {
+  rrRoots: RrRoot[];
+  setRrRoots: (roots: RrRoot[]) => void;
+};

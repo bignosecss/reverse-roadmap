@@ -31,6 +31,7 @@ export const useCreateRrNode = (treeId: string) => {
       createRrNode(treeId, createRrNodeDto),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["rrTree", treeId] });
+      queryClient.invalidateQueries({ queryKey: ["rrRoots"] });
     },
   });
 };
@@ -64,6 +65,7 @@ export const useUpdateRrNode = (treeId: string, nodeId: string) => {
       updateRrNode(treeId, nodeId, updateRrNodeDto),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["rrTree", treeId] });
+      queryClient.invalidateQueries({ queryKey: ["rrRoots"] });
     },
   });
 };
@@ -87,6 +89,7 @@ export const useRemoveRrNode = (treeId: string, nodeId: string) => {
     mutationFn: () => removeRrNode(treeId, nodeId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["rrTree", treeId] });
+      queryClient.invalidateQueries({ queryKey: ["rrRoots"] });
     },
   });
 };

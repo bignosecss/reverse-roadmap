@@ -4,6 +4,7 @@ import "./globals.css";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
 import Providers from "@/app/providers";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,16 +27,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <Providers>
-          <SidebarProvider defaultOpen={true}>
-            <AppSidebar />
-            <SidebarInset>
-              <div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
-            </SidebarInset>
-          </SidebarProvider>
-        </Providers>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Providers>
+            <SidebarProvider defaultOpen={true}>
+              <AppSidebar />
+              <SidebarInset>
+                <div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
+              </SidebarInset>
+            </SidebarProvider>
+          </Providers>
+        </ThemeProvider>
       </body>
     </html>
   );

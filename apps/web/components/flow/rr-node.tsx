@@ -4,8 +4,7 @@ import { NodeProps } from "@xyflow/react";
 import { FlowNode, RrNode } from "@/lib/types/models";
 import RrNodeToolbar from "./rr-node-toolbar";
 import RrNodeCard from "./rr-node-card";
-import NodeDialog from "./node-dialog";
-import { DialogState, DialogMode } from "@/lib/types/dialog";
+import { NodeDialog, NodeOperation } from "../dialogs/node-dialog";
 import {
   useCreateRrNode,
   useUpdateRrNode,
@@ -23,9 +22,9 @@ export default function RrNodeComponent({
 }: NodeProps<FlowNode>) {
   const { rrNode } = data;
 
-  const [dialogState, setDialogState] = useState<DialogState>({
+  const [dialogState, setDialogState] = useState({
     isOpen: false,
-    mode: null,
+    operation: "add" as NodeOperation,
   });
 
   // 判断是否为根节点
@@ -39,10 +38,10 @@ export default function RrNodeComponent({
 
   // 处理 Dialog 确认操作
   const handleDialogConfirm = (
-    mode: DialogMode,
+    operation: NodeOperation,
     data?: Partial<typeof rrNode>,
   ) => {
-    switch (mode) {
+    switch (operation) {
       case "add":
         createRrNode(
           {
@@ -108,9 +107,9 @@ export default function RrNodeComponent({
       <RrNodeToolbar
         isVisible={selected}
         isRootNode={isRootNode}
-        onAdd={() => setDialogState({ isOpen: true, mode: "add" })}
-        onUpdate={() => setDialogState({ isOpen: true, mode: "edit" })}
-        onRemove={() => setDialogState({ isOpen: true, mode: "delete" })}
+        onAdd={() => setDialogState({ isOpen: true, operation: "add" })}
+        onUpdate={() => setDialogState({ isOpen: true, operation: "edit" })}
+        onRemove={() => setDialogState({ isOpen: true, operation: "delete" })}
       />
 
       {/* 节点卡片 */}
@@ -122,12 +121,14 @@ export default function RrNodeComponent({
 
       {/* 通用 Dialog */}
       <NodeDialog
-        dialogState={dialogState}
-        onOpenChange={(open) =>
+        open={dialogState.isOpen}
+        onOpenChange={(open: boolean) =>
           setDialogState((prev) => ({ ...prev, isOpen: open }))
         }
+        operation={dialogState.operation}
         currentNode={rrNode}
         onConfirm={handleDialogConfirm}
+        onCancel={() => setDialogState((prev) => ({ ...prev, isOpen: false }))}
       />
     </>
   );
