@@ -13,7 +13,7 @@ export function AppSidebar() {
     <Sidebar collapsible="icon" className="flex flex-col">
       <SidebarHeaderComponent />
       <SidebarCustomContent
-        rrRoots={rrRoots!}
+        rrRoots={rrRoots}
         isLoading={isLoading}
         isError={isError}
       />

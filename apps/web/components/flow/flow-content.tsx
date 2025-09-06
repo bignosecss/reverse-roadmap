@@ -81,15 +81,13 @@ export default function FlowContent({ treeId }: { treeId: string }) {
 
   if (isLoading) {
     return (
-      <div className="p-4 text-[var(--color-secondary)]">
-        Loading tree data...
-      </div>
+      <div className="p-4 text-[var(--secondary)]">Loading tree data...</div>
     );
   }
 
   if (isError || (!isLoading && !rrTree)) {
     return (
-      <div className="p-4 text-[var(--color-secondary)]">
+      <div className="p-4 text-[var(--secondary)]">
         Error loading flow data.
       </div>
     );

@@ -17,6 +17,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { RrRoot } from "@/lib/types/models";
 import { useUpdateRrRoot } from "@/hooks/use-rr-root";
+import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 interface SidebarProjectItemProps {
   rrRoot: RrRoot;
@@ -44,18 +46,28 @@ export default function SidebarTreeItem({
     setEditValue(rrRoot.title);
   }, [rrRoot.title]);
 
-  const { mutate: updateRrRoot, isPending } = useUpdateRrRoot(rrRoot._id);
-  const handleEnter = useCallback(() => {
-    updateRrRoot(
-      {
-        title: editValue,
-      },
-      {
-        onSuccess: () => setIsEditing(false),
-        onError: handleBlur,
-      },
+  const queryClient = useQueryClient();
+  const { mutateAsync: updateRrRootAsync, isPending } = useUpdateRrRoot(
+    rrRoot._id,
+  );
+  const handleEnter = useCallback(async () => {
+    // 乐观更新
+    const prev = queryClient.getQueryData<RrRoot[] | undefined>(["rrRoots"]);
+    queryClient.setQueryData(["rrRoots"], (old: RrRoot[]) =>
+      old.map((r) => (r._id === rrRoot._id ? { ...r, title: editValue } : r)),
     );
-  }, [editValue, handleBlur, updateRrRoot]);
+    setIsEditing(false);
+    try {
+      await updateRrRootAsync({ title: editValue });
+    } catch (err: unknown) {
+      // 回滚
+      queryClient.setQueryData(["rrRoots"], prev);
+      // 显示错误
+      toast.error("重命名失败", {
+        description: JSON.stringify(err),
+      });
+    }
+  }, [editValue, queryClient, rrRoot._id, updateRrRootAsync]);
 
   return (
     <SidebarMenuItem>
@@ -75,7 +87,7 @@ export default function SidebarTreeItem({
               setEditValue(e.target.value);
             }}
             onKeyDown={(e) => {
-              if (e.key === "Escape") handleBlur()
+              if (e.key === "Escape") handleBlur();
               if (e.key === "Enter") handleEnter();
             }}
             onBlur={handleBlur}

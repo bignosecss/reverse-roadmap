@@ -12,7 +12,7 @@ import type { RrRoot } from "@/lib/types/models";
 import SidebarTreeItem from "./sidebar-content-item";
 
 interface SidebarCustomContentProps {
-  rrRoots: RrRoot[];
+  rrRoots: RrRoot[] | undefined;
   isLoading: boolean;
   isError: boolean;
 }
@@ -45,13 +45,14 @@ export function SidebarCustomContent({
         </SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
-            {rrRoots.map((rrRoot: RrRoot) => (
-              <SidebarTreeItem
-                key={rrRoot._id}
-                rrRoot={rrRoot}
-                isActive={currentTreeId === rrRoot.treeRootNodeId}
-              />
-            ))}
+            {!!rrRoots &&
+              rrRoots.map((rrRoot: RrRoot) => (
+                <SidebarTreeItem
+                  key={rrRoot._id}
+                  rrRoot={rrRoot}
+                  isActive={currentTreeId === rrRoot.treeRootNodeId}
+                />
+              ))}
           </SidebarMenu>
         </SidebarGroupContent>
       </SidebarGroup>
