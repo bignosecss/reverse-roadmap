@@ -159,15 +159,18 @@ export class RrNodeMapper {
         treeRootNodeId: treeObjectId,
       })
       .exec();
+    if (!removedRootOfThisTree) {
+      throw new Error('Root not found when trying to delete a tree');
+    }
 
     const removedTree = await this.rrNodeModel
       .findByIdAndDelete(treeObjectId)
       .exec();
     if (!removedTree) {
-      throw new Error('Tree not found');
+      throw new Error('Tree not found when trying to delete a tree');
     }
 
-    return [removedRootOfThisTree?.toJSON(), removedTree.toJSON()];
+    return [removedRootOfThisTree.toJSON(), removedTree.toJSON()];
   }
 
   async removeNodeFromTree(treeId: string, nodeId: string) {
