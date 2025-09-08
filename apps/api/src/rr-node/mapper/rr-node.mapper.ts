@@ -120,17 +120,19 @@ export class RrNodeMapper {
     }
     if (updateRrNodeDto.description !== undefined) {
       targetNode.description = updateRrNodeDto.description;
+    } else {
+      targetNode.description = '';
     }
 
     // 保存更新的树节点
-    const updatedTree = await targetTree.save();
+    await targetTree.save();
 
     // 更新根节点的 updatedAt 字段（timestamps: true 会自动处理）
     // assign a Date object so TypeScript matches the schema declaration
     rrRoot.updatedAt = new Date();
     await rrRoot.save();
 
-    return updatedTree.toJSON();
+    return targetNode;
   }
 
   private _findNodeRecursive(
