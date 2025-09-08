@@ -170,7 +170,10 @@ export class RrNodeMapper {
       throw new Error('Tree not found when trying to delete a tree');
     }
 
-    return [removedRootOfThisTree.toJSON(), removedTree.toJSON()];
+    return {
+      removedRootOfThisTree: removedRootOfThisTree.toJSON(),
+      removedTree: removedTree.toJSON(),
+    };
   }
 
   async removeNodeFromTree(treeId: string, nodeId: string) {
