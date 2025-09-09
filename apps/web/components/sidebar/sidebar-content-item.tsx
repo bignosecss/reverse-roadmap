@@ -31,12 +31,6 @@ export default function SidebarTreeItem({
   rrRoot,
   isActive,
 }: SidebarProjectItemProps) {
-  console.log("asd", rrRoot);
-  console.log("qwe", typeof rrRoot.updatedAt);
-  const date = new Date(rrRoot.updatedAt);
-  console.log("z", date);
-  console.log("zxc", typeof date);
-
   const [isEditing, setIsEditing] = useState(false);
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [editValue, setEditValue] = useState(rrRoot.title);
