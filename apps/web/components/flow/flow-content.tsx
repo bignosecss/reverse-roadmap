@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { useTheme } from "next-themes";
 import {
@@ -16,7 +16,7 @@ import RrNodeComponent from "./rr-node";
 
 import "@xyflow/react/dist/style.css";
 
-import { FlowState } from "@/lib/types/models";
+import { FlowNode, FlowState } from "@/lib/types/models";
 import useFlowStore from "@/lib/stores/flow";
 import { getLayoutedNodes } from "@/lib/flow-tree/dagre-layout";
 import { useGetRrTree } from "@/hooks/use-rr-node";
@@ -30,11 +30,14 @@ const nodeTypes = {
 const selector = (state: FlowState) => ({
   nodes: state.nodes,
   edges: state.edges,
+  canvasOpen: state.canvasOpen,
   onNodesChange: state.onNodesChange,
   onEdgesChange: state.onEdgesChange,
   onConnect: state.onConnect,
   setNodes: state.setNodes,
   setEdges: state.setEdges,
+  setCurrentNode: state.setCurrentNode,
+  setCanvasOpen: state.setCanvasOpen,
 });
 
 const options = {
@@ -47,11 +50,14 @@ export default function FlowContent({ treeId }: { treeId: string }) {
   const {
     nodes,
     edges,
+    canvasOpen,
     onNodesChange,
     onEdgesChange,
     onConnect,
     setNodes,
     setEdges,
+    setCurrentNode,
+    setCanvasOpen,
   } = useFlowStore(useShallow(selector));
   const nodeInitialized = useNodesInitialized(options);
 
@@ -82,6 +88,15 @@ export default function FlowContent({ treeId }: { treeId: string }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [nodeInitialized]);
 
+  const onNodeClick = useCallback(
+    (event: React.MouseEvent, node: FlowNode) => {
+      console.log("Node clicked:", node.id);
+      setCurrentNode(node.data.rrNode);
+      if (!canvasOpen) setCanvasOpen(true);
+    },
+    [canvasOpen, setCanvasOpen, setCurrentNode],
+  );
+
   if (isLoading) {
     return (
       <div className="p-4 text-[var(--secondary)]">Loading tree data...</div>
@@ -102,6 +117,7 @@ export default function FlowContent({ treeId }: { treeId: string }) {
       nodes={nodes}
       edges={edges}
       onNodesChange={onNodesChange}
+      onNodeClick={onNodeClick}
       onEdgesChange={onEdgesChange}
       onConnect={onConnect}
       nodeTypes={nodeTypes}

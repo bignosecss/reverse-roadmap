@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/sidebar/app-sidebar";
+import AppSidebar from "@/components/sidebar/app-sidebar";
 import Providers from "@/app/providers";
 import { ThemeProvider } from "@/components/theme-provider";
+import CanvasPanel from "@/components/canvas/canvas-panel";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -41,6 +42,7 @@ export default function RootLayout({
               <SidebarInset>
                 <div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
               </SidebarInset>
+              <CanvasPanel />
             </SidebarProvider>
           </Providers>
         </ThemeProvider>

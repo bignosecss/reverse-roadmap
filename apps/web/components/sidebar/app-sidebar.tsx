@@ -6,7 +6,7 @@ import { SidebarCustomContent } from "./sidebar-content";
 import { SidebarFooterComponent } from "./sidebar-footer";
 import { useGetRrRoots } from "@/hooks/use-rr-root";
 
-export function AppSidebar() {
+export default function AppSidebar() {
   const { data: rrRoots, isLoading, isError } = useGetRrRoots();
 
   return (
