@@ -185,13 +185,17 @@ export class RrNodeMapper {
       throw new Error('Cannot delete the root node of the tree');
     }
 
-    const deleteFromChildren = (root: RrNode): RrNode | undefined => {
+    const deleteFromChildren = (root: RrNode): RrNode | null => {
       // DFS
       const childIndex = root.children.findIndex((c) =>
         c._id.equals(nodeObjectId),
       );
       if (childIndex !== -1) {
-        const [deletedNode] = root.children.splice(childIndex, 1);
+        const removed = root.children.splice(childIndex, 1);
+        const deletedNode = removed[0];
+        if (!deletedNode) {
+          throw new Error('Node not found after splice (unexpected)');
+        }
         return deletedNode;
       }
 
@@ -202,7 +206,7 @@ export class RrNodeMapper {
         }
       }
 
-      return undefined;
+      return null;
     };
 
     const rrRoot = await this.rrRootModel.findOne({
