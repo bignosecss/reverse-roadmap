@@ -23,10 +23,10 @@ export default function CanvasPanel() {
 
   return (
     <dialog
-      className="fixed left-1/2 z-50 h-full w-1/2 border-2"
+      className="fixed left-1/2 z-50 h-full w-1/2 overflow-hidden shadow-[0_0_18px_rgba(0,0,0,0.12)] dark:shadow-[0_0_18px_rgba(0,0,0,0.48)]"
       open={canvasOpen}
     >
-      <header className="@container touch:px-2.5 h-header-height flex flex-none items-center gap-1 px-2">
+      <header className="@container touch:px-2.5 h-13 flex flex-none items-center gap-1 px-2">
         <Button
           variant="ghost"
           size="icon"
@@ -37,7 +37,12 @@ export default function CanvasPanel() {
         <span>{currentNode.title}</span>
       </header>
 
-      {currentNode.description}
+      <section
+        className="flex h-full justify-center"
+        style={{ margin: "0px 36px", paddingTop: "64.96px" }}
+      >
+        {currentNode.description}
+      </section>
     </dialog>
   );
 }
