@@ -17,9 +17,7 @@ export default function AppSidebar() {
         isLoading={isLoading}
         isError={isError}
       />
-      <div className="mt-auto">
-        <SidebarFooterComponent />
-      </div>
+      <SidebarFooterComponent />
     </Sidebar>
   );
 }

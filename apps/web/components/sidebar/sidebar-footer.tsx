@@ -14,7 +14,7 @@ import {
 
 export function SidebarFooterComponent() {
   return (
-    <SidebarFooter>
+    <SidebarFooter className="mt-auto">
       <SidebarMenu>
         <SidebarMenuItem>
           <DropdownMenu>
