@@ -5,6 +5,7 @@ import { X } from "lucide-react";
 import { Button } from "../ui/button";
 import { FlowState } from "@/lib/types/models";
 import { useShallow } from "zustand/react/shallow";
+import Tiptap from "./tiptap";
 
 const selector = (state: FlowState) => ({
   currentNode: state.currentNode,
@@ -12,7 +13,7 @@ const selector = (state: FlowState) => ({
   setCanvasOpen: state.setCanvasOpen,
 });
 
-export default function CanvasPanel() {
+export function Canvas() {
   const { currentNode, canvasOpen, setCanvasOpen } = useFlowStore(
     useShallow(selector),
   );
@@ -41,7 +42,8 @@ export default function CanvasPanel() {
         className="flex h-full justify-center"
         style={{ margin: "0px 36px", paddingTop: "64.96px" }}
       >
-        {currentNode.description}
+        <p>{currentNode.description}</p>
+        <Tiptap />
       </section>
     </dialog>
   );
