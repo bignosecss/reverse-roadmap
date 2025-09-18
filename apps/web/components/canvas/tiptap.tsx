@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Content } from "@tiptap/react";
 import { MinimalTiptapEditor } from "../ui/minimal-tiptap";
-import data from './content.json';
+import data from "./content.json";
 
 export const Tiptap = () => {
   const [value, setValue] = useState<Content>("");
