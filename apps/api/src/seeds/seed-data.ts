@@ -150,7 +150,7 @@ export function generateRandomContent(
     content.push({
       type: 'image',
       attrs: {
-        src: `https://placehold.co/600x400?text=${  encodeURIComponent(title)}`,
+        src: `https://placehold.co/600x400?text=${encodeURIComponent(title)}`,
         alt: title,
         title,
         width: 600,

@@ -1,26 +1,44 @@
 import { Injectable } from '@nestjs/common';
+import { RrNodeContentMapper } from './mapper/rr-node-content.mapper';
 import { CreateRrNodeContentDto } from './dto/create-rr-node-content.dto';
 import { UpdateRrNodeContentDto } from './dto/update-rr-node-content.dto';
 
 @Injectable()
 export class RrNodeContentService {
-  create(createRrNodeContentDto: CreateRrNodeContentDto) {
-    return 'This action adds a new rrNodeContent';
+  constructor(private readonly rrNodeContentMapper: RrNodeContentMapper) {}
+
+  async create(
+    createRrNodeContentDto: CreateRrNodeContentDto,
+    nodeId?: string,
+  ) {
+    return this.rrNodeContentMapper.create(createRrNodeContentDto, nodeId);
   }
 
-  findAll() {
-    return `This action returns all rrNodeContent`;
+  async createForNode(
+    nodeId: string,
+    createRrNodeContentDto: CreateRrNodeContentDto,
+  ) {
+    return this.rrNodeContentMapper.createForNode(
+      nodeId,
+      createRrNodeContentDto,
+    );
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} rrNodeContent`;
+  async findAll() {
+    return this.rrNodeContentMapper.findAll();
   }
 
-  update(id: number, updateRrNodeContentDto: UpdateRrNodeContentDto) {
-    return `This action updates a #${id} rrNodeContent`;
+  async findOne(id: string) {
+    return this.rrNodeContentMapper.findOne(id);
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} rrNodeContent`;
+  async update(id: string, updateRrNodeContentDto: UpdateRrNodeContentDto) {
+    return this.rrNodeContentMapper.update(id, updateRrNodeContentDto);
+  }
+
+  async remove(id: string) {
+    // 先断开与节点的关联，再删除内容
+    await this.rrNodeContentMapper.unlinkFromNode(id);
+    return this.rrNodeContentMapper.remove(id);
   }
 }

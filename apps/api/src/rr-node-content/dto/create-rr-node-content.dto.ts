@@ -1,1 +1,4 @@
-export class CreateRrNodeContentDto {}
+export class CreateRrNodeContentDto {
+  type!: 'doc';
+  content!: any;
+}

@@ -26,13 +26,14 @@ export interface RrNode {
   title: string;
   description?: string;
   parentId: string | null;
-  content: RrNodeContent;
+  content: string | null;
   children: RrNode[];
   createdAt?: Date;
   updatedAt?: Date;
 }
 
 export interface RrNodeContent {
+  _id: string;
   type: "doc";
   // 方便起见，暂时使用 any 作为 tiptap 文档的类型( edirot.getJSON() )
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

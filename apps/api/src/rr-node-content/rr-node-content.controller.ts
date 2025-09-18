@@ -1,4 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Query,
+} from '@nestjs/common';
 import { RrNodeContentService } from './rr-node-content.service';
 import { CreateRrNodeContentDto } from './dto/create-rr-node-content.dto';
 import { UpdateRrNodeContentDto } from './dto/update-rr-node-content.dto';
@@ -8,8 +17,22 @@ export class RrNodeContentController {
   constructor(private readonly rrNodeContentService: RrNodeContentService) {}
 
   @Post()
-  create(@Body() createRrNodeContentDto: CreateRrNodeContentDto) {
-    return this.rrNodeContentService.create(createRrNodeContentDto);
+  create(
+    @Body() createRrNodeContentDto: CreateRrNodeContentDto,
+    @Query('nodeId') nodeId?: string,
+  ) {
+    return this.rrNodeContentService.create(createRrNodeContentDto, nodeId);
+  }
+
+  @Post('for-node/:nodeId')
+  createForNode(
+    @Param('nodeId') nodeId: string,
+    @Body() createRrNodeContentDto: CreateRrNodeContentDto,
+  ) {
+    return this.rrNodeContentService.createForNode(
+      nodeId,
+      createRrNodeContentDto,
+    );
   }
 
   @Get()
@@ -19,16 +42,19 @@ export class RrNodeContentController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.rrNodeContentService.findOne(+id);
+    return this.rrNodeContentService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateRrNodeContentDto: UpdateRrNodeContentDto) {
-    return this.rrNodeContentService.update(+id, updateRrNodeContentDto);
+  update(
+    @Param('id') id: string,
+    @Body() updateRrNodeContentDto: UpdateRrNodeContentDto,
+  ) {
+    return this.rrNodeContentService.update(id, updateRrNodeContentDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.rrNodeContentService.remove(+id);
+    return this.rrNodeContentService.remove(id);
   }
 }
