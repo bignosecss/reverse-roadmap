@@ -1,17 +1,23 @@
 "use client";
 
-import { useEditor, EditorContent } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
+import { useState } from "react";
+import { Content } from "@tiptap/react";
+import { MinimalTiptapEditor } from "../ui/minimal-tiptap";
 
-const Tiptap = () => {
-  const editor = useEditor({
-    extensions: [StarterKit],
-    content: "<p>Hello World! 🌎️</p>",
-    // Don't render immediately on the server to avoid SSR issues
-    immediatelyRender: false,
-  });
+export const Tiptap = () => {
+  const [value, setValue] = useState<Content>("");
 
-  return <EditorContent editor={editor} />;
+  return (
+    <MinimalTiptapEditor
+      value={value}
+      onChange={setValue}
+      className="w-full"
+      editorContentClassName="p-5"
+      output="html"
+      placeholder="Enter your description..."
+      autofocus={true}
+      editable={true}
+      editorClassName="focus:outline-hidden"
+    />
+  );
 };
-
-export default Tiptap;

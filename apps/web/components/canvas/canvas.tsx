@@ -5,7 +5,8 @@ import { X } from "lucide-react";
 import { Button } from "../ui/button";
 import { FlowState } from "@/lib/types/models";
 import { useShallow } from "zustand/react/shallow";
-import Tiptap from "./tiptap";
+import { Tiptap } from "./tiptap";
+import { cn } from "@/lib/utils";
 
 const selector = (state: FlowState) => ({
   currentNode: state.currentNode,
@@ -18,14 +19,16 @@ export function Canvas() {
     useShallow(selector),
   );
 
-  if (!currentNode) {
+  if (!currentNode || !canvasOpen) {
     return null;
   }
 
   return (
-    <dialog
-      className="fixed left-1/2 z-50 h-full w-1/2 overflow-hidden shadow-[0_0_18px_rgba(0,0,0,0.12)] dark:shadow-[0_0_18px_rgba(0,0,0,0.48)]"
-      open={canvasOpen}
+    <div
+      className={cn(
+        "fixed right-0 z-50 bg-white h-full w-3/5 overflow-hidden shadow-[0_0_18px_rgba(0,0,0,0.12)] dark:shadow-[0_0_18px_rgba(0,0,0,0.48)]",
+        { "translate-x-0": canvasOpen, "translate-x-full": !canvasOpen },
+      )}
     >
       <header className="@container touch:px-2.5 h-13 flex flex-none items-center gap-1 px-2">
         <Button
@@ -51,6 +54,6 @@ export function Canvas() {
       <section className="w-full">
         <Tiptap />
       </section>
-    </dialog>
+    </div>
   );
 }
