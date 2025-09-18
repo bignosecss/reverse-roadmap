@@ -4,7 +4,15 @@
 @import "./partials/typography.css";
 @import "./partials/zoom.css";
 
-@reference "../../../global.css";
+/* Import Next.js `globals.css`. Use `@import` (not `@reference`).
+  If your Next.js globals are located at `apps/web/app/globals.css`, the
+  relative path from this file is `../../../../app/globals.css`.
+  However, Next.js only allows global CSS to be imported from `pages/_app` or
+  `app/layout.tsx` (in the App Router). If you still get a resolver error,
+  import `globals.css` from your Next.js layout instead of component CSS,
+  or extract shared styles into a package and reference them via an alias.
+*/
+@import "../../../../app/globals.css";
 
 :root {
   --mt-overlay: rgba(251, 251, 251, 0.75);
