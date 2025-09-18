@@ -1,38 +1,31 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Content } from "@tiptap/react";
 import { MinimalTiptapEditor } from "../ui/minimal-tiptap";
-import useFlowStore from "@/lib/stores/flow";
-import { useShallow } from "zustand/react/shallow";
-import { useGetRrNodeContent } from "@/hooks/use-rr-node-content";
-import { FlowState } from "@/lib/types/models";
+import { RrNodeContent } from "@/lib/types/models";
 
-const selector = (state: FlowState) => ({
-  currentNode: state.currentNode,
-});
+interface TiptapProps {
+  content: RrNodeContent;
+}
 
-export const Tiptap = () => {
-  const { currentNode } = useFlowStore(useShallow(selector));
-  const contentId = currentNode?.content;
+const redundantAttributes = ["_id", "createdAt", "updatedAt", "__v"];
 
-  const { data: nodeContent, isLoading } = useGetRrNodeContent(
-    contentId && contentId !== null ? contentId : "invalid-id",
-  );
-
+export const Tiptap = ({ content }: TiptapProps) => {
   const [value, setValue] = useState<Content>("");
 
-  // 当获取到内容时，更新编辑器的值
   useEffect(() => {
-    if (nodeContent) {
-      // 确保 content 是正确的类型
-      setValue(nodeContent.content as Content);
+    if (content) {
+      // Create a copy of content to avoid mutating props directly
+      const contentCopy = { ...content };
+      for (const key in contentCopy) {
+        if (redundantAttributes.includes(key)) {
+          delete (contentCopy as any)[key];
+        }
+      }
+      setValue(contentCopy);
     }
-  }, [nodeContent]);
-
-  if (isLoading) {
-    return null;
-  }
+  }, [content]);
 
   return (
     <MinimalTiptapEditor

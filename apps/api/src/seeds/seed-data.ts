@@ -19,11 +19,13 @@ export interface SeedRootData {
  * 生成随机的 Tiptap 内容
  * @param title 节点标题
  * @param description 节点描述
- * @returns 符合 Tiptap 结构的内容对象
+ * @param isRoot 是否为根节点，默认为false
+ * @returns 符合 Tiptap 结构的内容对象或内容数组
  */
 export function generateRandomContent(
   title: string,
   description?: string,
+  isRoot: boolean = false,
 ): any {
   // 基础段落内容
   const paragraphs = [
@@ -159,6 +161,15 @@ export function generateRandomContent(
     });
   }
 
+  // 如果是根节点，返回完整的文档结构
+  if (isRoot) {
+    return {
+      type: 'doc',
+      content,
+    };
+  }
+
+  // 如果不是根节点，也返回完整的文档结构
   return {
     type: 'doc',
     content,

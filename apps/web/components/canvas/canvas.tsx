@@ -7,6 +7,7 @@ import { FlowState } from "@/lib/types/models";
 import { useShallow } from "zustand/react/shallow";
 import { Tiptap } from "./tiptap";
 import { cn } from "@/lib/utils";
+import { useGetRrNodeContent } from "@/hooks/use-rr-node-content";
 
 const selector = (state: FlowState) => ({
   currentNode: state.currentNode,
@@ -17,6 +18,11 @@ const selector = (state: FlowState) => ({
 export function Canvas() {
   const { currentNode, canvasOpen, setCanvasOpen } = useFlowStore(
     useShallow(selector),
+  );
+
+  const nodeContentId = currentNode?.content;
+  const { data: nodeContent, isLoading } = useGetRrNodeContent(
+    nodeContentId ? nodeContentId : "",
   );
 
   if (!currentNode || !canvasOpen) {
@@ -51,9 +57,11 @@ export function Canvas() {
         </section>
       )}
 
-      <section className="w-full">
-        <Tiptap />
-      </section>
+      {!isLoading && !!nodeContent && (
+        <section className="w-full">
+          <Tiptap content={nodeContent} />
+        </section>
+      )}
     </div>
   );
 }

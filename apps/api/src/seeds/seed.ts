@@ -86,8 +86,8 @@ class SeedGenerator {
   private async createRootWithTree(data: SeedRootData): Promise<void> {
     // 1. 为根节点创建内容文档
     const rootNodeContentDoc = new this.rrNodeContentModel({
-      type: 'node',
-      content: generateRandomContent(data.title, data.description),
+      type: 'doc',
+      content: generateRandomContent(data.title, data.description, true), // 标记为根节点
     });
     await rootNodeContentDoc.save();
 
@@ -135,9 +135,13 @@ class SeedGenerator {
 
     for (const childData of children) {
       // 为每个子节点创建内容文档
+      const contentData = generateRandomContent(
+        childData.title,
+        childData.description,
+      );
       const nodeContentDoc = new this.rrNodeContentModel({
-        type: 'node',
-        content: generateRandomContent(childData.title, childData.description),
+        type: 'doc',
+        content: contentData.content, // 只取 content 数组，而不是整个对象
       });
       await nodeContentDoc.save();
 
