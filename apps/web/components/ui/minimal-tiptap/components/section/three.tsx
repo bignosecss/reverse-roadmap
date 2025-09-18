@@ -71,71 +71,84 @@ const COLORS: ColorPalette[] = [
   },
 ];
 
-const MemoizedColorButton = React.memo<{
+interface MemoizedColorButtonProps {
   color: ColorItem;
   isSelected: boolean;
   inverse: string;
   onClick: (value: string) => void;
-}>(({ color, isSelected, inverse, onClick }) => {
-  const isDarkMode = useTheme();
-  const label = isDarkMode && color.darkLabel ? color.darkLabel : color.label;
+}
 
-  return (
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <ToggleGroupItem
-          tabIndex={0}
-          className="relative size-7 rounded-md p-0"
-          value={color.cssVar}
-          aria-label={label}
-          style={{ backgroundColor: color.cssVar }}
-          onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-            e.preventDefault();
-            onClick(color.cssVar);
-          }}
-        >
-          {isSelected && (
-            <CheckIcon
-              className="absolute inset-0 m-auto size-6"
-              style={{ color: inverse }}
-            />
-          )}
-        </ToggleGroupItem>
-      </TooltipTrigger>
-      <TooltipContent side="bottom">
-        <p>{label}</p>
-      </TooltipContent>
-    </Tooltip>
-  );
-});
+const MemoizedColorButton = React.memo(
+  ({ color, isSelected, inverse, onClick }: MemoizedColorButtonProps) => {
+    const isDarkMode = useTheme();
+    const label = isDarkMode && color.darkLabel ? color.darkLabel : color.label;
+
+    return (
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <ToggleGroupItem
+            tabIndex={0}
+            className="relative size-7 rounded-md p-0"
+            value={color.cssVar}
+            aria-label={label}
+            style={{ backgroundColor: color.cssVar }}
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+              e.preventDefault();
+              onClick(color.cssVar);
+            }}
+          >
+            {isSelected && (
+              <CheckIcon
+                className="absolute inset-0 m-auto size-6"
+                style={{ color: inverse }}
+              />
+            )}
+          </ToggleGroupItem>
+        </TooltipTrigger>
+        <TooltipContent side="bottom">
+          <p>{label}</p>
+        </TooltipContent>
+      </Tooltip>
+    );
+  },
+);
 
 MemoizedColorButton.displayName = "MemoizedColorButton";
 
-const MemoizedColorPicker = React.memo<{
+interface MemoizedColorPickerProps {
   palette: ColorPalette;
   selectedColor: string;
   inverse: string;
   onColorChange: (value: string) => void;
-}>(({ palette, selectedColor, inverse, onColorChange }) => (
-  <ToggleGroup
-    type="single"
-    value={selectedColor}
-    onValueChange={(value: string) => {
-      if (value) onColorChange(value);
-    }}
-    className="gap-1.5"
-  >
-    {palette.colors.map((color, index) => (
-      <MemoizedColorButton
-        key={index}
-        inverse={inverse}
-        color={color}
-        isSelected={selectedColor === color.cssVar}
-        onClick={onColorChange}
-      />
-    ))}
-  </ToggleGroup>
-));
+}
+
+const MemoizedColorPicker = React.memo(
+  ({
+    palette,
+    selectedColor,
+    inverse,
+    onColorChange,
+  }: MemoizedColorPickerProps) => (
+    <ToggleGroup
+      type="single"
+      value={selectedColor}
+      onValueChange={(value: string) => {
+        if (value) onColorChange(value);
+      }}
+      className="gap-1.5"
+    >
+      {palette.colors.map((color, index) => (
+        <MemoizedColorButton
+          key={index}
+          inverse={inverse}
+          color={color}
+          isSelected={selectedColor === color.cssVar}
+          onClick={onColorChange}
+        />
+      ))}
+    </ToggleGroup>
+  ),
+);
 
 MemoizedColorPicker.displayName = "MemoizedColorPicker";
 

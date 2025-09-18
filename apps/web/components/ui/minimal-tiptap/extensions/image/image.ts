@@ -86,16 +86,54 @@ const handleError = (
 };
 
 const handleDataUrl = (src: string): { blob: Blob; extension: string } => {
-  const [header, base64Data] = src.split(",");
-  const mimeType = header.split(":")[1].split(";")[0];
-  const extension = mimeType.split("/")[1];
-  const byteCharacters = atob(base64Data);
-  const byteArray = new Uint8Array(byteCharacters.length);
-  for (let i = 0; i < byteCharacters.length; i++) {
-    byteArray[i] = byteCharacters.charCodeAt(i);
+  // Validate data URL format
+  if (!src.startsWith("data:") || !src.includes(",")) {
+    throw new Error("Invalid data URL format");
   }
-  const blob = new Blob([byteArray], { type: mimeType });
-  return { blob, extension };
+
+  const splitResult = src.split(",");
+  if (splitResult.length !== 2) {
+    throw new Error("Invalid data URL: incorrect format");
+  }
+
+  const header = splitResult[0]!;
+  const base64Data = splitResult[1]!;
+
+  // Extract MIME type safely
+  const headerParts = header.split(":");
+  if (headerParts.length < 2) {
+    throw new Error("Invalid data URL: missing MIME type");
+  }
+
+  const mimeTypeWithParams = headerParts[1];
+  if (!mimeTypeWithParams) {
+    throw new Error("Invalid data URL: missing MIME type");
+  }
+
+  const mimeTypePart = mimeTypeWithParams.split(";")[0];
+  if (!mimeTypePart) {
+    throw new Error("Invalid data URL: empty MIME type");
+  }
+
+  // Extract extension, fallback to generic if not available
+  const mimeTypeParts = mimeTypePart.split("/");
+  const extension =
+    mimeTypeParts.length > 1 && mimeTypeParts[1] ? mimeTypeParts[1] : "bin";
+
+  try {
+    // Decode base64 data
+    const byteCharacters = atob(base64Data);
+    const byteArray = new Uint8Array(byteCharacters.length);
+    for (let i = 0; i < byteCharacters.length; i++) {
+      byteArray[i] = byteCharacters.charCodeAt(i);
+    }
+    const blob = new Blob([byteArray], { type: mimeTypePart });
+    return { blob, extension };
+  } catch (error) {
+    throw new Error(
+      `Failed to decode base64 data: ${error instanceof Error ? error.message : "Unknown error"}`,
+    );
+  }
 };
 
 const handleImageUrl = async (
@@ -104,7 +142,8 @@ const handleImageUrl = async (
   const response = await fetch(src);
   if (!response.ok) throw new Error("Failed to fetch image");
   const blob = await response.blob();
-  const extension = blob.type.split(/\/|\+/)[1];
+  const typeParts = blob.type.split(/\/|\+/);
+  const extension = typeParts.length > 1 && typeParts[1] ? typeParts[1] : "bin";
   return { blob, extension };
 };
 
