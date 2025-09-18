@@ -1,0 +1,14 @@
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose from 'mongoose';
+
+@Schema({ timestamps: true, collection: 'rr_node_contents' })
+export class RrNodeContent {
+  @Prop({ type: ['doc'] })
+  type!: string;
+  @Prop({ type: mongoose.Schema.Types.Mixed, required: true })
+  content!: any;
+}
+
+export const RrNodeContentSchema = SchemaFactory.createForClass(RrNodeContent);
+
+export type RrNodeContentDocument = RrNodeContent & mongoose.Document;

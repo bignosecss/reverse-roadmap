@@ -16,6 +16,156 @@ export interface SeedRootData {
 }
 
 /**
+ * 生成随机的 Tiptap 内容
+ * @param title 节点标题
+ * @param description 节点描述
+ * @returns 符合 Tiptap 结构的内容对象
+ */
+export function generateRandomContent(
+  title: string,
+  description?: string,
+): any {
+  // 基础段落内容
+  const paragraphs = [
+    `这是关于 "${title}" 的详细内容。在这里您可以添加更多关于这个主题的信息和说明。`,
+    description ? `正如描述中提到的：${description}` : '',
+    '您可以在这里添加更多详细信息，包括文本、图片、链接等内容。',
+    '这个编辑器支持多种内容格式，包括标题、段落、列表、引用等。',
+  ].filter((p) => p.length > 0);
+
+  // 随机决定是否添加列表
+  const shouldAddList = Math.random() > 0.5;
+
+  // 随机决定是否添加引用
+  const shouldAddBlockquote = Math.random() > 0.7;
+
+  // 随机决定是否添加图片
+  const shouldAddImage = Math.random() > 0.8;
+
+  const content: any[] = [
+    {
+      type: 'heading',
+      attrs: {
+        level: 1,
+      },
+      content: [
+        {
+          type: 'text',
+          text: title,
+        },
+      ],
+    },
+  ];
+
+  // 添加段落
+  paragraphs.forEach((paragraph) => {
+    if (paragraph) {
+      content.push({
+        type: 'paragraph',
+        content: [
+          {
+            type: 'text',
+            text: paragraph,
+          },
+        ],
+      });
+    }
+  });
+
+  // 随机添加列表
+  if (shouldAddList) {
+    content.push({
+      type: 'bulletList',
+      content: [
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                {
+                  type: 'text',
+                  text: '这是列表项目 1',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                {
+                  type: 'text',
+                  text: '这是列表项目 2',
+                },
+              ],
+            },
+          ],
+        },
+        {
+          type: 'listItem',
+          content: [
+            {
+              type: 'paragraph',
+              content: [
+                {
+                  type: 'text',
+                  text: '这是列表项目 3',
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    });
+  }
+
+  // 随机添加引用
+  if (shouldAddBlockquote) {
+    content.push({
+      type: 'blockquote',
+      content: [
+        {
+          type: 'paragraph',
+          content: [
+            {
+              type: 'text',
+              text: '这是一个引用块，可以用来突出显示重要的信息或名言。',
+            },
+          ],
+        },
+      ],
+    });
+  }
+
+  // 随机添加图片（使用占位符）
+  if (shouldAddImage) {
+    content.push({
+      type: 'paragraph',
+    });
+
+    content.push({
+      type: 'image',
+      attrs: {
+        src: `https://placehold.co/600x400?text=${  encodeURIComponent(title)}`,
+        alt: title,
+        title,
+        width: 600,
+        height: 400,
+      },
+    });
+  }
+
+  return {
+    type: 'doc',
+    content,
+  };
+}
+
+/**
  * 种子数据定义
  * 这里定义了要生成的所有根节点和对应的思维导图树结构
  */
