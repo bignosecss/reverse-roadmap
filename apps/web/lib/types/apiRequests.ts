@@ -12,3 +12,10 @@ export interface CreateRrNodeDto {
 }
 
 export type UpdateRrNodeDto = Partial<CreateRrNodeDto>;
+
+export interface CreateRrNodeContentDto {
+  type: "doc";
+  content: any;
+}
+
+export type UpdateRrNodeContentDto = Partial<CreateRrNodeContentDto>;
