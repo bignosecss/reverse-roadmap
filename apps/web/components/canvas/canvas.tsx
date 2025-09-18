@@ -38,11 +38,17 @@ export function Canvas() {
         <span>{currentNode.title}</span>
       </header>
 
-      <section
-        className="flex h-full justify-center"
-        style={{ margin: "0px 36px", paddingTop: "64.96px" }}
-      >
-        <p>{currentNode.description}</p>
+      {!!currentNode.description && (
+        <section className="w-full h-fit flex flex-row justify-center">
+          <div className="min-w-1/3 max-w-4/5 h-fit py-4">
+            <blockquote className="border-l-2 pl-6 italic max-h-fit">
+              {currentNode.description}
+            </blockquote>
+          </div>
+        </section>
+      )}
+
+      <section className="w-full">
         <Tiptap />
       </section>
     </dialog>
