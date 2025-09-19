@@ -235,12 +235,53 @@ export const useMinimalTiptapEditor = ({
     ...props,
   });
 
-  // 监听value变化，当value变化时更新编辑器内容
+  /**
+   * 在点击包含图片的节点后，React 会抛出 Console Error: flushSync ...
+   * 若编辑器 JSON 内容中不包含图片，则不会抛出错误
+   * 目前，通过 queueMicrotask 临时修复 React flushSync 报错，改修复也通过强制设置编辑器的内容
+   * 临时解决了：canvas 打开状态下，点击缓存节点（打开过的节点），编辑器区域内容不更新的问题
+   * 
+   * 对于第二个问题，目前测试出来的表现：
+   *   如果节点是第一次点击，那么 tiptap 会正确被重渲染，显示对应节点的内容。
+   *   如果节点已经被打开过了，在打开过的节点之间切换，value 首先是上一个节点的内容
+   * 然后 Tiptap.tsx useEffect 中的 setValue 执行之后，组件重渲染，打印出当前节点
+   * 的内容 editor 的内容没有变化
+   * 
+   * 猜测可能是因为在已经打开过的节点之间切换，editor 的 onCreate & onUpdate 没有执行
+   * onUpdate 是处理用户输入的，所以可以从 onCreate 下手去解决内容同步的问题。
+   * 在 useMinimalTiptapEditor hook 中，需要一个机制来监听 value 的变化，并在必要时
+   * 更新 editor 的内容，而且要避免在编辑时覆盖掉输入。
+   * 
+   * 但更重要的是搞清楚，为什么第一次点击节点，react-query发送请求；tiptap editor 会
+   * 重新挂载，然后显示正确的内容。
+   * 
+   * ...two years later...
+   * 
+   * 因为第一次点击节点时：
+   *   1. useGetRrNodeContent 发送网络请求，isLoading 为 true
+   *   2. Canvas 组件中的条件渲染 {!isLoading && !!nodeContent && (...)} 不满足
+   *   3. Tiptap 组件不会被渲染，编辑器不会被创建
+   *   4. 网络请求完成，isLoading 变为 false，nodeContent 有值
+   *   5. Tiptap 组件被渲染，编辑器被创建，显示正确内容
+
+   * 切换回已访问节点时：
+   *   1. useGetRrNodeContent 从缓存获取数据，isLoading 保持 false
+   *   2. Tiptap 组件一直在渲染状态（没有被卸载）
+   *   3. 编辑器实例被复用
+   *   4. Tiptap 组件的 useEffect 执行，setValue 被调用
+   *   5. 但编辑器内容没有更新，因为编辑器不知道 value 变化了
+   */
   React.useEffect(() => {
+    // 监听value变化，当value变化时更新编辑器内容
     if (editor && value) {
       // 检查当前编辑器内容是否与新值不同
-      const currentContent = getOutput(editor, output);
-      if (JSON.stringify(currentContent) !== JSON.stringify(value)) {
+      // 如果不同，则更新编辑器内容
+      const currentHtmlContent = getOutput(editor, "html");
+      const currentJsonContent = getOutput(editor, "json");
+      if (
+        JSON.stringify(currentHtmlContent) !== JSON.stringify(value) ||
+        JSON.stringify(currentJsonContent) !== JSON.stringify(value)
+      ) {
         // 使用queueMicrotask来避免flushSync警告
         queueMicrotask(() => {
           editor.commands.setContent(value);

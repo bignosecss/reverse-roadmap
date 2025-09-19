@@ -38,6 +38,7 @@ export const Tiptap = ({ content }: TiptapProps) => {
       autofocus={true}
       editable={true}
       editorClassName="focus:outline-hidden"
+      throttleDelay={3000}
     />
   );
 };
