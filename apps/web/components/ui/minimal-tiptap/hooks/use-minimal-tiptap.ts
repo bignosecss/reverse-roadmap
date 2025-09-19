@@ -235,6 +235,20 @@ export const useMinimalTiptapEditor = ({
     ...props,
   });
 
+  // 监听value变化，当value变化时更新编辑器内容
+  React.useEffect(() => {
+    if (editor && value) {
+      // 检查当前编辑器内容是否与新值不同
+      const currentContent = getOutput(editor, output);
+      if (JSON.stringify(currentContent) !== JSON.stringify(value)) {
+        // 使用queueMicrotask来避免flushSync警告
+        queueMicrotask(() => {
+          editor.commands.setContent(value);
+        });
+      }
+    }
+  }, [editor, value, output]);
+
   const { editor: mainEditor } = useEditorState({
     editor,
     selector(context) {
