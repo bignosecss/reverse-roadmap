@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  createRrNodeContent,
-  createRrNodeContentForNode,
+  // createRrNodeContent,
+  // createRrNodeContentForNode,
   fetchAllRrNodeContents,
   fetchRrNodeContentById,
   removeRrNodeContent,
@@ -9,30 +9,30 @@ import {
 } from "@/lib/service/rr-node-content";
 import { Content } from "@tiptap/react";
 
-export const useCreateRrNodeContent = (nodeId?: string) => {
-  const queryClient = useQueryClient();
+// export const useCreateRrNodeContent = (nodeId?: string) => {
+//   const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationFn: (createRrNodeContentDto: Content) =>
-      createRrNodeContent(createRrNodeContentDto, nodeId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["rrNodeContents"] });
-    },
-  });
-};
+//   return useMutation({
+//     mutationFn: (createRrNodeContentDto: Content) =>
+//       createRrNodeContent(createRrNodeContentDto, nodeId),
+//     onSuccess: () => {
+//       queryClient.invalidateQueries({ queryKey: ["rrNodeContents"] });
+//     },
+//   });
+// };
 
-export const useCreateRrNodeContentForNode = (nodeId: string) => {
-  const queryClient = useQueryClient();
+// export const useCreateRrNodeContentForNode = (nodeId: string) => {
+//   const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationFn: (createRrNodeContentDto: Content) =>
-      createRrNodeContentForNode(nodeId, createRrNodeContentDto),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["rrNodeContents"] });
-      queryClient.invalidateQueries({ queryKey: ["rrNodeContent", nodeId] });
-    },
-  });
-};
+//   return useMutation({
+//     mutationFn: (createRrNodeContentDto: Content) =>
+//       createRrNodeContentForNode(nodeId, createRrNodeContentDto),
+//     onSuccess: () => {
+//       queryClient.invalidateQueries({ queryKey: ["rrNodeContents"] });
+//       queryClient.invalidateQueries({ queryKey: ["rrNodeContent", nodeId] });
+//     },
+//   });
+// };
 
 export const useGetRrNodeContents = () => {
   return useQuery({

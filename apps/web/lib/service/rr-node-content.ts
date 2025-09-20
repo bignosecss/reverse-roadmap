@@ -2,42 +2,45 @@ import { apiClient } from "./client";
 import { RrNodeContent } from "../types/models";
 import { Content } from "@tiptap/react";
 
-export const createRrNodeContent = async (
-  createRrNodeContentDto: Content,
-  nodeId?: string,
-) => {
-  const params = new URLSearchParams();
-  if (nodeId) {
-    params.append("nodeId", nodeId);
-  }
+/**
+ * 现阶段，前端不需要手动创建 tiptap content
+ */
+// export const createRrNodeContent = async (
+//   createRrNodeContentDto: Content,
+//   nodeId?: string,
+// ) => {
+//   const params = new URLSearchParams();
+//   if (nodeId) {
+//     params.append("nodeId", nodeId);
+//   }
 
-  const result = await apiClient<RrNodeContent>(
-    `rr-node-content${params.toString() ? `?${params.toString()}` : ""}`,
-    {
-      method: "POST",
-      body: JSON.stringify(createRrNodeContentDto),
-    },
-  );
-  const newContent = result.data;
+//   const result = await apiClient<RrNodeContent>(
+//     `rr-node-content${params.toString() ? `?${params.toString()}` : ""}`,
+//     {
+//       method: "POST",
+//       body: JSON.stringify(createRrNodeContentDto),
+//     },
+//   );
+//   const newContent = result.data;
 
-  return newContent;
-};
+//   return newContent;
+// };
 
-export const createRrNodeContentForNode = async (
-  nodeId: string,
-  createRrNodeContentDto: Content,
-) => {
-  const result = await apiClient<RrNodeContent>(
-    `rr-node-content/for-node/${nodeId}`,
-    {
-      method: "POST",
-      body: JSON.stringify(createRrNodeContentDto),
-    },
-  );
-  const newContent = result.data;
+// export const createRrNodeContentForNode = async (
+//   nodeId: string,
+//   createRrNodeContentDto: Content,
+// ) => {
+//   const result = await apiClient<RrNodeContent>(
+//     `rr-node-content/for-node/${nodeId}`,
+//     {
+//       method: "POST",
+//       body: JSON.stringify(createRrNodeContentDto),
+//     },
+//   );
+//   const newContent = result.data;
 
-  return newContent;
-};
+//   return newContent;
+// };
 
 export const fetchAllRrNodeContents = async () => {
   const result = await apiClient<RrNodeContent[]>("rr-node-content");

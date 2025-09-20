@@ -23,12 +23,12 @@ export const useCreateRrTree = () => {
   });
 };
 
-export const useCreateRrNode = (treeId: string) => {
+export const useCreateRrNode = (treeId: string, parentNodeId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: (createRrNodeDto: CreateRrNodeDto) =>
-      createRrNode(treeId, createRrNodeDto),
+      createRrNode(treeId, parentNodeId, createRrNodeDto),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["rrTree", treeId] });
       queryClient.invalidateQueries({ queryKey: ["rrRoots"] });

@@ -48,7 +48,6 @@ export class RrRootService {
   async remove(id: string) {
     const removedRoot = await this.rrRootMapper.remove(id);
     const removedRootNode = await this.rrNodeService.removeRootNode(
-      // eslint-disable-next-line @typescript-eslint/no-base-to-string
       removedRoot.treeRootNodeId.toString(),
     );
     if (!removedRootNode) {
