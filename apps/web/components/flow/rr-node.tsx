@@ -32,7 +32,7 @@ export default function RrNodeComponent({
   const isRootNode = rrNode._id === treeId;
 
   // 操作节点
-  const { mutate: createRrNode } = useCreateRrNode(treeId);
+  const { mutate: createRrNode } = useCreateRrNode(treeId, rrNode._id);
   const { mutate: updateRrNode } = useUpdateRrNode(treeId, rrNode._id);
   const { mutate: removeRrNode } = useRemoveRrNode(treeId, rrNode._id);
 
@@ -46,7 +46,6 @@ export default function RrNodeComponent({
         createRrNode(
           {
             title: data!.title!,
-            parentId: rrNode._id,
             description: data?.description,
           },
           {
@@ -67,7 +66,6 @@ export default function RrNodeComponent({
         updateRrNode(
           {
             title: data!.title!,
-            parentId: isRootNode ? null : rrNode.parentId,
             description: data?.description,
           },
           {

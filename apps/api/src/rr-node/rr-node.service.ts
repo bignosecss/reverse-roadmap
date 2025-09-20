@@ -3,6 +3,8 @@ import { CreateRrNodeDto } from './dto/create-rr-node.dto';
 import { UpdateRrNodeDto } from './dto/update-rr-node.dto';
 import { RrNodeMapper } from './mapper/rr-node.mapper';
 import { RrNodeContentService } from 'src/rr-node-content/rr-node-content.service';
+import { RrNode } from 'src/schemas/rr-node.schema';
+import mongoose from 'mongoose';
 
 @Injectable()
 export class RrNodeService {
@@ -35,23 +37,42 @@ export class RrNodeService {
     if (!rootNode) {
       throw new Error('Root node not found when trying to create a child node');
     }
-    const parentNode = await this.rrNodeMapper.findNode(treeId, parentNodeId);
+
+    // 查找父节点 (这里假设你的 mapper 或 service 中有 _findNodeRecursive 的实现)
+    // 注意：一个更优的实现是在 Service 中直接操作，而不是依赖 Mapper 查找
+    const parentNode = this.rrNodeMapper['_findNodeRecursive'](
+      rootNode,
+      new mongoose.Types.ObjectId(parentNodeId),
+    );
+
     if (!parentNode) {
       throw new Error(
         'Parent node not found when trying to create a child node',
       );
     }
-    const newNode = await this.rrNodeMapper.createNode(createRrNodeDto);
+
+    // 1. 为子节点创建关联的内容 (这部分是正确的)
     const nodeContent = await this.rrNodeContentService.create(
       this.defaultTiptapContent,
     );
 
-    newNode.content = nodeContent._id;
-    newNode.parentId = parentNode._id;
-    parentNode.children.push(newNode);
+    // 2. 创建一个【普通JS对象】来代表新节点，而不是一个 Mongoose Model 实例
+    const newNodeObject = {
+      ...createRrNodeDto,
+      _id: new mongoose.Types.ObjectId(), // Mongoose 会自动生成，但手动生成更明确
+      parentId: parentNode._id,
+      content: nodeContent._id,
+      children: [],
+    };
 
+    // 3. 将这个普通对象推入父节点的 children 数组
+    parentNode.children.push(newNodeObject as RrNode);
+
+    // 4. 只保存一次根节点
     await rootNode.save();
-    return newNode;
+
+    // 5. 返回刚刚创建的那个普通对象
+    return newNodeObject;
   }
 
   findAll() {
@@ -68,7 +89,7 @@ export class RrNodeService {
         "If you are trying to find root node, there's a specific method to do that",
       );
     }
-    return this.rrNodeMapper.findNode(nodeId, treeId);
+    return this.rrNodeMapper.findNode(treeId, nodeId);
   }
 
   async update(

@@ -6,6 +6,7 @@ import {
   Patch,
   Delete,
   Query,
+  BadRequestException,
 } from '@nestjs/common';
 import { RrNodeService } from './rr-node.service';
 import { CreateRrNodeDto } from './dto/create-rr-node.dto';
@@ -16,7 +17,7 @@ export class RrNodeController {
   constructor(private readonly rrNodeService: RrNodeService) {}
 
   @Post('root')
-  create(createRrNodeDto: CreateRrNodeDto) {
+  create(@Body() createRrNodeDto: CreateRrNodeDto) {
     return this.rrNodeService.createRootNode(createRrNodeDto);
   }
 
@@ -36,11 +37,19 @@ export class RrNodeController {
 
   @Get('findRoot')
   findRootNode(@Query('treeId') treeId: string) {
+    if (!treeId) {
+      throw new BadRequestException('treeId is a required query parameter.');
+    }
     return this.rrNodeService.findRootNode(treeId);
   }
 
-  @Get('find')
+  @Get('findChild')
   findNode(@Query('treeId') treeId: string, @Query('nodeId') nodeId: string) {
+    if (!treeId || !nodeId) {
+      throw new BadRequestException(
+        'treeId and nodeId are required query parameters.',
+      );
+    }
     return this.rrNodeService.findNode(treeId, nodeId);
   }
 

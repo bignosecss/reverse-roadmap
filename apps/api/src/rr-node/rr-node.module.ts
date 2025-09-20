@@ -17,5 +17,6 @@ import { RrNodeContentModule } from 'src/rr-node-content/rr-node-content.module'
   ],
   controllers: [RrNodeController],
   providers: [RrNodeService, RrNodeMapper],
+  exports: [RrNodeService],
 })
 export class RrNodeModule {}

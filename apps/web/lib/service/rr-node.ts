@@ -55,7 +55,7 @@ export const fetchRrNodeById = async (treeId: string, nodeId: string) => {
     nodeId,
   });
 
-  const result = await apiClient<RrNode>(`rr-node/find?${params.toString()}`);
+  const result = await apiClient<RrNode>(`rr-node/findChild?${params.toString()}`);
   const node = result.data;
 
   return node;
@@ -66,7 +66,12 @@ export const updateRrNode = async (
   nodeId: string,
   updateRrNodeDto: UpdateRrNodeDto,
 ) => {
-  const result = await apiClient<RrNode>(`rr-node/${treeId}/nodes/${nodeId}`, {
+  const queryParams = new URLSearchParams({
+    treeId,
+    nodeId,
+  }).toString();
+
+  const result = await apiClient<RrNode>(`rr-node?${queryParams}`, {
     method: "PATCH",
     body: JSON.stringify(updateRrNodeDto),
   });
@@ -76,7 +81,11 @@ export const updateRrNode = async (
 };
 
 export const removeRrTree = async (treeId: string) => {
-  const result = await apiClient<RrNode>(`rr-node/root/${treeId}`, {
+  const queryParams = new URLSearchParams({
+    treeId,
+  }).toString();
+
+  const result = await apiClient<RrNode>(`rr-node/root?${queryParams}`, {
     method: "DELETE",
   });
   const deletedTree = result.data;
@@ -85,7 +94,12 @@ export const removeRrTree = async (treeId: string) => {
 };
 
 export const removeRrNode = async (treeId: string, nodeId: string) => {
-  const result = await apiClient<RrNode>(`rr-node/child/${treeId}/${nodeId}`, {
+  const queryParams = new URLSearchParams({
+    treeId,
+    nodeId,
+  }).toString();
+
+  const result = await apiClient<RrNode>(`rr-node/child/${queryParams}`, {
     method: "DELETE",
   });
   const deletedNode = result.data;
