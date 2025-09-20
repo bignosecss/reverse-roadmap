@@ -9,14 +9,15 @@ import {
 } from '@nestjs/common';
 import { RrNodeContentService } from './rr-node-content.service';
 import { UpdateRrNodeContentDto } from './dto/update-rr-node-content.dto';
+import { CreateRrNodeContentDto } from './dto/create-rr-node-content.dto';
 
 @Controller('rr-node-content')
 export class RrNodeContentController {
   constructor(private readonly rrNodeContentService: RrNodeContentService) {}
 
   @Post()
-  create() {
-    return this.rrNodeContentService.create();
+  create(createRrNodeContentDto: CreateRrNodeContentDto) {
+    return this.rrNodeContentService.create(createRrNodeContentDto);
   }
 
   @Get()

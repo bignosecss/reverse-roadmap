@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { RrNodeContentMapper } from './mapper/rr-node-content.mapper';
 import { UpdateRrNodeContentDto } from './dto/update-rr-node-content.dto';
+import { CreateRrNodeContentDto } from './dto/create-rr-node-content.dto';
 
 @Injectable()
 export class RrNodeContentService {
   constructor(private readonly rrNodeContentMapper: RrNodeContentMapper) {}
 
-  create() {
-    return this.rrNodeContentMapper.create();
+  create(createRrNodeContentDto: CreateRrNodeContentDto) {
+    return this.rrNodeContentMapper.create(createRrNodeContentDto);
   }
 
   findAll() {
@@ -22,7 +23,7 @@ export class RrNodeContentService {
     return this.rrNodeContentMapper.update(id, updateRrNodeContentDto);
   }
 
-  remove(id: string) {
-    return this.rrNodeContentMapper.remove(id);
+  async remove(id: string) {
+    return await this.rrNodeContentMapper.remove(id);
   }
 }

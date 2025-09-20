@@ -16,8 +16,8 @@ export class RrRoot {
   @Prop({ required: true })
   title!: string; // 侧边栏显示的标题
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'RrNode' })
-  treeRootNodeId!: mongoose.Schema.Types.ObjectId; // 关联的树的根节点ID
+  @Prop({ type: mongoose.Types.ObjectId, ref: 'RrNode' })
+  treeRootNodeId!: mongoose.Types.ObjectId; // 关联的树的根节点ID
 
   @Prop({ type: String, enum: ['active', 'archived'], default: 'active' })
   status!: string;
