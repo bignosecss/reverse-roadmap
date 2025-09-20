@@ -30,7 +30,7 @@ export class RrRootMapper {
       content: [{ type: 'paragraph' }],
     };
     await this.rrNodeContentMapper.createForNode(
-      savedTreeRootNode._id.toString(),
+      newTreeRootNode,
       defaultContent,
     );
 

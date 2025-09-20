@@ -26,7 +26,7 @@ export class RrNodeMapper {
       content: [{ type: 'paragraph' }],
     };
     await this.rrNodeContentMapper.createForNode(
-      savedTreeRootNode._id.toString(),
+      savedTreeRootNode,
       defaultContent,
     );
 
@@ -66,23 +66,24 @@ export class RrNodeMapper {
       throw new Error('Parent node not found when creating a new node');
     }
     newNode.parentId = parentNode._id;
-    parentNode.children.push(newNode);
 
     // 为新节点创建默认的 content
     const defaultContent = {
       type: 'doc',
       content: [{ type: 'paragraph' }],
     };
-    await this.rrNodeContentMapper.createForNode(
-      newNode._id.toString(),
+    const { nodeWithContent } = await this.rrNodeContentMapper.createForNode(
+      newNode,
       defaultContent,
     );
+
+    parentNode.children.push(nodeWithContent);
 
     rrRoot.updatedAt = new Date();
     await rrRoot.save();
 
     await targetTree.save();
-    return newNode;
+    return nodeWithContent;
   }
 
   findAllTrees() {

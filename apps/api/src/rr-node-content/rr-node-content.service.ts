@@ -2,26 +2,21 @@ import { Injectable } from '@nestjs/common';
 import { RrNodeContentMapper } from './mapper/rr-node-content.mapper';
 import { CreateRrNodeContentDto } from './dto/create-rr-node-content.dto';
 import { UpdateRrNodeContentDto } from './dto/update-rr-node-content.dto';
+import { RrNode } from 'src/schemas/rr-node.schema';
 
 @Injectable()
 export class RrNodeContentService {
   constructor(private readonly rrNodeContentMapper: RrNodeContentMapper) {}
 
-  async create(
-    createRrNodeContentDto: CreateRrNodeContentDto,
-    nodeId?: string,
-  ) {
-    return this.rrNodeContentMapper.create(createRrNodeContentDto, nodeId);
+  async create(node: RrNode, createRrNodeContentDto: CreateRrNodeContentDto) {
+    return this.rrNodeContentMapper.create(node, createRrNodeContentDto);
   }
 
   async createForNode(
-    nodeId: string,
+    node: RrNode,
     createRrNodeContentDto: CreateRrNodeContentDto,
   ) {
-    return this.rrNodeContentMapper.createForNode(
-      nodeId,
-      createRrNodeContentDto,
-    );
+    return this.rrNodeContentMapper.createForNode(node, createRrNodeContentDto);
   }
 
   async findAll() {

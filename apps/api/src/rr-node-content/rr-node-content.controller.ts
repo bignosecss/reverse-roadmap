@@ -16,24 +16,31 @@ import { UpdateRrNodeContentDto } from './dto/update-rr-node-content.dto';
 export class RrNodeContentController {
   constructor(private readonly rrNodeContentService: RrNodeContentService) {}
 
-  @Post()
-  create(
-    @Body() createRrNodeContentDto: CreateRrNodeContentDto,
-    @Query('nodeId') nodeId?: string,
-  ) {
-    return this.rrNodeContentService.create(createRrNodeContentDto, nodeId);
-  }
+  // @Post()
+  // create(
+  //   @Query('treeId') treeId: string,
+  //   @Query('nodeId') nodeId: string,
+  //   @Body() createRrNodeContentDto: CreateRrNodeContentDto,
+  // ) {
+  //   return this.rrNodeContentService.create(
+  //     treeId,
+  //     nodeId,
+  //     createRrNodeContentDto,
+  //   );
+  // }
 
-  @Post('for-node/:nodeId')
-  createForNode(
-    @Param('nodeId') nodeId: string,
-    @Body() createRrNodeContentDto: CreateRrNodeContentDto,
-  ) {
-    return this.rrNodeContentService.createForNode(
-      nodeId,
-      createRrNodeContentDto,
-    );
-  }
+  // @Post('for-node/:treeId/:nodeId')
+  // createForNode(
+  //   @Param('treeId') treeId: string,
+  //   @Param('nodeId') nodeId: string,
+  //   @Body() createRrNodeContentDto: CreateRrNodeContentDto,
+  // ) {
+  //   return this.rrNodeContentService.createForNode(
+  //     treeId,
+  //     nodeId,
+  //     createRrNodeContentDto,
+  //   );
+  // }
 
   @Get()
   findAll() {

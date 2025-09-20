@@ -14,30 +14,26 @@ export class RrNodeContentMapper {
     @InjectModel(RrNode.name) private rrNodeModel: Model<RrNode>,
   ) {}
 
-  async create(
-    createRrNodeContentDto: CreateRrNodeContentDto,
-    nodeId?: string,
-  ): Promise<RrNodeContent> {
+  async create(node: RrNode, createRrNodeContentDto: CreateRrNodeContentDto) {
+    if (!node) {
+      throw new Error('Node not found when trying to create a rr-node-content');
+    }
+
     const createdRrNodeContent = new this.rrNodeContentModel(
       createRrNodeContentDto,
     );
     const savedContent = await createdRrNodeContent.save();
 
-    // 如果提供了nodeId，建立与rr-node的关联
-    if (nodeId) {
-      await this.rrNodeModel
-        .findByIdAndUpdate(nodeId, { content: savedContent._id }, { new: true })
-        .exec();
-    }
+    node.content = savedContent._id;
 
-    return savedContent;
+    return { nodeWithContent: node, savedContent };
   }
 
   async createForNode(
-    nodeId: string,
+    node: RrNode,
     createRrNodeContentDto: CreateRrNodeContentDto,
-  ): Promise<RrNodeContent> {
-    return this.create(createRrNodeContentDto, nodeId);
+  ) {
+    return this.create(node, createRrNodeContentDto);
   }
 
   async findAll(): Promise<RrNodeContent[]> {
