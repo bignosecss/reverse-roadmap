@@ -9,21 +9,15 @@ interface TiptapProps {
   content: RrNodeContent;
 }
 
-const redundantAttributes = ["_id", "createdAt", "updatedAt", "__v"];
-
 export const Tiptap = ({ content }: TiptapProps) => {
   const [value, setValue] = useState<Content>("");
 
   useEffect(() => {
     if (content) {
-      // Create a copy of content to avoid mutating props directly
-      const contentCopy = { ...content };
-      for (const key in contentCopy) {
-        if (redundantAttributes.includes(key)) {
-          delete (contentCopy as any)[key];
-        }
-      }
-      setValue(contentCopy);
+      // 删掉多余的属性
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { _id, createdAt, updatedAt, __v, ...restContent } = content;
+      setValue(restContent);
     }
   }, [content]);
 
