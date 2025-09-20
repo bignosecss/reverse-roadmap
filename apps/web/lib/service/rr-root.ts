@@ -16,8 +16,6 @@ export const fetchAllRrRoots = async () => {
   const result = await apiClient<RrRoot[]>("rr-root");
   const allRoots = result.data;
 
-  console.log("fetchAllRoots result", allRoots);
-
   return allRoots;
 };
 

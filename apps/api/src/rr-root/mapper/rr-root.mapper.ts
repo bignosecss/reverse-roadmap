@@ -5,12 +5,14 @@ import { RrRoot } from 'src/schemas/rr-root.schema';
 import { RrNode } from 'src/schemas/rr-node.schema';
 import { CreateRrRootDto } from '../dto/create-rr-root.dto';
 import { UpdateRrRootDto } from '../dto/update-rr-root.dto';
+import { RrNodeContentMapper } from 'src/rr-node-content/mapper/rr-node-content.mapper';
 
 @Injectable()
 export class RrRootMapper {
   constructor(
     @InjectModel(RrRoot.name) private rrRootModel: Model<RrRoot>,
     @InjectModel(RrNode.name) private rrNodeModel: Model<RrNode>,
+    private readonly rrNodeContentMapper: RrNodeContentMapper,
   ) {}
 
   async create(createRrRootDto: CreateRrRootDto) {
@@ -21,6 +23,16 @@ export class RrRootMapper {
     });
 
     const savedTreeRootNode = await newTreeRootNode.save();
+
+    // 为根节点创建默认的 content
+    const defaultContent = {
+      type: 'doc',
+      content: [{ type: 'paragraph' }],
+    };
+    await this.rrNodeContentMapper.createForNode(
+      savedTreeRootNode._id.toString(),
+      defaultContent,
+    );
 
     // 引用现有的跟节点
     const newRoot = new this.rrRootModel({
@@ -57,6 +69,22 @@ export class RrRootMapper {
     }
 
     const treeRootNodeId = targetRoot.treeRootNodeId;
+
+    // 先找到树节点，以便删除所有关联的 content
+    const targetTree = await this.rrNodeModel.findById(treeRootNodeId).exec();
+    if (targetTree) {
+      // 递归删除所有节点关联的 content
+      const deleteContentRecursive = async (node: RrNode) => {
+        if (node.content) {
+          await this.rrNodeContentMapper.remove(node.content.toString());
+        }
+        for (const child of node.children) {
+          await deleteContentRecursive(child);
+        }
+      };
+
+      await deleteContentRecursive(targetTree);
+    }
 
     const deletedRoot = await this.rrRootModel
       .findByIdAndDelete(objectId)

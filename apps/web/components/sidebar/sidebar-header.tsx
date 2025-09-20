@@ -39,26 +39,14 @@ export function SidebarHeaderComponent() {
   return (
     <SidebarHeader className="relative">
       <SidebarMenu>
-        <SidebarMenuItem>
-          {/* 展开状态：显示logo和文本，SidebarTrigger在右侧 */}
-          <div className="group-data-[collapsible=icon]:hidden">
-            <Link
-              href="/"
-              className="flex items-center gap-2 px-2 py-1.5 relative overflow-hidden"
-            >
-              <span className="relative whitespace-nowrap transition-all duration-200 ease-linear group-data-[collapsible=icon]:opacity-0 group-data-[collapsible=icon]:translate-x-[-10px]">
-                Reverse Roadmap
-                {/* 渐变遮罩层，在收缩时创建淡出效果 */}
-                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-background opacity-0 group-data-[collapsible=icon]:opacity-100 transition-opacity duration-200 ease-linear" />
-              </span>
-            </Link>
-            <SidebarTrigger className="absolute right-2 top-1/2 -translate-y-1/2" />
-          </div>
-
-          {/* 折叠状态：在logo位置显示SidebarTrigger */}
-          <div className="group-data-[collapsible=icon]:block hidden">
-            <SidebarTrigger className="flex items-center justify-center w-full px-2 py-1.5" />
-          </div>
+        <SidebarMenuItem className="flex flex-row justify-between items-center  group-data-[collapsible=icon]:justify-center">
+          <Link
+            href="/"
+            className="flex items-center relative whitespace-nowrap transition-all duration-200 ease-linear group-data-[collapsible=icon]:hidden"
+          >
+            Reverse Roadmap
+          </Link>
+          <SidebarTrigger />
         </SidebarMenuItem>
         {HEAD_MENU_ITEMS.map((item) => (
           <SidebarMenuItem key={item.title}>

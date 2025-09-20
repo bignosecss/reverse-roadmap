@@ -5,18 +5,30 @@ import { RrNode } from 'src/schemas/rr-node.schema';
 import { CreateRrNodeDto } from '../dto/create-rr-node.dto';
 import { UpdateRrNodeDto } from '../dto/update-rr-node.dto';
 import { RrRoot } from 'src/schemas/rr-root.schema';
+import { RrNodeContentMapper } from 'src/rr-node-content/mapper/rr-node-content.mapper';
 
 @Injectable()
 export class RrNodeMapper {
   constructor(
     @InjectModel(RrNode.name) private rrNodeModel: Model<RrNode>,
     @InjectModel(RrRoot.name) private rrRootModel: Model<RrRoot>,
+    private readonly rrNodeContentMapper: RrNodeContentMapper,
   ) {}
 
   async createTree(createRrNodeDto: CreateRrNodeDto) {
     // 先创建树的根节点
     const newTreeRootNode = new this.rrNodeModel(createRrNodeDto);
     const savedTreeRootNode = await newTreeRootNode.save();
+
+    // 为根节点创建默认的 content
+    const defaultContent = {
+      type: 'doc',
+      content: [{ type: 'paragraph' }],
+    };
+    await this.rrNodeContentMapper.createForNode(
+      savedTreeRootNode._id.toString(),
+      defaultContent,
+    );
 
     // 引用现有的跟节点
     const newRoot = new this.rrRootModel({
@@ -55,6 +67,16 @@ export class RrNodeMapper {
     }
     newNode.parentId = parentNode._id;
     parentNode.children.push(newNode);
+
+    // 为新节点创建默认的 content
+    const defaultContent = {
+      type: 'doc',
+      content: [{ type: 'paragraph' }],
+    };
+    await this.rrNodeContentMapper.createForNode(
+      newNode._id.toString(),
+      defaultContent,
+    );
 
     rrRoot.updatedAt = new Date();
     await rrRoot.save();
@@ -156,6 +178,24 @@ export class RrNodeMapper {
   async removeTree(treeId: string) {
     const treeObjectId = new mongoose.Types.ObjectId(treeId);
 
+    // 先找到树节点，以便删除所有关联的 content
+    const targetTree = await this.rrNodeModel.findById(treeObjectId).exec();
+    if (!targetTree) {
+      throw new Error('Tree not found when trying to delete a tree');
+    }
+
+    // 递归删除所有节点关联的 content
+    const deleteContentRecursive = async (node: RrNode) => {
+      if (node.content) {
+        await this.rrNodeContentMapper.remove(node.content.toString());
+      }
+      for (const child of node.children) {
+        await deleteContentRecursive(child);
+      }
+    };
+
+    await deleteContentRecursive(targetTree);
+
     const removedRootOfThisTree = await this.rrRootModel
       .findOneAndDelete({
         treeRootNodeId: treeObjectId,
@@ -223,6 +263,11 @@ export class RrNodeMapper {
     const deletedNode = deleteFromChildren(targetTree);
     if (!deletedNode) {
       throw new Error('Node not found when trying to delete a node');
+    }
+
+    // 删除节点关联的 content
+    if (deletedNode.content) {
+      await this.rrNodeContentMapper.remove(deletedNode.content.toString());
     }
 
     rrRoot.updatedAt = new Date();
