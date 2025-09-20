@@ -7,6 +7,8 @@ import { RrNodeMapper } from './mapper/rr-node.mapper';
 export class RrNodeService {
   constructor(private readonly rrNodeMapper: RrNodeMapper) {}
 
+  async createRootNode(createRrNodeDto: CreateRrNodeDto) {}
+
   createNode(
     treeId: string,
     parentNodeId: string,

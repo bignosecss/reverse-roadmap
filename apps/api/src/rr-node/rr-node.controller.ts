@@ -4,7 +4,6 @@ import {
   Post,
   Body,
   Patch,
-  Param,
   Delete,
   Query,
 } from '@nestjs/common';
@@ -15,6 +14,11 @@ import { UpdateRrNodeDto } from './dto/update-rr-node.dto';
 @Controller('rr-node')
 export class RrNodeController {
   constructor(private readonly rrNodeService: RrNodeService) {}
+
+  @Post()
+  create(createRrNodeDto: CreateRrNodeDto) {
+    return this.rrNodeService.createRootNode(createRrNodeDto);
+  }
 
   @Post()
   createNode(

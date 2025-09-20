@@ -7,6 +7,8 @@ import { UpdateRrNodeDto } from '../dto/update-rr-node.dto';
 export class RrNodeMapper {
   constructor() {}
 
+  createRootNode() {}
+
   createNode(
     treeId: string,
     parentNodeId: string,
