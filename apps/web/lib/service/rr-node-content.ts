@@ -1,12 +1,9 @@
 import { apiClient } from "./client";
 import { RrNodeContent } from "../types/models";
-import {
-  CreateRrNodeContentDto,
-  UpdateRrNodeContentDto,
-} from "../types/apiRequests";
+import { Content } from "@tiptap/react";
 
 export const createRrNodeContent = async (
-  createRrNodeContentDto: CreateRrNodeContentDto,
+  createRrNodeContentDto: Content,
   nodeId?: string,
 ) => {
   const params = new URLSearchParams();
@@ -28,7 +25,7 @@ export const createRrNodeContent = async (
 
 export const createRrNodeContentForNode = async (
   nodeId: string,
-  createRrNodeContentDto: CreateRrNodeContentDto,
+  createRrNodeContentDto: Content,
 ) => {
   const result = await apiClient<RrNodeContent>(
     `rr-node-content/for-node/${nodeId}`,
@@ -58,7 +55,7 @@ export const fetchRrNodeContentById = async (id: string) => {
 
 export const updateRrNodeContent = async (
   id: string,
-  updateRrNodeContentDto: UpdateRrNodeContentDto,
+  updateRrNodeContentDto: Content,
 ) => {
   const result = await apiClient<RrNodeContent>(`rr-node-content/${id}`, {
     method: "PATCH",

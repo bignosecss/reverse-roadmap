@@ -276,12 +276,25 @@ export const useMinimalTiptapEditor = ({
     if (editor && value) {
       // 检查当前编辑器内容是否与新值不同
       // 如果不同，则更新编辑器内容
-      const currentHtmlContent = getOutput(editor, "html");
       const currentJsonContent = getOutput(editor, "json");
-      if (
-        JSON.stringify(currentHtmlContent) !== JSON.stringify(value) ||
-        JSON.stringify(currentJsonContent) !== JSON.stringify(value)
-      ) {
+      const currentStr = JSON.stringify(currentJsonContent);
+      const valueStr = JSON.stringify(value);
+
+      console.log("Comparing content:");
+      console.log("currentContent:", currentJsonContent);
+      console.log("value:", value);
+      console.log("currentStr:", currentStr);
+      console.log("valueStr:", valueStr);
+      console.log("Are equal:", currentStr === valueStr);
+
+      if (currentStr !== valueStr) {
+        console.log("Content differs, setting content");
+        editor.commands.setContent(value);
+      } else {
+        console.log("Content same, skipping");
+      }
+      if (JSON.stringify(currentJsonContent) !== JSON.stringify(value)) {
+        console.log("执行了");
         // 使用queueMicrotask来避免flushSync警告
         queueMicrotask(() => {
           editor.commands.setContent(value);

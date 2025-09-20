@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Content } from "@tiptap/react";
 import { MinimalTiptapEditor } from "../ui/minimal-tiptap";
 import { RrNodeContent } from "@/lib/types/models";
+import { useUpdateRrNodeContent } from "@/hooks/use-rr-node-content";
 
 interface TiptapProps {
   content: RrNodeContent;
@@ -11,6 +12,16 @@ interface TiptapProps {
 
 export const Tiptap = ({ content }: TiptapProps) => {
   const [value, setValue] = useState<Content>("");
+
+  const { mutate: saveContent } = useUpdateRrNodeContent(content._id);
+
+  const handleSetValue = useCallback(
+    (value: Content) => {
+      setValue(value);
+      saveContent(value);
+    },
+    [saveContent],
+  );
 
   useEffect(() => {
     if (content) {
@@ -24,10 +35,10 @@ export const Tiptap = ({ content }: TiptapProps) => {
   return (
     <MinimalTiptapEditor
       value={value}
-      onChange={setValue}
+      onChange={handleSetValue}
       className="w-full"
       editorContentClassName="p-5"
-      output="html"
+      output="json"
       placeholder="Enter your description..."
       autofocus={true}
       editable={true}

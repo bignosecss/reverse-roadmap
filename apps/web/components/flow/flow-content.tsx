@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { useTheme } from "next-themes";
 import {
@@ -21,6 +21,7 @@ import useFlowStore from "@/lib/stores/flow";
 import { getLayoutedNodes } from "@/lib/flow-tree/dagre-layout";
 import { useGetRrTree } from "@/hooks/use-rr-node";
 import { convertTreeToFlow } from "@/lib/flow-tree/converter";
+import { useQueryClient } from "@tanstack/react-query";
 
 // 注册自定义节点类型
 const nodeTypes = {
@@ -60,6 +61,8 @@ export default function FlowContent({ treeId }: { treeId: string }) {
     setCanvasOpen,
   } = useFlowStore(useShallow(selector));
   const nodeInitialized = useNodesInitialized(options);
+  const prevNodeRef = useRef<FlowNode | null>(null);
+  const queryClient = useQueryClient();
 
   // 第一阶段：数据转换
   useEffect(() => {
@@ -91,10 +94,19 @@ export default function FlowContent({ treeId }: { treeId: string }) {
   const onNodeClick = useCallback(
     (event: React.MouseEvent, node: FlowNode) => {
       console.log("Node clicked:", node.id);
+
+      if (prevNodeRef && prevNodeRef.current) {
+        queryClient.invalidateQueries({
+          queryKey: ["rrNodeContent", prevNodeRef.current.data.rrNode.content],
+        });
+      }
+
       setCurrentNode(node.data.rrNode);
       if (!canvasOpen) setCanvasOpen(true);
+
+      if (!prevNodeRef.current) prevNodeRef.current = node;
     },
-    [canvasOpen, setCanvasOpen, setCurrentNode],
+    [canvasOpen, queryClient, setCanvasOpen, setCurrentNode],
   );
 
   if (isLoading) {
