@@ -3,6 +3,4 @@ import { CreateRrNodeContentDto } from './create-rr-node-content.dto';
 
 export class UpdateRrNodeContentDto extends PartialType(
   CreateRrNodeContentDto,
-) {
-  content: any;
-}
+) {}

@@ -4,9 +4,9 @@ import {
   Post,
   Body,
   Patch,
-  Param,
   Delete,
   Query,
+  BadRequestException,
 } from '@nestjs/common';
 import { RrNodeService } from './rr-node.service';
 import { CreateRrNodeDto } from './dto/create-rr-node.dto';
@@ -16,17 +16,18 @@ import { UpdateRrNodeDto } from './dto/update-rr-node.dto';
 export class RrNodeController {
   constructor(private readonly rrNodeService: RrNodeService) {}
 
-  @Post('')
-  createTree(@Body() createRrNodeDto: CreateRrNodeDto) {
-    return this.rrNodeService.createTree(createRrNodeDto);
+  @Post('root')
+  create(@Body() createRrNodeDto: CreateRrNodeDto) {
+    return this.rrNodeService.createRootNode(createRrNodeDto);
   }
 
-  @Post(':treeId')
+  @Post('child')
   createNode(
-    @Param('treeId') treeId: string,
+    @Query('treeId') treeId: string,
+    @Query('parentNodeId') parentNodeId: string,
     @Body() createRrNodeDto: CreateRrNodeDto,
   ) {
-    return this.rrNodeService.createNode(treeId, createRrNodeDto);
+    return this.rrNodeService.createNode(treeId, parentNodeId, createRrNodeDto);
   }
 
   @Get()
@@ -34,32 +35,40 @@ export class RrNodeController {
     return this.rrNodeService.findAll();
   }
 
-  @Get('find')
-  findTree(@Query('treeId') treeId: string) {
-    return this.rrNodeService.findTree(treeId);
+  @Get('findRoot')
+  findRootNode(@Query('treeId') treeId: string) {
+    if (!treeId) {
+      throw new BadRequestException('treeId is a required query parameter.');
+    }
+    return this.rrNodeService.findRootNode(treeId);
   }
 
-  @Get('find')
+  @Get('findChild')
   findNode(@Query('treeId') treeId: string, @Query('nodeId') nodeId: string) {
+    if (!treeId || !nodeId) {
+      throw new BadRequestException(
+        'treeId and nodeId are required query parameters.',
+      );
+    }
     return this.rrNodeService.findNode(treeId, nodeId);
   }
 
-  @Patch(':treeId/nodes/:nodeId')
+  @Patch()
   update(
-    @Param('treeId') treeId: string,
-    @Param('nodeId') nodeId: string,
+    @Query('treeId') treeId: string,
+    @Query('nodeId') nodeId: string,
     @Body() updateRrNodeDto: UpdateRrNodeDto,
   ) {
     return this.rrNodeService.update(treeId, nodeId, updateRrNodeDto);
   }
 
-  @Delete(':treeId')
-  removeTree(@Param('treeId') treeId: string) {
-    return this.rrNodeService.removeTree(treeId);
+  @Delete('root')
+  removeRootNode(@Query('treeId') treeId: string) {
+    return this.rrNodeService.removeRootNode(treeId);
   }
 
-  @Delete(':treeId/nodes/:nodeId')
-  removeNode(@Param('treeId') treeId: string, @Param('nodeId') nodeId: string) {
+  @Delete('child')
+  removeNode(@Query('treeId') treeId: string, @Query('nodeId') nodeId: string) {
     return this.rrNodeService.removeNode(treeId, nodeId);
   }
 }

@@ -18,6 +18,6 @@ import { RrNodeContentMapper } from './mapper/rr-node-content.mapper';
   ],
   controllers: [RrNodeContentController],
   providers: [RrNodeContentService, RrNodeContentMapper],
-  exports: [RrNodeContentMapper],
+  exports: [RrNodeContentService, RrNodeContentMapper],
 })
 export class RrNodeContentModule {}

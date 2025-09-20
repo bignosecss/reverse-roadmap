@@ -1,161 +1,109 @@
 import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model } from 'mongoose';
 import { RrNode } from 'src/schemas/rr-node.schema';
 import { CreateRrNodeDto } from '../dto/create-rr-node.dto';
 import { UpdateRrNodeDto } from '../dto/update-rr-node.dto';
-import { RrRoot } from 'src/schemas/rr-root.schema';
-import { RrNodeContentMapper } from 'src/rr-node-content/mapper/rr-node-content.mapper';
+import { InjectModel } from '@nestjs/mongoose';
+import mongoose, { Model } from 'mongoose';
 
 @Injectable()
 export class RrNodeMapper {
-  constructor(
-    @InjectModel(RrNode.name) private rrNodeModel: Model<RrNode>,
-    @InjectModel(RrRoot.name) private rrRootModel: Model<RrRoot>,
-    private readonly rrNodeContentMapper: RrNodeContentMapper,
-  ) {}
+  constructor(@InjectModel(RrNode.name) private rrNode: Model<RrNode>) {}
 
-  async createTree(createRrNodeDto: CreateRrNodeDto) {
-    // 先创建树的根节点
-    const newTreeRootNode = new this.rrNodeModel(createRrNodeDto);
-    const savedTreeRootNode = await newTreeRootNode.save();
-
-    // 为根节点创建默认的 content
-    const defaultContent = {
-      type: 'doc',
-      content: [{ type: 'paragraph' }],
-    };
-    await this.rrNodeContentMapper.createForNode(
-      savedTreeRootNode,
-      defaultContent,
-    );
-
-    // 引用现有的跟节点
-    const newRoot = new this.rrRootModel({
-      treeRootNodeId: savedTreeRootNode._id,
-      title: createRrNodeDto.title,
-    });
-    // 保存树的根节点引用
-    await newRoot.save();
-
-    return savedTreeRootNode.toJSON();
+  async createRootNode(createRrNodeDto: CreateRrNodeDto) {
+    const newRootNodeModel = await this.rrNode.create(createRrNodeDto);
+    return await newRootNodeModel.save();
   }
 
-  async createNode(treeId: string, createRrNodeDto: CreateRrNodeDto) {
-    const newNode = new this.rrNodeModel(createRrNodeDto);
+  async createNode(createRrNodeDto: CreateRrNodeDto) {
+    const newNodeModel = new this.rrNode(createRrNodeDto);
+    return await newNodeModel.save();
+  }
 
+  findAll() {
+    return this.rrNode.find().exec();
+  }
+
+  async findRootNode(treeId: string) {
     const treeObjectId = new mongoose.Types.ObjectId(treeId);
-    const parentObjectId = new mongoose.Types.ObjectId(
-      createRrNodeDto.parentId,
-    );
-
-    const rrRoot = await this.rrRootModel.findOne({
-      treeRootNodeId: treeObjectId,
-    });
-    if (!rrRoot) {
-      throw new Error('Root not found when creating a node');
+    const rootNode = await this.rrNode.findById(treeObjectId).exec();
+    if (!rootNode) {
+      throw new Error('');
     }
-
-    const targetTree = await this.rrNodeModel.findById(treeObjectId).exec();
-    if (!targetTree) {
-      throw new Error('Tree not found when creating a new node');
-    }
-
-    const parentNode = this._findNodeRecursive(targetTree, parentObjectId);
-    if (!parentNode) {
-      throw new Error('Parent node not found when creating a new node');
-    }
-    newNode.parentId = parentNode._id;
-
-    // 为新节点创建默认的 content
-    const defaultContent = {
-      type: 'doc',
-      content: [{ type: 'paragraph' }],
-    };
-    const { nodeWithContent } = await this.rrNodeContentMapper.createForNode(
-      newNode,
-      defaultContent,
-    );
-
-    parentNode.children.push(nodeWithContent);
-
-    rrRoot.updatedAt = new Date();
-    await rrRoot.save();
-
-    await targetTree.save();
-    return nodeWithContent;
+    return rootNode;
   }
 
-  findAllTrees() {
-    return this.rrNodeModel.find().exec();
-  }
-
-  async findTreeById(treeId: string) {
-    const treeObjectId = new mongoose.Types.ObjectId(treeId);
-    const targetTree = await this.rrNodeModel.findById(treeObjectId).exec();
-    if (!targetTree) {
-      throw new Error(`Tree not found when trying to find by ID: ${treeId}`);
-    }
-    return targetTree;
-  }
-
-  async findNodeById(treeId: string, nodeId: string) {
+  async findNode(treeId: string, nodeId: string) {
     const nodeObjectId = new mongoose.Types.ObjectId(nodeId);
-    const treeObjectId = new mongoose.Types.ObjectId(treeId);
 
-    const targetTree = await this.rrNodeModel.findById(treeObjectId).exec();
-    if (!targetTree) {
-      throw new Error('Tree not found when trying to find a node by ID');
+    const rootNode = await this.findRootNode(treeId);
+    if (!rootNode) {
+      throw new Error('Root node not found when trying to find a child node');
     }
 
-    const targetNode = this._findNodeRecursive(targetTree, nodeObjectId);
-
+    const targetNode = this._findNodeRecursive(rootNode, nodeObjectId);
     return targetNode;
   }
 
-  async updateNode(
-    treeId: string,
+  async update(
     nodeId: string,
     updateRrNodeDto: UpdateRrNodeDto,
+    rootNode?: RrNode,
   ) {
-    const treeObjectId = new mongoose.Types.ObjectId(treeId);
     const nodeObjectId = new mongoose.Types.ObjectId(nodeId);
 
-    const rrRoot = await this.rrRootModel.findOne({
-      treeRootNodeId: treeObjectId,
-    });
-    if (!rrRoot) {
-      throw new Error('Root not found when trying to update a node');
-    }
-
-    const targetTree = await this.rrNodeModel.findById(treeObjectId);
-    if (!targetTree) {
-      throw new Error('Tree not found when trying to update a node');
-    }
-
-    const targetNode = this._findNodeRecursive(targetTree, nodeObjectId);
-    if (!targetNode) {
-      throw new Error('Node not found when trying to update a node');
-    }
-
-    if (updateRrNodeDto.title) {
-      targetNode.title = updateRrNodeDto.title;
-    }
-    if (updateRrNodeDto.description !== undefined) {
-      targetNode.description = updateRrNodeDto.description;
+    let updatedNode: RrNode | null = null;
+    if (!rootNode) {
+      // 更新根节点
+      updatedNode = await this.rrNode.findByIdAndUpdate(
+        nodeObjectId,
+        updateRrNodeDto,
+      );
     } else {
-      targetNode.description = '';
+      // 返回需要更新的节点，交给 service 层更新
+      updatedNode = this._findNodeRecursive(rootNode, nodeObjectId);
+    }
+    return updatedNode;
+  }
+
+  async removeRootNode(treeId: string) {
+    const treeObjectId = new mongoose.Types.ObjectId(treeId);
+    const removedRootNode = await this.rrNode.findByIdAndDelete(treeObjectId);
+    return removedRootNode;
+  }
+
+  async removeNode(treeId: string, nodeId: string) {
+    const nodeObjectId = new mongoose.Types.ObjectId(nodeId);
+    const rootNode = await this.findRootNode(treeId);
+    if (!rootNode) {
+      throw new Error('Root node not found when trying to remove a child node');
     }
 
-    // 保存更新的树节点
-    await targetTree.save();
-
-    // 更新根节点的 updatedAt 字段（timestamps: true 会自动处理）
-    // assign a Date object so TypeScript matches the schema declaration
-    rrRoot.updatedAt = new Date();
-    await rrRoot.save();
-
-    return targetNode;
+    const deleteNode = (
+      rootNode: RrNode,
+      id: mongoose.Types.ObjectId,
+    ): RrNode | undefined => {
+      while (rootNode.children.length > 0) {
+        const i = rootNode.children.findIndex((c) => c._id.equals(id));
+        if (i !== -1) {
+          const [removedNode] = rootNode.children.splice(i, 1);
+          return removedNode;
+        } else {
+          for (const child of rootNode.children) {
+            const removedNode = deleteNode(child, id);
+            if (removedNode) {
+              return removedNode;
+            }
+          }
+        }
+      }
+    };
+    const removedNode = deleteNode(rootNode, nodeObjectId);
+    if (!removedNode) {
+      throw new Error(
+        `The node you want to delete in tree ${rootNode._id.toString()} was not found`,
+      );
+    }
+    return removedNode;
   }
 
   private _findNodeRecursive(
@@ -174,108 +122,5 @@ export class RrNodeMapper {
     }
 
     return null;
-  }
-
-  async removeTree(treeId: string) {
-    const treeObjectId = new mongoose.Types.ObjectId(treeId);
-
-    // 先找到树节点，以便删除所有关联的 content
-    const targetTree = await this.rrNodeModel.findById(treeObjectId).exec();
-    if (!targetTree) {
-      throw new Error('Tree not found when trying to delete a tree');
-    }
-
-    // 递归删除所有节点关联的 content
-    const deleteContentRecursive = async (node: RrNode) => {
-      if (node.content) {
-        await this.rrNodeContentMapper.remove(node.content.toString());
-      }
-      for (const child of node.children) {
-        await deleteContentRecursive(child);
-      }
-    };
-
-    await deleteContentRecursive(targetTree);
-
-    const removedRootOfThisTree = await this.rrRootModel
-      .findOneAndDelete({
-        treeRootNodeId: treeObjectId,
-      })
-      .exec();
-    if (!removedRootOfThisTree) {
-      throw new Error('Root not found when trying to delete a tree');
-    }
-
-    const removedTree = await this.rrNodeModel
-      .findByIdAndDelete(treeObjectId)
-      .exec();
-    if (!removedTree) {
-      throw new Error('Tree not found when trying to delete a tree');
-    }
-
-    return {
-      removedRootOfThisTree: removedRootOfThisTree.toJSON(),
-      removedTree: removedTree.toJSON(),
-    };
-  }
-
-  async removeNodeFromTree(treeId: string, nodeId: string) {
-    const nodeObjectId = new mongoose.Types.ObjectId(nodeId);
-    const treeObjectId = new mongoose.Types.ObjectId(treeId);
-    if (nodeObjectId.equals(treeObjectId)) {
-      throw new Error('Cannot delete the root node of the tree');
-    }
-
-    const deleteFromChildren = (root: RrNode): RrNode | null => {
-      // DFS
-      const childIndex = root.children.findIndex((c) =>
-        c._id.equals(nodeObjectId),
-      );
-      if (childIndex !== -1) {
-        const removed = root.children.splice(childIndex, 1);
-        const deletedNode = removed[0];
-        if (!deletedNode) {
-          throw new Error('Node not found after splice (unexpected)');
-        }
-        return deletedNode;
-      }
-
-      for (const child of root.children) {
-        const deletedNode = deleteFromChildren(child);
-        if (deletedNode) {
-          return deletedNode;
-        }
-      }
-
-      return null;
-    };
-
-    const rrRoot = await this.rrRootModel.findOne({
-      treeRootNodeId: treeObjectId,
-    });
-    if (!rrRoot) {
-      throw new Error('Root not found when trying to delete a node');
-    }
-
-    const targetTree = await this.rrNodeModel.findById(treeObjectId).exec();
-    if (!targetTree) {
-      throw new Error('Tree not found when trying to delete a node');
-    }
-    const deletedNode = deleteFromChildren(targetTree);
-    if (!deletedNode) {
-      throw new Error('Node not found when trying to delete a node');
-    }
-
-    // 删除节点关联的 content
-    if (deletedNode.content) {
-      await this.rrNodeContentMapper.remove(deletedNode.content.toString());
-    }
-
-    rrRoot.updatedAt = new Date();
-    await rrRoot.save();
-
-    await targetTree.save();
-
-    return deletedNode;
   }
 }
