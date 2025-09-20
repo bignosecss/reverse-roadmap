@@ -20,6 +20,16 @@ export class RrNodeMapper {
     const newTreeRootNode = new this.rrNodeModel(createRrNodeDto);
     const savedTreeRootNode = await newTreeRootNode.save();
 
+    // 为根节点创建默认的 content
+    const defaultContent = {
+      type: 'doc',
+      content: [{ type: 'paragraph' }],
+    };
+    await this.rrNodeContentMapper.createForNode(
+      savedTreeRootNode._id.toString(),
+      defaultContent,
+    );
+
     // 引用现有的跟节点
     const newRoot = new this.rrRootModel({
       treeRootNodeId: savedTreeRootNode._id,
@@ -57,6 +67,16 @@ export class RrNodeMapper {
     }
     newNode.parentId = parentNode._id;
     parentNode.children.push(newNode);
+
+    // 为新节点创建默认的 content
+    const defaultContent = {
+      type: 'doc',
+      content: [{ type: 'paragraph' }],
+    };
+    await this.rrNodeContentMapper.createForNode(
+      newNode._id.toString(),
+      defaultContent,
+    );
 
     rrRoot.updatedAt = new Date();
     await rrRoot.save();

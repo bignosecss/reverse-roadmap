@@ -1,4 +1,4 @@
 export class CreateRrNodeContentDto {
-  type!: 'doc';
-  content!: any;
+  type!: string;
+  content!: Array<any>;
 }

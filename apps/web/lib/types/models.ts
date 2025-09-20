@@ -37,7 +37,7 @@ export interface RrNodeContent {
   type: "doc";
   // 方便起见，暂时使用 any 作为 tiptap 文档的类型( edirot.getJSON() )
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  content: any[];
+  content: Array<any>;
   createdAt: Date;
   updatedAt: Date;
   __v: number;
