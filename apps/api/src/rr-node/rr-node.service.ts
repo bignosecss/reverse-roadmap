@@ -7,35 +7,35 @@ import { RrNodeMapper } from './mapper/rr-node.mapper';
 export class RrNodeService {
   constructor(private readonly rrNodeMapper: RrNodeMapper) {}
 
-  createTree(createRrNodeDto: CreateRrNodeDto) {
-    return this.rrNodeMapper.createTree(createRrNodeDto);
-  }
-
-  createNode(treeId: string, createRrNodeDto: CreateRrNodeDto) {
-    return this.rrNodeMapper.createNode(treeId, createRrNodeDto);
+  createNode(
+    treeId: string,
+    parentNodeId: string,
+    createRrNodeDto: CreateRrNodeDto,
+  ) {
+    return this.rrNodeMapper.createNode(treeId, parentNodeId, createRrNodeDto);
   }
 
   findAll() {
-    return this.rrNodeMapper.findAllTrees();
+    return this.rrNodeMapper.findAll();
   }
 
   findTree(treeId: string) {
-    return this.rrNodeMapper.findTreeById(treeId);
+    return this.rrNodeMapper.findTree(treeId);
   }
 
   findNode(treeId: string, nodeId: string) {
-    return this.rrNodeMapper.findNodeById(nodeId, treeId);
+    return this.rrNodeMapper.findNode(nodeId, treeId);
   }
 
   update(treeId: string, nodeId: string, updateRrNodeDto: UpdateRrNodeDto) {
-    return this.rrNodeMapper.updateNode(treeId, nodeId, updateRrNodeDto);
+    return this.rrNodeMapper.update(treeId, nodeId, updateRrNodeDto);
   }
 
   removeTree(treeId: string) {
     return this.rrNodeMapper.removeTree(treeId);
   }
 
-  async removeNode(treeId: string, nodeId: string) {
-    return this.rrNodeMapper.removeNodeFromTree(treeId, nodeId);
+  removeNode(treeId: string, nodeId: string) {
+    return this.rrNodeMapper.removeNode(treeId, nodeId);
   }
 }

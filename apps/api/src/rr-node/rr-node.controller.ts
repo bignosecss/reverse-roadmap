@@ -16,17 +16,13 @@ import { UpdateRrNodeDto } from './dto/update-rr-node.dto';
 export class RrNodeController {
   constructor(private readonly rrNodeService: RrNodeService) {}
 
-  @Post('')
-  createTree(@Body() createRrNodeDto: CreateRrNodeDto) {
-    return this.rrNodeService.createTree(createRrNodeDto);
-  }
-
-  @Post(':treeId')
+  @Post()
   createNode(
-    @Param('treeId') treeId: string,
+    @Query('treeId') treeId: string,
+    @Query('parentNodeId') parentNodeId: string,
     @Body() createRrNodeDto: CreateRrNodeDto,
   ) {
-    return this.rrNodeService.createNode(treeId, createRrNodeDto);
+    return this.rrNodeService.createNode(treeId, parentNodeId, createRrNodeDto);
   }
 
   @Get()
@@ -44,22 +40,22 @@ export class RrNodeController {
     return this.rrNodeService.findNode(treeId, nodeId);
   }
 
-  @Patch(':treeId/nodes/:nodeId')
+  @Patch()
   update(
-    @Param('treeId') treeId: string,
-    @Param('nodeId') nodeId: string,
+    @Query('treeId') treeId: string,
+    @Query('nodeId') nodeId: string,
     @Body() updateRrNodeDto: UpdateRrNodeDto,
   ) {
     return this.rrNodeService.update(treeId, nodeId, updateRrNodeDto);
   }
 
-  @Delete(':treeId')
-  removeTree(@Param('treeId') treeId: string) {
+  @Delete()
+  removeTree(@Query('treeId') treeId: string) {
     return this.rrNodeService.removeTree(treeId);
   }
 
-  @Delete(':treeId/nodes/:nodeId')
-  removeNode(@Param('treeId') treeId: string, @Param('nodeId') nodeId: string) {
+  @Delete()
+  removeNode(@Query('treeId') treeId: string, @Query('nodeId') nodeId: string) {
     return this.rrNodeService.removeNode(treeId, nodeId);
   }
 }
