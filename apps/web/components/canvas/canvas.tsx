@@ -32,7 +32,7 @@ export function Canvas() {
   return (
     <div
       className={cn(
-        "fixed top-0 right-0 z-50 h-full w-3/5 overflow-x-scroll border-l bg-background shadow-[0_0_18px_rgba(0,0,0,0.12)] dark:shadow-[0_0_18px_rgba(0,0,0,0.48)]",
+        "fixed top-0 right-0 z-50 h-full w-3/5 border-l bg-background shadow-[0_0_18px_rgba(0,0,0,0.12)] dark:shadow-[0_0_18px_rgba(0,0,0,0.48)]",
         { "translate-x-0": canvasOpen, "translate-x-full": !canvasOpen },
       )}
     >
@@ -47,21 +47,23 @@ export function Canvas() {
         <span>{currentNode.title}</span>
       </header>
 
-      {!!currentNode.description && (
-        <section className="w-full h-fit flex flex-row justify-center">
-          <div className="min-w-1/3 max-w-4/5 h-fit py-4">
-            <blockquote className="border-l-2 pl-6 italic max-h-fit">
-              {currentNode.description}
-            </blockquote>
-          </div>
-        </section>
-      )}
+      <section className="w-full h-full overflow-x-scroll pb-16">
+        {!!currentNode.description && (
+          <section className="w-full h-fit flex flex-row justify-center">
+            <div className="min-w-1/3 max-w-4/5 h-fit py-4">
+              <blockquote className="border-l-2 pl-6 italic max-h-fit">
+                {currentNode.description}
+              </blockquote>
+            </div>
+          </section>
+        )}
 
-      {!isLoading && !!nodeContent && (
-        <section className="w-full">
-          <Tiptap content={nodeContent} />
-        </section>
-      )}
+        {!isLoading && !!nodeContent && (
+          <section className="w-full">
+            <Tiptap content={nodeContent} />
+          </section>
+        )}
+      </section>
     </div>
   );
 }
