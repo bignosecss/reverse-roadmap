@@ -103,7 +103,6 @@ export function NodeDialog({
     if (operation === "add") {
       const data: CreateRrNodeDto = {
         title: trimmedTitle,
-        parentId: currentNode?.parentId || null,
         description: trimmedDescription || undefined,
       };
       onConfirm(operation, data);
