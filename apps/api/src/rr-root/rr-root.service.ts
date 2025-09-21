@@ -44,11 +44,23 @@ export class RrRootService {
 
   async remove(id: string) {
     const removedRoot = await this.rrRootMapper.remove(id);
-    const removedRootNode = await this.rrNodeService.removeRootNode(
-      removedRoot.treeRootNodeId.toString(),
-    );
-    if (!removedRootNode) {
-      throw new Error('Fail to remove root node when trying to remove a root');
+
+    try {
+      const removedRootNode = await this.rrNodeService.removeRootNode(
+        removedRoot.treeRootNodeId.toString(),
+      );
+      if (!removedRootNode) {
+        throw new Error(
+          'Fail to remove root node when trying to remove a root',
+        );
+      }
+    } catch (error: unknown) {
+      // 记录警告日志，但不中断操作
+      console.warn(
+        `Failed to remove associated root node 
+      ${removedRoot.treeRootNodeId.toString()} when removing root ${id}:`,
+        error,
+      );
     }
 
     return removedRoot;

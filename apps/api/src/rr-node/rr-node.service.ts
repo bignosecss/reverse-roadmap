@@ -189,10 +189,10 @@ export class RrNodeService {
     if (rootNode.content) {
       await this.rrNodeContentService.remove(rootNode.content.toString());
     }
-    while (rootNode.children.length > 0) {
-      for (const child of rootNode.children) {
-        await this.removeTiptapContent(child);
-      }
-    }
+    // 并行删除所有子节点的内容
+    const deletePromises = rootNode.children.map((child) =>
+      this.removeTiptapContent(child),
+    );
+    await Promise.all(deletePromises);
   }
 }
