@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateRrNodeDto } from './dto/create-rr-node.dto';
 import { UpdateRrNodeDto } from './dto/update-rr-node.dto';
 import { RrNodeMapper } from './mapper/rr-node.mapper';
@@ -122,15 +122,72 @@ export class RrNodeService {
 
   async removeRootNode(treeId: string) {
     const removedRootNode = await this.rrNodeMapper.removeRootNode(treeId);
+    if (!removedRootNode) {
+      throw new Error("Can not remove the root node when trying to remove a root node");
+    }
+    await this.removeTiptapContent(removedRootNode);
     return removedRootNode;
   }
 
-  removeNode(treeId: string, nodeId: string) {
+  async removeNode(treeId: string, nodeId: string): Promise<RrNode> {
     if (treeId === nodeId) {
       throw new Error(
         "If you are trying to remove a root node, there's a specific method to do that",
       );
     }
-    return this.rrNodeMapper.removeNode(treeId, nodeId);
+
+    const rootNode = await this.rrNodeMapper.findRootNode(treeId);
+    const nodeObjectId = new mongoose.Types.ObjectId(nodeId);
+
+    // 定义一个递归函数来查找并删除节点
+    const findAndRemove = (
+      node: RrNode,
+      nodeObjectId: mongoose.Types.ObjectId,
+    ): RrNode | undefined => {
+      const index = node.children.findIndex((child) =>
+        child._id.equals(nodeObjectId),
+      );
+
+      if (index !== -1) {
+        const [removedNode] = node.children.splice(index, 1);
+        return removedNode; // 找到并删除
+      }
+
+      for (const child of node.children) {
+        const removedNode = findAndRemove(child, nodeObjectId);
+        if (!removedNode) {
+          return removedNode; // 在子树中找到并删除
+        }
+      }
+
+      return undefined; // 未找到
+    };
+
+    const removedNode = findAndRemove(rootNode, nodeObjectId);
+
+    if (!removedNode) {
+      throw new NotFoundException(
+        `Node with ID ${nodeId} not found in tree ${treeId}`,
+      );
+    }
+
+    // 关键步骤：保存对根节点的修改
+    await rootNode.save();
+
+    // 删除与 removedNode 及其所有子节点相关的内容
+    await this.removeTiptapContent(removedNode);
+
+    return removedNode;
+  }
+
+  async removeTiptapContent(rootNode: RrNode) {
+    if (rootNode.content) {
+      await this.rrNodeContentService.remove(rootNode.content.toString());
+    }
+    while (rootNode.children.length > 0) {
+      for (const child of rootNode.children) {
+        await this.removeTiptapContent(child);
+      }
+    }
   }
 }

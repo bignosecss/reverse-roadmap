@@ -71,41 +71,6 @@ export class RrNodeMapper {
     return removedRootNode;
   }
 
-  async removeNode(treeId: string, nodeId: string) {
-    const nodeObjectId = new mongoose.Types.ObjectId(nodeId);
-    const rootNode = await this.findRootNode(treeId);
-    if (!rootNode) {
-      throw new Error('Root node not found when trying to remove a child node');
-    }
-
-    const deleteNode = (
-      rootNode: RrNode,
-      id: mongoose.Types.ObjectId,
-    ): RrNode | undefined => {
-      while (rootNode.children.length > 0) {
-        const i = rootNode.children.findIndex((c) => c._id.equals(id));
-        if (i !== -1) {
-          const [removedNode] = rootNode.children.splice(i, 1);
-          return removedNode;
-        } else {
-          for (const child of rootNode.children) {
-            const removedNode = deleteNode(child, id);
-            if (removedNode) {
-              return removedNode;
-            }
-          }
-        }
-      }
-    };
-    const removedNode = deleteNode(rootNode, nodeObjectId);
-    if (!removedNode) {
-      throw new Error(
-        `The node you want to delete in tree ${rootNode._id.toString()} was not found`,
-      );
-    }
-    return removedNode;
-  }
-
   private _findNodeRecursive(
     tree: RrNode,
     nodeId: mongoose.Types.ObjectId,

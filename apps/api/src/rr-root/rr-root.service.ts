@@ -3,15 +3,12 @@ import { CreateRrRootDto } from './dto/create-rr-root.dto';
 import { UpdateRrRootDto } from './dto/update-rr-root.dto';
 import { RrRootMapper } from './mapper/rr-root.mapper';
 import { RrNodeService } from 'src/rr-node/rr-node.service';
-import { RrNodeContentService } from 'src/rr-node-content/rr-node-content.service';
-import { RrNode } from 'src/schemas/rr-node.schema';
 
 @Injectable()
 export class RrRootService {
   constructor(
     private readonly rrRootMapper: RrRootMapper,
     private readonly rrNodeService: RrNodeService,
-    private readonly rrNodeContentService: RrNodeContentService,
   ) {}
 
   async create(createRrRootDto: CreateRrRootDto) {
@@ -53,20 +50,6 @@ export class RrRootService {
     if (!removedRootNode) {
       throw new Error('Fail to remove root node when trying to remove a root');
     }
-
-    const removeTiptapContent = async (rootNode: RrNode) => {
-      while (rootNode.children.length > 0) {
-        if (rootNode.content) {
-          await this.rrNodeContentService.remove(rootNode.content.toString());
-        }
-
-        for (const child of rootNode.children) {
-          await removeTiptapContent(child);
-        }
-      }
-    };
-
-    await removeTiptapContent(removedRootNode);
 
     return removedRoot;
   }
