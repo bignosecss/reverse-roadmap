@@ -270,6 +270,9 @@ export const useMinimalTiptapEditor = ({
    *   3. 编辑器实例被复用
    *   4. Tiptap 组件的 useEffect 执行，setValue 被调用
    *   5. 但编辑器内容没有更新，因为编辑器不知道 value 变化了
+   * 
+   * ...twotwo years later...
+   * 这个方案其实并不能完全解决 flushSync 的问题，后续探讨～
    */
   React.useEffect(() => {
     // 监听value变化，当value变化时更新编辑器内容
