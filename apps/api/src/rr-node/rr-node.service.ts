@@ -123,7 +123,9 @@ export class RrNodeService {
   async removeRootNode(treeId: string) {
     const removedRootNode = await this.rrNodeMapper.removeRootNode(treeId);
     if (!removedRootNode) {
-      throw new Error("Can not remove the root node when trying to remove a root node");
+      throw new Error(
+        'Can not remove the root node when trying to remove a root node',
+      );
     }
     await this.removeTiptapContent(removedRootNode);
     return removedRootNode;
@@ -139,32 +141,7 @@ export class RrNodeService {
     const rootNode = await this.rrNodeMapper.findRootNode(treeId);
     const nodeObjectId = new mongoose.Types.ObjectId(nodeId);
 
-    // 定义一个递归函数来查找并删除节点
-    const findAndRemove = (
-      node: RrNode,
-      nodeObjectId: mongoose.Types.ObjectId,
-    ): RrNode | undefined => {
-      const index = node.children.findIndex((child) =>
-        child._id.equals(nodeObjectId),
-      );
-
-      if (index !== -1) {
-        const [removedNode] = node.children.splice(index, 1);
-        return removedNode; // 找到并删除
-      }
-
-      for (const child of node.children) {
-        const removedNode = findAndRemove(child, nodeObjectId);
-        if (!removedNode) {
-          return removedNode; // 在子树中找到并删除
-        }
-      }
-
-      return undefined; // 未找到
-    };
-
-    const removedNode = findAndRemove(rootNode, nodeObjectId);
-
+    const removedNode = this.findAndRemoveNode(rootNode, nodeObjectId);
     if (!removedNode) {
       throw new NotFoundException(
         `Node with ID ${nodeId} not found in tree ${treeId}`,
@@ -178,6 +155,34 @@ export class RrNodeService {
     await this.removeTiptapContent(removedNode);
 
     return removedNode;
+  }
+
+  // 定义一个递归函数来查找并删除节点
+  findAndRemoveNode(
+    root: RrNode,
+    nodeObjectId: mongoose.Types.ObjectId,
+  ): RrNode | null {
+    // DFS
+    const childIndex = root.children.findIndex((c) =>
+      c._id.equals(nodeObjectId),
+    );
+    if (childIndex !== -1) {
+      const removed = root.children.splice(childIndex, 1);
+      const deletedNode = removed[0];
+      if (!deletedNode) {
+        throw new Error('Node not found after splice (unexpected)');
+      }
+      return deletedNode;
+    }
+
+    for (const child of root.children) {
+      const deletedNode = this.findAndRemoveNode(child, nodeObjectId);
+      if (deletedNode) {
+        return deletedNode;
+      }
+    }
+
+    return null;
   }
 
   async removeTiptapContent(rootNode: RrNode) {
