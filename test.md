@@ -1,282 +1,109 @@
-# 异步删除模式解决方案
-
-## 问题描述
-
-前端删除root时等待很久然后显示删除失败，但数据库实际上已成功删除。原因是删除操作耗时较长，超过了前端设置的15秒超时时间。
-
-## 解决方案：实现异步删除模式
-
-### 第一步：修改后端API，立即返回响应
-
-修改 `apps/api/src/rr-root/rr-root.service.ts` 中的 `remove` 方法：
-
-```typescript
-async remove(id: string) {
-  // 立即删除root记录并返回结果
-  const removedRoot = await this.rrRootMapper.remove(id);
-
-  // 异步执行关联节点的删除操作
-  setImmediate(async () => {
-    try {
-      await this.rrNodeService.removeRootNode(
-        removedRoot.treeRootNodeId.toString(),
-      );
-    } catch (error) {
-      console.error(`Failed to remove associated root node ${removedRoot.treeRootNodeId} asynchronously:`, error);
-    }
-  });
-
-  return removedRoot;
-}
+你看到的错误信息是：
 ```
-
-### 第二步：实现后台任务队列（可选但推荐）
-
-为了更好地管理异步任务，可以引入任务队列系统：
-
-```typescript
-// 在 rr-root.service.ts 中添加
-import { Injectable } from "@nestjs/common";
-import { Queue, Worker } from "bullmq";
-
-@Injectable()
-export class AsyncDeletionService {
-  private deletionQueue: Queue;
-
-  constructor() {
-    this.deletionQueue = new Queue("deletion");
-
-    // 处理删除任务的工作进程
-    const worker = new Worker("deletion", async (job) => {
-      const { nodeId } = job.data;
-      // 执行实际的节点删除操作
-      // 这里需要注入相应的服务来执行删除
-    });
-  }
-
-  async scheduleNodeDeletion(nodeId: string) {
-    await this.deletionQueue.add("deleteNode", { nodeId });
-  }
-}
+   1 PayloadTooLargeError: request entity too large
+   2     at readStream
+     (/Users/pterosaurscannotfly/code/proj/reverse-roadmap/node_modules/.pnpm/r
+     aw-body@3.0.1/node_modules/raw-body/index.js:163:17)
+   3     ...
+   4   expected: 149372,
+   5   length: 149372,
+   6   limit: 102400,
+   7   type: 'entity.too.large'
 ```
+  这表明你的服务器接收到了一个大小为149372字节（约146KB）的请求体，但是它设置了一个最
+  大限制（limit），即102400字节（100KB）。当请求体超过这个限制时，就抛出了PayloadTooLa
+  rgeError异常。
 
-### 第三步：通过WebSocket或轮询通知前端删除进度
+  所以，出现这个错误的原因是：你的API端点接收到的数据量超过了服务器允许的最大值（默认
+  通常是100KB或更小）。
 
-#### 方案一：使用WebSocket实现实时通知
+  关于你提到的61KB图片：
+  虽然你使用的图片本身只有61KB，但在HTTP请求中，特别是上传文件时，实际传输的数据大小可
+  能会显著增加。这是因为数据通常会经过Base64编码后发送。
 
-1. 安装WebSocket相关依赖：
+   - 原始二进制数据（如图片）在Base64编码后，其大小大约会增加33%。
+   - 因此，一张61KB的图片，在进行Base64编码之后，它的大小可能达到约81KB。
+   - 如果你还把这个Base64字符串放在JSON对象里作为属性值传给服务器，再加上其他字段、键
+     名等额外结构和元数据（例如{"image": 
+     "data:image/..."}），整个请求体的总大小很容易就突破了100KB甚至更多。
 
-```bash
-npm install @nestjs/websockets @nestjs/platform-ws
-```
+  简单来说：即使原始图片不大，但通过HTTP发送时的实际负载可能因为编码方式而超出服务器设
+  定的上限。
 
-2. 创建WebSocket网关：
+  解决方案
 
-```typescript
-// deletion.gateway.ts
-import {
-  WebSocketGateway,
-  WebSocketServer,
-  OnGatewayConnection,
-  OnGatewayDisconnect,
-} from "@nestjs/websockets";
-import { Server, Socket } from "socket.io";
+  你需要调整一下服务器处理请求体大小的配置，默认限制太小了。
 
-@WebSocketGateway({
-  cors: {
-    origin: "*", // 根据实际情况设置CORS策略
-  },
-})
-export class DeletionGateway
-  implements OnGatewayConnection, OnGatewayDisconnect
-{
-  @WebSocketServer()
-  server: Server;
+  如果你使用的是Express框架（看起来像是这样，因为你提到了body-parser），你可以做以下操
+  作来解决这个问题：
 
-  private clients: Map<string, Socket> = new Map();
+  方法一：修改 Express 应用程序中的 body-parser 配置
 
-  handleConnection(client: Socket) {
-    console.log(`Client connected: ${client.id}`);
-    this.clients.set(client.id, client);
-  }
+  找到你的主服务文件，比如 main.ts 或者 server.js
+  等，并确保正确设置了中间件选项以支持更大的请求体。
 
-  handleDisconnect(client: Socket) {
-    console.log(`Client disconnected: ${client.id}`);
-    this.clients.delete(client.id);
-  }
+    1 // 示例代码片段，请根据实际情况替换为你项目中的位置
+    2 import * as bodyParser from 'body-parser';
+    3 
+    4 const app = express();
+    5 
+    6 // 设置 JSON 和 URL-encoded 请求体大小限制
+    7 app.use(bodyParser.json({ limit: '10mb' })); // 可根据需要调整 limit 大小
+    8 app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
+    9 
+   10 // 其他路由配置...
 
-  // 通知特定客户端删除进度
-  notifyDeletionProgress(clientId: string, progress: number, message: string) {
-    const client = this.clients.get(clientId);
-    if (client) {
-      client.emit("deletionProgress", { progress, message });
-    }
-  }
+  如果你使用 NestJS，则可以查看文档了解如何自定义底层 Express
+  实例或者使用内置的功能扩展请求解析器的大小限制。
 
-  // 通知特定客户端删除完成
-  notifyDeletionComplete(clientId: string, success: boolean, message: string) {
-    const client = this.clients.get(clientId);
-    if (client) {
-      client.emit("deletionComplete", { success, message });
-    }
-  }
-}
-```
+  方法二：如果是 NestJS 框架，则可以通过工厂函数配置解析器
 
-3. 在删除服务中集成WebSocket通知：
+    1 // main.ts
+    2 import { NestFactory } from '@nestjs/core';
+    3 import { AppModule } from './app.module';
+    4 
+    5 async function bootstrap() {
+    6   const app = await NestFactory.create(AppModule);
+    7 
+    8   // 增加 body parser 的大小限制
+    9   app.use((req, res, next) => {
+   10     bodyParser.json({ limit: '10mb' })(req, res, next);
+   11   });
+   12   app.use((req, res, next) => {
+   13     bodyParser.urlencoded({ extended: true, limit: '10mb' })(req, res,
+      next);
+   14   });
+   15 
+   16   await app.listen(3000);
+   17 }
+   18 bootstrap();
 
-```typescript
-// 修改 rr-root.service.ts
-async remove(id: string, clientId: string) {
-  // 立即删除root记录并返回结果
-  const removedRoot = await this.rrRootMapper.remove(id);
+  或者直接在创建应用时传入选项：
 
-  // 通知客户端删除已启动
-  this.deletionGateway.notifyDeletionProgress(clientId, 10, '开始删除关联节点...');
+    1 async function bootstrap() {
+    2   const app = await NestFactory.create<NestExpressApplication>(
+    3     AppModule,
+    4     { bodyParser: false }, // 禁用默认中间件
+    5   );
+    6 
+    7   app.use(bodyParser.json({ limit: '10mb' }));
+    8   app.use(bodyParser.urlencoded({ limit: '10mb', extended: true }));
+    9 
+   10   await app.listen(3000);
+   11 }
+   12 bootstrap();
 
-  // 异步执行关联节点的删除操作
-  setImmediate(async () => {
-    try {
-      this.deletionGateway.notifyDeletionProgress(clientId, 30, '正在删除根节点...');
-      await this.rrNodeService.removeRootNode(removedRoot.treeRootNodeId.toString());
+  方法三：如果使用 Fastify 而不是 Express，则应检查并配置 Fastify 的 payloadLimit
 
-      this.deletionGateway.notifyDeletionProgress(clientId, 80, '正在清理关联内容...');
-      // 可以在这里添加更多清理步骤
+   1 const app = await NestFactory.create<NestFastifyApplication>(
+   2   AppModule,
+   3   new FastifyAdapter(),
+   4   {
+   5     rawBody: true,
+   6     // 设置 bodyLimit
+   7     bodyLimit: 10 * 1024 * 1024, // 单位为字节，这里设为 10MB
+   8   },
+   9 );
 
-      this.deletionGateway.notifyDeletionProgress(clientId, 100, '删除完成');
-      this.deletionGateway.notifyDeletionComplete(clientId, true, '删除成功');
-    } catch (error) {
-      console.error(`Failed to remove associated root node ${removedRoot.treeRootNodeId} asynchronously:`, error);
-      this.deletionGateway.notifyDeletionComplete(clientId, false, '删除过程中出现错误');
-    }
-  });
-
-  return removedRoot;
-}
-```
-
-4. 前端集成WebSocket：
-
-```typescript
-// 在前端组件中
-import { io } from "socket.io-client";
-
-const socket = io("http://localhost:3001"); // 根据实际情况调整URL
-
-const handleDelete = useCallback(async () => {
-  try {
-    // 发起删除请求，传入客户端ID
-    await deleteRrRootAsync();
-
-    // 监听删除进度
-    socket.on("deletionProgress", (data) => {
-      toast.info(`删除进度: ${data.progress}%`, {
-        description: data.message,
-        position: "top-center",
-      });
-    });
-
-    // 监听删除完成
-    socket.on("deletionComplete", (data) => {
-      if (data.success) {
-        toast.success("删除成功", {
-          position: "top-center",
-        });
-      } else {
-        toast.error("删除失败", {
-          description: data.message,
-          position: "top-center",
-        });
-      }
-      router.push("/");
-    });
-
-    toast.success("删除已启动，正在后台处理...", {
-      position: "top-center",
-    });
-  } catch (err: unknown) {
-    toast.error("删除启动失败", {
-      description: JSON.stringify(err),
-    });
-  }
-}, [deleteRrRootAsync, router]);
-```
-
-#### 方案二：使用轮询机制
-
-1. 后端创建删除状态查询接口：
-
-```typescript
-// 在 rr-root.controller.ts 中添加
-@Get(':id/deletion-status')
-async getDeletionStatus(@Param('id') id: string) {
-  // 从缓存或数据库中查询删除状态
-  // 这里需要实现状态存储机制
-  const status = deletionStatusService.getStatus(id);
-  return {
-    success: true,
-    data: status
-  };
-}
-```
-
-2. 前端实现轮询机制：
-
-```typescript
-const handleDelete = useCallback(async () => {
-  try {
-    // 发起删除请求
-    const result = await deleteRrRootAsync();
-
-    toast.success("删除已启动，正在后台处理...", {
-      position: "top-center",
-    });
-
-    // 开始轮询删除状态
-    const pollInterval = setInterval(async () => {
-      try {
-        const statusResponse = await fetchDeletionStatus(result._id);
-        const status = statusResponse.data;
-
-        if (status.completed) {
-          clearInterval(pollInterval);
-          if (status.success) {
-            toast.success("删除成功", {
-              position: "top-center",
-            });
-          } else {
-            toast.error("删除失败", {
-              description: status.message,
-              position: "top-center",
-            });
-          }
-          router.push("/");
-        } else {
-          // 更新进度显示
-          toast.info(`删除进度: ${status.progress}%`, {
-            description: status.message,
-            position: "top-center",
-          });
-        }
-      } catch (pollError) {
-        clearInterval(pollInterval);
-        toast.error("无法获取删除状态", {
-          position: "top-center",
-        });
-      }
-    }, 2000); // 每2秒轮询一次
-  } catch (err: unknown) {
-    toast.error("删除启动失败", {
-      description: JSON.stringify(err),
-    });
-  }
-}, [deleteRrRootAsync, router]);
-```
-
-## 预期效果
-
-- 用户点击删除后立即收到响应
-- 删除操作在后台继续执行
-- 避免前端超时问题
-- 提供更好的用户体验
-- 实时或准实时地向用户反馈删除进度
+  记得根据你的具体技术栈选择合适的解决方案！同时注意不要将这些值设得过大以免消耗过多资
+  源引发安全风险。

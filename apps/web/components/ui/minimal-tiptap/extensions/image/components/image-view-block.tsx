@@ -12,7 +12,6 @@ import { InfoCircledIcon, TrashIcon } from "@radix-ui/react-icons";
 import { ImageOverlay } from "./image-overlay";
 import { Spinner } from "../../../components/spinner";
 import type { UploadReturnType } from "../image";
-import Image from "next/image";
 
 const MAX_HEIGHT = 600;
 const MIN_HEIGHT = 120;
@@ -264,7 +263,7 @@ export const ImageViewBlock: React.FC<NodeViewProps> = ({
                   setImageState((prev) => ({ ...prev, isZoomed: false }))
                 }
               >
-                <Image
+                <img
                   className={cn(
                     "h-auto rounded object-contain transition-shadow",
                     {
