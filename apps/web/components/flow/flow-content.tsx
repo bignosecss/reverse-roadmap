@@ -106,6 +106,7 @@ export default function FlowContent({ treeId }: { treeId: string }) {
       onConnect={onConnect}
       nodeTypes={nodeTypes}
       fitView
+      minZoom={0.1}
       className="bg-background"
     >
       <Controls />
