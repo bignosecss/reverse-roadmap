@@ -47,7 +47,7 @@ export function Canvas() {
         <span>{currentNode.title}</span>
       </header>
 
-      <section className="w-full h-full overflow-x-scroll pb-16">
+      <section className="w-full h-full overflow-x-auto pb-36" style={{ scrollbarWidth: 'none' }}>
         {!!currentNode.description && (
           <section className="w-full h-fit flex flex-row justify-center">
             <div className="min-w-1/3 max-w-4/5 h-fit py-4">
