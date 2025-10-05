@@ -40,7 +40,7 @@ export function SidebarHeaderComponent() {
     <SidebarHeader className="relative">
       <SidebarMenu>
         <SidebarMenuItem className="flex flex-row justify-between items-center  group-data-[collapsible=icon]:justify-center">
-          <div className="w-full flex flex-row justify-between p-2">
+          <div className="w-full flex flex-row justify-between p-2 group-data-[collapsible=icon]:justify-center">
             <Link
               href="/"
               className="flex items-center relative whitespace-nowrap transition-all duration-200 ease-linear group-data-[collapsible=icon]:hidden"
