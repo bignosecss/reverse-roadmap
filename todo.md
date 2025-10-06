@@ -12,10 +12,15 @@
 - [ ] Flow 更改连线功能
 - [ ] Flow 搜索定位节点功能
 - [ ] Flow 更改布局功能（很简单，更改传递给 dagrejs 的参数即可）
+- [ ] Flow CRUD 节点时，等待途中冻结 Flow，操作结束（成功或失败）后再恢复（增加 UX，也方便探测性能）
+- [ ] Flow 方向键移动
 - [ ] Canvas 顶部工具栏取消，放到左边一个可以消失可以出现的按钮，类似飞书文档
 - [ ] Canvas 切换 tab，区分：笔记 / 感想 / 思考 等等，并且 tab 之间可以通过“链接”的方式互相引用跳转
 - [ ] Canvas 想想如何添加 AI Agent
 - [ ] Canvas 内部的布局样式，参考 ChatGPT 的 Canvas
 - [ ] Canvas 文字内容加密
-- [ ] Canvas 设置访问密码
+- [ ] Canvas 设置访问密码（访问密码在传输过程中的加密，可以参考 TLS 协商中 pre-master secret 的过程）
 - [ ] Canvas resizeable，可以像 resize 浏览器窗口一样 resize Canvas
+- [ ] Canvas 中添加表格模块
+- [ ] Canvas 随着内容的输入，当内容超过屏幕的时候，屏幕自动下移适应增多的内容，而不需要手动滑到下面
+- [ ] Reverse Roadmap 登录功能
