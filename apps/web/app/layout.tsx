@@ -40,7 +40,7 @@ export default function RootLayout({
             <SidebarProvider defaultOpen={true}>
               <AppSidebar />
               <SidebarInset className="flex flex-row overflow-hidden">
-                <div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
+                {children}
                 <Canvas />
               </SidebarInset>
             </SidebarProvider>

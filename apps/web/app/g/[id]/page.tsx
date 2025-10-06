@@ -10,7 +10,7 @@ export default function GoalPage() {
   const id = params.id as string;
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-1 flex-col h-full gap-4 p-4">
       <div className="flex flex-row justify-between">
         <div className="mb-4">
           <h1 className="text-2xl font-bold">
