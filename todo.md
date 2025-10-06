@@ -5,6 +5,7 @@
 - [ ] 移动端，Canvas 占据整个屏幕，sidebar 要 responsive
 - [ ] Flow page 中，顶部的样式需要研究怎么改
 - [ ] 了解 Sidebar 常见的样式，和实现方式
+- [ ] Goal Page 顶部，增加 Sidebar Trigger，中间的文字部分，使用AI根据当前跟节点内容生成，每天一个。这样，Goal Page 就有了三部分（横向）：1. Sidebar Trigger 2. Content related text 3. Theme switcher
 
 ## Feature Tasks
 - [ ] Flow 记忆节点位置与连线（连线真的需要记忆吗？）
