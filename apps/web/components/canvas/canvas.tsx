@@ -32,7 +32,7 @@ export function Canvas() {
   return (
     <div
       className={cn(
-        "fixed top-0 right-0 z-50 h-full w-3/5 border-l bg-background shadow-[0_0_18px_rgba(0,0,0,0.12)] dark:shadow-[0_0_18px_rgba(0,0,0,0.48)]",
+        "h-screen w-screen absolute inset-0 z-50 md:static md:w-3/5 border-l bg-background shadow-[0_0_18px_rgba(0,0,0,0.12)] dark:shadow-[0_0_18px_rgba(0,0,0,0.48)]",
         { "translate-x-0": canvasOpen, "translate-x-full": !canvasOpen },
       )}
     >
