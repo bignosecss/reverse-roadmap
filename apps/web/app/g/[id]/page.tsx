@@ -14,9 +14,7 @@ export default function GoalPage() {
     <div className="flex flex-1 flex-col h-full">
       <div className="flex flex-row justify-between items-center p-4 border-b-1">
         <SidebarTrigger className="md:hidden" />
-        <h1>
-          Goal Roadmap: <span className="text-blue-600">{id}</span>
-        </h1>
+        <h1>慢慢来，谁还没有一个努力的过程。</h1>
         <ModeToggle />
       </div>
 
