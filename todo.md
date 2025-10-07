@@ -1,6 +1,7 @@
 # Todo List
 
 ## UI Tasks
+
 - [x] Canvas 与 ChatGPT & Gemini 保持一致，占据页面的右侧空间，而不是覆盖在 Flow 上（先试验，若好用，即确定）
 - [ ] 移动端，Canvas 占据整个屏幕，sidebar 要 responsive
 - [ ] Flow page 中，顶部的样式需要研究怎么改
@@ -8,6 +9,7 @@
 - [ ] Goal Page 顶部，增加 Sidebar Trigger，中间的文字部分，使用AI根据当前跟节点内容生成，每天一个。这样，Goal Page 就有了三部分（横向）：1. Sidebar Trigger 2. Content related text 3. Theme switcher
 
 ## Feature Tasks
+
 - [ ] Flow 记忆节点位置与连线（连线真的需要记忆吗？）
 - [ ] Flow 更改连线功能
 - [ ] Flow 搜索定位节点功能
@@ -27,4 +29,5 @@
 - [ ] Reverse Roadmap 登录功能
 
 ## Unclear Tasks
+
 - [ ] 统计每个 `tree` 的信息（节点数等），或是在 Flow 中增加一个绝对定位的类似切换布局方式的按钮来控制显示，或者在 Dashboard 中可视化统计（使用 D3.js）
