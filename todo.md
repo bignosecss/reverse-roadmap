@@ -3,10 +3,10 @@
 ## UI Tasks
 
 - [x] Canvas 与 ChatGPT & Gemini 保持一致，占据页面的右侧空间，而不是覆盖在 Flow 上（先试验，若好用，即确定）
-- [ ] 移动端，Canvas 占据整个屏幕，sidebar 要 responsive
+- [x] 移动端，Canvas 占据整个屏幕，sidebar 要 responsive
 - [x] Flow page 中，顶部的样式需要研究怎么改
 - [ ] 了解 Sidebar 常见的样式，和实现方式
-- [ ] Goal Page 顶部，增加 Sidebar Trigger，中间的文字部分，使用AI根据当前跟节点内容生成，每天一个。这样，Goal Page 就有了三部分（横向）：1. Sidebar Trigger 2. Content related text 3. Theme switcher
+- [ ] Goal Page 顶部，引入AI来获取该 Goal 的内容，然后总结一句正能量鼓励文字，显示在顶部区域
 
 ## Feature Tasks
 
