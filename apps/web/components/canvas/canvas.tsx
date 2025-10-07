@@ -32,11 +32,13 @@ export function Canvas() {
   return (
     <div
       className={cn(
-        "fixed inset-0 w-screen z-20 md:static md:w-3/5 border-l bg-background shadow-[0_0_18px_rgba(0,0,0,0.12)] dark:shadow-[0_0_18px_rgba(0,0,0,0.48)]",
-        { "translate-x-0": canvasOpen, "translate-x-full": !canvasOpen },
+        "fixed z-20 inset-0 border-l bg-background flex flex-col",
+        "md:static md:w-3/5",
+        "shadow-[0_0_18px_rgba(0,0,0,0.12)] dark:shadow-[0_0_18px_rgba(0,0,0,0.48)]",
+        { "block": canvasOpen, "hidden": !canvasOpen }
       )}
     >
-      <header className="@container touch:px-2.5 h-13 flex flex-none items-center gap-1 px-2">
+      <header className="@container touch:px-2.5 h-13 flex flex-none items-center gap-1 px-2 border-b">
         <Button
           variant="ghost"
           size="icon"
@@ -48,7 +50,7 @@ export function Canvas() {
       </header>
 
       <section
-        className="w-full h-full overflow-x-auto"
+        className="flex-1 w-full overflow-y-auto"
         style={{ scrollbarWidth: "none" }}
       >
         {!!currentNode.description && (
@@ -62,7 +64,7 @@ export function Canvas() {
         )}
 
         {!isLoading && !!nodeContent && (
-          <main className="w-full">
+          <main className="w-full p-4">
             <Tiptap content={nodeContent} />
           </main>
         )}

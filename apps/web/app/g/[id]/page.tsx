@@ -12,9 +12,9 @@ export default function GoalPage() {
   const id = params.id as string;
 
   return (
-    <div className="flex size-full overflow-y-hidden">
+    <div className="flex size-full ">
       <div className="flex flex-1 flex-col h-full">
-        <div className="flex flex-row justify-between items-center p-4 border-b-1">
+        <div className="flex flex-row justify-between items-center p-4 border-b">
           <SidebarTrigger className="md:hidden" />
           <h1>慢慢来，谁还没有一个努力的过程。</h1>
           <ModeToggle />
