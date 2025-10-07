@@ -32,7 +32,7 @@ export function Canvas() {
   return (
     <div
       className={cn(
-        "fixed z-20 inset-0 border-l bg-background flex flex-col",
+        "fixed z-20 inset-0 border-l bg-background flex flex-col overflow-y-auto",
         "md:static md:w-3/5",
         "shadow-[0_0_18px_rgba(0,0,0,0.12)] dark:shadow-[0_0_18px_rgba(0,0,0,0.48)]",
         { block: canvasOpen, hidden: !canvasOpen },
@@ -49,10 +49,7 @@ export function Canvas() {
         <span>{currentNode.title}</span>
       </header>
 
-      <section
-        className="flex-1 w-full overflow-y-auto"
-        style={{ scrollbarWidth: "none" }}
-      >
+      <section>
         {!!currentNode.description && (
           <section className="w-full h-fit flex flex-row justify-center">
             <div className="min-w-1/3 max-w-4/5 h-fit py-4">
