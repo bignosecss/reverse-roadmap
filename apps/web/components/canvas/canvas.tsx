@@ -35,7 +35,7 @@ export function Canvas() {
         "fixed z-20 inset-0 border-l bg-background flex flex-col",
         "md:static md:w-3/5",
         "shadow-[0_0_18px_rgba(0,0,0,0.12)] dark:shadow-[0_0_18px_rgba(0,0,0,0.48)]",
-        { "block": canvasOpen, "hidden": !canvasOpen }
+        { block: canvasOpen, hidden: !canvasOpen },
       )}
     >
       <header className="@container touch:px-2.5 h-13 flex flex-none items-center gap-1 px-2 border-b">
