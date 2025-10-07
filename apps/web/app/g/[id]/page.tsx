@@ -11,7 +11,7 @@ export default function GoalPage() {
   const id = params.id as string;
 
   return (
-    <div className="flex flex-1 flex-col h-full gap-4">
+    <div className="flex flex-1 flex-col h-full">
       <div className="flex flex-row justify-between items-center p-4 border-b-1">
         <SidebarTrigger className="md:hidden" />
         <h1>
