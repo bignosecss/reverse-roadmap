@@ -38,7 +38,7 @@ export function Canvas() {
         { block: canvasOpen, hidden: !canvasOpen },
       )}
     >
-      <header className="@container touch:px-2.5 h-13 flex flex-none items-center gap-1 px-2 border-b">
+      <header className="@container touch:px-2.5 h-13 flex flex-none items-center gap-1 px-2">
         <Button
           variant="ghost"
           size="icon"
@@ -64,7 +64,7 @@ export function Canvas() {
         )}
 
         {!isLoading && !!nodeContent && (
-          <main className="w-full p-4">
+          <main className="w-full">
             <Tiptap content={nodeContent} />
           </main>
         )}
