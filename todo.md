@@ -25,7 +25,6 @@
 - [ ] Canvas 设置访问密码（访问密码在传输过程中的加密，可以参考 TLS 协商中 pre-master secret 的过程）
 - [ ] Canvas resizeable，可以像 resize 浏览器窗口一样 resize Canvas
 - [ ] Canvas 中添加表格模块
-- [ ] Canvas 随着内容的输入，当内容超过屏幕的时候，屏幕自动下移适应增多的内容，而不需要手动滑到下面
 - [ ] Canvas tiptap editor 区分内容区别然后更新的功能，现在使用 JSON.stirngify 一个大对象做到的，效率很低下，应该使用 \_id，这肯定是唯一的且不同的
 - [ ] Reverse Roadmap 登录功能
 
