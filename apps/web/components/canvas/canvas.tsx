@@ -32,7 +32,7 @@ export function Canvas() {
   return (
     <div
       className={cn(
-        "h-screen w-screen absolute inset-0 z-50 md:static md:w-3/5 border-l bg-background shadow-[0_0_18px_rgba(0,0,0,0.12)] dark:shadow-[0_0_18px_rgba(0,0,0,0.48)]",
+        "fixed inset-0 w-screen z-20 md:static md:w-3/5 border-l bg-background shadow-[0_0_18px_rgba(0,0,0,0.12)] dark:shadow-[0_0_18px_rgba(0,0,0,0.48)]",
         { "translate-x-0": canvasOpen, "translate-x-full": !canvasOpen },
       )}
     >
@@ -48,7 +48,7 @@ export function Canvas() {
       </header>
 
       <section
-        className="w-full h-full overflow-x-auto pb-36"
+        className="w-full h-full overflow-x-auto"
         style={{ scrollbarWidth: "none" }}
       >
         {!!currentNode.description && (
@@ -62,9 +62,9 @@ export function Canvas() {
         )}
 
         {!isLoading && !!nodeContent && (
-          <section className="w-full">
+          <main className="w-full">
             <Tiptap content={nodeContent} />
-          </section>
+          </main>
         )}
       </section>
     </div>
