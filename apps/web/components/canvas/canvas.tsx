@@ -37,6 +37,7 @@ export function Canvas() {
         "shadow-[0_0_18px_rgba(0,0,0,0.12)] dark:shadow-[0_0_18px_rgba(0,0,0,0.48)]",
         { block: canvasOpen, hidden: !canvasOpen },
       )}
+      style={{ scrollbarWidth: "none" }}
     >
       <header className="@container touch:px-2.5 h-13 flex flex-none items-center gap-1 px-2 sticky top-0 bg-background z-10">
         <Button
