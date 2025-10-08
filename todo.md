@@ -33,4 +33,4 @@
 - [ ] 统计每个 `tree` 的信息（节点数等），或是在 Flow 中增加一个绝对定位的类似切换布局方式的按钮来控制显示，或者在 Dashboard 中可视化统计（使用 D3.js）
 
 ## Bug Fix Tasks
-- [ ] Tiptap 点击节点 68d66e95b74abaddfef3e5a5 后，后端查询时间很长（mongodb compass 中在 rr-node-content 查询这个ID需要很久）
+- [ ] Tiptap 点击节点 68d66e95b74abaddfef3e5a5 后，后端查询时间很长（mongodb compass 中在 rr-node-content 查询这个ID需要很久），为什么一个线性查询会这么久？后续看看所谓的添加索引
