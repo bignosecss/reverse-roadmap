@@ -5,7 +5,6 @@ import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 import AppSidebar from "@/components/sidebar/app-sidebar";
 import Providers from "@/app/providers";
 import { ThemeProvider } from "@/components/theme-provider";
-import { Canvas } from "@/components/canvas";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -39,10 +38,7 @@ export default function RootLayout({
           <Providers>
             <SidebarProvider defaultOpen={true}>
               <AppSidebar />
-              <SidebarInset className="flex flex-row overflow-hidden">
-                <div className="flex flex-1 flex-col gap-4 p-4">{children}</div>
-                <Canvas />
-              </SidebarInset>
+              <SidebarInset className="h-screen">{children}</SidebarInset>
             </SidebarProvider>
           </Providers>
         </ThemeProvider>
