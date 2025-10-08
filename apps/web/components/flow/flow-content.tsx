@@ -11,6 +11,8 @@ import {
   Controls,
   useNodesInitialized,
   ColorMode,
+  Panel,
+  useReactFlow,
 } from "@xyflow/react";
 import RrNodeComponent from "./rr-node";
 
@@ -21,6 +23,7 @@ import useFlowStore from "@/lib/stores/flow";
 import { getLayoutedNodes } from "@/lib/flow-tree/dagre-layout";
 import { useGetRrTree } from "@/hooks/use-rr-node";
 import { convertTreeToFlow } from "@/lib/flow-tree/converter";
+import { SearchNode } from "./search-node";
 
 // 注册自定义节点类型
 const nodeTypes = {
@@ -54,6 +57,7 @@ export default function FlowContent({ treeId }: { treeId: string }) {
     setEdges,
   } = useFlowStore(useShallow(selector));
   const nodeInitialized = useNodesInitialized(options);
+  const { setCenter } = useReactFlow();
 
   // 第一阶段：数据转换
   useEffect(() => {
@@ -112,6 +116,9 @@ export default function FlowContent({ treeId }: { treeId: string }) {
       <Controls />
       <MiniMap />
       <Background variant={BackgroundVariant.Dots} />
+      <Panel position="top-right">
+        <SearchNode nodes={nodes} setCenter={setCenter} />
+      </Panel>
     </ReactFlow>
   );
 }
