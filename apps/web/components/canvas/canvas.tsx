@@ -33,7 +33,7 @@ export function Canvas() {
     <div
       className={cn(
         "fixed z-20 inset-0 border-l bg-background flex flex-col overflow-y-auto",
-        "md:static md:w-3/5",
+        "md:static md:w-[50vw]",
         "shadow-[0_0_18px_rgba(0,0,0,0.12)] dark:shadow-[0_0_18px_rgba(0,0,0,0.48)]",
         { block: canvasOpen, hidden: !canvasOpen },
       )}
