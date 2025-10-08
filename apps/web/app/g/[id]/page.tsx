@@ -20,7 +20,7 @@ export default function GoalPage() {
           <ModeToggle />
         </div>
 
-        <div className="flex-1 overflow-hidden">
+        <div className="flex-1">
           <ReactFlowProvider>
             <FlowContent treeId={id} />
           </ReactFlowProvider>
