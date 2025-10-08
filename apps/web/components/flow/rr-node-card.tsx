@@ -82,7 +82,7 @@ export default function RrNodeCard({
           {rrNode.title}
         </CardTitle>
         {rrNode.description && (
-          <CardDescription className="text-xs leading-relaxed">
+          <CardDescription className="text-xs leading-relaxed overflow-hidden text-ellipsis whitespace-nowrap">
             {rrNode.description}
           </CardDescription>
         )}
