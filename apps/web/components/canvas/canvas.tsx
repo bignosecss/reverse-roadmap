@@ -52,13 +52,13 @@ export function Canvas() {
 
       <section>
         {!!currentNode.description && (
-          <section className="w-full h-fit flex flex-row justify-center">
+          <div className="w-full h-fit flex flex-row justify-center">
             <div className="min-w-1/3 max-w-4/5 h-fit py-4">
               <blockquote className="border-l-2 pl-6 italic max-h-fit">
                 {currentNode.description}
               </blockquote>
             </div>
-          </section>
+          </div>
         )}
 
         {!isLoading && !!nodeContent && (
