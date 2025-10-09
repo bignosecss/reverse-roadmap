@@ -10,6 +10,7 @@
 
 ## Feature Tasks
 
+- [ ] Sidebar 也和 Flow 同样的搜索功能，快捷键 cmd+k 是 sidebar，cmd+j 是 Flow；这就要解决 cmd+j 快捷键和 chrome extension 的冲突了
 - [ ] Flow 记忆节点位置与连线（连线真的需要记忆吗？）
 - [ ] Flow 更改连线功能
 - [x] Flow 搜索定位节点功能
