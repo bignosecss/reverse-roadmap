@@ -39,7 +39,12 @@ export function Canvas() {
       )}
       style={{ scrollbarWidth: "none" }}
     >
-      <header className="@container touch:px-2.5 h-13 flex flex-none items-center gap-1 px-2 sticky top-0 bg-background z-10">
+      <header
+        className={cn(
+          "@container touch:px-2.5 h-13 flex flex-none items-center gap-1 px-2",
+          "sticky top-0 bg-background z-10",
+        )}
+      >
         <Button
           variant="ghost"
           size="icon"
