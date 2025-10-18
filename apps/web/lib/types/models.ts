@@ -77,3 +77,8 @@ export type SidebarState = {
   rrRoots: RrRoot[];
   setRrRoots: (roots: RrRoot[]) => void;
 };
+
+export type CanvasState = {
+  updatingContent: boolean;
+  setUpdatingContent: (updating: boolean) => void;
+};

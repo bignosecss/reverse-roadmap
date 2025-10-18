@@ -5,6 +5,7 @@ import { Content } from "@tiptap/react";
 import { MinimalTiptapEditor } from "../ui/minimal-tiptap";
 import { RrNodeContent } from "@/lib/types/models";
 import { useUpdateRrNodeContent } from "@/hooks/use-rr-node-content";
+import useCanvasStore from "@/lib/stores/canvas";
 
 interface TiptapProps {
   content: RrNodeContent;
@@ -12,15 +13,21 @@ interface TiptapProps {
 
 export const Tiptap = ({ content }: TiptapProps) => {
   const [value, setValue] = useState<Content>("");
+  const setUpdatingContent = useCanvasStore(
+    (state) => state.setUpdatingContent,
+  );
 
   const { mutate: saveContent } = useUpdateRrNodeContent(content._id);
 
   const handleSetValue = useCallback(
     (value: Content) => {
+      setUpdatingContent(true);
       setValue(value);
-      saveContent(value);
+      saveContent(value, {
+        onSettled: () => setUpdatingContent(false),
+      });
     },
-    [saveContent],
+    [saveContent, setUpdatingContent],
   );
 
   useEffect(() => {

@@ -3,11 +3,14 @@
 import useFlowStore from "@/lib/stores/flow";
 import { X } from "lucide-react";
 import { Button } from "../ui/button";
+import { Spinner } from "../ui/spinner";
+import { Badge } from "../ui/badge";
 import { FlowState } from "@/lib/types/models";
 import { useShallow } from "zustand/react/shallow";
 import { Tiptap } from "./tiptap";
 import { cn } from "@/lib/utils";
 import { useGetRrNodeContent } from "@/hooks/use-rr-node-content";
+import useCanvasStore from "@/lib/stores/canvas";
 
 const selector = (state: FlowState) => ({
   currentNode: state.currentNode,
@@ -19,6 +22,7 @@ export function Canvas() {
   const { currentNode, canvasOpen, setCanvasOpen } = useFlowStore(
     useShallow(selector),
   );
+  const updatingContent = useCanvasStore((state) => state.updatingContent);
 
   const nodeContentId = currentNode?.content;
   const { data: nodeContent, isLoading } = useGetRrNodeContent(
@@ -53,6 +57,12 @@ export function Canvas() {
           <X />
         </Button>
         <span>{currentNode.title}</span>
+        {updatingContent && (
+          <Badge variant="outline" className="ml-1">
+            <Spinner />
+            Updating
+          </Badge>
+        )}
       </header>
 
       <section>
