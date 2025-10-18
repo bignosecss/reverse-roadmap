@@ -229,6 +229,15 @@ export const useMinimalTiptapEditor = ({
         class: cn("focus:outline-hidden", editorClassName),
       },
     },
+    /**
+     * 很可能在这里会引发 React flushSync 警告
+     * 因为，在 onUpdate/onCreate 中调用 setContent 会触发状态更新
+     * React 可能会检测到在事件处理程序之外的状态更新，从而抛出 flushSync 警告
+     * 目前的解决方案是使用 queueMicrotask 来延迟 setContent 的调用
+     * 
+     * 最根本的原因，可能是因为在切换节点的时候，tiptap 实例没有被销毁并重建
+     * 导致 onUpdate 被调用，而预期的 onCreate 没有被调用
+     */
     onUpdate: ({ editor }) => handleUpdate(editor),
     onCreate: ({ editor }) => handleCreate(editor),
     onBlur: ({ editor }) => handleBlur(editor),
