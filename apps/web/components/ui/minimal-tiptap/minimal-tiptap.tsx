@@ -1,19 +1,13 @@
 import "./styles/index.css";
 
-import type { Content, Editor } from "@tiptap/react";
+import type { Content } from "@tiptap/react";
 import type { UseMinimalTiptapEditorProps } from "./hooks/use-minimal-tiptap";
 import { EditorContent } from "@tiptap/react";
-import { FloatingMenu } from "@tiptap/react/menus";
-import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { SectionOne } from "./components/section/one";
-import { SectionTwo } from "./components/section/two";
-import { SectionThree } from "./components/section/three";
-import { SectionFour } from "./components/section/four";
-import { SectionFive } from "./components/section/five";
 import { LinkBubbleMenu } from "./components/bubble-menu/link-bubble-menu";
 import { useMinimalTiptapEditor } from "./hooks/use-minimal-tiptap";
 import { MeasuredContainer } from "./components/measured-container";
+import { ContentBubbleMenu } from "./components/bubble-menu/content-bubble-menu";
 
 export interface MinimalTiptapProps
   extends Omit<UseMinimalTiptapEditorProps, "onUpdate"> {
@@ -22,52 +16,6 @@ export interface MinimalTiptapProps
   className?: string;
   editorContentClassName?: string;
 }
-
-const Toolbar = ({ editor }: { editor: Editor }) => (
-  <div className="border-border flexh-12 shrink-0 overflow-x-auto p-2">
-    <div className="flex flex-col w-max items-center gap-px">
-      <SectionOne editor={editor} activeLevels={[1, 2, 3]} variant="outline" />
-
-      <Separator orientation="vertical" className="mx-2" />
-
-      <SectionTwo
-        editor={editor}
-        activeActions={[
-          "italic",
-          "bold",
-          "underline",
-          "code",
-          "strikethrough",
-          "clearFormatting",
-        ]}
-        mainActionCount={5}
-        variant="outline"
-      />
-
-      <Separator orientation="vertical" className="mx-2" />
-
-      <SectionThree editor={editor} variant="outline" />
-
-      <Separator orientation="vertical" className="mx-2" />
-
-      <SectionFour
-        editor={editor}
-        activeActions={["bulletList", "orderedList"]}
-        mainActionCount={2}
-        variant="outline"
-      />
-
-      <Separator orientation="vertical" className="mx-2" />
-
-      <SectionFive
-        editor={editor}
-        activeActions={["blockquote", "codeBlock", "horizontalRule"]}
-        mainActionCount={3}
-        variant="outline"
-      />
-    </div>
-  </div>
-);
 
 export const MinimalTiptapEditor = ({
   value,
@@ -95,9 +43,7 @@ export const MinimalTiptapEditor = ({
         className,
       )}
     >
-      <FloatingMenu editor={editor}>
-        <Toolbar editor={editor} />
-      </FloatingMenu>
+      <ContentBubbleMenu editor={editor} />
       <EditorContent
         editor={editor}
         className={cn("minimal-tiptap-editor", editorContentClassName)}
