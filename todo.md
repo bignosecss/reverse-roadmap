@@ -30,7 +30,7 @@
 - [ ] Canvas resizeable，可以像 resize 浏览器窗口一样 resize Canvas
 - [ ] Canvas 中添加表格模块
 - [ ] Canvas tiptap editor 区分内容区别然后更新的功能，现在使用 JSON.stirngify 一个大对象做到的，效率很低下，应该使用 \_id，这肯定是唯一的且不同的
-- [ ] Canvas 保存 tiptap 内容的时候，Canvas header 部分出现保存的 loading 圈圈，保存成功之后显示成功然后消失
+- [x] Canvas 保存 tiptap 内容的时候，Canvas header 部分出现保存的 loading 圈圈，保存成功之后显示成功然后消失
 - [ ] Reverse Roadmap 登录功能
 
 ## Unclear Tasks
