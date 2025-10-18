@@ -237,6 +237,7 @@ export const useMinimalTiptapEditor = ({
      * 
      * 最根本的原因，可能是因为在切换节点的时候，tiptap 实例没有被销毁并重建
      * 导致 onUpdate 被调用，而预期的 onCreate 没有被调用
+     * 而在第一次点击某个节点，整个 Canvas 明显会重新渲染，tiptap 实例被重建
      */
     onUpdate: ({ editor }) => handleUpdate(editor),
     onCreate: ({ editor }) => handleCreate(editor),
