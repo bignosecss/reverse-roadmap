@@ -76,7 +76,7 @@ export function Canvas() {
           </div>
         )}
 
-        {!isLoading && !!nodeContent && (
+        {!isLoading && (
           <main className="w-full px-8">
             <Tiptap content={nodeContent} />
           </main>

@@ -1,5 +1,5 @@
 import { useShallow } from "zustand/react/shallow";
-import { useCallback, useRef } from "react";
+import { useCallback } from "react";
 import { Handle, Position } from "@xyflow/react";
 import {
   Card,
@@ -10,7 +10,6 @@ import {
 } from "../ui/card";
 import { CanvasState, RrNode } from "@/lib/types/models";
 import useFlowStore from "@/lib/stores/flow";
-import { useQueryClient } from "@tanstack/react-query";
 import useCanvasStore from "@/lib/stores/canvas";
 
 interface RrNodeCardProps {
@@ -31,24 +30,13 @@ export default function RrNodeCard({
 }: RrNodeCardProps) {
   const setCurrentNode = useFlowStore((state) => state.setCurrentNode);
   const { canvasOpen, setCanvasOpen } = useCanvasStore(useShallow(selector));
-  const prevNodeRef = useRef<RrNode | null>(null);
-  const queryClient = useQueryClient();
 
   const handleNodeClick = useCallback(
     (node: RrNode) => {
-      console.log("Node clicked:", node._id);
-
-      if (prevNodeRef && prevNodeRef.current) {
-        queryClient.invalidateQueries({
-          queryKey: ["rrNodeContent", prevNodeRef.current.content],
-        });
-      }
-
       setCurrentNode(node);
       if (!canvasOpen) setCanvasOpen(true);
-      if (!prevNodeRef.current) prevNodeRef.current = node;
     },
-    [canvasOpen, queryClient, setCanvasOpen, setCurrentNode],
+    [canvasOpen, setCanvasOpen, setCurrentNode],
   );
 
   return (

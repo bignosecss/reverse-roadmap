@@ -8,7 +8,7 @@ import { useUpdateRrNodeContent } from "@/hooks/use-rr-node-content";
 import useCanvasStore from "@/lib/stores/canvas";
 
 interface TiptapProps {
-  content: RrNodeContent;
+  content: RrNodeContent | undefined;
 }
 
 export const Tiptap = ({ content }: TiptapProps) => {
@@ -17,7 +17,9 @@ export const Tiptap = ({ content }: TiptapProps) => {
     (state) => state.setUpdatingContent,
   );
 
-  const { mutate: saveContent } = useUpdateRrNodeContent(content._id);
+  const { mutate: saveContent } = useUpdateRrNodeContent(
+    content ? content._id : "",
+  );
 
   const handleSetValue = useCallback(
     (value: Content) => {
