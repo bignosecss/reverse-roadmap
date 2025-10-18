@@ -3,6 +3,7 @@ import "./styles/index.css";
 import type { Content, Editor } from "@tiptap/react";
 import type { UseMinimalTiptapEditorProps } from "./hooks/use-minimal-tiptap";
 import { EditorContent } from "@tiptap/react";
+import { FloatingMenu } from "@tiptap/react/menus";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { SectionOne } from "./components/section/one";
@@ -23,8 +24,8 @@ export interface MinimalTiptapProps
 }
 
 const Toolbar = ({ editor }: { editor: Editor }) => (
-  <div className="border-border flex h-12 shrink-0 overflow-x-auto border-b p-2">
-    <div className="flex w-max items-center gap-px">
+  <div className="border-border flexh-12 shrink-0 overflow-x-auto p-2">
+    <div className="flex flex-col w-max items-center gap-px">
       <SectionOne editor={editor} activeLevels={[1, 2, 3]} variant="outline" />
 
       <Separator orientation="vertical" className="mx-2" />
@@ -94,7 +95,9 @@ export const MinimalTiptapEditor = ({
         className,
       )}
     >
-      <Toolbar editor={editor} />
+      <FloatingMenu editor={editor}>
+        <Toolbar editor={editor} />
+      </FloatingMenu>
       <EditorContent
         editor={editor}
         className={cn("minimal-tiptap-editor", editorContentClassName)}
