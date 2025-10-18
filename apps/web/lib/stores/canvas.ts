@@ -2,8 +2,12 @@ import { create } from "zustand";
 import { CanvasState } from "../types/models";
 
 const useCanvasStore = create<CanvasState>((set) => ({
+  canvasOpen: false,
   updatingContent: false,
-  setUpdatingContent: (updating: boolean) => {
+  setCanvasOpen: (open) => {
+    set({ canvasOpen: open });
+  },
+  setUpdatingContent: (updating) => {
     set({ updatingContent: updating });
   },
 }));

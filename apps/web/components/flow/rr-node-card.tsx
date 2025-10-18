@@ -8,9 +8,10 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { FlowState, RrNode } from "@/lib/types/models";
+import { CanvasState, RrNode } from "@/lib/types/models";
 import useFlowStore from "@/lib/stores/flow";
 import { useQueryClient } from "@tanstack/react-query";
+import useCanvasStore from "@/lib/stores/canvas";
 
 interface RrNodeCardProps {
   rrNode: RrNode;
@@ -18,9 +19,8 @@ interface RrNodeCardProps {
   isRootNode: boolean;
 }
 
-const selector = (state: FlowState) => ({
+const selector = (state: CanvasState) => ({
   canvasOpen: state.canvasOpen,
-  setCurrentNode: state.setCurrentNode,
   setCanvasOpen: state.setCanvasOpen,
 });
 
@@ -29,9 +29,8 @@ export default function RrNodeCard({
   isSelected: selected,
   isRootNode,
 }: RrNodeCardProps) {
-  const { canvasOpen, setCurrentNode, setCanvasOpen } = useFlowStore(
-    useShallow(selector),
-  );
+  const setCurrentNode = useFlowStore((state) => state.setCurrentNode);
+  const { canvasOpen, setCanvasOpen } = useCanvasStore(useShallow(selector));
   const prevNodeRef = useRef<RrNode | null>(null);
   const queryClient = useQueryClient();
 

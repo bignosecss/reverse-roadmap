@@ -6,7 +6,6 @@ const useFlowStore = create<FlowState>((set, get) => ({
   nodes: [],
   edges: [],
   currentNode: null,
-  canvasOpen: false,
   onNodesChange: (changes) => {
     set({
       nodes: applyNodeChanges(changes, get().nodes),
@@ -30,9 +29,6 @@ const useFlowStore = create<FlowState>((set, get) => ({
   },
   setCurrentNode: (node) => {
     set({ currentNode: node });
-  },
-  setCanvasOpen: (open) => {
-    set({ canvasOpen: open });
   },
 }));
 

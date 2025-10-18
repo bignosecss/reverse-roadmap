@@ -234,7 +234,7 @@ export const useMinimalTiptapEditor = ({
      * 因为，在 onUpdate/onCreate 中调用 setContent 会触发状态更新
      * React 可能会检测到在事件处理程序之外的状态更新，从而抛出 flushSync 警告
      * 目前的解决方案是使用 queueMicrotask 来延迟 setContent 的调用
-     * 
+     *
      * 最根本的原因，可能是因为在切换节点的时候，tiptap 实例没有被销毁并重建
      * 导致 onUpdate 被调用，而预期的 onCreate 没有被调用
      * 而在第一次点击某个节点，整个 Canvas 明显会重新渲染，tiptap 实例被重建

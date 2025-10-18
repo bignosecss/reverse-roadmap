@@ -63,14 +63,12 @@ export type FlowState = {
   nodes: FlowNode[];
   edges: FlowEdge[];
   currentNode: RrNode | null;
-  canvasOpen: boolean;
   onNodesChange: OnNodesChange<FlowNode>;
   onEdgesChange: OnEdgesChange<FlowEdge>;
   onConnect: OnConnect;
   setNodes: (nodes: FlowNode[]) => void;
   setEdges: (edges: FlowEdge[]) => void;
   setCurrentNode: (node: RrNode) => void;
-  setCanvasOpen: (open: boolean) => void;
 };
 
 export type SidebarState = {
@@ -79,6 +77,8 @@ export type SidebarState = {
 };
 
 export type CanvasState = {
+  canvasOpen: boolean;
   updatingContent: boolean;
+  setCanvasOpen: (open: boolean) => void;
   setUpdatingContent: (updating: boolean) => void;
 };
