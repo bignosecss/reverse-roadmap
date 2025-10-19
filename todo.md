@@ -20,16 +20,16 @@
   > 所以暂时放弃此功能的后续开发
 - [ ] Flow CRUD 节点时，等待途中冻结 Flow，操作结束（成功或失败）后再恢复（增加 UX，也方便探测性能）
 - [ ] Flow 方向键移动
-- [ ] Canvas 顶部工具栏取消，放到编辑行的左边一个可以消失可以出现的按钮，类似飞书文档
+- [x] Canvas 顶部工具栏取消，放到编辑行的左边一个可以消失可以出现的按钮，类似飞书文档
 - [ ] Canvas 修复在点击节点切换 tiptap editor 内容的时候，出现的 flushSync 报错问题；修复后才可以做 tab 功能
 - [ ] Canvas 切换 tab，区分：笔记 / 感想 / 思考 等等，并且 tab 之间可以通过“链接”的方式互相引用跳转
 - [ ] Canvas 想想如何添加 AI Agent
-- [ ] Canvas 内部的布局样式，参考 ChatGPT 的 Canvas
+- [x] Canvas 内部的布局样式，参考 ChatGPT 的 Canvas
 - [ ] Canvas 文字内容加密
 - [ ] Canvas 设置访问密码（访问密码在传输过程中的加密，可以参考 TLS 协商中 pre-master secret 的过程）
 - [ ] Canvas resizeable，可以像 resize 浏览器窗口一样 resize Canvas
 - [ ] Canvas 中添加表格模块
-- [ ] Canvas tiptap editor 区分内容区别然后更新的功能，现在使用 JSON.stirngify 一个大对象做到的，效率很低下，应该使用 \_id，这肯定是唯一的且不同的
+- [ ] Canvas tiptap editor 区分内容区别然后更新的功能，现在使用 JSON.stirngify 一个大对象做到的，效率很低下，应该使用 _id，这肯定是唯一的且不同的
 - [x] Canvas 保存 tiptap 内容的时候，Canvas header 部分出现保存的 loading 圈圈，保存成功之后显示成功然后消失
 - [ ] Reverse Roadmap 登录功能
 
