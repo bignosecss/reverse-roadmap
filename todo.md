@@ -21,7 +21,8 @@
 - [ ] Flow CRUD 节点时，等待途中冻结 Flow，操作结束（成功或失败）后再恢复（增加 UX，也方便探测性能）
 - [ ] Flow 方向键移动
 - [x] Canvas 顶部工具栏取消，放到编辑行的左边一个可以消失可以出现的按钮，类似飞书文档
-- [ ] Canvas 修复在点击节点切换 tiptap editor 内容的时候，出现的 flushSync 报错问题；修复后才可以做 tab 功能
+- [x] Canvas 修复在点击节点切换 tiptap editor 内容的时候，出现的 flushSync 报错问题；修复后才可以做 tab 功能
+> flushSync 不是因为切换节点而出现的，很可能与图片有关。目前切换节点 tiptap 实例重新创建，内容与节点匹配的问题已解决（通过 dataUpdatedAt 作为 key(每个节点的该字段不同) 强制 React 重渲染）
 - [ ] Canvas 切换 tab，区分：笔记 / 感想 / 思考 等等，并且 tab 之间可以通过“链接”的方式互相引用跳转
 - [ ] Canvas 想想如何添加 AI Agent
 - [x] Canvas 内部的布局样式，参考 ChatGPT 的 Canvas
@@ -30,9 +31,9 @@
 - [ ] Canvas resizeable，可以像 resize 浏览器窗口一样 resize Canvas
 - [ ] Canvas 中添加表格模块
 - [x] Canvas tiptap editor 区分内容区别然后更新的功能，现在使用 JSON.stirngify 一个大对象做到的，效率很低下，应该使用 \_id，这肯定是唯一的且不同的
-> flushSync & 切换节点 tiptap content 不变的问题目前愈发清晰；所以重构了 Canvas 逻辑，这个问题不再存在
+  > flushSync & 切换节点 tiptap content 不变的问题目前愈发清晰；所以重构了 Canvas 逻辑，这个问题不再存在
 - [x] Canvas 保存 tiptap 内容的时候，Canvas header 部分出现保存的 loading 圈圈，保存成功之后显示成功然后消失
-- [ ] Canvas 为了防止意外的保存不匹配的节点 Content，可以在调用 saveContent 的时候判断是否这个内容的 _id 与 节点的 node.content 相同。如果相同有更新时才保存，否则不保存。
+- [ ] Canvas 为了防止意外的保存不匹配的节点 Content，可以在调用 saveContent 的时候判断是否这个内容的 \_id 与 节点的 node.content 相同。如果相同有更新时才保存，否则不保存。
 - [ ] Reverse Roadmap 登录功能
 
 ## Unclear Tasks

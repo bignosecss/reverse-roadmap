@@ -207,7 +207,7 @@ export const useMinimalTiptapEditor = ({
   const handleCreate = React.useCallback(
     (editor: Editor) => {
       if (value && editor.isEmpty) {
-        console.log('here');
+        console.log("here");
         editor.commands.setContent(value);
       }
     },
@@ -233,14 +233,14 @@ export const useMinimalTiptapEditor = ({
     /**
      * 1. flushSync 警告出现的原因，很可能与图片的加载相关
      *  因为只有点击包含图片的节点后，flushSync 100% 报出
-     * 
+     *
      * 2. 切换点击过的节点，tiptap 内容无变化的原因：
      *  Tiptap 实例创建，handleCreate 将 tiptap 内容设置为 API 请求的内容
      *  如果使用缓存，isLoading 状态无变化，那么 tiptap 实例不会被重新创建、内容不会更新
-     * 
+     *
      * 3. Tiptap 的表现：
      *  Tiptap 实例创建，handleCreate 被调用将内容设置为 API 请求的内容
-     *  没过一会儿，tiptap 捕捉到 content 发生变化，handleUpdate 调用
+     *  tiptap 捕捉到 content 发生变化，handleUpdate 调用
      */
     onUpdate: ({ editor }) => handleUpdate(editor),
     onCreate: ({ editor }) => handleCreate(editor),

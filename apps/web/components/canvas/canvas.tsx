@@ -29,7 +29,7 @@ export function Canvas() {
   );
 
   const nodeContentId = currentNode?.content;
-  const { data: nodeContent, isPending } = useGetRrNodeContent(
+  const { data: nodeContent, dataUpdatedAt } = useGetRrNodeContent(
     nodeContentId ? nodeContentId : "",
   );
   const { mutate: saveContent } = useUpdateRrNodeContent(
@@ -83,11 +83,12 @@ export function Canvas() {
           </div>
         )}
 
-        {!isPending && (
-          <main className="w-full px-8">
-            <Tiptap content={nodeContent as Content} onSave={saveContent} />
-          </main>
-        )}
+        {/* 每次dataUpdatedAt都会变化，即使是缓存数据 */}
+        {/* 当 key 改变时，React 会认为这是一个不同的元素，因此会销毁之前的组件实例并重新创建一个新的组件实例 */}
+        {/* React Query 中，dataUpdatedAt 是请求成功返回数据的时间；绝大部分情况，每个节点的该字段都是不同的，所以满足了切换节点 tiptap 实例重新创建的需求 */}
+        <main key={dataUpdatedAt} className="w-full px-8">
+          <Tiptap content={nodeContent as Content} onSave={saveContent} />
+        </main>
       </section>
     </div>
   );
