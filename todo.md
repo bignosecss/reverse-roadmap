@@ -32,6 +32,7 @@
 - [x] Canvas tiptap editor 区分内容区别然后更新的功能，现在使用 JSON.stirngify 一个大对象做到的，效率很低下，应该使用 \_id，这肯定是唯一的且不同的
 > flushSync & 切换节点 tiptap content 不变的问题目前愈发清晰；所以重构了 Canvas 逻辑，这个问题不再存在
 - [x] Canvas 保存 tiptap 内容的时候，Canvas header 部分出现保存的 loading 圈圈，保存成功之后显示成功然后消失
+- [ ] Canvas 为了防止意外的保存不匹配的节点 Content，可以在调用 saveContent 的时候判断是否这个内容的 _id 与 节点的 node.content 相同。如果相同有更新时才保存，否则不保存。
 - [ ] Reverse Roadmap 登录功能
 
 ## Unclear Tasks

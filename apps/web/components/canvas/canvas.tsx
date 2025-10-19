@@ -29,7 +29,7 @@ export function Canvas() {
   );
 
   const nodeContentId = currentNode?.content;
-  const { data: nodeContent, isLoading } = useGetRrNodeContent(
+  const { data: nodeContent, isPending } = useGetRrNodeContent(
     nodeContentId ? nodeContentId : "",
   );
   const { mutate: saveContent } = useUpdateRrNodeContent(
@@ -83,7 +83,7 @@ export function Canvas() {
           </div>
         )}
 
-        {!isLoading && (
+        {!isPending && (
           <main className="w-full px-8">
             <Tiptap content={nodeContent as Content} onSave={saveContent} />
           </main>
