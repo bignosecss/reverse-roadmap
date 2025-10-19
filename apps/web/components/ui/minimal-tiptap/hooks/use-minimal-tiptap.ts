@@ -207,6 +207,7 @@ export const useMinimalTiptapEditor = ({
   const handleCreate = React.useCallback(
     (editor: Editor) => {
       if (value && editor.isEmpty) {
+        console.log('here');
         editor.commands.setContent(value);
       }
     },
@@ -230,91 +231,22 @@ export const useMinimalTiptapEditor = ({
       },
     },
     /**
-     * 很可能在这里会引发 React flushSync 警告
-     * 因为，在 onUpdate/onCreate 中调用 setContent 会触发状态更新
-     * React 可能会检测到在事件处理程序之外的状态更新，从而抛出 flushSync 警告
-     * 目前的解决方案是使用 queueMicrotask 来延迟 setContent 的调用
-     *
-     * 最根本的原因，可能是因为在切换节点的时候，tiptap 实例没有被销毁并重建
-     * 导致 onUpdate 被调用，而预期的 onCreate 没有被调用
-     * 而在第一次点击某个节点，整个 Canvas 明显会重新渲染，tiptap 实例被重建
+     * 1. flushSync 警告出现的原因，很可能与图片的加载相关
+     *  因为只有点击包含图片的节点后，flushSync 100% 报出
+     * 
+     * 2. 切换点击过的节点，tiptap 内容无变化的原因：
+     *  Tiptap 实例创建，handleCreate 将 tiptap 内容设置为 API 请求的内容
+     *  如果使用缓存，isLoading 状态无变化，那么 tiptap 实例不会被重新创建、内容不会更新
+     * 
+     * 3. Tiptap 的表现：
+     *  Tiptap 实例创建，handleCreate 被调用将内容设置为 API 请求的内容
+     *  没过一会儿，tiptap 捕捉到 content 发生变化，handleUpdate 调用
      */
     onUpdate: ({ editor }) => handleUpdate(editor),
     onCreate: ({ editor }) => handleCreate(editor),
     onBlur: ({ editor }) => handleBlur(editor),
     ...props,
   });
-
-  /**
-   * 在点击包含图片的节点后，React 会抛出 Console Error: flushSync ...
-   * 若编辑器 JSON 内容中不包含图片，则不会抛出错误
-   * 目前，通过 queueMicrotask 临时修复 React flushSync 报错，改修复也通过强制设置编辑器的内容
-   * 临时解决了：canvas 打开状态下，点击缓存节点（打开过的节点），编辑器区域内容不更新的问题
-   * 
-   * 对于第二个问题，目前测试出来的表现：
-   *   如果节点是第一次点击，那么 tiptap 会正确被重渲染，显示对应节点的内容。
-   *   如果节点已经被打开过了，在打开过的节点之间切换，value 首先是上一个节点的内容
-   * 然后 Tiptap.tsx useEffect 中的 setValue 执行之后，组件重渲染，打印出当前节点
-   * 的内容 editor 的内容没有变化
-   * 
-   * 猜测可能是因为在已经打开过的节点之间切换，editor 的 onCreate & onUpdate 没有执行
-   * onUpdate 是处理用户输入的，所以可以从 onCreate 下手去解决内容同步的问题。
-   * 在 useMinimalTiptapEditor hook 中，需要一个机制来监听 value 的变化，并在必要时
-   * 更新 editor 的内容，而且要避免在编辑时覆盖掉输入。
-   * 
-   * 但更重要的是搞清楚，为什么第一次点击节点，react-query发送请求；tiptap editor 会
-   * 重新挂载，然后显示正确的内容。
-   * 
-   * ...two years later...
-   * 
-   * 因为第一次点击节点时：
-   *   1. useGetRrNodeContent 发送网络请求，isLoading 为 true
-   *   2. Canvas 组件中的条件渲染 {!isLoading && !!nodeContent && (...)} 不满足
-   *   3. Tiptap 组件不会被渲染，编辑器不会被创建
-   *   4. 网络请求完成，isLoading 变为 false，nodeContent 有值
-   *   5. Tiptap 组件被渲染，编辑器被创建，显示正确内容
-
-   * 切换回已访问节点时：
-   *   1. useGetRrNodeContent 从缓存获取数据，isLoading 保持 false
-   *   2. Tiptap 组件一直在渲染状态（没有被卸载）
-   *   3. 编辑器实例被复用
-   *   4. Tiptap 组件的 useEffect 执行，setValue 被调用
-   *   5. 但编辑器内容没有更新，因为编辑器不知道 value 变化了
-   * 
-   * ...twotwo years later...
-   * 这个方案其实并不能完全解决 flushSync 的问题，后续探讨～
-   */
-  React.useEffect(() => {
-    // 监听value变化，当value变化时更新编辑器内容
-    if (editor && value) {
-      // 检查当前编辑器内容是否与新值不同
-      // 如果不同，则更新编辑器内容
-      const currentJsonContent = getOutput(editor, "json");
-      const currentStr = JSON.stringify(currentJsonContent);
-      const valueStr = JSON.stringify(value);
-
-      console.log("Comparing content:");
-      console.log("currentContent:", currentJsonContent);
-      console.log("value:", value);
-      console.log("currentStr:", currentStr);
-      console.log("valueStr:", valueStr);
-      console.log("Are equal:", currentStr === valueStr);
-
-      if (currentStr !== valueStr) {
-        console.log("Content differs, setting content");
-        editor.commands.setContent(value);
-      } else {
-        console.log("Content same, skipping");
-      }
-      if (JSON.stringify(currentJsonContent) !== JSON.stringify(value)) {
-        console.log("执行了");
-        // 使用queueMicrotask来避免flushSync警告
-        queueMicrotask(() => {
-          editor.commands.setContent(value);
-        });
-      }
-    }
-  }, [editor, value, output]);
 
   const { editor: mainEditor } = useEditorState({
     editor,

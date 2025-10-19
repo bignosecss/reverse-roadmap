@@ -9,8 +9,12 @@ import { CanvasState } from "@/lib/types/models";
 import { useShallow } from "zustand/react/shallow";
 import { Tiptap } from "./tiptap";
 import { cn } from "@/lib/utils";
-import { useGetRrNodeContent } from "@/hooks/use-rr-node-content";
+import {
+  useGetRrNodeContent,
+  useUpdateRrNodeContent,
+} from "@/hooks/use-rr-node-content";
 import useCanvasStore from "@/lib/stores/canvas";
+import { Content } from "@tiptap/react";
 
 const selector = (state: CanvasState) => ({
   canvasOpen: state.canvasOpen,
@@ -27,6 +31,9 @@ export function Canvas() {
   const nodeContentId = currentNode?.content;
   const { data: nodeContent, isLoading } = useGetRrNodeContent(
     nodeContentId ? nodeContentId : "",
+  );
+  const { mutate: saveContent } = useUpdateRrNodeContent(
+    nodeContent ? nodeContent._id : "",
   );
 
   if (!currentNode || !canvasOpen) {
@@ -78,7 +85,7 @@ export function Canvas() {
 
         {!isLoading && (
           <main className="w-full px-8">
-            <Tiptap content={nodeContent} />
+            <Tiptap content={nodeContent as Content} onSave={saveContent} />
           </main>
         )}
       </section>

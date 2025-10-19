@@ -1,24 +1,24 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Content } from "@tiptap/react";
 import { MinimalTiptapEditor } from "../ui/minimal-tiptap";
 import { RrNodeContent } from "@/lib/types/models";
-import { useUpdateRrNodeContent } from "@/hooks/use-rr-node-content";
 import useCanvasStore from "@/lib/stores/canvas";
+import { MutateOptions } from "@tanstack/react-query";
 
 interface TiptapProps {
-  content: RrNodeContent | undefined;
+  content: Content | undefined;
+  onSave: (
+    variables: Content,
+    options?: MutateOptions<RrNodeContent, Error, Content, unknown> | undefined,
+  ) => void;
 }
 
-export const Tiptap = ({ content }: TiptapProps) => {
-  const [value, setValue] = useState<Content>("");
+export const Tiptap = ({ content, onSave: saveContent }: TiptapProps) => {
+  const [value, setValue] = useState<Content>(content ? content : "");
   const setUpdatingContent = useCanvasStore(
     (state) => state.setUpdatingContent,
-  );
-
-  const { mutate: saveContent } = useUpdateRrNodeContent(
-    content ? content._id : "",
   );
 
   const handleSetValue = useCallback(
@@ -31,15 +31,6 @@ export const Tiptap = ({ content }: TiptapProps) => {
     },
     [saveContent, setUpdatingContent],
   );
-
-  useEffect(() => {
-    if (content) {
-      // 删掉多余的属性
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { _id, createdAt, updatedAt, __v, ...restContent } = content;
-      setValue(restContent);
-    }
-  }, [content]);
 
   return (
     <MinimalTiptapEditor
