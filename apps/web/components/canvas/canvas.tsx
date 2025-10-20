@@ -14,7 +14,6 @@ import {
   useUpdateRrNodeContent,
 } from "@/hooks/use-rr-node-content";
 import useCanvasStore from "@/lib/stores/canvas";
-import { Content } from "@tiptap/react";
 
 const selector = (state: CanvasState) => ({
   canvasOpen: state.canvasOpen,
@@ -87,7 +86,7 @@ export function Canvas() {
         {/* 当 key 改变时，React 会认为这是一个不同的元素，因此会销毁之前的组件实例并重新创建一个新的组件实例 */}
         {/* React Query 中，dataUpdatedAt 是请求成功返回数据的时间；绝大部分情况，每个节点的该字段都是不同的，所以满足了切换节点 tiptap 实例重新创建的需求 */}
         <main key={dataUpdatedAt} className="w-full px-8">
-          <Tiptap content={nodeContent as Content} onSave={saveContent} />
+          <Tiptap content={nodeContent} onSave={saveContent} />
         </main>
       </section>
     </div>

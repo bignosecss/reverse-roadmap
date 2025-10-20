@@ -8,7 +8,7 @@ import useCanvasStore from "@/lib/stores/canvas";
 import { MutateOptions } from "@tanstack/react-query";
 
 interface TiptapProps {
-  content: Content | undefined;
+  content: RrNodeContent | undefined;
   onSave: (
     variables: Content,
     options?: MutateOptions<RrNodeContent, Error, Content, unknown> | undefined,

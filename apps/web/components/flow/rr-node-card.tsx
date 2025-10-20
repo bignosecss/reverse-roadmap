@@ -11,6 +11,7 @@ import {
 import { CanvasState, RrNode } from "@/lib/types/models";
 import useFlowStore from "@/lib/stores/flow";
 import useCanvasStore from "@/lib/stores/canvas";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface RrNodeCardProps {
   rrNode: RrNode;
@@ -30,13 +31,17 @@ export default function RrNodeCard({
 }: RrNodeCardProps) {
   const setCurrentNode = useFlowStore((state) => state.setCurrentNode);
   const { canvasOpen, setCanvasOpen } = useCanvasStore(useShallow(selector));
+  const queryClient = useQueryClient();
 
   const handleNodeClick = useCallback(
     (node: RrNode) => {
       setCurrentNode(node);
+      queryClient.invalidateQueries({
+        queryKey: ["rrNodeContent", node.content],
+      });
       if (!canvasOpen) setCanvasOpen(true);
     },
-    [canvasOpen, setCanvasOpen, setCurrentNode],
+    [canvasOpen, queryClient, setCanvasOpen, setCurrentNode],
   );
 
   return (

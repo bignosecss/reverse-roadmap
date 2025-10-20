@@ -29,6 +29,8 @@
 ## Bug Fix Tasks
 
 - [ ] Tiptap 点击节点 68d66e95b74abaddfef3e5a5 后，后端查询时间很长（mongodb compass 中在 rr-node-content 查询这个ID需要很久），为什么一个线性查询会这么久？后续看看所谓的添加索引
+- [ ] Tiptap editor 为什么会意外的保存上一个节点的 Content 为当前的节点 Content？
+> 难以 debug 复现
 
 ## Done
 
@@ -36,12 +38,10 @@
 - [x] Canvas 移动端，Canvas 占据整个屏幕，sidebar 要 responsive
 - [x] Canvas 顶部工具栏取消，放到编辑行的左边一个可以消失可以出现的按钮，类似飞书文档
 - [x] Canvas 修复在点击节点切换 tiptap editor 内容的时候，出现的 flushSync 报错问题；修复后才可以做 tab 功能
-> flushSync 不是因为切换节点而出现的，很可能与图片有关。目前切换节点 tiptap 实例重新创建，内容与节点匹配的问题已解决（通过 dataUpdatedAt 作为 key(每个节点的该字段不同) 强制 React 重渲染）
+  > flushSync 不是因为切换节点而出现的，很可能与图片有关。目前切换节点 tiptap 实例重新创建，内容与节点匹配的问题已解决（通过 dataUpdatedAt 作为 key(每个节点的该字段不同) 强制 React 重渲染）
 - [x] Canvas 内部的布局样式，参考 ChatGPT 的 Canvas
 - [x] Canvas tiptap editor 区分内容区别然后更新的功能，现在使用 JSON.stirngify 一个大对象做到的，效率很低下，应该使用 \_id，这肯定是唯一的且不同的
   > flushSync & 切换节点 tiptap content 不变的问题目前愈发清晰；所以重构了 Canvas 逻辑，这个问题不再存在
 - [x] Canvas 保存 tiptap 内容的时候，Canvas header 部分出现保存的 loading 圈圈，保存成功之后显示成功然后消失
 - [x] Flow page 中，顶部的样式需要研究怎么改
 - [x] Flow 搜索定位节点功能
-
-
