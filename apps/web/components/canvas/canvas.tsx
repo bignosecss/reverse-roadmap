@@ -14,6 +14,7 @@ import {
   useUpdateRrNodeContent,
 } from "@/hooks/use-rr-node-content";
 import useCanvasStore from "@/lib/stores/canvas";
+import { useEffect, useState } from "react";
 
 const selector = (state: CanvasState) => ({
   canvasOpen: state.canvasOpen,
@@ -28,12 +29,23 @@ export function Canvas() {
   );
 
   const nodeContentId = currentNode?.content;
-  const { data: nodeContent, dataUpdatedAt } = useGetRrNodeContent(
-    nodeContentId ? nodeContentId : "",
-  );
+  const {
+    data: nodeContent,
+    isPending,
+    isRefetching,
+    dataUpdatedAt,
+  } = useGetRrNodeContent(nodeContentId ? nodeContentId : "");
   const { mutate: saveContent } = useUpdateRrNodeContent(
     nodeContent ? nodeContent._id : "",
   );
+
+  const [renderKey, setRenderKey] = useState("");
+
+  useEffect(() => {
+    if (nodeContent && dataUpdatedAt) {
+      setRenderKey(`${nodeContent._id}-${dataUpdatedAt}`);
+    }
+  }, [dataUpdatedAt, nodeContent]);
 
   if (!currentNode || !canvasOpen) {
     return null;
@@ -73,8 +85,8 @@ export function Canvas() {
 
       <section>
         {!!currentNode.description && (
-          <div className="w-full h-fit flex flex-row justify-center">
-            <div className="min-w-1/3 max-w-4/5 h-fit py-4">
+          <div className="w-full h-fit flex flex-row justify-center py-8 px-4">
+            <div className="min-w-1/3 max-w-4/5 h-fit">
               <blockquote className="border-l-2 pl-6 italic max-h-fit">
                 {currentNode.description}
               </blockquote>
@@ -85,9 +97,21 @@ export function Canvas() {
         {/* 每次dataUpdatedAt都会变化，即使是缓存数据 */}
         {/* 当 key 改变时，React 会认为这是一个不同的元素，因此会销毁之前的组件实例并重新创建一个新的组件实例 */}
         {/* React Query 中，dataUpdatedAt 是请求成功返回数据的时间；绝大部分情况，每个节点的该字段都是不同的，所以满足了切换节点 tiptap 实例重新创建的需求 */}
-        <main key={dataUpdatedAt} className="w-full px-8">
-          <Tiptap content={nodeContent} onSave={saveContent} />
-        </main>
+        {
+          <main className="w-full px-8">
+            {isPending || isRefetching ? (
+              <div className="w-full p-5">
+                <Spinner className="size-8 mx-auto" />
+              </div>
+            ) : (
+              <Tiptap
+                key={renderKey}
+                content={nodeContent}
+                onSave={saveContent}
+              />
+            )}
+          </main>
+        }
       </section>
     </div>
   );

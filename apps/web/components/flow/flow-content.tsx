@@ -24,6 +24,7 @@ import { getLayoutedNodes } from "@/lib/flow-tree/dagre-layout";
 import { useGetRrTree } from "@/hooks/use-rr-node";
 import { convertTreeToFlow } from "@/lib/flow-tree/converter";
 import { SearchNode } from "./search-node";
+import { Spinner } from "../ui/spinner";
 
 // 注册自定义节点类型
 const nodeTypes = {
@@ -88,7 +89,9 @@ export default function FlowContent({ treeId }: { treeId: string }) {
 
   if (isLoading) {
     return (
-      <div className="p-4 text-[var(--secondary)]">Loading tree data...</div>
+      <div className="size-full flex justify-center items-center">
+        <Spinner className="size-12" />
+      </div>
     );
   }
 

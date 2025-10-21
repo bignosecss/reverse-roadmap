@@ -4,7 +4,11 @@
 
 - [ ] Reverse Roadmap 登录功能
 - [ ] Canvas 切换 tab，区分：笔记 / 感想 / 思考 等等，并且 tab 之间可以通过“链接”的方式互相引用跳转
+- [ ] Canvas Bubble Menu 增加文本对齐方式功能（左对齐、居中、右对齐）
 - [ ] Canvas 为了防止意外的保存不匹配的节点 Content，可以在调用 saveContent 的时候判断是否这个内容的 \_id 与 节点的 node.content 相同。如果相同有更新时才保存，否则不保存。
+  > 目前只能祈祷使用的时候，等待 update 后再切换节点了，否则肯定会出现该情况。貌似是因为点击太频繁节奏太快，导致react渲染没跟上，保存了上次渲染的content
+  > 这个问题似乎又有些思路：问题就在于，加载了 Canvas ，Tiptap 设置了 content 之后，为什么 onUpdate 仍然会执行？
+  > 搞清楚这个问题，意外保存的问题似乎就迎刃而解了
 - [ ] Canvas Content 文字内容加密
 - [ ] Canvas 设置每个节点 Content 的访问密码（访问密码在传输过程中的加密，可以参考 TLS 协商中 pre-master secret 的过程）
 - [ ] Canvas 想想如何添加 AI Agent
@@ -30,7 +34,7 @@
 
 - [ ] Tiptap 点击节点 68d66e95b74abaddfef3e5a5 后，后端查询时间很长（mongodb compass 中在 rr-node-content 查询这个ID需要很久），为什么一个线性查询会这么久？后续看看所谓的添加索引
 - [ ] Tiptap editor 为什么会意外的保存上一个节点的 Content 为当前的节点 Content？
-> 难以 debug 复现
+  > 难以 debug 复现
 
 ## Done
 
