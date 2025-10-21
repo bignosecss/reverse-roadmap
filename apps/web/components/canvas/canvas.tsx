@@ -88,6 +88,8 @@ export function Canvas() {
         {/* 每次dataUpdatedAt都会变化，即使是缓存数据 */}
         {/* 当 key 改变时，React 会认为这是一个不同的元素，因此会销毁之前的组件实例并重新创建一个新的组件实例 */}
         {/* React Query 中，dataUpdatedAt 是请求成功返回数据的时间；绝大部分情况，每个节点的该字段都是不同的，所以满足了切换节点 tiptap 实例重新创建的需求 */}
+        {/* 现在，React-Flow 组件中，在处理节点点击的时候，会将 React-Query 缓存的当前节点的 content invalidate，React-Query 会在后台自动 refetch */}
+        {/* 这时，isRefetching 状态改变，所以当前利用该状态的改变来 trigger react re-render，而不使用 key */}
         {
           <main className="w-full px-8">
             {isPending || isRefetching ? (
