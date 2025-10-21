@@ -14,7 +14,6 @@ import {
   useUpdateRrNodeContent,
 } from "@/hooks/use-rr-node-content";
 import useCanvasStore from "@/lib/stores/canvas";
-import { useEffect, useState } from "react";
 
 const selector = (state: CanvasState) => ({
   canvasOpen: state.canvasOpen,
@@ -28,24 +27,16 @@ export function Canvas() {
     useShallow(selector),
   );
 
-  const nodeContentId = currentNode?.content;
   const {
     data: nodeContent,
     isPending,
     isRefetching,
-    dataUpdatedAt,
-  } = useGetRrNodeContent(nodeContentId ? nodeContentId : "");
+  } = useGetRrNodeContent(
+    currentNode && currentNode.content ? currentNode.content : "",
+  );
   const { mutate: saveContent } = useUpdateRrNodeContent(
     nodeContent ? nodeContent._id : "",
   );
-
-  const [renderKey, setRenderKey] = useState("");
-
-  useEffect(() => {
-    if (nodeContent && dataUpdatedAt) {
-      setRenderKey(`${nodeContent._id}-${dataUpdatedAt}`);
-    }
-  }, [dataUpdatedAt, nodeContent]);
 
   if (!currentNode || !canvasOpen) {
     return null;
@@ -104,11 +95,7 @@ export function Canvas() {
                 <Spinner className="size-8 mx-auto" />
               </div>
             ) : (
-              <Tiptap
-                key={renderKey}
-                content={nodeContent}
-                onSave={saveContent}
-              />
+              <Tiptap content={nodeContent} onSave={saveContent} />
             )}
           </main>
         }

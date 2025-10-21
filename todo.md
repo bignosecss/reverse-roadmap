@@ -9,6 +9,7 @@
   > 目前只能祈祷使用的时候，等待 update 后再切换节点了，否则肯定会出现该情况。貌似是因为点击太频繁节奏太快，导致react渲染没跟上，保存了上次渲染的content
   > 这个问题似乎又有些思路：问题就在于，加载了 Canvas ，Tiptap 设置了 content 之后，为什么 onUpdate 仍然会执行？
   > 搞清楚这个问题，意外保存的问题似乎就迎刃而解了
+  > 愈发清晰。Tiptap 实例初始化之后，onCreate 执行将 tiptap content 设置为获取到的 content；然后 onUpdate 执行了！That's the point
 - [ ] Canvas Content 文字内容加密
 - [ ] Canvas 设置每个节点 Content 的访问密码（访问密码在传输过程中的加密，可以参考 TLS 协商中 pre-master secret 的过程）
 - [ ] Canvas 想想如何添加 AI Agent
