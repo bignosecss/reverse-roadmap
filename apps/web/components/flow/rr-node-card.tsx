@@ -8,7 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { CanvasState, RrNode } from "@/lib/types/models";
+import { CanvasState, FlowState, RrNode } from "@/lib/types/models";
 import useFlowStore from "@/lib/stores/flow";
 import useCanvasStore from "@/lib/stores/canvas";
 import { useQueryClient } from "@tanstack/react-query";
@@ -19,7 +19,12 @@ interface RrNodeCardProps {
   isRootNode: boolean;
 }
 
-const selector = (state: CanvasState) => ({
+const flowSelector = (state: FlowState) => ({
+  currentNode: state.currentNode,
+  setCurrentNode: state.setCurrentNode,
+});
+
+const canvasSelector = (state: CanvasState) => ({
   canvasOpen: state.canvasOpen,
   setCanvasOpen: state.setCanvasOpen,
 });
@@ -29,19 +34,25 @@ export default function RrNodeCard({
   isSelected: selected,
   isRootNode,
 }: RrNodeCardProps) {
-  const setCurrentNode = useFlowStore((state) => state.setCurrentNode);
-  const { canvasOpen, setCanvasOpen } = useCanvasStore(useShallow(selector));
+  const { currentNode, setCurrentNode } = useFlowStore(
+    useShallow(flowSelector),
+  );
+  const { canvasOpen, setCanvasOpen } = useCanvasStore(
+    useShallow(canvasSelector),
+  );
   const queryClient = useQueryClient();
 
   const handleNodeClick = useCallback(
     (node: RrNode) => {
-      queryClient.invalidateQueries({
-        queryKey: ["rrNodeContent", node.content],
-      });
-      setCurrentNode(node);
+      if (currentNode && currentNode._id !== node._id) {
+        queryClient.invalidateQueries({
+          queryKey: ["rrNodeContent", node.content],
+        });
+        setCurrentNode(node);
+      }
       if (!canvasOpen) setCanvasOpen(true);
     },
-    [canvasOpen, queryClient, setCanvasOpen, setCurrentNode],
+    [canvasOpen, currentNode, queryClient, setCanvasOpen, setCurrentNode],
   );
 
   return (
