@@ -40,7 +40,7 @@ export const Tiptap = ({ content, onSave: saveContent }: TiptapProps) => {
       editorContentClassName="p-5"
       output="json"
       placeholder="Enter your description..."
-      autofocus={true}
+      autofocus={false}
       editable={true}
       editorClassName="focus:outline-hidden"
       throttleDelay={3000}
