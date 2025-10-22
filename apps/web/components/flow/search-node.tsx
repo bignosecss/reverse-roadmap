@@ -59,10 +59,18 @@ export function SearchNode({ nodes, setCenter }: SearchNodeProps) {
                 <CommandItem
                   key={node.data.rrNode._id}
                   onSelect={() => {
-                    setCenter(node.position.x, node.position.y, {
-                      zoom: 1.5,
-                      duration: 600,
-                    });
+                    // Use node dimensions if available, otherwise use default values
+                    const width = node.width || node.measured?.width || 105;
+                    const height = node.height || node.measured?.height || 62.5;
+
+                    setCenter(
+                      node.position.x + width / 2,
+                      node.position.y + height / 2,
+                      {
+                        zoom: 1.5,
+                        duration: 600,
+                      },
+                    );
                     setOpen(false);
                   }}
                 >

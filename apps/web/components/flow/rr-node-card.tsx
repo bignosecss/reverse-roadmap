@@ -1,5 +1,5 @@
 import { useShallow } from "zustand/react/shallow";
-import { useCallback, useRef } from "react";
+import { useCallback } from "react";
 import { Handle, Position } from "@xyflow/react";
 import {
   Card,
@@ -8,8 +8,9 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { FlowState, RrNode } from "@/lib/types/models";
+import { CanvasState, RrNode } from "@/lib/types/models";
 import useFlowStore from "@/lib/stores/flow";
+import useCanvasStore from "@/lib/stores/canvas";
 import { useQueryClient } from "@tanstack/react-query";
 
 interface RrNodeCardProps {
@@ -18,9 +19,8 @@ interface RrNodeCardProps {
   isRootNode: boolean;
 }
 
-const selector = (state: FlowState) => ({
+const selector = (state: CanvasState) => ({
   canvasOpen: state.canvasOpen,
-  setCurrentNode: state.setCurrentNode,
   setCanvasOpen: state.setCanvasOpen,
 });
 
@@ -29,25 +29,17 @@ export default function RrNodeCard({
   isSelected: selected,
   isRootNode,
 }: RrNodeCardProps) {
-  const { canvasOpen, setCurrentNode, setCanvasOpen } = useFlowStore(
-    useShallow(selector),
-  );
-  const prevNodeRef = useRef<RrNode | null>(null);
+  const setCurrentNode = useFlowStore((state) => state.setCurrentNode);
+  const { canvasOpen, setCanvasOpen } = useCanvasStore(useShallow(selector));
   const queryClient = useQueryClient();
 
   const handleNodeClick = useCallback(
     (node: RrNode) => {
-      console.log("Node clicked:", node._id);
-
-      if (prevNodeRef && prevNodeRef.current) {
-        queryClient.invalidateQueries({
-          queryKey: ["rrNodeContent", prevNodeRef.current.content],
-        });
-      }
-
+      queryClient.invalidateQueries({
+        queryKey: ["rrNodeContent", node.content],
+      });
       setCurrentNode(node);
       if (!canvasOpen) setCanvasOpen(true);
-      if (!prevNodeRef.current) prevNodeRef.current = node;
     },
     [canvasOpen, queryClient, setCanvasOpen, setCurrentNode],
   );
