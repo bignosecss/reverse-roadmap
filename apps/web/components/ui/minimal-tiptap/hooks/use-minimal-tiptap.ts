@@ -207,8 +207,13 @@ export const useMinimalTiptapEditor = ({
   const handleCreate = React.useCallback(
     (editor: Editor) => {
       if (value && editor.isEmpty) {
-        console.log("here");
-        editor.commands.setContent(value);
+        /**
+         * emitUpdate is default to true, which will trigger onUpdate callback
+         * at the first time when editor is created and content is set
+         * By setting it to false, we prevent accidentally saving unmatched content
+         * to current selected node when handling the content update logic
+         */
+        editor.commands.setContent(value, { emitUpdate: false }); // prevent onUpdate trigger
       }
     },
     [value],

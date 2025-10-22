@@ -5,27 +5,22 @@
 - [ ] Reverse Roadmap 登录功能
 - [ ] Canvas 切换 tab，区分：笔记 / 感想 / 思考 等等，并且 tab 之间可以通过“链接”的方式互相引用跳转
 - [ ] Canvas Bubble Menu 增加文本对齐方式功能（左对齐、居中、右对齐）
-- [ ] Canvas 为了防止意外的保存不匹配的节点 Content，可以在调用 saveContent 的时候判断是否这个内容的 \_id 与 节点的 node.content 相同。如果相同有更新时才保存，否则不保存。
-  > 目前只能祈祷使用的时候，等待 update 后再切换节点了，否则肯定会出现该情况。貌似是因为点击太频繁节奏太快，导致react渲染没跟上，保存了上次渲染的content
-  > 这个问题似乎又有些思路：问题就在于，加载了 Canvas ，Tiptap 设置了 content 之后，为什么 onUpdate 仍然会执行？
-  > 搞清楚这个问题，意外保存的问题似乎就迎刃而解了
-  > 愈发清晰。Tiptap 实例初始化之后，onCreate 执行将 tiptap content 设置为获取到的 content；然后 onUpdate 执行了！That's the point
 - [ ] Canvas Content 文字内容加密
 - [ ] Canvas 设置每个节点 Content 的访问密码（访问密码在传输过程中的加密，可以参考 TLS 协商中 pre-master secret 的过程）
 - [ ] Canvas 想想如何添加 AI Agent
-- [?] Canvas resizeable，可以像 resize 浏览器窗口一样 resize Canvas
 - [ ] Canvas 中添加表格模块
+- [?] Canvas resizeable，可以像 resize 浏览器窗口一样 resize Canvas
 - [ ] Flow Goal Page 顶部，引入AI来获取该 Goal 的内容，然后总结一句正能量鼓励文字，显示在顶部区域
-- [?] Flow 记忆节点位置与连线（连线真的需要记忆吗？）
 - [ ] Flow 更改连线功能
 - [ ] Flow 节点，固定宽高（因为 description 设置了 overflow 显示 ...），要考虑 Flow zoom in/out 的时候节点尺寸实际上也在变化，那么初始时候设置的宽高有什么意义呢？
+- [ ] Flow CRUD 节点时，等待途中冻结 Flow，操作结束（成功或失败）后再恢复（增加 UX，也方便探测性能）
+- [ ] Flow 整个区域方向键移动，React-Flow 默认选中节点后，方向键可以控制节点移动
+- [?] Flow 记忆节点位置与连线（连线真的需要记忆吗？）
 - [?] Flow 更改布局功能（很简单，更改传递给 dagrejs 的参数即可）
   > 不那么简单。初步实现了更改布局的功能：1. 代码很丑陋，局限于已有 useEffect 依赖数组新增依赖会报错；2. 样式很丑陋。连线非常丑
   > 所以暂时放弃此功能的后续开发
-- [ ] Flow CRUD 节点时，等待途中冻结 Flow，操作结束（成功或失败）后再恢复（增加 UX，也方便探测性能）
-- [ ] Flow 整个区域方向键移动，React-Flow 默认选中节点后，方向键可以控制节点移动
-- [?] Sidebar 了解 Sidebar 常见的样式，和实现方式（似乎没必要了）
 - [ ] Sidebar 也和 Flow 同样的搜索功能，快捷键 cmd+k 是 sidebar，cmd+j 是 Flow；这就要解决 cmd+j 快捷键和 chrome extension 的冲突了
+- [?] Sidebar 了解 Sidebar 常见的样式，和实现方式（似乎没必要了）
 
 ## Unclear Tasks
 
@@ -34,11 +29,18 @@
 ## Bug Fix Tasks
 
 - [ ] Tiptap 点击节点 68d66e95b74abaddfef3e5a5 后，后端查询时间很长（mongodb compass 中在 rr-node-content 查询这个ID需要很久），为什么一个线性查询会这么久？后续看看所谓的添加索引
-- [ ] Tiptap editor 为什么会意外的保存上一个节点的 Content 为当前的节点 Content？
-  > 难以 debug 复现
+- [ ] Canvas 中，点击的节点，如果其 content 存在图片，那么 tiptap 初始化之后，会出现 flushSync 的报错
 
 ## Done
 
+- [x] Tiptap editor 为什么会意外的保存上一个节点的 Content 为当前的节点 Content？
+  > 难以 debug 复现
+- [x] Canvas 为了防止意外的保存不匹配的节点 Content，可以在调用 saveContent 的时候判断是否这个内容的 \_id 与 节点的 node.content 相同。如果相同有更新时才保存，否则不保存。
+  > 目前只能祈祷使用的时候，等待 update 后再切换节点了，否则肯定会出现该情况。貌似是因为点击太频繁节奏太快，导致react渲染没跟上，保存了上次渲染的content
+  > 这个问题似乎又有些思路：问题就在于，加载了 Canvas ，Tiptap 设置了 content 之后，为什么 onUpdate 仍然会执行？
+  > 搞清楚这个问题，意外保存的问题似乎就迎刃而解了
+  > 愈发清晰。Tiptap 实例初始化之后，onCreate 执行将 tiptap content 设置为获取到的 content；然后 onUpdate 执行了！That's the point
+  > 哈哈，没想到如此简单就解决了，只需要设置 editor.command.setContent 方法中的第二个参数中的 emitUpdate 配置
 - [x] Canvas 与 ChatGPT & Gemini 保持一致，占据页面的右侧空间，而不是覆盖在 Flow 上（先试验，若好用，即确定）
 - [x] Canvas 移动端，Canvas 占据整个屏幕，sidebar 要 responsive
 - [x] Canvas 顶部工具栏取消，放到编辑行的左边一个可以消失可以出现的按钮，类似飞书文档
