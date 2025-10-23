@@ -49,9 +49,7 @@ export default function RrNodeCard({
           queryKey: ["rrNodeContent", node.content],
         });
       }
-      if (!currentNode || currentNode._id !== node._id) {
-        setCurrentNode(node);
-      }
+      setCurrentNode(node);
       if (!canvasOpen) setCanvasOpen(true);
     },
     [canvasOpen, currentNode, queryClient, setCanvasOpen, setCurrentNode],
