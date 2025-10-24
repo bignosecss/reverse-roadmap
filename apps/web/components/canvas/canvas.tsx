@@ -45,7 +45,7 @@ export function Canvas() {
   return (
     <div
       className={cn(
-        "md:border-l bg-background flex flex-col overflow-y-auto",
+        "md:border-l bg-background flex flex-1 flex-col overflow-y-auto",
         "fixed z-20 inset-0", // 在小屏幕下 Canvas 占据整个屏幕
         "md:static md:w-[50vw]",
         "md:shadow-[0_0_18px_var(--border)]",
