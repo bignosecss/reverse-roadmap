@@ -12,13 +12,9 @@
 - [?] Canvas resizeable，可以像 resize 浏览器窗口一样 resize Canvas
 - [ ] Flow Goal Page 顶部，引入AI来获取该 Goal 的内容，然后总结一句正能量鼓励文字，显示在顶部区域
 - [ ] Flow 更改连线功能
-- [ ] Flow 节点，固定宽高（因为 description 设置了 overflow 显示 ...），要考虑 Flow zoom in/out 的时候节点尺寸实际上也在变化，那么初始时候设置的宽高有什么意义呢？
 - [ ] Flow CRUD 节点时，等待途中冻结 Flow，操作结束（成功或失败）后再恢复（增加 UX，也方便探测性能）
 - [ ] Flow 整个区域方向键移动，React-Flow 默认选中节点后，方向键可以控制节点移动
 - [?] Flow 记忆节点位置与连线（连线真的需要记忆吗？）
-- [?] Flow 更改布局功能（很简单，更改传递给 dagrejs 的参数即可）
-  > 不那么简单。初步实现了更改布局的功能：1. 代码很丑陋，局限于已有 useEffect 依赖数组新增依赖会报错；2. 样式很丑陋。连线非常丑
-  > 所以暂时放弃此功能的后续开发
 - [ ] Sidebar 也和 Flow 同样的搜索功能，快捷键 cmd+k 是 sidebar，cmd+j 是 Flow；这就要解决 cmd+j 快捷键和 chrome extension 的冲突了
 - [?] Sidebar 了解 Sidebar 常见的样式，和实现方式（似乎没必要了）
 
@@ -37,6 +33,12 @@
 
 ## Done
 
+- [x] Flow 节点，固定宽高（因为 description 设置了 overflow 显示 ...），要考虑 Flow zoom in/out 的时候节点尺寸实际上也在变化，那么初始时候设置的宽高有什么意义呢？
+  > 默认设置的宽高仅用于 dagre 计算布局，节点使用的是 React-Flow 的默认宽高
+  > 实际渲染的节点尺寸由 rr-node-card css 决定（设置了最小最大宽度）
+- [x] Flow 更改布局功能（很简单，更改传递给 dagrejs 的参数即可）
+  > 不那么简单。初步实现了更改布局的功能：1. 代码很丑陋，局限于已有 useEffect 依赖数组新增依赖会报错；2. 样式很丑陋。连线非常丑
+  > 所以暂时放弃此功能的后续开发
 - [x] Tiptap editor 为什么会意外的保存上一个节点的 Content 为当前的节点 Content？
   > 难以 debug 复现
 - [x] Canvas 为了防止意外的保存不匹配的节点 Content，可以在调用 saveContent 的时候判断是否这个内容的 \_id 与 节点的 node.content 相同。如果相同有更新时才保存，否则不保存。

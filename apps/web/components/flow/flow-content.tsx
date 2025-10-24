@@ -25,6 +25,7 @@ import { convertTreeToFlow } from "@/lib/flow-tree/converter";
 import { SearchNode } from "./search-node";
 import { Spinner } from "../ui/spinner";
 import { Button } from "../ui/button";
+import { ButtonGroup } from "../ui/button-group";
 
 // 注册自定义节点类型
 const nodeTypes = {
@@ -96,7 +97,6 @@ export default function FlowContent({ treeId }: { treeId: string }) {
       onEdgesChange={onEdgesChange}
       onConnect={onConnect}
       nodeTypes={nodeTypes}
-      fitView
       minZoom={0.1}
       className="bg-background"
     >
@@ -108,12 +108,17 @@ export default function FlowContent({ treeId }: { treeId: string }) {
       </Panel>
       {!!rrTree && (
         <Panel position="top-left">
-          <Button onClick={() => onLayout(DagreDirection.TB, rrTree)}>
-            Vertical Layout
-          </Button>
-          <Button onClick={() => onLayout(DagreDirection.LR, rrTree)}>
-            Horizontal Layout
-          </Button>
+          <ButtonGroup aria-label="Layout Direction">
+            {Object.values(DagreDirection).map((dir) => (
+              <Button
+                key={dir}
+                variant="outline"
+                onClick={() => onLayout(dir, rrTree)}
+              >
+                {dir}
+              </Button>
+            ))}
+          </ButtonGroup>
         </Panel>
       )}
     </ReactFlow>
