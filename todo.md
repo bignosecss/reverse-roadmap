@@ -3,13 +3,13 @@
 ## Todos
 
 - [ ] Reverse Roadmap 登录功能
-- [ ] Canvas 打开/关闭 来一个动画效果
-- [ ] Canvas 切换 tab，区分：笔记 / 感想 / 思考 等等，并且 tab 之间可以通过“链接”的方式互相引用跳转
+- [ ] Canvas 中添加表格模块
 - [ ] Canvas Bubble Menu 增加文本对齐方式功能（左对齐、居中、右对齐）
+- [ ] Canvas 切换 tab，区分：笔记 / 感想 / 思考 等等，并且 tab 之间可以通过“链接”的方式互相引用跳转
 - [ ] Canvas Content 文字内容加密
 - [ ] Canvas 设置每个节点 Content 的访问密码（访问密码在传输过程中的加密，可以参考 TLS 协商中 pre-master secret 的过程）
 - [ ] Canvas 想想如何添加 AI Agent
-- [ ] Canvas 中添加表格模块
+- [ ] Canvas 打开/关闭的动画效果，会导致 Canvas 内容在宽度较小时被挤压，要做一个类似渐变消失的效果
 - [?] Canvas resizeable，可以像 resize 浏览器窗口一样 resize Canvas
 - [ ] Flow Goal Page 顶部，引入AI来获取该 Goal 的内容，然后总结一句正能量鼓励文字，显示在顶部区域
 - [ ] Flow 更改连线功能
@@ -27,6 +27,7 @@
 
 - [ ] Tiptap 点击节点 68d66e95b74abaddfef3e5a5 后，后端查询时间很长（mongodb compass 中在 rr-node-content 查询这个ID需要很久），为什么一个线性查询会这么久？后续看看所谓的添加索引
   > 似乎是部分包含图片的 rr-node-content 查询非常慢！为什么呢？
+  > 今天又不慢了，真是奇怪；很可能是因为网络延迟
 - [ ] Canvas 中，点击的节点，如果其 content 存在图片，那么 tiptap 初始化之后，会出现 flushSync 的报错
 - [ ] Canvas Bubble Menu UX 有些问题。在选中文本后，BubbleMenu 出现 OK 没问题，然后点击其中的 dropdown 组件，BubbleMenu 消失，dropdown item 显示到了屏幕左上角，坐标 (0, 0) 的地方
 - [ ] Tiptap 编辑了内容后，直接关闭 Canvas，然后打开同样的节点；使用的是 React-Query 的缓存数据，而不是最新数据
@@ -34,6 +35,7 @@
 
 ## Done
 
+- [x] Canvas 打开/关闭 来一个动画效果
 - [x] Flow fitView 的时候来一个丝滑的动画
 - [x] Flow 节点，固定宽高（因为 description 设置了 overflow 显示 ...），要考虑 Flow zoom in/out 的时候节点尺寸实际上也在变化，那么初始时候设置的宽高有什么意义呢？
   > 默认设置的宽高仅用于 dagre 计算布局，节点使用的是 React-Flow 的默认宽高
