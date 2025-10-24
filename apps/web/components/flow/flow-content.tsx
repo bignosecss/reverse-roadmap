@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { useTheme } from "next-themes";
 import {
@@ -17,7 +17,7 @@ import RrNodeComponent from "./rr-node";
 
 import "@xyflow/react/dist/style.css";
 
-import { FlowState, RrNode } from "@/lib/types/models";
+import { FlowState } from "@/lib/types/models";
 import useFlowStore from "@/lib/stores/flow";
 import { DagreDirection, getLayoutedNodes } from "@/lib/flow-tree/dagre-layout";
 import { useGetRrTree } from "@/hooks/use-rr-node";
@@ -54,21 +54,31 @@ export default function FlowContent({ treeId }: { treeId: string }) {
     setNodes,
     setEdges,
   } = useFlowStore(useShallow(selector));
-  const { setCenter } = useReactFlow();
+  const { setCenter, fitView } = useReactFlow();
 
+  const flowData = useMemo(() => {
+    if (rrTree) {
+      return convertTreeToFlow(rrTree);
+    }
+    return { nodes: [], edges: [] };
+  }, [rrTree]);
   const onLayout = useCallback(
-    (direction: DagreDirection, rrTree: RrNode) => {
-      const { nodes: flowNodes, edges: flowEdges } = convertTreeToFlow(rrTree);
-      const layouted = getLayoutedNodes(flowNodes, flowEdges, direction);
+    (direction: DagreDirection) => {
+      const layouted = getLayoutedNodes(
+        flowData.nodes,
+        flowData.edges,
+        direction,
+      );
       setNodes(layouted.nodes);
       setEdges(layouted.edges);
+      fitView();
     },
-    [setEdges, setNodes],
+    [flowData, setEdges, setNodes, fitView],
   );
 
   useEffect(() => {
     if (rrTree) {
-      onLayout(DagreDirection.TB, rrTree);
+      onLayout(DagreDirection.TB);
     }
   }, [rrTree, onLayout]);
 
@@ -97,6 +107,7 @@ export default function FlowContent({ treeId }: { treeId: string }) {
       onEdgesChange={onEdgesChange}
       onConnect={onConnect}
       nodeTypes={nodeTypes}
+      fitView
       minZoom={0.1}
       className="bg-background"
     >
@@ -106,21 +117,15 @@ export default function FlowContent({ treeId }: { treeId: string }) {
       <Panel position="top-right">
         <SearchNode nodes={nodes} setCenter={setCenter} />
       </Panel>
-      {!!rrTree && (
-        <Panel position="top-left">
-          <ButtonGroup aria-label="Layout Direction">
-            {Object.values(DagreDirection).map((dir) => (
-              <Button
-                key={dir}
-                variant="outline"
-                onClick={() => onLayout(dir, rrTree)}
-              >
-                {dir}
-              </Button>
-            ))}
-          </ButtonGroup>
-        </Panel>
-      )}
+      <Panel position="top-left">
+        <ButtonGroup aria-label="Layout Direction">
+          {Object.values(DagreDirection).map((dir) => (
+            <Button key={dir} variant="outline" onClick={() => onLayout(dir)}>
+              {dir}
+            </Button>
+          ))}
+        </ButtonGroup>
+      </Panel>
     </ReactFlow>
   );
 }
