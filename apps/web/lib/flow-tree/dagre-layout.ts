@@ -2,12 +2,21 @@ import dagre from "@dagrejs/dagre";
 import { Position } from "@xyflow/react";
 import { FlowData, FlowEdge, FlowNode } from "../types/models";
 
+const NODE_WIDTH = 240;
+const NODE_HEIGHT = 142;
 const dagreGraph = new dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
+
+export enum DagreDirection {
+  TB = "TB",
+  LR = "LR",
+  BT = "BT",
+  RL = "RL",
+}
 
 export const getLayoutedNodes = (
   nodes: FlowNode[],
   edges: FlowEdge[],
-  direction: "TB" | "LR" | "BT" | "RL",
+  direction: DagreDirection = DagreDirection.TB,
 ): FlowData => {
   dagreGraph.setGraph({
     rankdir: direction,
@@ -20,8 +29,9 @@ export const getLayoutedNodes = (
 
   nodes.forEach((node) => {
     dagreGraph.setNode(node.id, {
-      width: node.measured?.width ?? 0,
-      height: node.measured?.height ?? 0,
+      ...node,
+      width: node.measured?.width ?? NODE_WIDTH,
+      height: node.measured?.height ?? NODE_HEIGHT,
     });
   });
 

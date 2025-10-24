@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { useTheme } from "next-themes";
 import {
@@ -9,7 +9,6 @@ import {
   Background,
   BackgroundVariant,
   Controls,
-  useNodesInitialized,
   ColorMode,
   Panel,
   useReactFlow,
@@ -18,13 +17,14 @@ import RrNodeComponent from "./rr-node";
 
 import "@xyflow/react/dist/style.css";
 
-import { FlowState } from "@/lib/types/models";
+import { FlowState, RrNode } from "@/lib/types/models";
 import useFlowStore from "@/lib/stores/flow";
-import { getLayoutedNodes } from "@/lib/flow-tree/dagre-layout";
+import { DagreDirection, getLayoutedNodes } from "@/lib/flow-tree/dagre-layout";
 import { useGetRrTree } from "@/hooks/use-rr-node";
 import { convertTreeToFlow } from "@/lib/flow-tree/converter";
 import { SearchNode } from "./search-node";
 import { Spinner } from "../ui/spinner";
+import { Button } from "../ui/button";
 
 // 注册自定义节点类型
 const nodeTypes = {
@@ -41,10 +41,6 @@ const selector = (state: FlowState) => ({
   setEdges: state.setEdges,
 });
 
-const options = {
-  includeHiddenNodes: false,
-};
-
 export default function FlowContent({ treeId }: { treeId: string }) {
   const { theme } = useTheme();
   const { data: rrTree, isLoading, isError } = useGetRrTree(treeId);
@@ -57,35 +53,23 @@ export default function FlowContent({ treeId }: { treeId: string }) {
     setNodes,
     setEdges,
   } = useFlowStore(useShallow(selector));
-  const nodeInitialized = useNodesInitialized(options);
   const { setCenter } = useReactFlow();
 
-  // 第一阶段：数据转换
-  useEffect(() => {
-    if (!rrTree) return;
-    const { nodes: newNodes, edges: newEdges } = convertTreeToFlow(rrTree);
-    setNodes(newNodes);
-    setEdges(newEdges);
-  }, [rrTree, setEdges, setNodes]);
+  const onLayout = useCallback(
+    (direction: DagreDirection, rrTree: RrNode) => {
+      const { nodes: flowNodes, edges: flowEdges } = convertTreeToFlow(rrTree);
+      const layouted = getLayoutedNodes(flowNodes, flowEdges, direction);
+      setNodes(layouted.nodes);
+      setEdges(layouted.edges);
+    },
+    [setEdges, setNodes],
+  );
 
-  // 第二阶段：布局计算
   useEffect(() => {
-    if (!nodeInitialized || nodes.length === 0) return;
-    const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedNodes(
-      nodes,
-      edges,
-      "TB",
-    );
-    setNodes(layoutedNodes);
-    setEdges(layoutedEdges);
-    /**
-     * 布局计算仅在节点初始化完成后执行
-     * 所以仅需依赖 nodeInitialized 状态
-     * 依赖除 nodeInitialized 状态之外的 nodes 和 edges
-     * 会导致无限循环
-     */
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [nodeInitialized]);
+    if (rrTree) {
+      onLayout(DagreDirection.TB, rrTree);
+    }
+  }, [rrTree, onLayout]);
 
   if (isLoading) {
     return (
@@ -122,6 +106,16 @@ export default function FlowContent({ treeId }: { treeId: string }) {
       <Panel position="top-right">
         <SearchNode nodes={nodes} setCenter={setCenter} />
       </Panel>
+      {!!rrTree && (
+        <Panel position="top-left">
+          <Button onClick={() => onLayout(DagreDirection.TB, rrTree)}>
+            Vertical Layout
+          </Button>
+          <Button onClick={() => onLayout(DagreDirection.LR, rrTree)}>
+            Horizontal Layout
+          </Button>
+        </Panel>
+      )}
     </ReactFlow>
   );
 }
