@@ -26,6 +26,7 @@ import { SearchNode } from "./search-node";
 import { Spinner } from "../ui/spinner";
 import { Button } from "../ui/button";
 import { ButtonGroup } from "../ui/button-group";
+import { FIT_VIEW_OPTIONS } from "./constants";
 
 // 注册自定义节点类型
 const nodeTypes = {
@@ -71,7 +72,7 @@ export default function FlowContent({ treeId }: { treeId: string }) {
       );
       setNodes(layouted.nodes);
       setEdges(layouted.edges);
-      fitView();
+      fitView(FIT_VIEW_OPTIONS);
     },
     [flowData, setEdges, setNodes, fitView],
   );
@@ -108,10 +109,11 @@ export default function FlowContent({ treeId }: { treeId: string }) {
       onConnect={onConnect}
       nodeTypes={nodeTypes}
       fitView
+      fitViewOptions={FIT_VIEW_OPTIONS}
       minZoom={0.1}
       className="bg-background"
     >
-      <Controls />
+      <Controls fitViewOptions={FIT_VIEW_OPTIONS} />
       <MiniMap />
       <Background variant={BackgroundVariant.Dots} />
       <Panel position="top-right">

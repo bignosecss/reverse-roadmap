@@ -1,4 +1,5 @@
 import { DialogConfig, DialogMode } from "@/lib/types/dialog";
+import { FitViewOptions } from "@xyflow/react";
 
 // 各模式的配置
 export const DIALOG_CONFIGS: Record<DialogMode, DialogConfig> = {
@@ -23,4 +24,9 @@ export const DIALOG_CONFIGS: Record<DialogMode, DialogConfig> = {
     cancelText: "取消",
     variant: "destructive",
   },
+};
+
+// fitView 配置
+export const FIT_VIEW_OPTIONS: FitViewOptions = {
+  duration: 600,
 };
