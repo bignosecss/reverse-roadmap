@@ -12,7 +12,6 @@
 - [ ] Canvas 中添加表格模块
 - [?] Canvas resizeable，可以像 resize 浏览器窗口一样 resize Canvas
 - [ ] Flow Goal Page 顶部，引入AI来获取该 Goal 的内容，然后总结一句正能量鼓励文字，显示在顶部区域
-- [ ] Flow fitView 的时候来一个丝滑的动画
 - [ ] Flow 更改连线功能
 - [ ] Flow CRUD 节点时，等待途中冻结 Flow，操作结束（成功或失败）后再恢复（增加 UX，也方便探测性能）
 - [ ] Flow 整个区域方向键移动，React-Flow 默认选中节点后，方向键可以控制节点移动
@@ -35,6 +34,7 @@
 
 ## Done
 
+- [x] Flow fitView 的时候来一个丝滑的动画
 - [x] Flow 节点，固定宽高（因为 description 设置了 overflow 显示 ...），要考虑 Flow zoom in/out 的时候节点尺寸实际上也在变化，那么初始时候设置的宽高有什么意义呢？
   > 默认设置的宽高仅用于 dagre 计算布局，节点使用的是 React-Flow 的默认宽高
   > 实际渲染的节点尺寸由 rr-node-card css 决定（设置了最小最大宽度）
