@@ -14,6 +14,10 @@
 - [ ] Flow Goal Page 顶部，引入AI来获取该 Goal 的内容，然后总结一句正能量鼓励文字，显示在顶部区域
 - [ ] Flow 更改连线功能
 - [ ] Flow CRUD 节点时，等待途中冻结 Flow，操作结束（成功或失败）后再恢复（增加 UX，也方便探测性能）
+  > Optimistic UI + 局部 Loading 标识
+  > 用户点击“新增节点”时，先立即在前端添加节点（假设成功）。同时发送后端请求。如果失败 → 显示 toast/error，并 revert。
+  > 视觉效果通常是：节点半透明 + loading spinner；其他节点可继续操作；Flow 不会整体锁住。
+  > Figma / Notion / Miro / Draw.io / React Flow Pro demos 都是这种方式
 - [ ] Flow 整个区域方向键移动，React-Flow 默认选中节点后，方向键可以控制节点移动
 - [?] Flow 记忆节点位置与连线（连线真的需要记忆吗？）
 - [ ] Sidebar 也和 Flow 同样的搜索功能，快捷键 cmd+k 是 sidebar，cmd+j 是 Flow；这就要解决 cmd+j 快捷键和 chrome extension 的冲突了
