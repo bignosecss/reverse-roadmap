@@ -45,9 +45,10 @@ export function Canvas() {
   return (
     <div
       className={cn(
-        "fixed z-20 inset-0 border-l bg-background flex flex-col overflow-y-auto",
+        "md:border-l bg-background flex flex-col overflow-y-auto",
+        "fixed z-20 inset-0", // 在小屏幕下 Canvas 占据整个屏幕
         "md:static md:w-[50vw]",
-        "shadow-[0_0_18px_rgba(0,0,0,0.12)] dark:shadow-[0_0_18px_rgba(0,0,0,0.48)]",
+        "md:shadow-[0_0_18px_var(--border)]",
         { block: canvasOpen, hidden: !canvasOpen },
       )}
       style={{ scrollbarWidth: "none" }}
