@@ -15,6 +15,7 @@
   > 用户点击“新增节点”时，先立即在前端添加节点（假设成功）。同时发送后端请求。如果失败 → 显示 toast/error，并 revert。
   > 视觉效果通常是：节点半透明 + loading spinner；其他节点可继续操作；Flow 不会整体锁住。
   > Figma / Notion / Miro / Draw.io / React Flow Pro demos 都是这种方式
+- [ ] Flow 节点的 toolbar 添加一个打开 Canvas 的按钮，以后通过该按钮控制 Canvas 开关
 - [ ] Flow 跟节点能够创建另外一个跟节点，当前的跟节点变为其子节点
 - [ ] Flow 记忆节点位置与连线，更改节点连线等功能
 - [ ] Flow Goal Page 顶部，引入AI来获取该 Goal 的内容，然后总结一句正能量鼓励文字，显示在顶部区域
