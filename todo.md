@@ -24,7 +24,7 @@
 - [ ] Flow 跟节点能够创建另外一个跟节点，当前的跟节点变为其子节点
 - [ ] Flow 记忆节点位置与连线，更改节点连线等功能
 - [ ] Flow Goal Page 顶部，引入AI来获取该 Goal 的内容，然后总结一句正能量鼓励文字，显示在顶部区域
-- [ ] Flow 整个区域方向键移动，React-Flow 默认选中节点后，方向键可以控制节点移动
+- [ ] Flow 能够链接到其他的目标，在本目标中的其他目标，渲染为 subflow
 - [ ] Sidebar 也和 Flow 同样的搜索功能，快捷键 cmd+k 是 sidebar，cmd+j 是 Flow；这就要解决 cmd+j 快捷键和 chrome extension 的冲突了
 - [ ] Sidebar 了解 Sidebar 常见的样式，和实现方式（似乎没必要了）
 - [ ] Sidebar roots 部分请求数据时候的交互
@@ -72,8 +72,11 @@
 
 # Deprecated
 
+- [?] Flow 整个区域方向键移动，React-Flow 默认选中节点后，方向键可以控制点移动
+  > 没必要了吧？
 - [?] Canvas resizeable，可以像 resize 浏览器窗口一样 resize Canvas
   > 不做了
 - [ ] Tiptap 点击节点 68d66e95b74abaddfef3e5a5 后，后端查询时间很长（mongodb compass 中在 rr-node-content 查询这个ID需要很久），为什么一个线性查询会这么久？后续看看所谓的添加索引
   > 似乎是部分包含图片的 rr-node-content 查询非常慢！为什么呢？
   > 今天又不慢了，真是奇怪；很可能是因为网络延迟
+  > 非常可能是，包含图片的请求体太大了，网络传输的时候延迟高导致
