@@ -21,6 +21,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { ConfirmDialog } from "@/components/dialogs/confirm-dialog";
 import { useRouter } from "next/navigation";
+import useCanvasStore from "@/lib/stores/canvas";
 
 interface SidebarProjectItemProps {
   rrRoot: RrRoot;
@@ -35,6 +36,7 @@ export default function SidebarTreeItem({
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [editValue, setEditValue] = useState(rrRoot.title);
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const setCanvasOpen = useCanvasStore((state) => state.setCanvasOpen);
 
   useEffect(() => {
     if (isEditing && inputRef.current) {
@@ -96,7 +98,12 @@ export default function SidebarTreeItem({
     <SidebarMenuItem>
       <SidebarMenuButton asChild isActive={isActive}>
         {!isEditing ? (
-          <Link href={`/g/${rrRoot.treeRootNodeId}`}>
+          <Link
+            href={`/g/${rrRoot.treeRootNodeId}`}
+            onClick={() => {
+              if (!isActive) setCanvasOpen(false);
+            }}
+          >
             <span className="group-data-[collapsible=icon]:hidden">
               {rrRoot.title}
             </span>
