@@ -62,13 +62,13 @@ export type FlowData = {
 export type FlowState = {
   nodes: FlowNode[];
   edges: FlowEdge[];
-  currentNode: RrNode | null;
+  currentRrNode: RrNode | null;
   onNodesChange: OnNodesChange<FlowNode>;
   onEdgesChange: OnEdgesChange<FlowEdge>;
   onConnect: OnConnect;
   setNodes: (nodes: FlowNode[]) => void;
   setEdges: (edges: FlowEdge[]) => void;
-  setCurrentNode: (node: RrNode) => void;
+  setCurrentRrNode: (node: RrNode) => void;
 };
 
 export type SidebarState = {

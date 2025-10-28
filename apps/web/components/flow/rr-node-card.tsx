@@ -20,8 +20,8 @@ interface RrNodeCardProps {
 }
 
 const flowSelector = (state: FlowState) => ({
-  currentNode: state.currentNode,
-  setCurrentNode: state.setCurrentNode,
+  currentRrNode: state.currentRrNode,
+  setCurrentRrNode: state.setCurrentRrNode,
 });
 
 const canvasSelector = (state: CanvasState) => ({
@@ -34,7 +34,7 @@ export default function RrNodeCard({
   isSelected: selected,
   isRootNode,
 }: RrNodeCardProps) {
-  const { currentNode, setCurrentNode } = useFlowStore(
+  const { currentRrNode, setCurrentRrNode } = useFlowStore(
     useShallow(flowSelector),
   );
   const { canvasOpen, setCanvasOpen } = useCanvasStore(
@@ -44,15 +44,15 @@ export default function RrNodeCard({
 
   const handleNodeClick = useCallback(
     (node: RrNode) => {
-      if (currentNode && currentNode._id !== node._id) {
+      if (currentRrNode && currentRrNode._id !== node._id) {
         queryClient.invalidateQueries({
           queryKey: ["rrNodeContent", node.content],
         });
       }
-      setCurrentNode(node);
+      setCurrentRrNode(node);
       if (!canvasOpen) setCanvasOpen(true);
     },
-    [canvasOpen, currentNode, queryClient, setCanvasOpen, setCurrentNode],
+    [canvasOpen, currentRrNode, queryClient, setCanvasOpen, setCurrentRrNode],
   );
 
   return (
