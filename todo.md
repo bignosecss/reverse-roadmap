@@ -26,6 +26,7 @@
 - [ ] Flow 整个区域方向键移动，React-Flow 默认选中节点后，方向键可以控制节点移动
 - [ ] Sidebar 也和 Flow 同样的搜索功能，快捷键 cmd+k 是 sidebar，cmd+j 是 Flow；这就要解决 cmd+j 快捷键和 chrome extension 的冲突了
 - [ ] Sidebar 了解 Sidebar 常见的样式，和实现方式（似乎没必要了）
+- [ ] Sidebar roots 部分请求数据时候的交互
 
 ## Unclear Tasks
 
