@@ -28,14 +28,14 @@ export function Canvas() {
   );
 
   const {
-    data: nodeContent,
+    data: rrNodeContent,
     isPending,
     isRefetching,
   } = useGetRrNodeContent(
     currentRrNode && currentRrNode.content ? currentRrNode.content : "",
   );
-  const { mutate: saveContent } = useUpdateRrNodeContent(
-    nodeContent ? nodeContent._id : "",
+  const { mutate: saveRrNodeContent } = useUpdateRrNodeContent(
+    rrNodeContent ? rrNodeContent._id : "",
   );
 
   if (!currentRrNode || !canvasOpen) {
@@ -98,7 +98,7 @@ export function Canvas() {
                 <Spinner className="size-8 mx-auto" />
               </div>
             ) : (
-              <Tiptap content={nodeContent} onSave={saveContent} />
+              <Tiptap content={rrNodeContent} onSave={saveRrNodeContent} />
             )}
           </main>
         }
