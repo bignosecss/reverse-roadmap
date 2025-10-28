@@ -6,6 +6,8 @@
 - [ ] Canvas 中添加表格模块
 - [ ] Canvas Bubble Menu 增加文本对齐方式功能（左对齐、居中、右对齐）
 - [ ] Canvas 切换 tab，区分：笔记 / 感想 / 思考 等等，并且 tab 之间可以通过“链接”的方式互相引用跳转
+- [ ] Canvas 在中文输入，打出字母的时候，onUpdate 也触发了，想想解决方法
+  > 我记得渡一有个视频讲过，是讲的 debounce
 - [ ] Canvas Content 文字内容加密
 - [ ] Canvas 设置每个节点 Content 的访问密码（访问密码在传输过程中的加密，可以参考 TLS 协商中 pre-master secret 的过程）
 - [ ] Canvas 想想如何添加 AI Agent
