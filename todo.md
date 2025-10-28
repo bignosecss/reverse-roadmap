@@ -19,6 +19,7 @@
   > Figma / Notion / Miro / Draw.io / React Flow Pro demos 都是这种方式
   > 现在仅我个人使用，我当然会注意，所以该功能并不着急，要紧的是核心功能的开发，所以照此思路排优先级
 - [ ] Flow 节点的 toolbar 添加一个打开 Canvas 的按钮，以后通过该按钮控制 Canvas 开关
+- [ ] Flow Canvas 关闭的时候搜索定位节点，将节点定位在距离 Flow 左侧 1/4 视口宽度的位置；Canvas 打开的时候正常 center
 - [ ] Flow 跟节点能够创建另外一个跟节点，当前的跟节点变为其子节点
 - [ ] Flow 记忆节点位置与连线，更改节点连线等功能
 - [ ] Flow Goal Page 顶部，引入AI来获取该 Goal 的内容，然后总结一句正能量鼓励文字，显示在顶部区域
