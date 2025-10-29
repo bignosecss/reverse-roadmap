@@ -6,6 +6,7 @@ import { useEditor, useEditorState } from "@tiptap/react";
 import { Typography } from "@tiptap/extension-typography";
 import { TextStyle } from "@tiptap/extension-text-style";
 import { Placeholder, Selection } from "@tiptap/extensions";
+import { TextAlign } from "@tiptap/extension-text-align";
 import {
   Image,
   HorizontalRule,
@@ -174,6 +175,10 @@ const createExtensions = ({
   }),
   Color,
   TextStyle,
+  TextAlign.configure({
+    types: ["heading", "paragraph"],
+    alignments: ["left", "center", "right"],
+  }),
   Selection,
   Typography,
   UnsetAllMarks,
