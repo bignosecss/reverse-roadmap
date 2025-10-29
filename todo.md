@@ -40,11 +40,13 @@
 
 - [ ] Canvas 中，点击的节点，如果其 content 存在图片，那么 tiptap 初始化之后，会出现 flushSync 的报错
 - [ ] Canvas Bubble Menu UX 有些问题。在选中文本后，BubbleMenu 出现 OK 没问题，然后点击其中的 dropdown 组件，BubbleMenu 消失，dropdown item 显示到了屏幕左上角，坐标 (0, 0) 的地方
-- [ ] Tiptap 编辑了内容后，直接关闭 Canvas，然后打开同样的节点；使用的是 React-Query 的缓存数据，而不是最新数据
-  > 难搞哦！
 
 ## Done
 
+- [x] Tiptap 编辑了内容后，直接关闭 Canvas，然后打开同样的节点；使用的是 React-Query 的缓存数据，而不是最新数据
+  > 难搞哦！
+  > so easy
+  > 在 canvasOpen = false 的前提下，如果点击的是同一个节点，也 invalidate 缓存，获取最新数据
 - [x] Canvas Bubble Menu 增加文本对齐方式功能（左对齐、居中、右对齐）
 - [x] Canvas 打开/关闭 来一个动画效果
 - [x] Flow fitView 的时候来一个丝滑的动画
