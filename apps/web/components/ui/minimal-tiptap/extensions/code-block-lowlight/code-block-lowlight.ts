@@ -10,6 +10,8 @@ export const CodeBlockLowlight = TiptapCodeBlockLowlight.extend({
       HTMLAttributes: {
         class: "block-node",
       },
+      enableTabIndentation: true,
+      tabSize: 2,
     };
   },
 });
