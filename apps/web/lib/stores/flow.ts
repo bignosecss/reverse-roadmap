@@ -5,7 +5,7 @@ import { FlowState } from "../types/models";
 const useFlowStore = create<FlowState>((set, get) => ({
   nodes: [],
   edges: [],
-  currentNode: null,
+  currentRrNode: null,
   onNodesChange: (changes) => {
     set({
       nodes: applyNodeChanges(changes, get().nodes),
@@ -27,8 +27,8 @@ const useFlowStore = create<FlowState>((set, get) => ({
   setEdges: (edges) => {
     set({ edges });
   },
-  setCurrentNode: (node) => {
-    set({ currentNode: node });
+  setCurrentRrNode: (node) => {
+    set({ currentRrNode: node });
   },
 }));
 

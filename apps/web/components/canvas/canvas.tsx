@@ -22,23 +22,23 @@ const selector = (state: CanvasState) => ({
 });
 
 export function Canvas() {
-  const currentNode = useFlowStore((state) => state.currentNode);
+  const currentRrNode = useFlowStore((state) => state.currentRrNode);
   const { canvasOpen, updatingContent, setCanvasOpen } = useCanvasStore(
     useShallow(selector),
   );
 
   const {
-    data: nodeContent,
+    data: rrNodeContent,
     isPending,
     isRefetching,
   } = useGetRrNodeContent(
-    currentNode && currentNode.content ? currentNode.content : "",
+    currentRrNode && currentRrNode.content ? currentRrNode.content : "",
   );
-  const { mutate: saveContent } = useUpdateRrNodeContent(
-    nodeContent ? nodeContent._id : "",
+  const { mutate: saveRrNodeContent } = useUpdateRrNodeContent(
+    rrNodeContent ? rrNodeContent._id : "",
   );
 
-  if (!currentNode || !canvasOpen) {
+  if (!currentRrNode || !canvasOpen) {
     return null;
   }
 
@@ -66,7 +66,7 @@ export function Canvas() {
         >
           <X />
         </Button>
-        <span>{currentNode.title}</span>
+        <span>{currentRrNode.title}</span>
         {updatingContent && (
           <Badge variant="outline" className="ml-1">
             <Spinner />
@@ -76,11 +76,11 @@ export function Canvas() {
       </header>
 
       <section>
-        {!!currentNode.description && (
+        {!!currentRrNode.description && (
           <div className="w-full h-fit flex flex-row justify-center py-8 px-4">
             <div className="min-w-1/3 max-w-4/5 h-fit">
               <blockquote className="border-l-2 pl-6 italic max-h-fit">
-                {currentNode.description}
+                {currentRrNode.description}
               </blockquote>
             </div>
           </div>
@@ -98,7 +98,7 @@ export function Canvas() {
                 <Spinner className="size-8 mx-auto" />
               </div>
             ) : (
-              <Tiptap content={nodeContent} onSave={saveContent} />
+              <Tiptap content={rrNodeContent} onSave={saveRrNodeContent} />
             )}
           </main>
         }

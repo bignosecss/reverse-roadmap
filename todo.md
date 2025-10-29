@@ -3,8 +3,12 @@
 ## Todos
 
 - [ ] Reverse Roadmap 用户登录功能，如何做权限管理
+- [ ] API 做一个定时任务，定期导出数据库的文档，到本地
 - [ ] Canvas 中添加表格模块
-- [ ] Canvas Bubble Menu 增加文本对齐方式功能（左对齐、居中、右对齐）
+  > 有点难啊！
+  > 困难在于，怎么将 shadcn/ui 的 table 组件与 tiptap table extension 联系起来
+  > 现在表格功能并不是刚需，先做别的
+- [ ] Canvas 添加 TableOfContents extension，以在文档中导航标题
 - [ ] Canvas 切换 tab，区分：笔记 / 感想 / 思考 等等，并且 tab 之间可以通过“链接”的方式互相引用跳转
 - [ ] Canvas 在中文输入，打出字母的时候，onUpdate 也触发了，想想解决方法
   > 我记得渡一有个视频讲过，是讲的 debounce
@@ -19,12 +23,14 @@
   > Figma / Notion / Miro / Draw.io / React Flow Pro demos 都是这种方式
   > 现在仅我个人使用，我当然会注意，所以该功能并不着急，要紧的是核心功能的开发，所以照此思路排优先级
 - [ ] Flow 节点的 toolbar 添加一个打开 Canvas 的按钮，以后通过该按钮控制 Canvas 开关
+- [ ] Flow Canvas 关闭的时候搜索定位节点，将节点定位在距离 Flow 左侧 1/4 视口宽度的位置；Canvas 打开的时候正常 center
 - [ ] Flow 跟节点能够创建另外一个跟节点，当前的跟节点变为其子节点
 - [ ] Flow 记忆节点位置与连线，更改节点连线等功能
 - [ ] Flow Goal Page 顶部，引入AI来获取该 Goal 的内容，然后总结一句正能量鼓励文字，显示在顶部区域
-- [ ] Flow 整个区域方向键移动，React-Flow 默认选中节点后，方向键可以控制节点移动
+- [ ] Flow 能够链接到其他的目标，在本目标中的其他目标，渲染为 subflow
 - [ ] Sidebar 也和 Flow 同样的搜索功能，快捷键 cmd+k 是 sidebar，cmd+j 是 Flow；这就要解决 cmd+j 快捷键和 chrome extension 的冲突了
 - [ ] Sidebar 了解 Sidebar 常见的样式，和实现方式（似乎没必要了）
+- [ ] Sidebar roots 部分请求数据时候的交互
 
 ## Unclear Tasks
 
@@ -34,11 +40,14 @@
 
 - [ ] Canvas 中，点击的节点，如果其 content 存在图片，那么 tiptap 初始化之后，会出现 flushSync 的报错
 - [ ] Canvas Bubble Menu UX 有些问题。在选中文本后，BubbleMenu 出现 OK 没问题，然后点击其中的 dropdown 组件，BubbleMenu 消失，dropdown item 显示到了屏幕左上角，坐标 (0, 0) 的地方
-- [ ] Tiptap 编辑了内容后，直接关闭 Canvas，然后打开同样的节点；使用的是 React-Query 的缓存数据，而不是最新数据
-  > 难搞哦！
 
 ## Done
 
+- [x] Tiptap 编辑了内容后，直接关闭 Canvas，然后打开同样的节点；使用的是 React-Query 的缓存数据，而不是最新数据
+  > 难搞哦！
+  > so easy
+  > 在 canvasOpen = false 的前提下，如果点击的是同一个节点，也 invalidate 缓存，获取最新数据
+- [x] Canvas Bubble Menu 增加文本对齐方式功能（左对齐、居中、右对齐）
 - [x] Canvas 打开/关闭 来一个动画效果
 - [x] Flow fitView 的时候来一个丝滑的动画
 - [x] Flow 节点，固定宽高（因为 description 设置了 overflow 显示 ...），要考虑 Flow zoom in/out 的时候节点尺寸实际上也在变化，那么初始时候设置的宽高有什么意义呢？
@@ -69,8 +78,11 @@
 
 # Deprecated
 
+- [?] Flow 整个区域方向键移动，React-Flow 默认选中节点后，方向键可以控制点移动
+  > 没必要了吧？
 - [?] Canvas resizeable，可以像 resize 浏览器窗口一样 resize Canvas
   > 不做了
 - [ ] Tiptap 点击节点 68d66e95b74abaddfef3e5a5 后，后端查询时间很长（mongodb compass 中在 rr-node-content 查询这个ID需要很久），为什么一个线性查询会这么久？后续看看所谓的添加索引
   > 似乎是部分包含图片的 rr-node-content 查询非常慢！为什么呢？
   > 今天又不慢了，真是奇怪；很可能是因为网络延迟
+  > 非常可能是，包含图片的请求体太大了，网络传输的时候延迟高导致
