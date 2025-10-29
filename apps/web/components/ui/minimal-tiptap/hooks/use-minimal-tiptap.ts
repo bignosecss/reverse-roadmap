@@ -176,7 +176,7 @@ const createExtensions = ({
   Color,
   TextStyle,
   TextAlign.configure({
-    types: ["heading", "paragraph"],
+    types: ["heading", "paragraph", "codeBlock"],
     alignments: ["left", "center", "right"],
   }),
   Selection,
