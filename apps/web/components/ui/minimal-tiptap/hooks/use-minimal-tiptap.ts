@@ -179,7 +179,11 @@ const createExtensions = ({
   UnsetAllMarks,
   HorizontalRule,
   ResetMarksOnEnter,
-  CodeBlockLowlight,
+  CodeBlockLowlight.configure({
+    enableTabIndentation: true,
+    tabSize: 2,
+    defaultLanguage: 'plaintext',
+  }),
   Placeholder.configure({ placeholder: () => placeholder }),
 ];
 
