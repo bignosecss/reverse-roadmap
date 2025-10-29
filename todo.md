@@ -8,7 +8,6 @@
   > 有点难啊！
   > 困难在于，怎么将 shadcn/ui 的 table 组件与 tiptap table extension 联系起来
   > 现在表格功能并不是刚需，先做别的
-- [ ] Canvas Bubble Menu 增加文本对齐方式功能（左对齐、居中、右对齐）
 - [ ] Canvas 添加 TableOfContents extension，以在文档中导航标题
 - [ ] Canvas 切换 tab，区分：笔记 / 感想 / 思考 等等，并且 tab 之间可以通过“链接”的方式互相引用跳转
 - [ ] Canvas 在中文输入，打出字母的时候，onUpdate 也触发了，想想解决方法
@@ -46,6 +45,7 @@
 
 ## Done
 
+- [x] Canvas Bubble Menu 增加文本对齐方式功能（左对齐、居中、右对齐）
 - [x] Canvas 打开/关闭 来一个动画效果
 - [x] Flow fitView 的时候来一个丝滑的动画
 - [x] Flow 节点，固定宽高（因为 description 设置了 overflow 显示 ...），要考虑 Flow zoom in/out 的时候节点尺寸实际上也在变化，那么初始时候设置的宽高有什么意义呢？
