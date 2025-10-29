@@ -6,6 +6,7 @@
 - [ ] API 做一个定时任务，定期导出数据库的文档，到本地
 - [ ] Canvas 中添加表格模块
 - [ ] Canvas Bubble Menu 增加文本对齐方式功能（左对齐、居中、右对齐）
+- [ ] Canvas 添加 TableOfContents extension，以在文档中导航标题
 - [ ] Canvas 切换 tab，区分：笔记 / 感想 / 思考 等等，并且 tab 之间可以通过“链接”的方式互相引用跳转
 - [ ] Canvas 在中文输入，打出字母的时候，onUpdate 也触发了，想想解决方法
   > 我记得渡一有个视频讲过，是讲的 debounce
