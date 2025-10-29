@@ -7,6 +7,7 @@ import SectionTwo from "../section/two";
 import SectionThree from "../section/three";
 import SectionFour from "../section/four";
 import SectionFive from "../section/five";
+import SectionSix from "../section/six";
 
 const Toolbar = ({ editor }: { editor: Editor }) => (
   <div className="border-1 rounded-2xl bg-background shadow-md flex h-12 shrink-0 p-2">
@@ -45,6 +46,14 @@ const Toolbar = ({ editor }: { editor: Editor }) => (
       <SectionFive
         editor={editor}
         activeActions={["codeBlock", "blockquote", "horizontalRule"]}
+        mainActionCount={0}
+      />
+
+      <Separator orientation="vertical" className="mx-2" />
+
+      <SectionSix
+        editor={editor}
+        activeActions={["textAlignLeft", "textAlignCenter", "textAlignRight"]}
         mainActionCount={0}
       />
     </div>
