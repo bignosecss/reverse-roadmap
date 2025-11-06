@@ -1,7 +1,7 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import * as dotenv from 'dotenv';
-import { ResponseInterceptor } from './response/response.interceptor';
+import { ResponseInterceptor } from './common/response.interceptor';
 import { json } from 'express';
 
 // 加载环境变量
