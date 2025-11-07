@@ -1,64 +1,66 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateRrRootDto } from './dto/create-rr-root.dto';
 import { UpdateRrRootDto } from './dto/update-rr-root.dto';
-import { RrRootMapper } from './mapper/rr-root.mapper';
 import { RrNodeService } from 'src/rr-node/rr-node.service';
+import { RrRootRepository } from './repositories/rr-root.repository';
+import { RrRoot } from './entities/rr-root.entity';
+import { CreateRrNodeDto } from 'src/rr-node/dto/create-rr-node.dto';
 
 @Injectable()
 export class RrRootService {
   constructor(
-    private readonly rrRootMapper: RrRootMapper,
+    private readonly rrRootRepository: RrRootRepository,
     private readonly rrNodeService: RrNodeService,
   ) {}
 
   async create(createRrRootDto: CreateRrRootDto) {
-    const newRoot = await this.rrRootMapper.create(createRrRootDto);
+    // 1. Create the associated root node for the tree first.
+    const newRootNode = await this.rrNodeService.createRootNode(
+      createRrRootDto as CreateRrNodeDto,
+    );
 
-    // 创建根节点
-    const newRootNode = await this.rrNodeService.createRootNode({
+    // 2. Map DTO to a new RrRoot entity.
+    const newRrRootEntity: Partial<RrRoot> = {
       title: createRrRootDto.title,
-      description: createRrRootDto.description,
-    });
-    if (!newRootNode) {
-      throw new Error(
-        'Fail to create node when trying to create the root node after new root is created',
-      );
-    }
+      treeRootNodeId: newRootNode._id,
+      status: 'active',
+    };
 
-    newRoot.treeRootNodeId = newRootNode._id;
-
-    return await newRoot.save();
+    // 3. Call repository to save the entity.
+    return this.rrRootRepository.create(newRrRootEntity);
   }
 
   findAll() {
-    return this.rrRootMapper.findAll();
+    return this.rrRootRepository.findAll();
   }
 
-  findOne(id: string) {
-    return this.rrRootMapper.findOne(id);
+  async findOne(id: string) {
+    const root = await this.rrRootRepository.findById(id);
+    if (!root) {
+      throw new NotFoundException(`RrRoot with ID ${id} not found`);
+    }
+    return root;
   }
 
   update(id: string, updateRrRootDto: UpdateRrRootDto) {
-    return this.rrRootMapper.update(id, updateRrRootDto);
+    // The DTO can be passed directly to Mongoose's update query.
+    return this.rrRootRepository.update(id, updateRrRootDto);
   }
 
   async remove(id: string) {
-    const removedRoot = await this.rrRootMapper.remove(id);
+    const removedRoot = await this.rrRootRepository.remove(id);
 
+    // Also try to remove the associated tree.
     try {
-      const removedRootNode = await this.rrNodeService.removeRootNode(
+      await this.rrNodeService.removeRootNode(
         removedRoot.treeRootNodeId.toString(),
       );
-      if (!removedRootNode) {
-        throw new Error(
-          'Fail to remove root node when trying to remove a root',
-        );
-      }
     } catch (error: unknown) {
-      // 记录警告日志，但不中断操作
+      // Log a warning if the associated node can't be removed,
+      // but don't block the operation.
       console.warn(
         `Failed to remove associated root node 
-      ${removedRoot.treeRootNodeId.toString()} when removing root ${id}:`,
+        ${removedRoot.treeRootNodeId.toString()} when removing root ${id}:`,
         error,
       );
     }
