@@ -4,7 +4,6 @@ import { UpdateRrRootDto } from './dto/update-rr-root.dto';
 import { RrNodeService } from 'src/rr-node/rr-node.service';
 import { RrRootRepository } from './repositories/rr-root.repository';
 import { RrRoot } from './schemas/rr-root.schema';
-import { CreateRrNodeDto } from 'src/rr-node/dto/create-rr-node.dto';
 
 @Injectable()
 export class RrRootService {
@@ -15,9 +14,10 @@ export class RrRootService {
 
   async create(createRrRootDto: CreateRrRootDto) {
     // 1. Create the associated root node for the tree first.
-    const newRootRrNode = await this.rrNodeService.create(
-      createRrRootDto as CreateRrNodeDto,
-    );
+    const newRootRrNode = await this.rrNodeService.create({
+      ...createRrRootDto,
+      parent: null,
+    });
 
     // 2. Map DTO to a new RrRoot entity.
     const newRrRootEntity: Partial<RrRoot> = {
@@ -27,7 +27,8 @@ export class RrRootService {
     };
 
     // 3. Call repository to save the entity.
-    return this.rrRootRepository.create(newRrRootEntity);
+    const newRrRoot = this.rrRootRepository.create(newRrRootEntity);
+    return await this.rrRootRepository.save(newRrRoot);
   }
 
   findAll() {

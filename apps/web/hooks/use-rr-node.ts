@@ -1,95 +1,42 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
-  createRrNode,
-  createRrTree,
-  fetchAllRrNodes,
+  create,
   fetchRrNodeById,
   fetchRrTreeById,
-  removeRrNode,
-  removeRrTree,
-  updateRrNode,
+  updateRrNodeById,
+  removeRrNodeById,
 } from "@/lib/service/rr-node";
 import { CreateRrNodeDto, UpdateRrNodeDto } from "@/lib/types/apiRequests";
 
-export const useCreateRrTree = () => {
-  const queryClient = useQueryClient();
-
+export const useCreate = () => {
   return useMutation({
-    mutationFn: (createRrNodeDto: CreateRrNodeDto) =>
-      createRrTree(createRrNodeDto),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["rrRoots"] });
-    },
+    mutationFn: (createRrNodeDto: CreateRrNodeDto) => create(createRrNodeDto),
   });
 };
 
-export const useCreateRrNode = (treeId: string, parentNodeId: string) => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: (createRrNodeDto: CreateRrNodeDto) =>
-      createRrNode(treeId, parentNodeId, createRrNodeDto),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["rrTree", treeId] });
-      queryClient.invalidateQueries({ queryKey: ["rrRoots"] });
-    },
-  });
-};
-
-export const useGetRrNodes = () => {
+export const useGetRrNodeById = (id: string) => {
   return useQuery({
-    queryKey: ["rrNodes"],
-    queryFn: fetchAllRrNodes,
+    queryKey: ["rrNode", id],
+    queryFn: () => fetchRrNodeById(id),
   });
 };
 
-export const useGetRrTree = (treeId: string) => {
+export const useGetRrTreeById = (id: string) => {
   return useQuery({
-    queryKey: ["rrTree", treeId],
-    queryFn: () => fetchRrTreeById(treeId),
+    queryKey: ["rrTree", id],
+    queryFn: () => fetchRrTreeById(id),
   });
 };
 
-export const useGetRrNode = (treeId: string, nodeId: string) => {
-  return useQuery({
-    queryKey: ["rrNode", treeId, nodeId],
-    queryFn: () => fetchRrNodeById(treeId, nodeId),
-  });
-};
-
-export const useUpdateRrNode = (treeId: string, nodeId: string) => {
-  const queryClient = useQueryClient();
-
+export const useUpdateRrNodeById = (id: string) => {
   return useMutation({
     mutationFn: (updateRrNodeDto: UpdateRrNodeDto) =>
-      updateRrNode(treeId, nodeId, updateRrNodeDto),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["rrTree", treeId] });
-      queryClient.invalidateQueries({ queryKey: ["rrRoots"] });
-    },
+      updateRrNodeById(id, updateRrNodeDto),
   });
 };
 
-export const useRemoveRrTree = (treeId: string) => {
-  const queryClient = useQueryClient();
-
+export const useRemoveRrNodeById = (id: string) => {
   return useMutation({
-    mutationFn: () => removeRrTree(treeId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["rrTree", treeId] });
-      queryClient.invalidateQueries({ queryKey: ["rrRoots"] });
-    },
-  });
-};
-
-export const useRemoveRrNode = (treeId: string, nodeId: string) => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: () => removeRrNode(treeId, nodeId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["rrTree", treeId] });
-      queryClient.invalidateQueries({ queryKey: ["rrRoots"] });
-    },
+    mutationFn: () => removeRrNodeById(id),
   });
 };

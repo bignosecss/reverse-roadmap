@@ -14,7 +14,7 @@ import type {
 export interface RrRoot {
   _id: string;
   title: string;
-  treeRootNodeId: string;
+  rootRrNode: string;
   status: "active" | "archived";
   createdAt: Date;
   updatedAt: Date;
@@ -25,22 +25,21 @@ export interface RrNode {
   _id: string;
   title: string;
   description?: string;
-  parentId: string | null;
+  parent: string | null;
   content: string | null;
   children: RrNode[];
   createdAt?: Date;
   updatedAt?: Date;
 }
 
-export interface RrNodeContent {
+export interface RrContent {
   _id: string;
   type: "doc";
   // 方便起见，暂时使用 any 作为 tiptap 文档的类型( edirot.getJSON() )
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  content: Array<any>;
+  content: any[];
   createdAt: Date;
   updatedAt: Date;
-  __v: number;
 }
 
 export type FlowNode = Node<

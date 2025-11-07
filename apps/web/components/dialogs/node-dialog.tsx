@@ -25,7 +25,7 @@ interface NodeDialogProps {
   /** 操作类型 */
   operation: NodeOperation;
   /** 当前节点（编辑和删除时需要） */
-  currentNode?: RrNode;
+  currentNode: RrNode;
   /** 确认回调 */
   onConfirm: (
     operation: NodeOperation,
@@ -104,6 +104,7 @@ export function NodeDialog({
       const data: CreateRrNodeDto = {
         title: trimmedTitle,
         description: trimmedDescription || undefined,
+        parent: currentNode.parent,
       };
       onConfirm(operation, data);
     } else if (operation === "edit") {

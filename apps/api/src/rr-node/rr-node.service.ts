@@ -31,6 +31,10 @@ export class RrNodeService {
       }
     }
 
+    // todo: 不允许手动创建根节点
+    // 如果是创建 root 的过程中传递的 parent: null 即可接收
+    // 如果是前端传递的 parent: null，抛出异常
+
     const rrNodeEntity: Partial<RrNode> = {
       ...nodeData,
       parent: parentNode ? parentNode._id : null,
@@ -41,14 +45,13 @@ export class RrNodeService {
       this.defaultTiptapContent,
     );
     newRrNode.content = newRrContent._id;
-    const savedRrNode = await this.rrNodeRepository.save(newRrNode);
 
     if (parentNode) {
       parentNode.children.push(newRrNode._id);
       await parentNode.save();
     }
 
-    return savedRrNode;
+    return await this.rrNodeRepository.save(newRrNode);
   }
 
   findNode(id: string) {

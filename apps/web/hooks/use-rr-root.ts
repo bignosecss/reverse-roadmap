@@ -1,10 +1,10 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   createRrRoot,
-  removeRrRoot,
   fetchAllRrRoots,
   fetchRrRootById,
   updateRrRoot,
+  removeRrRootById,
 } from "@/lib/service/rr-root";
 import { CreateRrRootDto, UpdateRrRootDto } from "@/lib/types/apiRequests";
 
@@ -51,7 +51,7 @@ export const useDeleteRrRoot = (rootId: string) => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: () => removeRrRoot(rootId),
+    mutationFn: () => removeRrRootById(rootId),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["rrRoots"] });
     },

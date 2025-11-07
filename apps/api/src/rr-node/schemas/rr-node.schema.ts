@@ -16,7 +16,7 @@ export class RrNode {
 
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'RrNodeContent',
+    ref: 'RrContent',
     default: null,
   })
   content!: mongoose.Types.ObjectId | null;

@@ -6,9 +6,9 @@ import RrNodeToolbar from "./rr-node-toolbar";
 import RrNodeCard from "./rr-node-card";
 import { NodeDialog, NodeOperation } from "../dialogs/node-dialog";
 import {
-  useCreateRrNode,
-  useUpdateRrNode,
-  useRemoveRrNode,
+  useCreate,
+  useUpdateRrNodeById,
+  useRemoveRrNodeById,
 } from "@/hooks/use-rr-node";
 import { toast } from "sonner";
 
@@ -32,9 +32,9 @@ export default function RrNodeComponent({
   const isRootNode = rrNode._id === treeId;
 
   // 操作节点
-  const { mutate: createRrNode } = useCreateRrNode(treeId, rrNode._id);
-  const { mutate: updateRrNode } = useUpdateRrNode(treeId, rrNode._id);
-  const { mutate: removeRrNode } = useRemoveRrNode(treeId, rrNode._id);
+  const { mutate: createRrNode } = useCreate();
+  const { mutate: updateRrNode } = useUpdateRrNodeById(rrNode._id);
+  const { mutate: removeRrNode } = useRemoveRrNodeById(rrNode._id);
 
   // 处理 Dialog 确认操作
   const handleDialogConfirm = (
@@ -47,6 +47,7 @@ export default function RrNodeComponent({
           {
             title: data!.title!,
             description: data?.description,
+            parent: rrNode.parent,
           },
           {
             onSuccess: (newNode: RrNode) => {

@@ -10,7 +10,7 @@ export class RrContentService {
 
   async create(createRrContentDto: CreateRrContentDto) {
     const newRrContent = this.rrContentRepository.create(createRrContentDto);
-    return await newRrContent.save();
+    return await this.rrContentRepository.save(newRrContent);
   }
 
   async findOne(id: string) {

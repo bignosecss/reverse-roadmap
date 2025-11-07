@@ -1,15 +1,18 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, FilterQuery, QueryOptions, UpdateQuery } from 'mongoose';
-import { RrRoot } from '../schemas/rr-root.schema';
+import { RrRoot, RrRootDocument } from '../schemas/rr-root.schema';
 
 @Injectable()
 export class RrRootRepository {
   constructor(@InjectModel(RrRoot.name) private rrRootModel: Model<RrRoot>) {}
 
-  async create(rrRootEntity: Partial<RrRoot>): Promise<RrRoot> {
-    const newRrRoot = new this.rrRootModel(rrRootEntity);
-    return newRrRoot.save();
+  save(rrRootEntity: RrRootDocument) {
+    return rrRootEntity.save();
+  }
+
+  create(rrRootEntity: Partial<RrRoot>) {
+    return new this.rrRootModel(rrRootEntity);
   }
 
   async findAll(

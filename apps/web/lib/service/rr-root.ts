@@ -7,23 +7,20 @@ export const createRrRoot = async (createRrRootDto: CreateRrRootDto) => {
     method: "POST",
     body: JSON.stringify(createRrRootDto),
   });
-  const newRoot = result.data;
-
-  return newRoot;
+  const newRrRoot = result.data;
+  return newRrRoot;
 };
 
 export const fetchAllRrRoots = async () => {
   const result = await apiClient<RrRoot[]>("rr-root");
-  const allRoots = result.data;
-
-  return allRoots;
+  const allRrRoots = result.data;
+  return allRrRoots;
 };
 
-export const fetchRrRootById = async (rootId: string) => {
-  const result = await apiClient<RrRoot>(`rr-root/${rootId}`);
-  const root = result.data;
-
-  return root;
+export const fetchRrRootById = async (id: string) => {
+  const result = await apiClient<RrRoot>(`rr-root/${id}`);
+  const rrRoot = result.data;
+  return rrRoot;
 };
 
 export const updateRrRoot = async (
@@ -34,16 +31,14 @@ export const updateRrRoot = async (
     method: "PATCH",
     body: JSON.stringify(updateRrRootDto),
   });
-  const updatedRoot = result.data;
-
-  return updatedRoot;
+  const updatedRrRoot = result.data;
+  return updatedRrRoot;
 };
 
-export const removeRrRoot = async (id: string) => {
+export const removeRrRootById = async (id: string) => {
   const result = await apiClient<RrRoot>(`rr-root/${id}`, {
     method: "DELETE",
   });
-  const removedRoot = result.data;
-
-  return removedRoot;
+  const removedRrRoot = result.data;
+  return removedRrRoot;
 };
