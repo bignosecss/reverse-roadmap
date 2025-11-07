@@ -3,20 +3,18 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { RrNodeService } from './rr-node.service';
 import { RrNodeController } from './rr-node.controller';
 import { RrRoot, RrRootSchema } from 'src/rr-root/schemas/rr-root.schema';
-import { RrNode, RrNodeSchema } from 'src/schemas/rr-node.schema';
-import { RrNodeMapper } from './mapper/rr-node.mapper';
-import { RrNodeContentModule } from 'src/rr-node-content/rr-node-content.module';
+import { RrNode, RrNodeSchema } from './schemas/rr-node.schema';
+import { RrNodeRepository } from './repositories/rr-node.repository';
 
 @Module({
   imports: [
-    RrNodeContentModule,
     MongooseModule.forFeature([
       { name: RrNode.name, schema: RrNodeSchema },
       { name: RrRoot.name, schema: RrRootSchema },
     ]),
   ],
   controllers: [RrNodeController],
-  providers: [RrNodeService, RrNodeMapper],
+  providers: [RrNodeService, RrNodeRepository],
   exports: [RrNodeService],
 })
 export class RrNodeModule {}

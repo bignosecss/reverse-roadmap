@@ -8,7 +8,7 @@ export class RrRoot {
   @Prop({ required: true })
   title!: string;
 
-  @Prop({ type: mongoose.Types.ObjectId, ref: 'RrNode' })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'RrNode' })
   rootRrNode!: mongoose.Types.ObjectId;
 
   @Prop({ type: String, enum: ['active', 'archived'], default: 'active' })

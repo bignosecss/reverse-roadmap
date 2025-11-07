@@ -15,7 +15,7 @@ export class RrRootService {
 
   async create(createRrRootDto: CreateRrRootDto) {
     // 1. Create the associated root node for the tree first.
-    const newRootRrNode = await this.rrNodeService.createRootNode(
+    const newRootRrNode = await this.rrNodeService.create(
       createRrRootDto as CreateRrNodeDto,
     );
 
