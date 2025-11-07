@@ -9,7 +9,8 @@ export class RrContentService {
   constructor(private readonly rrContentRepository: RrContentRepository) {}
 
   async create(createRrContentDto: CreateRrContentDto) {
-    return this.rrContentRepository.create(createRrContentDto);
+    const newRrContent = this.rrContentRepository.create(createRrContentDto);
+    return await newRrContent.save();
   }
 
   async findOne(id: string) {

@@ -15,6 +15,11 @@ export class RrNodeService {
     private readonly rrContentService: RrContentService,
   ) {}
 
+  private readonly defaultTiptapContent = {
+    type: 'doc',
+    content: [{ type: 'paragraph' }],
+  };
+
   async create(createRrNodeDto: CreateRrNodeDto) {
     const { parent: parentId, ...nodeData } = createRrNodeDto;
 
@@ -31,14 +36,19 @@ export class RrNodeService {
       parent: parentNode ? parentNode._id : null,
     };
 
-    const newRrNode = await this.rrNodeRepository.create(rrNodeEntity);
+    const newRrNode = this.rrNodeRepository.create(rrNodeEntity);
+    const newRrContent = await this.rrContentService.create(
+      this.defaultTiptapContent,
+    );
+    newRrNode.content = newRrContent._id;
+    const savedRrNode = await this.rrNodeRepository.save(newRrNode);
 
     if (parentNode) {
       parentNode.children.push(newRrNode._id);
       await parentNode.save();
     }
 
-    return newRrNode;
+    return savedRrNode;
   }
 
   findNode(id: string) {

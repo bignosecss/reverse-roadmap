@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
 
-export type RrNodeDocument = HydratedDocument<RrContent>;
+export type RrContentDocument = HydratedDocument<RrContent>;
 
 @Schema({ timestamps: true, collection: 'rr_contents' })
 export class RrContent {

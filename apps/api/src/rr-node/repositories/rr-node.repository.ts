@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { RrNode } from '../schemas/rr-node.schema';
+import { RrNode, RrNodeDocument } from '../schemas/rr-node.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { DeleteResult, Model, Types, UpdateQuery } from 'mongoose';
 
@@ -16,9 +16,12 @@ export interface RrNodeTree {
 export class RrNodeRepository {
   constructor(@InjectModel(RrNode.name) private rrNodeModel: Model<RrNode>) {}
 
-  async create(rrNodeEntity: Partial<RrNode>) {
-    const newRrNode = new this.rrNodeModel(rrNodeEntity);
-    return newRrNode.save();
+  save(rrNodeEntity: RrNodeDocument) {
+    return rrNodeEntity.save();
+  }
+
+  create(rrNodeEntity: Partial<RrNode>) {
+    return new this.rrNodeModel(rrNodeEntity);
   }
 
   findById(id: string) {

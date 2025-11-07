@@ -1,9 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { DeleteResult, Model } from 'mongoose';
-import { RrContent } from '../schemas/rr-content.schema';
-import { CreateRrContentDto } from '../dto/create-rr-content.dto';
-import { UpdateRrContentDto } from '../dto/update-rr-content.dto';
+import { DeleteResult, Model, UpdateQuery } from 'mongoose';
+import { RrContent, RrContentDocument } from '../schemas/rr-content.schema';
 
 @Injectable()
 export class RrContentRepository {
@@ -12,18 +10,21 @@ export class RrContentRepository {
     private readonly rrContentModel: Model<RrContent>,
   ) {}
 
-  async create(createRrContentDto: CreateRrContentDto) {
-    const createdRrContent = new this.rrContentModel(createRrContentDto);
-    return createdRrContent.save();
+  save(rrContentEntity: RrContentDocument) {
+    return rrContentEntity.save();
+  }
+
+  create(rrContentEntity: Partial<RrContent>) {
+    return new this.rrContentModel(rrContentEntity);
   }
 
   async findOne(id: string) {
     return this.rrContentModel.findById(id).exec();
   }
 
-  async update(id: string, updateRrContentDto: UpdateRrContentDto) {
+  async update(id: string, updateQuery: UpdateQuery<RrContent>) {
     return this.rrContentModel
-      .findByIdAndUpdate(id, updateRrContentDto, { new: true })
+      .findByIdAndUpdate(id, updateQuery, { new: true })
       .exec();
   }
 
