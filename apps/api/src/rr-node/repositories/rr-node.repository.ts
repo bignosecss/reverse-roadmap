@@ -123,6 +123,7 @@ export class RrNodeRepository {
 
     return result.descendantIds.map((id) => id.toString());
   }
+
   async removeMany(ids: string[]): Promise<DeleteResult> {
     return this.rrNodeModel.deleteMany({ _id: { $in: ids } }).exec();
   }
