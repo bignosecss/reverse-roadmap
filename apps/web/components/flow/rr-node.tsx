@@ -11,6 +11,7 @@ import {
   useRemoveRrNodeById,
 } from "@/hooks/use-rr-node";
 import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
 /**
  * 自定义 RrNode 组件
@@ -32,6 +33,7 @@ export default function RrNodeComponent({
   const isRootNode = rrNode._id === treeId;
 
   // 操作节点
+  const queryClient = useQueryClient();
   const { mutate: createRrNode } = useCreate();
   const { mutate: updateRrNode } = useUpdateRrNodeById(rrNode._id);
   const { mutate: removeRrNode } = useRemoveRrNodeById(rrNode._id);
@@ -47,10 +49,11 @@ export default function RrNodeComponent({
           {
             title: data!.title!,
             description: data?.description,
-            parent: rrNode.parent,
+            parent: rrNode._id,
           },
           {
             onSuccess: (newNode: RrNode) => {
+              queryClient.invalidateQueries({ queryKey: ["rrTree", treeId] });
               toast.success("节点添加成功", {
                 description: `新节点 "${newNode.title}" 已添加`,
               });
@@ -71,6 +74,7 @@ export default function RrNodeComponent({
           },
           {
             onSuccess: (updatedNode: RrNode) => {
+              queryClient.invalidateQueries({ queryKey: ["rrTree", treeId] });
               toast.success("节点更新成功", {
                 description: `节点 "${updatedNode.title}" 已更新`,
               });
@@ -86,6 +90,7 @@ export default function RrNodeComponent({
       case "delete":
         removeRrNode(undefined, {
           onSuccess: (deletedNode: RrNode) => {
+            queryClient.invalidateQueries({ queryKey: ["rrTree", treeId] });
             toast.success("节点删除成功", {
               description: `节点 "${deletedNode.title}" 已删除`,
             });

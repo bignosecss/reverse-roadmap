@@ -47,6 +47,7 @@ export class RrNodeService {
     newRrNode.content = newRrContent._id;
 
     if (parentNode) {
+      newRrNode.parent = parentNode._id;
       parentNode.children.push(newRrNode._id);
       await parentNode.save();
     }
