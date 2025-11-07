@@ -1,18 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, FilterQuery, QueryOptions, UpdateQuery } from 'mongoose';
-import { RrRoot } from '../entities/rr-root.entity';
+import { RrRoot } from '../schemas/rr-root.schema';
 
 @Injectable()
 export class RrRootRepository {
-  constructor(
-    @InjectModel(RrRoot.name)
-    private readonly rrRootModel: Model<RrRoot>,
-  ) {}
+  constructor(@InjectModel(RrRoot.name) private rrRootModel: Model<RrRoot>) {}
 
   async create(rrRootEntity: Partial<RrRoot>): Promise<RrRoot> {
-    const newRoot = new this.rrRootModel(rrRootEntity);
-    return newRoot.save();
+    const newRrRoot = new this.rrRootModel(rrRootEntity);
+    return newRrRoot.save();
   }
 
   async findAll(
@@ -30,14 +27,13 @@ export class RrRootRepository {
   }
 
   async update(id: string, updateQuery: UpdateQuery<RrRoot>): Promise<RrRoot> {
-    const existingRoot = await this.rrRootModel
+    const existingRrRoot = await this.rrRootModel
       .findByIdAndUpdate(id, updateQuery, { new: true })
       .exec();
-
-    if (!existingRoot) {
+    if (!existingRrRoot) {
       throw new NotFoundException(`RrRoot with ID ${id} not found`);
     }
-    return existingRoot;
+    return existingRrRoot;
   }
 
   async remove(id: string): Promise<RrRoot> {

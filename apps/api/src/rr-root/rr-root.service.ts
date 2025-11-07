@@ -3,7 +3,7 @@ import { CreateRrRootDto } from './dto/create-rr-root.dto';
 import { UpdateRrRootDto } from './dto/update-rr-root.dto';
 import { RrNodeService } from 'src/rr-node/rr-node.service';
 import { RrRootRepository } from './repositories/rr-root.repository';
-import { RrRoot } from './entities/rr-root.entity';
+import { RrRoot } from './schemas/rr-root.schema';
 import { CreateRrNodeDto } from 'src/rr-node/dto/create-rr-node.dto';
 
 @Injectable()
@@ -15,14 +15,14 @@ export class RrRootService {
 
   async create(createRrRootDto: CreateRrRootDto) {
     // 1. Create the associated root node for the tree first.
-    const newRootNode = await this.rrNodeService.createRootNode(
+    const newRootRrNode = await this.rrNodeService.createRootNode(
       createRrRootDto as CreateRrNodeDto,
     );
 
     // 2. Map DTO to a new RrRoot entity.
     const newRrRootEntity: Partial<RrRoot> = {
       title: createRrRootDto.title,
-      treeRootNodeId: newRootNode._id,
+      rootRrNode: newRootRrNode._id,
       status: 'active',
     };
 
@@ -48,23 +48,23 @@ export class RrRootService {
   }
 
   async remove(id: string) {
-    const removedRoot = await this.rrRootRepository.remove(id);
+    const removedRrRoot = await this.rrRootRepository.remove(id);
 
     // Also try to remove the associated tree.
     try {
       await this.rrNodeService.removeRootNode(
-        removedRoot.treeRootNodeId.toString(),
+        removedRrRoot.rootRrNode.toString(),
       );
     } catch (error: unknown) {
       // Log a warning if the associated node can't be removed,
       // but don't block the operation.
       console.warn(
         `Failed to remove associated root node 
-        ${removedRoot.treeRootNodeId.toString()} when removing root ${id}:`,
+        ${removedRrRoot.rootRrNode.toString()} when removing root ${id}:`,
         error,
       );
     }
 
-    return removedRoot;
+    return removedRrRoot;
   }
 }
