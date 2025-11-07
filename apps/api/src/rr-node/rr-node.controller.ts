@@ -36,12 +36,7 @@ export class RrNodeController {
   }
 
   @Delete(':id')
-  removeNode(@Param('id') id: string) {
-    return this.rrNodeService.removeNode(id);
-  }
-
-  @Delete('root/:id')
-  removeTree(@Param('id') id: string) {
-    return this.rrNodeService.removeTree(id);
+  remove(@Param('id') id: string) {
+    return this.rrNodeService.remove(id);
   }
 }

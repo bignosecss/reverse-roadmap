@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateRrContentDto } from './dto/create-rr-content.dto';
 import { UpdateRrContentDto } from './dto/update-rr-content.dto';
 import { RrContentRepository } from './repositories/rr-content.repository';
+import { DeleteResult } from 'mongoose';
 
 @Injectable()
 export class RrContentService {
@@ -21,5 +22,9 @@ export class RrContentService {
 
   async remove(id: string) {
     return this.rrContentRepository.remove(id);
+  }
+
+  async removeMany(ids: string[]): Promise<DeleteResult> {
+    return this.rrContentRepository.removeMany(ids);
   }
 }

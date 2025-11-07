@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { RrNode } from '../schemas/rr-node.schema';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model, Types, UpdateQuery } from 'mongoose';
+import { DeleteResult, Model, Types, UpdateQuery } from 'mongoose';
 
 export interface RrNodeTree {
   _id: Types.ObjectId;
@@ -23,6 +23,10 @@ export class RrNodeRepository {
 
   findById(id: string) {
     return this.rrNodeModel.findById(id).exec();
+  }
+
+  findByIds(ids: string[]) {
+    return this.rrNodeModel.find({ _id: { $in: ids } }).exec();
   }
 
   async findTreeById(id: string): Promise<RrNodeTree | null> {
@@ -94,5 +98,32 @@ export class RrNodeRepository {
       throw new NotFoundException(`RrNode with ID ${id} not found`);
     }
     return removedNode;
+  }
+
+  async findDescendantIds(nodeId: string): Promise<string[]> {
+    const descendants: Array<{ descendantIds: Types.ObjectId[] }> =
+      await this.rrNodeModel.aggregate([
+        { $match: { _id: new Types.ObjectId(nodeId) } },
+        {
+          $graphLookup: {
+            from: 'rr_nodes',
+            startWith: '$_id',
+            connectFromField: 'children',
+            connectToField: '_id',
+            as: 'descendants',
+          },
+        },
+        { $project: { descendantIds: '$descendants._id' } },
+      ]);
+
+    const result = descendants[0];
+    if (!result || !result.descendantIds) {
+      return [];
+    }
+
+    return result.descendantIds.map((id) => id.toString());
+  }
+  async removeMany(ids: string[]): Promise<DeleteResult> {
+    return this.rrNodeModel.deleteMany({ _id: { $in: ids } }).exec();
   }
 }

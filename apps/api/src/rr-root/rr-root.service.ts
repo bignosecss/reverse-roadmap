@@ -52,9 +52,7 @@ export class RrRootService {
 
     // Also try to remove the associated tree.
     try {
-      await this.rrNodeService.removeRootNode(
-        removedRrRoot.rootRrNode.toString(),
-      );
+      await this.rrNodeService.removeTree(removedRrRoot.rootRrNode.toString());
     } catch (error: unknown) {
       // Log a warning if the associated node can't be removed,
       // but don't block the operation.

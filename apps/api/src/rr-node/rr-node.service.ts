@@ -6,10 +6,14 @@ import {
   RrNodeTree,
 } from './repositories/rr-node.repository';
 import { UpdateRrNodeDto } from './dto/update-rr-node.dto';
+import { RrContentService } from 'src/rr-content/rr-content.service';
 
 @Injectable()
 export class RrNodeService {
-  constructor(private readonly rrNodeRepository: RrNodeRepository) {}
+  constructor(
+    private readonly rrNodeRepository: RrNodeRepository,
+    private readonly rrContentService: RrContentService,
+  ) {}
 
   async create(createRrNodeDto: CreateRrNodeDto) {
     const { parent: parentId, ...nodeData } = createRrNodeDto;
@@ -53,14 +57,34 @@ export class RrNodeService {
     return this.rrNodeRepository.update(id, updateRrNodeDto);
   }
 
-  async removeNode(id: string) {
-    return await this.rrNodeRepository.removeNode(id);
-    // todo
-    // 还需要删除对应的 content
-  }
+  async remove(id: string) {
+    const nodeToRemove = await this.rrNodeRepository.findById(id);
+    if (!nodeToRemove) {
+      throw new NotFoundException(`RrNode with ID ${id} not found`);
+    }
 
-  // todo
-  removeTree(id: string) {
-    return `Root node id: ${id}`;
+    // Remove from parent's children array
+    if (nodeToRemove.parent) {
+      await this.rrNodeRepository.update(nodeToRemove.parent.toString(), {
+        $pull: { children: nodeToRemove._id },
+      });
+    }
+
+    const descendantIds = await this.rrNodeRepository.findDescendantIds(id);
+    const allNodeIds = [id, ...descendantIds];
+
+    const nodesToDelete = await this.rrNodeRepository.findByIds(allNodeIds);
+    const contentIds = nodesToDelete
+      .map((node) => node.content)
+      .filter((contentId) => contentId !== null)
+      .map((contentId) => contentId.toString());
+
+    if (contentIds.length > 0) {
+      await this.rrContentService.removeMany(contentIds);
+    }
+
+    await this.rrNodeRepository.removeMany(allNodeIds);
+
+    return nodeToRemove;
   }
 }
