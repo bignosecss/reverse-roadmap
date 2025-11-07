@@ -4,7 +4,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RrRootModule } from './rr-root/rr-root.module';
 import { RrNodeModule } from './rr-node/rr-node.module';
-import { RrNodeContentModule } from './rr-node-content/rr-node-content.module';
+import { RrContentModule } from './rr-content/rr-content.module';
 
 @Module({
   imports: [
@@ -14,7 +14,7 @@ import { RrNodeContentModule } from './rr-node-content/rr-node-content.module';
     ),
     RrRootModule,
     RrNodeModule,
-    RrNodeContentModule,
+    RrContentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

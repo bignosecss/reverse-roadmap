@@ -1,0 +1,25 @@
+import { Injectable } from '@nestjs/common';
+import { CreateRrContentDto } from './dto/create-rr-content.dto';
+import { UpdateRrContentDto } from './dto/update-rr-content.dto';
+import { RrContentRepository } from './repositories/rr-content.repository';
+
+@Injectable()
+export class RrContentService {
+  constructor(private readonly rrContentRepository: RrContentRepository) {}
+
+  async create(createRrContentDto: CreateRrContentDto) {
+    return this.rrContentRepository.create(createRrContentDto);
+  }
+
+  async findOne(id: string) {
+    return this.rrContentRepository.findOne(id);
+  }
+
+  async update(id: string, updateRrContentDto: UpdateRrContentDto) {
+    return this.rrContentRepository.update(id, updateRrContentDto);
+  }
+
+  async remove(id: string) {
+    return this.rrContentRepository.remove(id);
+  }
+}

@@ -59,7 +59,6 @@ export class RrNodeService {
     // 还需要删除对应的 content
   }
 
-
   // todo
   removeTree(id: string) {
     return `Root node id: ${id}`;
