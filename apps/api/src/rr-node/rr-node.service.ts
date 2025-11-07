@@ -46,6 +46,13 @@ export class RrNodeService {
   }
 
   async findTree(rootRrNodeId: string): Promise<RrNodeTree> {
+    const node = await this.rrNodeRepository.findById(rootRrNodeId);
+    if (!node || !!node.parent) {
+      throw new NotFoundException(
+        `The node with ID ${rootRrNodeId} requested may not exist or not the root node's id`,
+      );
+    }
+
     const tree = await this.rrNodeRepository.findTreeById(rootRrNodeId);
     if (!tree) {
       throw new NotFoundException(`RootNode with ID ${rootRrNodeId} not found`);
