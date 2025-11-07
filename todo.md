@@ -3,6 +3,7 @@
 ## Todos
 
 - [ ] Reverse Roadmap 用户登录功能，如何做权限管理
+- [ ] Api 将旧数据库结构，转换为新结构，然后导入到对应集合
 - [ ] Api 做一个定时任务，定期导出数据库的文档，到本地
 - [ ] Api 修改底层数据库 rr_nodes 集合的数据结构
 - [ ] Api 了解 MongoDB transaction session 这些概念，然后看看怎么解决 rr-node-service create 的 race condition
