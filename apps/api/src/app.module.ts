@@ -5,6 +5,7 @@ import { AppService } from './app.service';
 import { RrRootModule } from './rr-root/rr-root.module';
 import { RrNodeModule } from './rr-node/rr-node.module';
 import { RrContentModule } from './rr-content/rr-content.module';
+import { DataMigrationModule } from './seeds/data-migration.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { RrContentModule } from './rr-content/rr-content.module';
     RrRootModule,
     RrNodeModule,
     RrContentModule,
+    DataMigrationModule,
   ],
   controllers: [AppController],
   providers: [AppService],
