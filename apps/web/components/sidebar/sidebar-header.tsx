@@ -22,11 +22,11 @@ export function SidebarHeaderComponent() {
   const router = useRouter();
   const handleCreateRoot = (data: CreateRrRootDto) => {
     createRrRoot(data, {
-      onSuccess: (newRoot: RrRoot) => {
+      onSuccess: (newRrRoot: RrRoot) => {
         toast.success("创建新目标成功", {
-          description: `新目标 "${newRoot.title}" 已创建`,
+          description: `新目标 "${newRrRoot.title}" 已创建`,
         });
-        router.push(`/g/${newRoot.rootRrNode}`);
+        router.push(`/g/${newRrRoot.rootRrNode}`);
       },
       onError: (err) => {
         toast.error("创建新目标失败", {
