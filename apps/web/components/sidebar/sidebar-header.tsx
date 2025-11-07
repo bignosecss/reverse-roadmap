@@ -26,7 +26,7 @@ export function SidebarHeaderComponent() {
         toast.success("创建新目标成功", {
           description: `新目标 "${newRoot.title}" 已创建`,
         });
-        router.push(`/g/${newRoot.treeRootNodeId}`);
+        router.push(`/g/${newRoot.rootRrNode}`);
       },
       onError: (err) => {
         toast.error("创建新目标失败", {
