@@ -3,7 +3,6 @@
 ## Todos
 
 - [ ] Reverse Roadmap 用户登录功能，如何做权限管理
-- [ ] Api 将旧数据库结构，转换为新结构，然后导入到对应集合
 - [ ] Api 做一个定时任务，定期导出数据库的文档，到本地
 - [ ] Api 了解 MongoDB transaction session 这些概念，然后看看怎么解决 rr-node-service create 的 race condition
 - [ ] Canvas 切换 tab，区分：笔记 / 感想 / 思考 等等，并且 tab 之间可以通过“链接”的方式互相引用跳转
@@ -44,6 +43,7 @@
 
 ## Done
 
+- [x] Api 将旧数据库结构，转换为新结构，然后导入到对应集合
 - [x] Sidebar 取消 shadcn/ui 或者 radix/ui 默认的快捷键开关方式，因为 control + B 与 mac 默认的快捷键冲突，很别扭
 - [x] Api 修改底层数据库 rr_nodes 集合的数据结构
 - [x] Tiptap 编辑了内容后，直接关闭 Canvas，然后打开同样的节点；使用的是 React-Query 的缓存数据，而不是最新数据
@@ -79,7 +79,7 @@
 - [x] Flow page 中，顶部的样式需要研究怎么改
 - [x] Flow 搜索定位节点功能
 
-# Deprecated
+## Deprecated
 
 - [ ] Flow 节点的 toolbar 添加一个打开 Canvas 的按钮，以后通过该按钮控制 Canvas 开关
 - [?] Flow 整个区域方向键移动，React-Flow 默认选中节点后，方向键可以控制点移动
