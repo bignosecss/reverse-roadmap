@@ -32,7 +32,6 @@
 - [ ] Sidebar 也和 Flow 同样的搜索功能，快捷键 cmd+k 是 sidebar，cmd+j 是 Flow；这就要解决 cmd+j 快捷键和 chrome extension 的冲突了
 - [ ] Sidebar 了解 Sidebar 常见的样式，和实现方式（似乎没必要了）
 - [ ] Sidebar roots 部分请求数据时候的交互
-- [ ] Sidebar 取消 shadcn/ui 或者 radix/ui 默认的快捷键开关方式，因为 control + B 与 mac 默认的快捷键冲突，很别扭
 
 ## Unclear Tasks
 
@@ -45,6 +44,7 @@
 
 ## Done
 
+- [x] Sidebar 取消 shadcn/ui 或者 radix/ui 默认的快捷键开关方式，因为 control + B 与 mac 默认的快捷键冲突，很别扭
 - [x] Api 修改底层数据库 rr_nodes 集合的数据结构
 - [x] Tiptap 编辑了内容后，直接关闭 Canvas，然后打开同样的节点；使用的是 React-Query 的缓存数据，而不是最新数据
   > 难搞哦！
