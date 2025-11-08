@@ -20,7 +20,7 @@ import "@xyflow/react/dist/style.css";
 import { FlowState } from "@/lib/types/models";
 import useFlowStore from "@/lib/stores/flow";
 import { DagreDirection, getLayoutedNodes } from "@/lib/flow-tree/dagre-layout";
-import { useGetRrTree } from "@/hooks/use-rr-node";
+import { useGetRrTreeById } from "@/hooks/use-rr-node";
 import { convertTreeToFlow } from "@/lib/flow-tree/converter";
 import { SearchNode } from "./search-node";
 import { Spinner } from "../ui/spinner";
@@ -45,7 +45,7 @@ const selector = (state: FlowState) => ({
 
 export default function FlowContent({ treeId }: { treeId: string }) {
   const { theme } = useTheme();
-  const { data: rrTree, isLoading, isError } = useGetRrTree(treeId);
+  const { data: rrTree, isLoading, isError } = useGetRrTreeById(treeId);
   const {
     nodes,
     edges,
@@ -93,7 +93,7 @@ export default function FlowContent({ treeId }: { treeId: string }) {
 
   if (isError || (!isLoading && !rrTree)) {
     return (
-      <div className="p-4 text-[var(--secondary)]">
+      <div className="p-4 text-[var(--destructive)]">
         Error loading flow data.
       </div>
     );

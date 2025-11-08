@@ -8,6 +8,15 @@ export type UpdateRrRootDto = Partial<CreateRrRootDto>;
 export interface CreateRrNodeDto {
   title: string;
   description?: string;
+  parent: string | null;
 }
 
 export type UpdateRrNodeDto = Partial<CreateRrNodeDto>;
+
+export interface CreateRrContentDto {
+  type: "doc";
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  content: any[];
+}
+
+export type UpdateRrContentDto = CreateRrContentDto;

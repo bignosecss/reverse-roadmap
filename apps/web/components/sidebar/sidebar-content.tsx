@@ -50,7 +50,7 @@ export function SidebarCustomContent({
                 <SidebarTreeItem
                   key={rrRoot._id}
                   rrRoot={rrRoot}
-                  isActive={currentTreeId === rrRoot.treeRootNodeId}
+                  isActive={currentTreeId === rrRoot.rootRrNode}
                 />
               ))}
           </SidebarMenu>

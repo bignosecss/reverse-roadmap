@@ -2,111 +2,49 @@ import { apiClient } from "./client";
 import { RrNode } from "../types/models";
 import { CreateRrNodeDto, UpdateRrNodeDto } from "../types/apiRequests";
 
-export const createRrTree = async (createRrNodeDto: CreateRrNodeDto) => {
-  const result = await apiClient<RrNode>("rr-node/root", {
+/**
+ * Create rr node if the parent attribute in `CreateRrNodeDto` is not null
+ * else create rr root node
+ * @param createRrNodeDto
+ * @returns
+ */
+export const create = async (createRrNodeDto: CreateRrNodeDto) => {
+  const result = await apiClient<RrNode>("rr-node", {
     method: "POST",
     body: JSON.stringify(createRrNodeDto),
   });
-  const newNode = result.data;
-
-  return newNode;
+  const newRrNode = result.data;
+  return newRrNode;
 };
 
-export const createRrNode = async (
-  treeId: string,
-  parentNodeId: string,
-  createRrNodeDto: CreateRrNodeDto,
-) => {
-  const queryParams = new URLSearchParams({
-    treeId,
-    parentNodeId,
-  }).toString();
-
-  const result = await apiClient<RrNode>(`rr-node/child?${queryParams}`, {
-    method: "POST",
-    body: JSON.stringify(createRrNodeDto),
-  });
-  const newNode = result.data;
-
-  return newNode;
-};
-
-export const fetchAllRrNodes = async () => {
-  const result = await apiClient<RrNode[]>("rr-node");
-  const allNodes = result.data;
-
-  return allNodes;
-};
-
-export const fetchRrTreeById = async (treeId: string) => {
-  const params = new URLSearchParams({
-    treeId,
-  });
-
-  const result = await apiClient<RrNode>(
-    `rr-node/findRoot?${params.toString()}`,
-  );
-  const tree = result.data;
-
-  return tree;
-};
-
-export const fetchRrNodeById = async (treeId: string, nodeId: string) => {
-  const params = new URLSearchParams({
-    treeId,
-    nodeId,
-  });
-
-  const result = await apiClient<RrNode>(
-    `rr-node/findChild?${params.toString()}`,
-  );
+export const fetchRrNodeById = async (id: string) => {
+  const result = await apiClient<RrNode>(`rr-node/${id}}`);
   const node = result.data;
-
   return node;
 };
 
-export const updateRrNode = async (
-  treeId: string,
-  nodeId: string,
+export const fetchRrTreeById = async (id: string) => {
+  const result = await apiClient<RrNode>(`rr-node/tree/${id}`);
+  const rrTree = result.data;
+  return rrTree;
+};
+
+export const updateRrNodeById = async (
+  id: string,
   updateRrNodeDto: UpdateRrNodeDto,
 ) => {
-  const queryParams = new URLSearchParams({
-    treeId,
-    nodeId,
-  }).toString();
-
-  const result = await apiClient<RrNode>(`rr-node?${queryParams}`, {
+  const result = await apiClient<RrNode>(`rr-node/${id}`, {
     method: "PATCH",
     body: JSON.stringify(updateRrNodeDto),
   });
-  const updatedNode = result.data;
-
-  return updatedNode;
+  const updatedRrNode = result.data;
+  return updatedRrNode;
 };
 
-export const removeRrTree = async (treeId: string) => {
-  const queryParams = new URLSearchParams({
-    treeId,
-  }).toString();
-
-  const result = await apiClient<RrNode>(`rr-node/root?${queryParams}`, {
+export const removeRrNodeById = async (id: string) => {
+  const result = await apiClient<RrNode>(`rr-node/${id}`, {
     method: "DELETE",
   });
-  const deletedTree = result.data;
-
-  return deletedTree;
-};
-
-export const removeRrNode = async (treeId: string, nodeId: string) => {
-  const queryParams = new URLSearchParams({
-    treeId,
-    nodeId,
-  }).toString();
-
-  const result = await apiClient<RrNode>(`rr-node/child?${queryParams}`, {
-    method: "DELETE",
-  });
-  const deletedNode = result.data;
-
-  return deletedNode;
+  const removedRrNode = result.data;
+  return removedRrNode;
 };

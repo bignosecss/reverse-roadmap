@@ -69,7 +69,7 @@ const createExtensions = ({
     // listKeymap
     link: {
       enableClickSelection: true,
-      openOnClick: false,
+      openOnClick: true,
       HTMLAttributes: {
         class: "link",
       },

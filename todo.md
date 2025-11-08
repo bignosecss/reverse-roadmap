@@ -3,18 +3,20 @@
 ## Todos
 
 - [ ] Reverse Roadmap 用户登录功能，如何做权限管理
-- [ ] API 做一个定时任务，定期导出数据库的文档，到本地
-- [ ] Canvas 中添加表格模块
-  > 有点难啊！
-  > 困难在于，怎么将 shadcn/ui 的 table 组件与 tiptap table extension 联系起来
-  > 现在表格功能并不是刚需，先做别的
-- [ ] Canvas 添加 TableOfContents extension，以在文档中导航标题
+- [ ] Api 将旧数据库结构，转换为新结构，然后导入到对应集合
+- [ ] Api 做一个定时任务，定期导出数据库的文档，到本地
+- [ ] Api 了解 MongoDB transaction session 这些概念，然后看看怎么解决 rr-node-service create 的 race condition
 - [ ] Canvas 切换 tab，区分：笔记 / 感想 / 思考 等等，并且 tab 之间可以通过“链接”的方式互相引用跳转
 - [ ] Canvas 在中文输入，打出字母的时候，onUpdate 也触发了，想想解决方法
   > 我记得渡一有个视频讲过，是讲的 debounce
 - [ ] Canvas Content 文字内容加密
 - [ ] Canvas 设置每个节点 Content 的访问密码（访问密码在传输过程中的加密，可以参考 TLS 协商中 pre-master secret 的过程）
 - [ ] Canvas 想想如何添加 AI Agent
+- [ ] Canvas 添加 TableOfContents extension，以在文档中导航标题
+- [ ] Canvas 中添加表格模块
+  > 有点难啊！
+  > 困难在于，怎么将 shadcn/ui 的 table 组件与 tiptap table extension 联系起来
+  > 现在表格功能并不是刚需，先做别的
 - [ ] Canvas 打开/关闭的动画效果，会导致 Canvas 内容在宽度较小时被挤压，要做一个类似渐变消失的效果
 - [ ] Flow CRUD 节点时，等待途中冻结 Flow，操作结束（成功或失败）后再恢复（增加 UX，也方便探测性能）
   > Optimistic UI + 局部 Loading 标识
@@ -22,12 +24,11 @@
   > 视觉效果通常是：节点半透明 + loading spinner；其他节点可继续操作；Flow 不会整体锁住。
   > Figma / Notion / Miro / Draw.io / React Flow Pro demos 都是这种方式
   > 现在仅我个人使用，我当然会注意，所以该功能并不着急，要紧的是核心功能的开发，所以照此思路排优先级
-- [ ] Flow 节点的 toolbar 添加一个打开 Canvas 的按钮，以后通过该按钮控制 Canvas 开关
 - [ ] Flow Canvas 关闭的时候搜索定位节点，将节点定位在距离 Flow 左侧 1/4 视口宽度的位置；Canvas 打开的时候正常 center
 - [ ] Flow 跟节点能够创建另外一个跟节点，当前的跟节点变为其子节点
 - [ ] Flow 记忆节点位置与连线，更改节点连线等功能
-- [ ] Flow Goal Page 顶部，引入AI来获取该 Goal 的内容，然后总结一句正能量鼓励文字，显示在顶部区域
 - [ ] Flow 能够链接到其他的目标，在本目标中的其他目标，渲染为 subflow
+- [ ] Flow Goal Page 顶部，引入AI来获取该 Goal 的内容，然后总结一句正能量鼓励文字，显示在顶部区域
 - [ ] Sidebar 也和 Flow 同样的搜索功能，快捷键 cmd+k 是 sidebar，cmd+j 是 Flow；这就要解决 cmd+j 快捷键和 chrome extension 的冲突了
 - [ ] Sidebar 了解 Sidebar 常见的样式，和实现方式（似乎没必要了）
 - [ ] Sidebar roots 部分请求数据时候的交互
@@ -43,6 +44,8 @@
 
 ## Done
 
+- [x] Sidebar 取消 shadcn/ui 或者 radix/ui 默认的快捷键开关方式，因为 control + B 与 mac 默认的快捷键冲突，很别扭
+- [x] Api 修改底层数据库 rr_nodes 集合的数据结构
 - [x] Tiptap 编辑了内容后，直接关闭 Canvas，然后打开同样的节点；使用的是 React-Query 的缓存数据，而不是最新数据
   > 难搞哦！
   > so easy
@@ -78,6 +81,7 @@
 
 # Deprecated
 
+- [ ] Flow 节点的 toolbar 添加一个打开 Canvas 的按钮，以后通过该按钮控制 Canvas 开关
 - [?] Flow 整个区域方向键移动，React-Flow 默认选中节点后，方向键可以控制点移动
   > 没必要了吧？
 - [?] Canvas resizeable，可以像 resize 浏览器窗口一样 resize Canvas

@@ -3,16 +3,14 @@
 import { useCallback, useState } from "react";
 import { Content } from "@tiptap/react";
 import { MinimalTiptapEditor } from "../ui/minimal-tiptap";
-import { RrNodeContent } from "@/lib/types/models";
+import { RrContent } from "@/lib/types/models";
 import useCanvasStore from "@/lib/stores/canvas";
-import { MutateOptions } from "@tanstack/react-query";
+import { UseMutateFunction } from "@tanstack/react-query";
+import { CreateRrContentDto } from "@/lib/types/apiRequests";
 
 interface TiptapProps {
-  content: RrNodeContent | undefined;
-  onSave: (
-    variables: Content,
-    options?: MutateOptions<RrNodeContent, Error, Content, unknown> | undefined,
-  ) => void;
+  content: RrContent | undefined;
+  onSave: UseMutateFunction<RrContent, Error, CreateRrContentDto, unknown>;
 }
 
 export const Tiptap = ({ content, onSave: saveContent }: TiptapProps) => {
@@ -25,7 +23,7 @@ export const Tiptap = ({ content, onSave: saveContent }: TiptapProps) => {
     (value: Content) => {
       setUpdatingContent(true);
       setValue(value);
-      saveContent(value, {
+      saveContent(value as RrContent, {
         onSettled: () => setUpdatingContent(false),
       });
     },

@@ -1,16 +1,18 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateRrNodeDto } from './dto/create-rr-node.dto';
+import { RrNode, RrNodeDocument } from './schemas/rr-node.schema';
+import {
+  RrNodeRepository,
+  RrNodeTree,
+} from './repositories/rr-node.repository';
 import { UpdateRrNodeDto } from './dto/update-rr-node.dto';
-import { RrNodeMapper } from './mapper/rr-node.mapper';
-import { RrNodeContentService } from 'src/rr-node-content/rr-node-content.service';
-import { RrNode } from 'src/schemas/rr-node.schema';
-import mongoose from 'mongoose';
+import { RrContentService } from 'src/rr-content/rr-content.service';
 
 @Injectable()
 export class RrNodeService {
   constructor(
-    private readonly rrNodeMapper: RrNodeMapper,
-    private readonly rrNodeContentService: RrNodeContentService,
+    private readonly rrNodeRepository: RrNodeRepository,
+    private readonly rrContentService: RrContentService,
   ) {}
 
   private readonly defaultTiptapContent = {
@@ -18,181 +20,92 @@ export class RrNodeService {
     content: [{ type: 'paragraph' }],
   };
 
-  async createRootNode(createRrNodeDto: CreateRrNodeDto) {
-    const rootNode = await this.rrNodeMapper.createRootNode(createRrNodeDto);
-    // 为根节点创建默认的 tiptap content
-    const rootNodeContent = await this.rrNodeContentService.create(
-      this.defaultTiptapContent,
-    );
-    rootNode.content = rootNodeContent._id;
-    return await rootNode.save();
-  }
+  async create(createRrNodeDto: CreateRrNodeDto) {
+    const { parent: parentId, ...nodeData } = createRrNodeDto;
 
-  async createNode(
-    treeId: string,
-    parentNodeId: string,
-    createRrNodeDto: CreateRrNodeDto,
-  ) {
-    const rootNode = await this.rrNodeMapper.findRootNode(treeId);
-    if (!rootNode) {
-      throw new Error('Root node not found when trying to create a child node');
+    let parentNode: RrNodeDocument | null = null;
+    if (parentId) {
+      parentNode = await this.rrNodeRepository.findById(parentId);
+      if (!parentNode) {
+        throw new NotFoundException(`ParentNode with ID ${parentId} not found`);
+      }
     }
 
-    // 查找父节点 (这里假设你的 mapper 或 service 中有 _findNodeRecursive 的实现)
-    // 注意：一个更优的实现是在 Service 中直接操作，而不是依赖 Mapper 查找
-    const parentNode = this.rrNodeMapper['_findNodeRecursive'](
-      rootNode,
-      new mongoose.Types.ObjectId(parentNodeId),
-    );
+    // todo: 不允许手动创建根节点
+    // 如果是创建 root 的过程中传递的 parent: null 即可接收
+    // 如果是前端传递的 parent: null，抛出异常
 
-    if (!parentNode) {
-      throw new Error(
-        'Parent node not found when trying to create a child node',
-      );
-    }
-
-    // 1. 为子节点创建关联的内容 (这部分是正确的)
-    const nodeContent = await this.rrNodeContentService.create(
-      this.defaultTiptapContent,
-    );
-
-    // 2. 创建一个【普通JS对象】来代表新节点，而不是一个 Mongoose Model 实例
-    const newNodeObject = {
-      ...createRrNodeDto,
-      _id: new mongoose.Types.ObjectId(), // Mongoose 会自动生成，但手动生成更明确
-      parentId: parentNode._id,
-      content: nodeContent._id,
-      children: [],
+    const rrNodeEntity: Partial<RrNode> = {
+      ...nodeData,
+      parent: parentNode ? parentNode._id : null,
     };
 
-    // 3. 将这个普通对象推入父节点的 children 数组
-    parentNode.children.push(newNodeObject as RrNode);
-
-    // 4. 只保存一次根节点
-    await rootNode.save();
-
-    // 5. 返回刚刚创建的那个普通对象
-    return newNodeObject;
-  }
-
-  findAll() {
-    return this.rrNodeMapper.findAll();
-  }
-
-  findRootNode(treeId: string) {
-    return this.rrNodeMapper.findRootNode(treeId);
-  }
-
-  findNode(treeId: string, nodeId: string) {
-    if (treeId === nodeId) {
-      throw new Error(
-        "If you are trying to find root node, there's a specific method to do that",
-      );
-    }
-    return this.rrNodeMapper.findNode(treeId, nodeId);
-  }
-
-  async update(
-    treeId: string,
-    nodeId: string,
-    updateRrNodeDto: UpdateRrNodeDto,
-  ) {
-    if (treeId === nodeId) {
-      return await this.rrNodeMapper.update(treeId, updateRrNodeDto);
-    }
-
-    const rootNdoe = await this.rrNodeMapper.findRootNode(treeId);
-    if (!rootNdoe) {
-      throw new Error('Root node not found when trying to update a child node');
-    }
-    const updatedNode = await this.rrNodeMapper.update(
-      nodeId,
-      updateRrNodeDto,
-      rootNdoe,
+    const newRrNode = this.rrNodeRepository.create(rrNodeEntity);
+    const newRrContent = await this.rrContentService.create(
+      this.defaultTiptapContent,
     );
-    if (!updatedNode) {
-      throw new Error('Node needs to be updated not found');
-    }
-    updatedNode.title = updateRrNodeDto.title!;
-    updatedNode.description = updateRrNodeDto.description;
-    await rootNdoe.save();
+    newRrNode.content = newRrContent._id;
 
-    return updatedNode;
+    if (parentNode) {
+      newRrNode.parent = parentNode._id;
+      parentNode.children.push(newRrNode._id);
+      await parentNode.save();
+    }
+
+    return await this.rrNodeRepository.save(newRrNode);
   }
 
-  async removeRootNode(treeId: string) {
-    const removedRootNode = await this.rrNodeMapper.removeRootNode(treeId);
-    if (!removedRootNode) {
-      throw new Error(
-        'Can not remove the root node when trying to remove a root node',
-      );
-    }
-    await this.removeTiptapContent(removedRootNode);
-    return removedRootNode;
+  findNode(id: string) {
+    return this.rrNodeRepository.findById(id);
   }
 
-  async removeNode(treeId: string, nodeId: string): Promise<RrNode> {
-    if (treeId === nodeId) {
-      throw new Error(
-        "If you are trying to remove a root node, there's a specific method to do that",
-      );
-    }
-
-    const rootNode = await this.rrNodeMapper.findRootNode(treeId);
-    const nodeObjectId = new mongoose.Types.ObjectId(nodeId);
-
-    const removedNode = this.findAndRemoveNode(rootNode, nodeObjectId);
-    if (!removedNode) {
+  async findTree(rootRrNodeId: string): Promise<RrNodeTree> {
+    const node = await this.rrNodeRepository.findById(rootRrNodeId);
+    if (!node || !!node.parent) {
       throw new NotFoundException(
-        `Node with ID ${nodeId} not found in tree ${treeId}`,
+        `The node with ID ${rootRrNodeId} requested may not exist or not the root node's id`,
       );
     }
 
-    // 关键步骤：保存对根节点的修改
-    await rootNode.save();
-
-    // 删除与 removedNode 及其所有子节点相关的内容
-    await this.removeTiptapContent(removedNode);
-
-    return removedNode;
+    const tree = await this.rrNodeRepository.findTreeById(rootRrNodeId);
+    if (!tree) {
+      throw new NotFoundException(`RootNode with ID ${rootRrNodeId} not found`);
+    }
+    return tree;
   }
 
-  // 定义一个递归函数来查找并删除节点
-  findAndRemoveNode(
-    root: RrNode,
-    nodeObjectId: mongoose.Types.ObjectId,
-  ): RrNode | null {
-    // DFS
-    const childIndex = root.children.findIndex((c) =>
-      c._id.equals(nodeObjectId),
-    );
-    if (childIndex !== -1) {
-      const removed = root.children.splice(childIndex, 1);
-      const deletedNode = removed[0];
-      if (!deletedNode) {
-        throw new Error('Node not found after splice (unexpected)');
-      }
-      return deletedNode;
-    }
-
-    for (const child of root.children) {
-      const deletedNode = this.findAndRemoveNode(child, nodeObjectId);
-      if (deletedNode) {
-        return deletedNode;
-      }
-    }
-
-    return null;
+  update(id: string, updateRrNodeDto: UpdateRrNodeDto) {
+    return this.rrNodeRepository.update(id, updateRrNodeDto);
   }
 
-  async removeTiptapContent(rootNode: RrNode) {
-    if (rootNode.content) {
-      await this.rrNodeContentService.remove(rootNode.content.toString());
+  async remove(id: string) {
+    const nodeToRemove = await this.rrNodeRepository.findById(id);
+    if (!nodeToRemove) {
+      throw new NotFoundException(`RrNode with ID ${id} not found`);
     }
-    // 并行删除所有子节点的内容
-    const deletePromises = rootNode.children.map((child) =>
-      this.removeTiptapContent(child),
-    );
-    await Promise.all(deletePromises);
+
+    // Remove from parent's children array
+    if (nodeToRemove.parent) {
+      await this.rrNodeRepository.update(nodeToRemove.parent.toString(), {
+        $pull: { children: nodeToRemove._id },
+      });
+    }
+
+    const descendantIds = await this.rrNodeRepository.findDescendantIds(id);
+    const allNodeIds = [id, ...descendantIds];
+
+    const nodesToDelete = await this.rrNodeRepository.findByIds(allNodeIds);
+    const contentIds = nodesToDelete
+      .map((node) => node.content)
+      .filter((contentId) => contentId !== null)
+      .map((contentId) => contentId.toString());
+
+    if (contentIds.length > 0) {
+      await this.rrContentService.removeMany(contentIds);
+    }
+
+    await this.rrNodeRepository.removeMany(allNodeIds);
+
+    return nodeToRemove;
   }
 }

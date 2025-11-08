@@ -99,7 +99,7 @@ export default function SidebarTreeItem({
       <SidebarMenuButton asChild isActive={isActive}>
         {!isEditing ? (
           <Link
-            href={`/g/${rrRoot.treeRootNodeId}`}
+            href={`/g/${rrRoot.rootRrNode}`}
             onClick={() => {
               if (!isActive) setCanvasOpen(false);
             }}

@@ -10,9 +10,9 @@ import { useShallow } from "zustand/react/shallow";
 import { Tiptap } from "./tiptap";
 import { cn } from "@/lib/utils";
 import {
-  useGetRrNodeContent,
-  useUpdateRrNodeContent,
-} from "@/hooks/use-rr-node-content";
+  useGetRrContentById,
+  useUpdateRrContentById,
+} from "@/hooks/use-rr-content";
 import useCanvasStore from "@/lib/stores/canvas";
 
 const selector = (state: CanvasState) => ({
@@ -31,10 +31,10 @@ export function Canvas() {
     data: rrNodeContent,
     isPending,
     isRefetching,
-  } = useGetRrNodeContent(
+  } = useGetRrContentById(
     currentRrNode && currentRrNode.content ? currentRrNode.content : "",
   );
-  const { mutate: saveRrNodeContent } = useUpdateRrNodeContent(
+  const { mutate: saveRrNodeContent } = useUpdateRrContentById(
     rrNodeContent ? rrNodeContent._id : "",
   );
 
