@@ -6,6 +6,8 @@
 - [ ] Api 做一个定时任务，定期导出数据库的文档，到本地
 - [ ] Api 了解 MongoDB transaction session 这些概念，然后看看怎么解决 rr-node-service create 的 race condition
 - [ ] Canvas 切换 tab，区分：笔记 / 感想 / 思考 等等，并且 tab 之间可以通过“链接”的方式互相引用跳转
+  > 渲染 tab 及其内容的功能已经实现
+  > 现在需要对 UX 进行打磨，修复一些 BUG
 - [ ] Canvas 在中文输入，打出字母的时候，onUpdate 也触发了，想想解决方法
   > 我记得渡一有个视频讲过，是讲的 debounce
 - [ ] Canvas Content 文字内容加密
