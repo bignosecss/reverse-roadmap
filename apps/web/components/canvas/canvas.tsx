@@ -17,13 +17,13 @@ import useCanvasStore from "@/lib/stores/canvas";
 
 const selector = (state: CanvasState) => ({
   canvasOpen: state.canvasOpen,
-  updatingContent: state.updatingContent,
+  savingContent: state.savingContent,
   setCanvasOpen: state.setCanvasOpen,
 });
 
 export function Canvas() {
   const currentRrNode = useFlowStore((state) => state.currentRrNode);
-  const { canvasOpen, updatingContent, setCanvasOpen } = useCanvasStore(
+  const { canvasOpen, savingContent, setCanvasOpen } = useCanvasStore(
     useShallow(selector),
   );
 
@@ -67,10 +67,10 @@ export function Canvas() {
           <X />
         </Button>
         <span>{currentRrNode.title}</span>
-        {updatingContent && (
+        {savingContent && (
           <Badge variant="outline" className="ml-1">
             <Spinner />
-            Updating
+            Saving...
           </Badge>
         )}
       </header>

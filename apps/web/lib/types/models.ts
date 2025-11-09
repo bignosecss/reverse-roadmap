@@ -77,7 +77,7 @@ export type SidebarState = {
 
 export type CanvasState = {
   canvasOpen: boolean;
-  updatingContent: boolean;
+  savingContent: boolean;
   setCanvasOpen: (open: boolean) => void;
-  setUpdatingContent: (updating: boolean) => void;
+  setSavingContent: (saving: boolean) => void;
 };
