@@ -86,5 +86,5 @@ export type CanvasState = {
   curRrContentTab: NodeContent | null;
   setCanvasOpen: (open: boolean) => void;
   setSavingContent: (saving: boolean) => void;
-  setCurRrContentTab: (rrContent: NodeContent) => void;
+  setCurRrContentTab: (rrContent: NodeContent | null) => void;
 };
