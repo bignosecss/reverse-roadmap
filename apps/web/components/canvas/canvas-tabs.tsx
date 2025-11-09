@@ -61,14 +61,13 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
       </TabsList>
       {currentRrNode.content.map((nodeContent) => (
         <TabsContent key={nodeContent.rrContent} value={nodeContent.tabTitle}>
-          {curRrContentTab?.rrContent === nodeContent.rrContent &&
-            (isPending || isRefetching ? (
-              <div className="w-full p-5">
-                <Spinner className="size-8 mx-auto" />
-              </div>
-            ) : (
-              <Tiptap content={rrContent} onSave={saveRrNodeContent} />
-            ))}
+          {isPending || isRefetching ? (
+            <div className="w-full p-5">
+              <Spinner className="size-8 mx-auto" />
+            </div>
+          ) : (
+            <Tiptap content={rrContent} onSave={saveRrNodeContent} />
+          )}
         </TabsContent>
       ))}
     </Tabs>
