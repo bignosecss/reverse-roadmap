@@ -19,10 +19,7 @@ export class DataMigrationService {
   }
 
   async migrateOldData() {
-    const oldNodesPath = path.join(
-      __dirname,
-      'reverse-roadmap.rr_nodes.json',
-    );
+    const oldNodesPath = path.join(__dirname, 'reverse-roadmap.rr_nodes.json');
     const oldContentsPath = path.join(
       __dirname,
       'reverse-roadmap.rr_contents.json',
