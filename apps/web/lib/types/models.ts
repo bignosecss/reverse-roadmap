@@ -83,8 +83,8 @@ export type SidebarState = {
 export type CanvasState = {
   canvasOpen: boolean;
   savingContent: boolean;
-  curRrContentTab: NodeContent | null;
+  selectedRrContentTab: string;
   setCanvasOpen: (open: boolean) => void;
   setSavingContent: (saving: boolean) => void;
-  setCurRrContentTab: (rrContent: NodeContent | null) => void;
+  setSelectedRrContentTab: (rrContent: string) => void;
 };

@@ -20,6 +20,11 @@ export class RrNodeController {
     return this.rrNodeService.create(createRrNodeDto);
   }
 
+  @Post(':id/contents')
+  createRrContentForNode(@Param('id') id: string) {
+    return (this, this.rrNodeService.createRrContentForNode(id));
+  }
+
   @Get(':id')
   findNode(@Param('id') id: string) {
     return this.rrNodeService.findNode(id);

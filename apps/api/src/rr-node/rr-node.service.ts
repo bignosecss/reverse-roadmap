@@ -60,6 +60,26 @@ export class RrNodeService {
     return await this.rrNodeRepository.save(newRrNode);
   }
 
+  async createRrContentForNode(id: string) {
+    const targetRrNode = await this.findNode(id);
+    if (!targetRrNode) {
+      throw new NotFoundException(
+        `Node with ID: ${id} not found when trying to create a rr content for it`,
+      );
+    }
+
+    const newRrContent = await this.rrContentService.create(
+      this.defaultRrContent,
+    );
+
+    targetRrNode.content.push({
+      rrContent: newRrContent._id,
+      tabTitle: newRrContent.tabTitle,
+    });
+
+    return { node: await targetRrNode.save(), content: newRrContent };
+  }
+
   findNode(id: string) {
     return this.rrNodeRepository.findById(id);
   }

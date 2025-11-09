@@ -5,12 +5,19 @@ import {
   fetchRrTreeById,
   updateRrNodeById,
   removeRrNodeById,
+  createRrContentForNode,
 } from "@/lib/service/rr-node";
 import { CreateRrNodeDto, UpdateRrNodeDto } from "@/lib/types/apiRequests";
 
 export const useCreate = () => {
   return useMutation({
     mutationFn: (createRrNodeDto: CreateRrNodeDto) => create(createRrNodeDto),
+  });
+};
+
+export const useCreateRrContentForNode = () => {
+  return useMutation({
+    mutationFn: (id: string) => createRrContentForNode(id),
   });
 };
 

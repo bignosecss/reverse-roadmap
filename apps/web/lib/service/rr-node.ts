@@ -1,5 +1,5 @@
 import { apiClient } from "./client";
-import { RrNode } from "../types/models";
+import { RrContent, RrNode } from "../types/models";
 import { CreateRrNodeDto, UpdateRrNodeDto } from "../types/apiRequests";
 
 /**
@@ -15,6 +15,17 @@ export const create = async (createRrNodeDto: CreateRrNodeDto) => {
   });
   const newRrNode = result.data;
   return newRrNode;
+};
+
+export const createRrContentForNode = async (id: string) => {
+  const result = await apiClient<{ node: RrNode; content: RrContent }>(
+    `rr-node/${id}/contents`,
+    {
+      method: "POST",
+    },
+  );
+  const rrNodeAndContent = result.data;
+  return rrNodeAndContent;
 };
 
 export const fetchRrNodeById = async (id: string) => {
