@@ -1,0 +1,7501 @@
+[{
+  "_id": {
+    "$oid": "68cebc1862738632ca4a617e"
+  },
+  "title": "前端开发技能树",
+  "description": "全栈前端开发学习路径，从基础到高级的完整技能体系",
+  "parent": null,
+  "content": {
+    "$oid": "68cebc1862738632ca4a617c"
+  },
+  "children": [
+    {
+      "$oid": "68cebc1962738632ca4a6182"
+    },
+    {
+      "$oid": "68cebc1a62738632ca4a6191"
+    },
+    {
+      "$oid": "68cebc1c62738632ca4a61a0"
+    },
+    {
+      "$oid": "68cebc2162738632ca4a61af"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:12.470Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:30.796Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc1962738632ca4a6182"
+  },
+  "title": "HTML & CSS 基础",
+  "description": "网页结构和样式基础，现代前端开发的根基",
+  "parent": {
+    "$oid": "68cebc1862738632ca4a617e"
+  },
+  "content": {
+    "$oid": "68cebc1962738632ca4a6180"
+  },
+  "children": [
+    {
+      "$oid": "68cebc1962738632ca4a6185"
+    },
+    {
+      "$oid": "68cebc1a62738632ca4a6188"
+    },
+    {
+      "$oid": "68cebc1a62738632ca4a618b"
+    },
+    {
+      "$oid": "68cebc1a62738632ca4a618e"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:22.969Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:32.900Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc1962738632ca4a6185"
+  },
+  "title": "HTML5 语义化标签",
+  "description": "掌握现代HTML标签使用，提升网页可访问性和SEO",
+  "parent": {
+    "$oid": "68cebc1962738632ca4a6182"
+  },
+  "content": {
+    "$oid": "68cebc1962738632ca4a6183"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:22.968Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:33.618Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc1a62738632ca4a6188"
+  },
+  "title": "CSS3 新特性",
+  "description": "动画、变换、网格布局、弹性盒子等现代CSS技术",
+  "parent": {
+    "$oid": "68cebc1962738632ca4a6182"
+  },
+  "content": {
+    "$oid": "68cebc1962738632ca4a6186"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:22.969Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:33.918Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc1a62738632ca4a618b"
+  },
+  "title": "响应式设计",
+  "description": "移动端适配、媒体查询、流式布局设计原则",
+  "parent": {
+    "$oid": "68cebc1962738632ca4a6182"
+  },
+  "content": {
+    "$oid": "68cebc1a62738632ca4a6189"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:22.969Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:35.155Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc1a62738632ca4a618e"
+  },
+  "title": "CSS预处理器",
+  "description": "Sass、Less等预处理器的使用和最佳实践",
+  "parent": {
+    "$oid": "68cebc1962738632ca4a6182"
+  },
+  "content": {
+    "$oid": "68cebc1a62738632ca4a618c"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:22.969Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:35.424Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc1a62738632ca4a6191"
+  },
+  "title": "JavaScript 核心",
+  "description": "JS语言核心概念和高级特性，现代前端开发必备",
+  "parent": {
+    "$oid": "68cebc1862738632ca4a617e"
+  },
+  "content": {
+    "$oid": "68cebc1a62738632ca4a618f"
+  },
+  "children": [
+    {
+      "$oid": "68cebc1b62738632ca4a6194"
+    },
+    {
+      "$oid": "68cebc1b62738632ca4a6197"
+    },
+    {
+      "$oid": "68cebc1b62738632ca4a619a"
+    },
+    {
+      "$oid": "68cebc1c62738632ca4a619d"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:22.969Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:35.685Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc1b62738632ca4a6194"
+  },
+  "title": "ES6+ 语法",
+  "description": "箭头函数、解构赋值、模块化、类等现代JS语法",
+  "parent": {
+    "$oid": "68cebc1a62738632ca4a6191"
+  },
+  "content": {
+    "$oid": "68cebc1a62738632ca4a6192"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:22.969Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:35.944Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc1b62738632ca4a6197"
+  },
+  "title": "异步编程",
+  "description": "Promise、async/await、事件循环、微任务宏任务",
+  "parent": {
+    "$oid": "68cebc1a62738632ca4a6191"
+  },
+  "content": {
+    "$oid": "68cebc1b62738632ca4a6195"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:22.969Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:36.205Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc1b62738632ca4a619a"
+  },
+  "title": "DOM 操作",
+  "description": "元素选择、事件处理、动态内容操作和性能优化",
+  "parent": {
+    "$oid": "68cebc1a62738632ca4a6191"
+  },
+  "content": {
+    "$oid": "68cebc1b62738632ca4a6198"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:22.969Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:36.467Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc1c62738632ca4a619d"
+  },
+  "title": "函数式编程",
+  "description": "高阶函数、闭包、纯函数、不可变性等概念",
+  "parent": {
+    "$oid": "68cebc1a62738632ca4a6191"
+  },
+  "content": {
+    "$oid": "68cebc1b62738632ca4a619b"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:22.969Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:36.749Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc1c62738632ca4a61a0"
+  },
+  "title": "React 生态",
+  "description": "React框架及其生态系统，现代前端开发主流选择",
+  "parent": {
+    "$oid": "68cebc1862738632ca4a617e"
+  },
+  "content": {
+    "$oid": "68cebc1c62738632ca4a619e"
+  },
+  "children": [
+    {
+      "$oid": "68cebc1c62738632ca4a61a3"
+    },
+    {
+      "$oid": "68cebc1c62738632ca4a61a6"
+    },
+    {
+      "$oid": "68cebc2162738632ca4a61a9"
+    },
+    {
+      "$oid": "68cebc2162738632ca4a61ac"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:22.969Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:38.234Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc1c62738632ca4a61a3"
+  },
+  "title": "React 基础",
+  "description": "组件、状态管理、生命周期、JSX语法",
+  "parent": {
+    "$oid": "68cebc1c62738632ca4a61a0"
+  },
+  "content": {
+    "$oid": "68cebc1c62738632ca4a61a1"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:22.969Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:38.520Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc1c62738632ca4a61a6"
+  },
+  "title": "React Hooks",
+  "description": "useState、useEffect、useContext等钩子函数",
+  "parent": {
+    "$oid": "68cebc1c62738632ca4a61a0"
+  },
+  "content": {
+    "$oid": "68cebc1c62738632ca4a61a4"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:22.969Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:38.777Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2162738632ca4a61a9"
+  },
+  "title": "Next.js",
+  "description": "全栈React框架，SSR、SSG、API路由等功能",
+  "parent": {
+    "$oid": "68cebc1c62738632ca4a61a0"
+  },
+  "content": {
+    "$oid": "68cebc1c62738632ca4a61a7"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:22.969Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:39.030Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2162738632ca4a61ac"
+  },
+  "title": "状态管理",
+  "description": "Redux、Zustand、Context API等状态管理方案",
+  "parent": {
+    "$oid": "68cebc1c62738632ca4a61a0"
+  },
+  "content": {
+    "$oid": "68cebc2162738632ca4a61aa"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:22.969Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:39.287Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2162738632ca4a61af"
+  },
+  "title": "工程化工具",
+  "description": "现代前端开发工具链和最佳实践",
+  "parent": {
+    "$oid": "68cebc1862738632ca4a617e"
+  },
+  "content": {
+    "$oid": "68cebc2162738632ca4a61ad"
+  },
+  "children": [
+    {
+      "$oid": "68cebc2262738632ca4a61b2"
+    },
+    {
+      "$oid": "68cebc2262738632ca4a61b5"
+    },
+    {
+      "$oid": "68cebc2262738632ca4a61b8"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:22.969Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:39.542Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2262738632ca4a61b2"
+  },
+  "title": "构建工具",
+  "description": "Webpack、Vite、Rollup等模块打包工具",
+  "parent": {
+    "$oid": "68cebc2162738632ca4a61af"
+  },
+  "content": {
+    "$oid": "68cebc2162738632ca4a61b0"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:22.969Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:39.831Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2262738632ca4a61b5"
+  },
+  "title": "代码质量",
+  "description": "ESLint、Prettier、TypeScript等代码规范工具",
+  "parent": {
+    "$oid": "68cebc2162738632ca4a61af"
+  },
+  "content": {
+    "$oid": "68cebc2262738632ca4a61b3"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:22.969Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:40.087Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2262738632ca4a61b8"
+  },
+  "title": "测试框架",
+  "description": "Jest、React Testing Library、Cypress等测试工具",
+  "parent": {
+    "$oid": "68cebc2162738632ca4a61af"
+  },
+  "content": {
+    "$oid": "68cebc2262738632ca4a61b6"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:22.969Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:40.347Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2362738632ca4a61d1"
+  },
+  "title": "后端开发路线",
+  "description": "Node.js后端开发学习计划，构建可扩展的服务端应用",
+  "parent": null,
+  "content": {
+    "$oid": "68cebc2362738632ca4a61cf"
+  },
+  "children": [
+    {
+      "$oid": "68cebc2462738632ca4a61d5"
+    },
+    {
+      "$oid": "68cebc2662738632ca4a61e4"
+    },
+    {
+      "$oid": "68cebc2862738632ca4a61f3"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:23.774Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:40.605Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2462738632ca4a61d5"
+  },
+  "title": "Node.js 基础",
+  "description": "服务端JavaScript运行环境，后端开发基础",
+  "parent": {
+    "$oid": "68cebc2362738632ca4a61d1"
+  },
+  "content": {
+    "$oid": "68cebc2462738632ca4a61d3"
+  },
+  "children": [
+    {
+      "$oid": "68cebc2562738632ca4a61d8"
+    },
+    {
+      "$oid": "68cebc2662738632ca4a61db"
+    },
+    {
+      "$oid": "68cebc2662738632ca4a61de"
+    },
+    {
+      "$oid": "68cebc2662738632ca4a61e1"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:29.702Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:42.016Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2562738632ca4a61d8"
+  },
+  "title": "模块系统",
+  "description": "CommonJS和ES模块，包管理和依赖处理",
+  "parent": {
+    "$oid": "68cebc2462738632ca4a61d5"
+  },
+  "content": {
+    "$oid": "68cebc2462738632ca4a61d6"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:29.702Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:42.269Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2662738632ca4a61db"
+  },
+  "title": "文件系统操作",
+  "description": "fs模块、路径处理、文件读写和流操作",
+  "parent": {
+    "$oid": "68cebc2462738632ca4a61d5"
+  },
+  "content": {
+    "$oid": "68cebc2562738632ca4a61d9"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:29.702Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:42.539Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2662738632ca4a61de"
+  },
+  "title": "HTTP服务器",
+  "description": "创建和配置Web服务器，处理请求和响应",
+  "parent": {
+    "$oid": "68cebc2462738632ca4a61d5"
+  },
+  "content": {
+    "$oid": "68cebc2662738632ca4a61dc"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:29.702Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:42.809Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2662738632ca4a61e1"
+  },
+  "title": "异步编程",
+  "description": "事件循环、回调、Promise在服务端的应用",
+  "parent": {
+    "$oid": "68cebc2462738632ca4a61d5"
+  },
+  "content": {
+    "$oid": "68cebc2662738632ca4a61df"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:29.702Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:43.068Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2662738632ca4a61e4"
+  },
+  "title": "NestJS 框架",
+  "description": "企业级Node.js框架，构建可维护的大型应用",
+  "parent": {
+    "$oid": "68cebc2362738632ca4a61d1"
+  },
+  "content": {
+    "$oid": "68cebc2662738632ca4a61e2"
+  },
+  "children": [
+    {
+      "$oid": "68cebc2762738632ca4a61e7"
+    },
+    {
+      "$oid": "68cebc2862738632ca4a61ea"
+    },
+    {
+      "$oid": "68cebc2862738632ca4a61ed"
+    },
+    {
+      "$oid": "68cebc2862738632ca4a61f0"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:29.702Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:43.325Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2762738632ca4a61e7"
+  },
+  "title": "依赖注入",
+  "description": "控制反转、模块化设计、服务提供者模式",
+  "parent": {
+    "$oid": "68cebc2662738632ca4a61e4"
+  },
+  "content": {
+    "$oid": "68cebc2662738632ca4a61e5"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:29.702Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:43.590Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2862738632ca4a61ea"
+  },
+  "title": "RESTful API",
+  "description": "API设计原则、路由处理、中间件使用",
+  "parent": {
+    "$oid": "68cebc2662738632ca4a61e4"
+  },
+  "content": {
+    "$oid": "68cebc2762738632ca4a61e8"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:29.702Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:43.858Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2862738632ca4a61ed"
+  },
+  "title": "数据库集成",
+  "description": "MongoDB、MySQL等数据库操作和ORM使用",
+  "parent": {
+    "$oid": "68cebc2662738632ca4a61e4"
+  },
+  "content": {
+    "$oid": "68cebc2862738632ca4a61eb"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:29.702Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:44.134Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2862738632ca4a61f0"
+  },
+  "title": "认证授权",
+  "description": "JWT、OAuth、权限控制和安全最佳实践",
+  "parent": {
+    "$oid": "68cebc2662738632ca4a61e4"
+  },
+  "content": {
+    "$oid": "68cebc2862738632ca4a61ee"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:29.702Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:44.400Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2862738632ca4a61f3"
+  },
+  "title": "数据库设计",
+  "description": "数据建模和数据库优化",
+  "parent": {
+    "$oid": "68cebc2362738632ca4a61d1"
+  },
+  "content": {
+    "$oid": "68cebc2862738632ca4a61f1"
+  },
+  "children": [
+    {
+      "$oid": "68cebc2962738632ca4a61f6"
+    },
+    {
+      "$oid": "68cebc2962738632ca4a61f9"
+    },
+    {
+      "$oid": "68cebc2962738632ca4a61fc"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:29.702Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:45.126Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2962738632ca4a61f6"
+  },
+  "title": "MongoDB",
+  "description": "NoSQL数据库设计、聚合查询、索引优化",
+  "parent": {
+    "$oid": "68cebc2862738632ca4a61f3"
+  },
+  "content": {
+    "$oid": "68cebc2862738632ca4a61f4"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:29.702Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:45.403Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2962738632ca4a61f9"
+  },
+  "title": "SQL数据库",
+  "description": "MySQL、PostgreSQL关系型数据库设计",
+  "parent": {
+    "$oid": "68cebc2862738632ca4a61f3"
+  },
+  "content": {
+    "$oid": "68cebc2962738632ca4a61f7"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:29.702Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:45.667Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2962738632ca4a61fc"
+  },
+  "title": "缓存策略",
+  "description": "Redis缓存、内存缓存、缓存失效策略",
+  "parent": {
+    "$oid": "68cebc2862738632ca4a61f3"
+  },
+  "content": {
+    "$oid": "68cebc2962738632ca4a61fa"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:29.702Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:45.936Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2a62738632ca4a6210"
+  },
+  "title": "数据科学入门",
+  "description": "Python数据分析和机器学习，从数据到洞察的完整流程",
+  "parent": null,
+  "content": {
+    "$oid": "68cebc2a62738632ca4a620e"
+  },
+  "children": [
+    {
+      "$oid": "68cebc2b62738632ca4a6214"
+    },
+    {
+      "$oid": "68cebc2c62738632ca4a6220"
+    },
+    {
+      "$oid": "68cebc2e62738632ca4a622f"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:30.472Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:46.199Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2b62738632ca4a6214"
+  },
+  "title": "Python 基础",
+  "description": "Python编程语言基础，数据科学的编程基础",
+  "parent": {
+    "$oid": "68cebc2a62738632ca4a6210"
+  },
+  "content": {
+    "$oid": "68cebc2a62738632ca4a6212"
+  },
+  "children": [
+    {
+      "$oid": "68cebc2b62738632ca4a6217"
+    },
+    {
+      "$oid": "68cebc2b62738632ca4a621a"
+    },
+    {
+      "$oid": "68cebc2c62738632ca4a621d"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:35.695Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:46.455Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2b62738632ca4a6217"
+  },
+  "title": "语法基础",
+  "description": "变量、函数、类和模块，Python核心语法",
+  "parent": {
+    "$oid": "68cebc2b62738632ca4a6214"
+  },
+  "content": {
+    "$oid": "68cebc2b62738632ca4a6215"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:35.695Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:46.727Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2b62738632ca4a621a"
+  },
+  "title": "数据结构",
+  "description": "列表、字典、集合、元组等内置数据类型",
+  "parent": {
+    "$oid": "68cebc2b62738632ca4a6214"
+  },
+  "content": {
+    "$oid": "68cebc2b62738632ca4a6218"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:35.695Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:47.690Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2c62738632ca4a621d"
+  },
+  "title": "面向对象",
+  "description": "类、继承、多态、封装等OOP概念",
+  "parent": {
+    "$oid": "68cebc2b62738632ca4a6214"
+  },
+  "content": {
+    "$oid": "68cebc2b62738632ca4a621b"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:35.695Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:47.960Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2c62738632ca4a6220"
+  },
+  "title": "数据分析",
+  "description": "数据处理、清洗、分析和可视化",
+  "parent": {
+    "$oid": "68cebc2a62738632ca4a6210"
+  },
+  "content": {
+    "$oid": "68cebc2c62738632ca4a621e"
+  },
+  "children": [
+    {
+      "$oid": "68cebc2d62738632ca4a6223"
+    },
+    {
+      "$oid": "68cebc2d62738632ca4a6226"
+    },
+    {
+      "$oid": "68cebc2e62738632ca4a6229"
+    },
+    {
+      "$oid": "68cebc2e62738632ca4a622c"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:35.695Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:48.227Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2d62738632ca4a6223"
+  },
+  "title": "Pandas",
+  "description": "数据处理和分析库，DataFrame操作",
+  "parent": {
+    "$oid": "68cebc2c62738632ca4a6220"
+  },
+  "content": {
+    "$oid": "68cebc2c62738632ca4a6221"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:35.695Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:48.496Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2d62738632ca4a6226"
+  },
+  "title": "NumPy",
+  "description": "数值计算库，多维数组操作",
+  "parent": {
+    "$oid": "68cebc2c62738632ca4a6220"
+  },
+  "content": {
+    "$oid": "68cebc2d62738632ca4a6224"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:35.695Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:48.751Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2e62738632ca4a6229"
+  },
+  "title": "Matplotlib",
+  "description": "数据可视化，图表绘制和定制",
+  "parent": {
+    "$oid": "68cebc2c62738632ca4a6220"
+  },
+  "content": {
+    "$oid": "68cebc2d62738632ca4a6227"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:35.695Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:49.967Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2e62738632ca4a622c"
+  },
+  "title": "Seaborn",
+  "description": "统计数据可视化，高级图表库",
+  "parent": {
+    "$oid": "68cebc2c62738632ca4a6220"
+  },
+  "content": {
+    "$oid": "68cebc2e62738632ca4a622a"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:35.695Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:50.225Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2e62738632ca4a622f"
+  },
+  "title": "机器学习",
+  "description": "机器学习算法和模型训练",
+  "parent": {
+    "$oid": "68cebc2a62738632ca4a6210"
+  },
+  "content": {
+    "$oid": "68cebc2e62738632ca4a622d"
+  },
+  "children": [
+    {
+      "$oid": "68cebc2f62738632ca4a6232"
+    },
+    {
+      "$oid": "68cebc2f62738632ca4a6235"
+    },
+    {
+      "$oid": "68cebc2f62738632ca4a6238"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:35.695Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:50.493Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2f62738632ca4a6232"
+  },
+  "title": "Scikit-learn",
+  "description": "机器学习库，分类、回归、聚类算法",
+  "parent": {
+    "$oid": "68cebc2e62738632ca4a622f"
+  },
+  "content": {
+    "$oid": "68cebc2e62738632ca4a6230"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:35.695Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:50.745Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2f62738632ca4a6235"
+  },
+  "title": "特征工程",
+  "description": "数据预处理、特征选择和特征构造",
+  "parent": {
+    "$oid": "68cebc2e62738632ca4a622f"
+  },
+  "content": {
+    "$oid": "68cebc2f62738632ca4a6233"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:35.695Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:51.598Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc2f62738632ca4a6238"
+  },
+  "title": "模型评估",
+  "description": "交叉验证、性能指标、模型选择",
+  "parent": {
+    "$oid": "68cebc2e62738632ca4a622f"
+  },
+  "content": {
+    "$oid": "68cebc2f62738632ca4a6236"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:35.695Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:51.859Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc3062738632ca4a624b"
+  },
+  "title": "移动端开发",
+  "description": "iOS和Android移动应用开发技能树",
+  "parent": null,
+  "content": {
+    "$oid": "68cebc3062738632ca4a6249"
+  },
+  "children": [
+    {
+      "$oid": "68cebc3162738632ca4a624f"
+    },
+    {
+      "$oid": "68cebc3362738632ca4a625b"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:36.621Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:52.594Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc3162738632ca4a624f"
+  },
+  "title": "React Native",
+  "description": "跨平台移动应用开发框架",
+  "parent": {
+    "$oid": "68cebc3062738632ca4a624b"
+  },
+  "content": {
+    "$oid": "68cebc3062738632ca4a624d"
+  },
+  "children": [
+    {
+      "$oid": "68cebc3162738632ca4a6252"
+    },
+    {
+      "$oid": "68cebc3162738632ca4a6255"
+    },
+    {
+      "$oid": "68cebc3262738632ca4a6258"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:40.332Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:52.870Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc3162738632ca4a6252"
+  },
+  "title": "基础组件",
+  "description": "View、Text、Image等基础UI组件",
+  "parent": {
+    "$oid": "68cebc3162738632ca4a624f"
+  },
+  "content": {
+    "$oid": "68cebc3162738632ca4a6250"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:40.331Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:53.144Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc3162738632ca4a6255"
+  },
+  "title": "导航系统",
+  "description": "React Navigation路由和页面管理",
+  "parent": {
+    "$oid": "68cebc3162738632ca4a624f"
+  },
+  "content": {
+    "$oid": "68cebc3162738632ca4a6253"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:40.332Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:53.879Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc3262738632ca4a6258"
+  },
+  "title": "原生模块",
+  "description": "桥接原生功能，平台特定代码",
+  "parent": {
+    "$oid": "68cebc3162738632ca4a624f"
+  },
+  "content": {
+    "$oid": "68cebc3162738632ca4a6256"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:40.332Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:54.150Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc3362738632ca4a625b"
+  },
+  "title": "Flutter",
+  "description": "Google跨平台移动开发框架",
+  "parent": {
+    "$oid": "68cebc3062738632ca4a624b"
+  },
+  "content": {
+    "$oid": "68cebc3262738632ca4a6259"
+  },
+  "children": [
+    {
+      "$oid": "68cebc3362738632ca4a625e"
+    },
+    {
+      "$oid": "68cebc3362738632ca4a6261"
+    },
+    {
+      "$oid": "68cebc3462738632ca4a6264"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:40.332Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:54.412Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc3362738632ca4a625e"
+  },
+  "title": "Dart语言",
+  "description": "Flutter开发语言基础",
+  "parent": {
+    "$oid": "68cebc3362738632ca4a625b"
+  },
+  "content": {
+    "$oid": "68cebc3362738632ca4a625c"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:40.332Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:54.667Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc3362738632ca4a6261"
+  },
+  "title": "Widget系统",
+  "description": "Flutter UI组件和布局系统",
+  "parent": {
+    "$oid": "68cebc3362738632ca4a625b"
+  },
+  "content": {
+    "$oid": "68cebc3362738632ca4a625f"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:40.332Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:54.925Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc3462738632ca4a6264"
+  },
+  "title": "状态管理",
+  "description": "Provider、Bloc等状态管理方案",
+  "parent": {
+    "$oid": "68cebc3362738632ca4a625b"
+  },
+  "content": {
+    "$oid": "68cebc3362738632ca4a6262"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:40.332Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:55.182Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc3562738632ca4a6272"
+  },
+  "title": "DevOps与部署",
+  "description": "开发运维一体化，自动化部署和运维管理",
+  "parent": null,
+  "content": {
+    "$oid": "68cebc3562738632ca4a6270"
+  },
+  "children": [
+    {
+      "$oid": "68cebc3662738632ca4a6276"
+    },
+    {
+      "$oid": "68cebc3762738632ca4a627f"
+    },
+    {
+      "$oid": "68cebc3762738632ca4a6288"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:41.596Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:55.461Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc3662738632ca4a6276"
+  },
+  "title": "容器化技术",
+  "description": "Docker和Kubernetes容器编排a",
+  "parent": {
+    "$oid": "68cebc3562738632ca4a6272"
+  },
+  "content": {
+    "$oid": "68cebc3562738632ca4a6274"
+  },
+  "children": [
+    {
+      "$oid": "68cebc3662738632ca4a6279"
+    },
+    {
+      "$oid": "68cebc3662738632ca4a627c"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:44.322Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:55.745Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc3662738632ca4a6279"
+  },
+  "title": "Docker基础",
+  "description": "容器创建、镜像构建、容器管理",
+  "parent": {
+    "$oid": "68cebc3662738632ca4a6276"
+  },
+  "content": {
+    "$oid": "68cebc3662738632ca4a6277"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:44.321Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:56.016Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc3662738632ca4a627c"
+  },
+  "title": "Kubernetes",
+  "description": "容器编排、服务发现、负载均衡",
+  "parent": {
+    "$oid": "68cebc3662738632ca4a6276"
+  },
+  "content": {
+    "$oid": "68cebc3662738632ca4a627a"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:44.322Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:56.280Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc3762738632ca4a627f"
+  },
+  "title": "CI/CD",
+  "description": "持续集成和持续部署",
+  "parent": {
+    "$oid": "68cebc3562738632ca4a6272"
+  },
+  "content": {
+    "$oid": "68cebc3662738632ca4a627d"
+  },
+  "children": [
+    {
+      "$oid": "68cebc3762738632ca4a6282"
+    },
+    {
+      "$oid": "68cebc3762738632ca4a6285"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:44.322Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:56.543Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc3762738632ca4a6282"
+  },
+  "title": "GitHub Actions",
+  "description": "自动化工作流、代码检查、自动部署",
+  "parent": {
+    "$oid": "68cebc3762738632ca4a627f"
+  },
+  "content": {
+    "$oid": "68cebc3762738632ca4a6280"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:44.322Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:56.801Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc3762738632ca4a6285"
+  },
+  "title": "Jenkins",
+  "description": "企业级CI/CD平台配置和使用",
+  "parent": {
+    "$oid": "68cebc3762738632ca4a627f"
+  },
+  "content": {
+    "$oid": "68cebc3762738632ca4a6283"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:44.322Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:57.063Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc3762738632ca4a6288"
+  },
+  "title": "云服务",
+  "description": "云平台服务和架构设计",
+  "parent": {
+    "$oid": "68cebc3562738632ca4a6272"
+  },
+  "content": {
+    "$oid": "68cebc3762738632ca4a6286"
+  },
+  "children": [
+    {
+      "$oid": "68cebc3862738632ca4a628b"
+    },
+    {
+      "$oid": "68cebc3862738632ca4a628e"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:44.322Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:57.332Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc3862738632ca4a628b"
+  },
+  "title": "AWS基础",
+  "description": "EC2、S3、RDS等核心服务",
+  "parent": {
+    "$oid": "68cebc3762738632ca4a6288"
+  },
+  "content": {
+    "$oid": "68cebc3762738632ca4a6289"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:44.322Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:57.599Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cebc3862738632ca4a628e"
+  },
+  "title": "微服务架构",
+  "description": "服务拆分、API网关、服务治理",
+  "parent": {
+    "$oid": "68cebc3762738632ca4a6288"
+  },
+  "content": {
+    "$oid": "68cebc3862738632ca4a628c"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-20T14:37:44.322Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:57.875Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf54a48917866745459417"
+  },
+  "title": "技术学习",
+  "parent": null,
+  "content": {
+    "$oid": "68cf54a4891786674545941a"
+  },
+  "children": [
+    {
+      "$oid": "68cf54bc8917866745459426"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-21T01:28:04.393Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:58.136Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf54bc8917866745459426"
+  },
+  "title": "前端开发",
+  "parent": {
+    "$oid": "68cf54a48917866745459417"
+  },
+  "content": {
+    "$oid": "68cf54bc8917866745459424"
+  },
+  "children": [
+    {
+      "$oid": "68cf55b08917866745459432"
+    },
+    {
+      "$oid": "68d66cf3b74abaddfef3e202"
+    },
+    {
+      "$oid": "68d92e256a708913522093f1"
+    },
+    {
+      "$oid": "68e0aa2c6a7089135220ddc6"
+    },
+    {
+      "$oid": "68e4c7277465099a4e95ff51"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-21T01:28:28.957Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:58.397Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf55b08917866745459432"
+  },
+  "title": "duyiWeb前端高薪工程师培养计划2024版",
+  "parent": {
+    "$oid": "68cf54bc8917866745459426"
+  },
+  "content": {
+    "$oid": "68cf55af8917866745459430"
+  },
+  "children": [
+    {
+      "$oid": "68cf56bb891786674545944a"
+    },
+    {
+      "$oid": "68d4de39b74abaddfef3cbd9"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-21T01:32:32.107Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:59.142Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf56bb891786674545944a"
+  },
+  "title": "01 技术应用",
+  "parent": {
+    "$oid": "68cf55b08917866745459432"
+  },
+  "content": {
+    "$oid": "68cf56bb8917866745459448"
+  },
+  "children": [
+    {
+      "$oid": "68cf56ca8917866745459459"
+    },
+    {
+      "$oid": "68cf56ef891786674545947d"
+    },
+    {
+      "$oid": "68cf64a6ad6711c384f6b6b0"
+    },
+    {
+      "$oid": "68d0d0a6661328403c8d5749"
+    },
+    {
+      "$oid": "68d0d0bd661328403c8d57a5"
+    },
+    {
+      "$oid": "68d20098b74abaddfef37e3c"
+    },
+    {
+      "$oid": "68d278f0b74abaddfef3937c"
+    },
+    {
+      "$oid": "68d2993bb74abaddfef3a0c8"
+    },
+    {
+      "$oid": "68d2a078b74abaddfef3a32c"
+    },
+    {
+      "$oid": "68d3cb3ab74abaddfef3ad64"
+    },
+    {
+      "$oid": "68d4036ab74abaddfef3b98d"
+    },
+    {
+      "$oid": "68d4da53b74abaddfef3c93f"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-21T01:36:59.849Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:59.395Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf56ca8917866745459459"
+  },
+  "title": "01 HTML+CSS 收官",
+  "parent": {
+    "$oid": "68cf56bb891786674545944a"
+  },
+  "content": {
+    "$oid": "68cf56ca8917866745459457"
+  },
+  "children": [
+    {
+      "$oid": "68cf64b3ad6711c384f6b6c6"
+    },
+    {
+      "$oid": "68cf64bbad6711c384f6b6dc"
+    },
+    {
+      "$oid": "68cf64c4ad6711c384f6b6f4"
+    },
+    {
+      "$oid": "68cf64c9ad6711c384f6b70e"
+    },
+    {
+      "$oid": "68cf64cfad6711c384f6b72a"
+    },
+    {
+      "$oid": "68cf64d6ad6711c384f6b748"
+    },
+    {
+      "$oid": "68cf64ddad6711c384f6b768"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-21T01:37:14.859Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:59.647Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf64b3ad6711c384f6b6c6"
+  },
+  "title": "01 补充重要知识",
+  "parent": {
+    "$oid": "68cf56ca8917866745459459"
+  },
+  "content": {
+    "$oid": "68cf64b3ad6711c384f6b6c4"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-21T02:36:35.728Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:44:59.911Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf64bbad6711c384f6b6dc"
+  },
+  "title": "02 表单进阶 HTML",
+  "parent": {
+    "$oid": "68cf56ca8917866745459459"
+  },
+  "content": {
+    "$oid": "68cf64bbad6711c384f6b6da"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-21T02:36:43.599Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:00.703Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf64c4ad6711c384f6b6f4"
+  },
+  "title": "03 表单进阶 CSS",
+  "parent": {
+    "$oid": "68cf56ca8917866745459459"
+  },
+  "content": {
+    "$oid": "68cf64c4ad6711c384f6b6f2"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-21T02:36:52.659Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:01.426Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf64c9ad6711c384f6b70e"
+  },
+  "title": "04 精灵图",
+  "parent": {
+    "$oid": "68cf56ca8917866745459459"
+  },
+  "content": {
+    "$oid": "68cf64c9ad6711c384f6b70c"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-21T02:36:57.882Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:02.435Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf64cfad6711c384f6b72a"
+  },
+  "title": "05 绝对定位收官",
+  "parent": {
+    "$oid": "68cf56ca8917866745459459"
+  },
+  "content": {
+    "$oid": "68cf64cfad6711c384f6b728"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-21T02:37:03.761Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:02.709Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf64d6ad6711c384f6b748"
+  },
+  "title": "06 属性值的计算过程",
+  "parent": {
+    "$oid": "68cf56ca8917866745459459"
+  },
+  "content": {
+    "$oid": "68cf64d6ad6711c384f6b746"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-21T02:37:10.710Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:02.962Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf64ddad6711c384f6b768"
+  },
+  "title": "07 拓展知识",
+  "parent": {
+    "$oid": "68cf56ca8917866745459459"
+  },
+  "content": {
+    "$oid": "68cf64ddad6711c384f6b766"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-21T02:37:17.547Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:03.927Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf56ef891786674545947d"
+  },
+  "title": "02 HTML+CSS 项目实战",
+  "parent": {
+    "$oid": "68cf56bb891786674545944a"
+  },
+  "content": {
+    "$oid": "68cf56ef891786674545947b"
+  },
+  "children": [
+    {
+      "$oid": "68cf64efad6711c384f6b78b"
+    },
+    {
+      "$oid": "68cf64faad6711c384f6b7af"
+    },
+    {
+      "$oid": "68cf64ffad6711c384f6b7d5"
+    },
+    {
+      "$oid": "68cf6505ad6711c384f6b7fd"
+    },
+    {
+      "$oid": "68cf650cad6711c384f6b827"
+    },
+    {
+      "$oid": "68cf6513ad6711c384f6b853"
+    },
+    {
+      "$oid": "68cf6519ad6711c384f6b881"
+    },
+    {
+      "$oid": "68cf651fad6711c384f6b8b1"
+    },
+    {
+      "$oid": "68cf653cad6711c384f6b8e3"
+    },
+    {
+      "$oid": "68cf6546ad6711c384f6b917"
+    },
+    {
+      "$oid": "68cf654dad6711c384f6b94d"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-21T01:37:51.932Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:04.198Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf64efad6711c384f6b78b"
+  },
+  "title": "01 搭建工程（最简单的HTML+CSS）",
+  "parent": {
+    "$oid": "68cf56ef891786674545947d"
+  },
+  "content": {
+    "$oid": "68cf64efad6711c384f6b789"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-21T02:37:35.580Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:04.476Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf64faad6711c384f6b7af"
+  },
+  "title": "02 顶部导航栏-主区域",
+  "parent": {
+    "$oid": "68cf56ef891786674545947d"
+  },
+  "content": {
+    "$oid": "68cf64f9ad6711c384f6b7ad"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-21T02:37:46.151Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:04.786Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf64ffad6711c384f6b7d5"
+  },
+  "title": "03 顶部导航栏-购物车",
+  "parent": {
+    "$oid": "68cf56ef891786674545947d"
+  },
+  "content": {
+    "$oid": "68cf64ffad6711c384f6b7d3"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-21T02:37:51.303Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:06.187Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf6505ad6711c384f6b7fd"
+  },
+  "title": "04 头部-Logo和菜单",
+  "parent": {
+    "$oid": "68cf56ef891786674545947d"
+  },
+  "content": {
+    "$oid": "68cf6505ad6711c384f6b7fb"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-21T02:37:57.507Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:07.115Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf650cad6711c384f6b827"
+  },
+  "title": "05 头部-二级菜单",
+  "parent": {
+    "$oid": "68cf56ef891786674545947d"
+  },
+  "content": {
+    "$oid": "68cf650bad6711c384f6b825"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-21T02:38:04.248Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:07.371Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf6513ad6711c384f6b853"
+  },
+  "title": "06 头部-搜索区域",
+  "parent": {
+    "$oid": "68cf56ef891786674545947d"
+  },
+  "content": {
+    "$oid": "68cf6513ad6711c384f6b851"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-21T02:38:11.487Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:07.630Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf6519ad6711c384f6b881"
+  },
+  "title": "07 横幅-主区域",
+  "parent": {
+    "$oid": "68cf56ef891786674545947d"
+  },
+  "content": {
+    "$oid": "68cf6519ad6711c384f6b87f"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-21T02:38:17.380Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:07.895Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf651fad6711c384f6b8b1"
+  },
+  "title": "08 横幅-菜单",
+  "parent": {
+    "$oid": "68cf56ef891786674545947d"
+  },
+  "content": {
+    "$oid": "68cf651fad6711c384f6b8af"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-21T02:38:23.742Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:08.160Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf653cad6711c384f6b8e3"
+  },
+  "title": "11 主区域-橱窗",
+  "parent": {
+    "$oid": "68cf56ef891786674545947d"
+  },
+  "content": {
+    "$oid": "68cf653cad6711c384f6b8e1"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-21T02:38:52.840Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:08.426Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf6546ad6711c384f6b917"
+  },
+  "title": "14 右侧二维码弹出",
+  "parent": {
+    "$oid": "68cf56ef891786674545947d"
+  },
+  "content": {
+    "$oid": "68cf6546ad6711c384f6b915"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-21T02:39:02.294Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:08.709Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf654dad6711c384f6b94d"
+  },
+  "title": "15 将你的页面分享给全世界",
+  "parent": {
+    "$oid": "68cf56ef891786674545947d"
+  },
+  "content": {
+    "$oid": "68cf654dad6711c384f6b94b"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-21T02:39:09.720Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:08.962Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf64a6ad6711c384f6b6b0"
+  },
+  "title": "03 JS收官",
+  "description": "要注意，JS 所有的参数都是 pass by value",
+  "parent": {
+    "$oid": "68cf56bb891786674545944a"
+  },
+  "content": {
+    "$oid": "68cf64a6ad6711c384f6b6ae"
+  },
+  "children": [
+    {
+      "$oid": "68cf71fdad6711c384f6b9bd"
+    },
+    {
+      "$oid": "68cf82f0ad6711c384f6bba2"
+    },
+    {
+      "$oid": "68cf8f59ad6711c384f6bd82"
+    },
+    {
+      "$oid": "68cf9d87ad6711c384f6c1f4"
+    },
+    {
+      "$oid": "68cfa7a7ad6711c384f6c392"
+    },
+    {
+      "$oid": "68cfd9306cb2a2ac44b5d209"
+    },
+    {
+      "$oid": "68cfe24c6cb2a2ac44b5d3be"
+    },
+    {
+      "$oid": "68cfefcb6cb2a2ac44b5d568"
+    },
+    {
+      "$oid": "68d000236cb2a2ac44b5d7a8"
+    },
+    {
+      "$oid": "68d0a828661328403c8d4d2e"
+    },
+    {
+      "$oid": "68d0b1a0661328403c8d4f3b"
+    },
+    {
+      "$oid": "68d0b7d0661328403c8d5056"
+    },
+    {
+      "$oid": "68d0b814661328403c8d50f5"
+    },
+    {
+      "$oid": "68d0bb6f661328403c8d51b7"
+    },
+    {
+      "$oid": "68d0bcdf661328403c8d525e"
+    },
+    {
+      "$oid": "68d0c100661328403c8d538c"
+    },
+    {
+      "$oid": "68d0cdad661328403c8d5638"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-21T02:36:22.434Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:09.220Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf71fdad6711c384f6b9bd"
+  },
+  "title": "10 核心概念-全局对象",
+  "parent": {
+    "$oid": "68cf64a6ad6711c384f6b6b0"
+  },
+  "content": {
+    "$oid": "68cf71fdad6711c384f6b9bb"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-21T03:33:17.164Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:09.476Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf82f0ad6711c384f6bba2"
+  },
+  "title": "11 核心概念-构造函数",
+  "description": "用来创建对象",
+  "parent": {
+    "$oid": "68cf64a6ad6711c384f6b6b0"
+  },
+  "content": {
+    "$oid": "68cf82f0ad6711c384f6bba0"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-21T04:45:36.419Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:09.729Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf8f59ad6711c384f6bd82"
+  },
+  "title": "12 核心概念-原型",
+  "parent": {
+    "$oid": "68cf64a6ad6711c384f6b6b0"
+  },
+  "content": {
+    "$oid": "68cf8f58ad6711c384f6bd80"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-21T05:38:33.234Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:10.447Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cf9d87ad6711c384f6c1f4"
+  },
+  "title": "13 核心概念-这是啥？",
+  "description": "儿化音，这儿，指向这",
+  "parent": {
+    "$oid": "68cf64a6ad6711c384f6b6b0"
+  },
+  "content": {
+    "$oid": "68cf9d87ad6711c384f6c1f2"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-21T06:39:03.926Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:10.702Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cfa7a7ad6711c384f6c392"
+  },
+  "title": "14 核心概念-原型链",
+  "parent": {
+    "$oid": "68cf64a6ad6711c384f6b6b0"
+  },
+  "content": {
+    "$oid": "68cfa7a7ad6711c384f6c390"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-21T07:22:15.924Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:10.961Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cfd9306cb2a2ac44b5d209"
+  },
+  "title": "15 核心概念-继承",
+  "description": "一个案例：会员系统，基本没涉及到 class / extends 等关键字，还是通过 ES5 的概念，从原型链上入手实现继承",
+  "parent": {
+    "$oid": "68cf64a6ad6711c384f6b6b0"
+  },
+  "content": {
+    "$oid": "68cfd9306cb2a2ac44b5d207"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-21T10:53:36.836Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:11.253Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cfe24c6cb2a2ac44b5d3be"
+  },
+  "title": "16 标准库-数字和字符串",
+  "description": "Number & String 包装类 API 讲解，简单了解即可",
+  "parent": {
+    "$oid": "68cf64a6ad6711c384f6b6b0"
+  },
+  "content": {
+    "$oid": "68cfe24c6cb2a2ac44b5d3bc"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-21T11:32:28.966Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:11.525Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68cfefcb6cb2a2ac44b5d568"
+  },
+  "title": "17 标准库-数学",
+  "description": "Math 包装类的一些API",
+  "parent": {
+    "$oid": "68cf64a6ad6711c384f6b6b0"
+  },
+  "content": {
+    "$oid": "68cfefcb6cb2a2ac44b5d566"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-21T12:30:03.702Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:11.782Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d000236cb2a2ac44b5d7a8"
+  },
+  "title": "18 标准库-日期",
+  "description": "作为常识了解",
+  "parent": {
+    "$oid": "68cf64a6ad6711c384f6b6b0"
+  },
+  "content": {
+    "$oid": "68d000236cb2a2ac44b5d7a6"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-21T13:39:47.803Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:12.035Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d0a828661328403c8d4d2e"
+  },
+  "title": "19 标准库-数组",
+  "parent": {
+    "$oid": "68cf64a6ad6711c384f6b6b0"
+  },
+  "content": {
+    "$oid": "68d0a828661328403c8d4d2c"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-22T01:36:40.666Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:12.318Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d0b1a0661328403c8d4f3b"
+  },
+  "title": "20 WebAPI-BOM",
+  "parent": {
+    "$oid": "68cf64a6ad6711c384f6b6b0"
+  },
+  "content": {
+    "$oid": "68d0b1a0661328403c8d4f39"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-22T02:17:04.994Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:12.569Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d0b7d0661328403c8d5056"
+  },
+  "title": "21 WebAPI-玩转DOM",
+  "description": "No need to say",
+  "parent": {
+    "$oid": "68cf64a6ad6711c384f6b6b0"
+  },
+  "content": {
+    "$oid": "68d0b7d0661328403c8d5054"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-22T02:43:28.932Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:13.298Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d0b814661328403c8d50f5"
+  },
+  "title": "22 WebAPI-事件",
+  "description": "没什么好说的",
+  "parent": {
+    "$oid": "68cf64a6ad6711c384f6b6b0"
+  },
+  "content": {
+    "$oid": "68d0b814661328403c8d50f3"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-22T02:44:36.421Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:13.575Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d0bb6f661328403c8d51b7"
+  },
+  "title": "23 WebAPI-事件默认行为",
+  "description": "某些元素的某些事件，浏览器会有自己的默认行为",
+  "parent": {
+    "$oid": "68cf64a6ad6711c384f6b6b0"
+  },
+  "content": {
+    "$oid": "68d0bb6f661328403c8d51b5"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-22T02:58:55.543Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:13.908Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d0bcdf661328403c8d525e"
+  },
+  "title": "24 WebAPI-DOM 尺寸和位置",
+  "description": "无聊",
+  "parent": {
+    "$oid": "68cf64a6ad6711c384f6b6b0"
+  },
+  "content": {
+    "$oid": "68d0bcdf661328403c8d525c"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-22T03:05:03.922Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:14.170Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d0c100661328403c8d538c"
+  },
+  "title": "25 WebAPI-事件的传播机制",
+  "parent": {
+    "$oid": "68cf64a6ad6711c384f6b6b0"
+  },
+  "content": {
+    "$oid": "68d0c100661328403c8d538a"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-22T03:22:40.323Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:14.439Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d0cdad661328403c8d5638"
+  },
+  "title": "28 技巧-函数防抖",
+  "description": "实现了一个通用的 debounce 函数",
+  "parent": {
+    "$oid": "68cf64a6ad6711c384f6b6b0"
+  },
+  "content": {
+    "$oid": "68d0cdac661328403c8d5636"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-22T04:16:45.247Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:14.699Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d0d0a6661328403c8d5749"
+  },
+  "title": "04 JS 项目实战",
+  "parent": {
+    "$oid": "68cf56bb891786674545944a"
+  },
+  "content": {
+    "$oid": "68d0d0a6661328403c8d5747"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-22T04:29:26.468Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:14.960Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d0d0bd661328403c8d57a5"
+  },
+  "title": "05 HTML+CSS 语言提升（H5+CSS3）",
+  "parent": {
+    "$oid": "68cf56bb891786674545944a"
+  },
+  "content": {
+    "$oid": "68d0d0bc661328403c8d57a3"
+  },
+  "children": [
+    {
+      "$oid": "68d0fe0c0d071dc7de7d96b5"
+    },
+    {
+      "$oid": "68d11c1b0d071dc7de7d9937"
+    },
+    {
+      "$oid": "68d129cb0d071dc7de7d9b35"
+    },
+    {
+      "$oid": "68d136280d071dc7de7d9d1d"
+    },
+    {
+      "$oid": "68d150fb0d071dc7de7da064"
+    },
+    {
+      "$oid": "68d1f7cfb74abaddfef37b09"
+    },
+    {
+      "$oid": "68d1fcdab74abaddfef37bc3"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-22T04:29:49.198Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:15.935Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d0fe0c0d071dc7de7d96b5"
+  },
+  "title": "01 CSS3 视觉",
+  "description": "7 个练习题",
+  "parent": {
+    "$oid": "68d0d0bd661328403c8d57a5"
+  },
+  "content": {
+    "$oid": "68d0fe0b0d071dc7de7d96b3"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-22T07:43:08.271Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:16.209Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d11c1b0d071dc7de7d9937"
+  },
+  "title": "02 CSS3 过渡和动画",
+  "description": "让 CSS 属性变化更加丝滑",
+  "parent": {
+    "$oid": "68d0d0bd661328403c8d57a5"
+  },
+  "content": {
+    "$oid": "68d11c1b0d071dc7de7d9935"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-22T09:51:23.631Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:16.494Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d129cb0d071dc7de7d9b35"
+  },
+  "title": "03 CSS 布局",
+  "description": "最重要的是建立一个正确的心智模型，正确认识 CSS",
+  "parent": {
+    "$oid": "68d0d0bd661328403c8d57a5"
+  },
+  "content": {
+    "$oid": "68d129cb0d071dc7de7d9b33"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-22T10:49:47.453Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:16.786Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d136280d071dc7de7d9d1d"
+  },
+  "title": "04 CSS3 更多知识",
+  "parent": {
+    "$oid": "68d0d0bd661328403c8d57a5"
+  },
+  "content": {
+    "$oid": "68d136270d071dc7de7d9d1b"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-22T11:42:32.062Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:17.045Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d150fb0d071dc7de7da064"
+  },
+  "title": "05 网页简历",
+  "description": "项目实战",
+  "parent": {
+    "$oid": "68d0d0bd661328403c8d57a5"
+  },
+  "content": {
+    "$oid": "68d150fa0d071dc7de7da062"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-22T13:36:59.093Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:17.850Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d1f7cfb74abaddfef37b09"
+  },
+  "title": "06 HTML5 文档",
+  "description": "没什么实质性内容",
+  "parent": {
+    "$oid": "68d0d0bd661328403c8d57a5"
+  },
+  "content": {
+    "$oid": "68d1f7cfb74abaddfef37b07"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-23T01:28:47.331Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:18.109Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d1fcdab74abaddfef37bc3"
+  },
+  "title": "07 HTML5 API",
+  "description": "很多时候说 H5，就是指移动端开发，因为 H5 提供了许多移动端的 Web API",
+  "parent": {
+    "$oid": "68d0d0bd661328403c8d57a5"
+  },
+  "content": {
+    "$oid": "68d1fcdab74abaddfef37bc1"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-23T01:50:18.275Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:18.371Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d20098b74abaddfef37e3c"
+  },
+  "title": "06 JavaScript 语言提升（ES6+）",
+  "parent": {
+    "$oid": "68cf56bb891786674545944a"
+  },
+  "content": {
+    "$oid": "68d20097b74abaddfef37e3a"
+  },
+  "children": [
+    {
+      "$oid": "68d202ffb74abaddfef37eab"
+    },
+    {
+      "$oid": "68d20370b74abaddfef37f8b"
+    },
+    {
+      "$oid": "68d20cb8b74abaddfef3815f"
+    },
+    {
+      "$oid": "68d210d2b74abaddfef38282"
+    },
+    {
+      "$oid": "68d2162db74abaddfef384b1"
+    },
+    {
+      "$oid": "68d21a1cb74abaddfef3865d"
+    },
+    {
+      "$oid": "68d24a6ab74abaddfef38c31"
+    },
+    {
+      "$oid": "68d25fb2b74abaddfef38f5e"
+    },
+    {
+      "$oid": "68d2717bb74abaddfef391a4"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-23T02:06:16.864Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:19.561Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d202ffb74abaddfef37eab"
+  },
+  "title": "01 零碎的改动",
+  "description": "没什么好说的，就是 var / let / const，还有一些字符串知识",
+  "parent": {
+    "$oid": "68d20098b74abaddfef37e3c"
+  },
+  "content": {
+    "$oid": "68d202ffb74abaddfef37ea9"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-23T02:16:31.158Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:22.567Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d20370b74abaddfef37f8b"
+  },
+  "title": "02 数组",
+  "description": "没什么好说的，新增 Array API",
+  "parent": {
+    "$oid": "68d20098b74abaddfef37e3c"
+  },
+  "content": {
+    "$oid": "68d20370b74abaddfef37f89"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-23T02:18:24.941Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:22.833Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d20cb8b74abaddfef3815f"
+  },
+  "title": "03 对象",
+  "parent": {
+    "$oid": "68d20098b74abaddfef37e3c"
+  },
+  "content": {
+    "$oid": "68d20cb8b74abaddfef3815d"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-23T02:58:00.790Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:23.102Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d210d2b74abaddfef38282"
+  },
+  "title": "04 函数",
+  "parent": {
+    "$oid": "68d20098b74abaddfef37e3c"
+  },
+  "content": {
+    "$oid": "68d210d2b74abaddfef38280"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-23T03:15:30.884Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:25.087Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d2162db74abaddfef384b1"
+  },
+  "title": "05 原理-事件循环-处理好",
+  "description": "已经在免费的大师课中学过一遍了",
+  "parent": {
+    "$oid": "68d20098b74abaddfef37e3c"
+  },
+  "content": {
+    "$oid": "68d2162cb74abaddfef384af"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-23T03:38:21.039Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:26.130Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d21a1cb74abaddfef3865d"
+  },
+  "title": "06 Promise 基础",
+  "description": "通过一个发消息的案例，讲解了回调地狱",
+  "parent": {
+    "$oid": "68d20098b74abaddfef37e3c"
+  },
+  "content": {
+    "$oid": "68d21a1cb74abaddfef3865b"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-23T03:55:08.303Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:26.412Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d24a6ab74abaddfef38c31"
+  },
+  "title": "07 Promise 的链式调用",
+  "description": "万变不离其宗",
+  "parent": {
+    "$oid": "68d20098b74abaddfef37e3c"
+  },
+  "content": {
+    "$oid": "68d24a6ab74abaddfef38c2f"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-23T07:21:14.493Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:26.689Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d25fb2b74abaddfef38f5e"
+  },
+  "title": "08 Promise 的静态方法",
+  "parent": {
+    "$oid": "68d20098b74abaddfef37e3c"
+  },
+  "content": {
+    "$oid": "68d25fb2b74abaddfef38f5c"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-23T08:52:02.432Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:26.943Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d2717bb74abaddfef391a4"
+  },
+  "title": "09 async 和 await",
+  "description": "语法糖",
+  "parent": {
+    "$oid": "68d20098b74abaddfef37e3c"
+  },
+  "content": {
+    "$oid": "68d2717bb74abaddfef391a2"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-23T10:07:55.791Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:28.076Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d278f0b74abaddfef3937c"
+  },
+  "title": "08 网络和 git 学习指导",
+  "description": "跳过了 10~12 聊天机器人的案例",
+  "parent": {
+    "$oid": "68cf56bb891786674545944a"
+  },
+  "content": {
+    "$oid": "68d278f0b74abaddfef3937a"
+  },
+  "children": [
+    {
+      "$oid": "68d27cc8b74abaddfef3944e"
+    },
+    {
+      "$oid": "68d27ce8b74abaddfef39511"
+    },
+    {
+      "$oid": "68d27cf7b74abaddfef39598"
+    },
+    {
+      "$oid": "68d27d13b74abaddfef396a6"
+    },
+    {
+      "$oid": "68d27d1fb74abaddfef39731"
+    },
+    {
+      "$oid": "68d288f2b74abaddfef39995"
+    },
+    {
+      "$oid": "68d28922b74abaddfef39ab8"
+    },
+    {
+      "$oid": "68d28b14b74abaddfef39be2"
+    },
+    {
+      "$oid": "68d28e9db74abaddfef39d04"
+    },
+    {
+      "$oid": "68d29504b74abaddfef39f37"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-23T10:39:44.769Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:28.387Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d27cc8b74abaddfef3944e"
+  },
+  "title": "01 概述",
+  "description": "说了这节课讲什么",
+  "parent": {
+    "$oid": "68d278f0b74abaddfef3937c"
+  },
+  "content": {
+    "$oid": "68d27cc8b74abaddfef3944c"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-23T10:56:08.617Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:29.186Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d27ce8b74abaddfef39511"
+  },
+  "title": "02 基本概念-客户端和服务端",
+  "description": "client/request & server/response",
+  "parent": {
+    "$oid": "68d278f0b74abaddfef3937c"
+  },
+  "content": {
+    "$oid": "68d27ce8b74abaddfef3950f"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-23T10:56:40.350Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:29.443Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d27cf7b74abaddfef39598"
+  },
+  "title": "03 基本概念",
+  "description": "URL 的组成部分",
+  "parent": {
+    "$oid": "68d278f0b74abaddfef3937c"
+  },
+  "content": {
+    "$oid": "68d27cf7b74abaddfef39596"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-23T10:56:55.386Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:29.715Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d27d13b74abaddfef396a6"
+  },
+  "title": "04 PostMan 安装和使用",
+  "description": "。。。跳过",
+  "parent": {
+    "$oid": "68d278f0b74abaddfef3937c"
+  },
+  "content": {
+    "$oid": "68d27d13b74abaddfef396a4"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-23T10:57:23.791Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:29.982Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d27d1fb74abaddfef39731"
+  },
+  "title": "05 基本概念-http-part1",
+  "description": "请求",
+  "parent": {
+    "$oid": "68d278f0b74abaddfef3937c"
+  },
+  "content": {
+    "$oid": "68d27d1fb74abaddfef3972f"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-23T10:57:35.815Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:30.241Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d288f2b74abaddfef39995"
+  },
+  "title": "06 基本概念-http-part2",
+  "description": "响应",
+  "parent": {
+    "$oid": "68d278f0b74abaddfef3937c"
+  },
+  "content": {
+    "$oid": "68d288f1b74abaddfef39993"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-23T11:48:02.227Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:30.525Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d28922b74abaddfef39ab8"
+  },
+  "title": "07 关于 Apifox 的使用",
+  "description": "类似 postman 的接口测试工具",
+  "parent": {
+    "$oid": "68d278f0b74abaddfef3937c"
+  },
+  "content": {
+    "$oid": "68d28922b74abaddfef39ab6"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-23T11:48:50.354Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:30.783Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d28b14b74abaddfef39be2"
+  },
+  "title": "08 浏览器页面处理流程",
+  "description": "不想看了，就是浏览器的渲染原理",
+  "parent": {
+    "$oid": "68d278f0b74abaddfef3937c"
+  },
+  "content": {
+    "$oid": "68d28b13b74abaddfef39be0"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-23T11:57:08.112Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:31.043Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d28e9db74abaddfef39d04"
+  },
+  "title": "09 AJAX",
+  "description": "AJAX 就是浏览器赋予 JS 的一套 API，通过这套 API 能够使 JS 具备网络通信的能力",
+  "parent": {
+    "$oid": "68d278f0b74abaddfef3937c"
+  },
+  "content": {
+    "$oid": "68d28e9db74abaddfef39d02"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-23T12:12:13.743Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:31.805Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d29504b74abaddfef39f37"
+  },
+  "title": "13 常见问题",
+  "description": "主要是跨域相关问题",
+  "parent": {
+    "$oid": "68d278f0b74abaddfef3937c"
+  },
+  "content": {
+    "$oid": "68d29504b74abaddfef39f35"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-23T12:39:32.922Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:32.076Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d2993bb74abaddfef3a0c8"
+  },
+  "title": "09 git",
+  "description": "由于 git 听起来不太舒服，且使用较为熟悉，便跳过",
+  "parent": {
+    "$oid": "68cf56bb891786674545944a"
+  },
+  "content": {
+    "$oid": "68d2993bb74abaddfef3a0c6"
+  },
+  "children": [
+    {
+      "$oid": "68d2994ab74abaddfef3a161"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-23T12:57:31.363Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:33.122Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d2994ab74abaddfef3a161"
+  },
+  "title": "01 基本概念",
+  "parent": {
+    "$oid": "68d2993bb74abaddfef3a0c8"
+  },
+  "content": {
+    "$oid": "68d2994ab74abaddfef3a15f"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-23T12:57:46.354Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:33.380Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d2a078b74abaddfef3a32c"
+  },
+  "title": "10 第三方库",
+  "parent": {
+    "$oid": "68cf56bb891786674545944a"
+  },
+  "content": {
+    "$oid": "68d2a078b74abaddfef3a32a"
+  },
+  "children": [
+    {
+      "$oid": "68d2a08cb74abaddfef3a3c9"
+    },
+    {
+      "$oid": "68d3c5c2b74abaddfef3a7c5"
+    },
+    {
+      "$oid": "68d3c73bb74abaddfef3a880"
+    },
+    {
+      "$oid": "68d3c7f7b74abaddfef3a939"
+    },
+    {
+      "$oid": "68d3c958b74abaddfef3aa8d"
+    },
+    {
+      "$oid": "68d3ca3eb74abaddfef3ab3e"
+    },
+    {
+      "$oid": "68d3cadfb74abaddfef3acb9"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-23T13:28:24.899Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:34.110Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d2a08cb74abaddfef3a3c9"
+  },
+  "title": "01 jQuery",
+  "description": "让操作 DOM 变得更容易",
+  "parent": {
+    "$oid": "68d2a078b74abaddfef3a32c"
+  },
+  "content": {
+    "$oid": "68d2a08bb74abaddfef3a3c7"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-23T13:28:44.677Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:34.383Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d3c5c2b74abaddfef3a7c5"
+  },
+  "title": "02 Lodash",
+  "description": "鼎鼎大名啊",
+  "parent": {
+    "$oid": "68d2a078b74abaddfef3a32c"
+  },
+  "content": {
+    "$oid": "68d3c5c2b74abaddfef3a7c3"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-24T10:19:46.663Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:35.117Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d3c73bb74abaddfef3a880"
+  },
+  "title": "03 Animate.css",
+  "parent": {
+    "$oid": "68d2a078b74abaddfef3a32c"
+  },
+  "content": {
+    "$oid": "68d3c73ab74abaddfef3a87e"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-24T10:26:03.164Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:35.371Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d3c7f7b74abaddfef3a939"
+  },
+  "title": "04 Axios",
+  "description": "这个我已经使用过了，稍微了解课程，即可跳过",
+  "parent": {
+    "$oid": "68d2a078b74abaddfef3a32c"
+  },
+  "content": {
+    "$oid": "68d3c7f7b74abaddfef3a937"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-24T10:29:11.775Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:36.510Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d3c958b74abaddfef3aa8d"
+  },
+  "title": "05 MockJS",
+  "parent": {
+    "$oid": "68d2a078b74abaddfef3a32c"
+  },
+  "content": {
+    "$oid": "68d3c958b74abaddfef3aa8b"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-24T10:35:04.851Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:36.776Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d3ca3eb74abaddfef3ab3e"
+  },
+  "title": "06 Moment",
+  "description": "提供了强大的日期处理能力",
+  "parent": {
+    "$oid": "68d2a078b74abaddfef3a32c"
+  },
+  "content": {
+    "$oid": "68d3ca3eb74abaddfef3ab3c"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-24T10:38:54.595Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:37.038Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d3cadfb74abaddfef3acb9"
+  },
+  "title": "07 Echarts",
+  "parent": {
+    "$oid": "68d2a078b74abaddfef3a32c"
+  },
+  "content": {
+    "$oid": "68d3cadfb74abaddfef3acb7"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-24T10:41:35.920Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:37.297Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d3cb3ab74abaddfef3ad64"
+  },
+  "title": "11 工程化",
+  "parent": {
+    "$oid": "68cf56bb891786674545944a"
+  },
+  "content": {
+    "$oid": "68d3cb3ab74abaddfef3ad62"
+  },
+  "children": [
+    {
+      "$oid": "68d3cb4bb74abaddfef3ae11"
+    },
+    {
+      "$oid": "68d3d6b7b74abaddfef3b207"
+    },
+    {
+      "$oid": "68d3d995b74abaddfef3b365"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-24T10:43:06.756Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:37.550Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d3cb4bb74abaddfef3ae11"
+  },
+  "title": "01 CommonJS",
+  "description": "CMJ 社区标准，仅 node 环境支持",
+  "parent": {
+    "$oid": "68d3cb3ab74abaddfef3ad64"
+  },
+  "content": {
+    "$oid": "68d3cb4ab74abaddfef3ae0f"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-24T10:43:23.504Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:37.810Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d3d6b7b74abaddfef3b207"
+  },
+  "title": "02 ES Module",
+  "parent": {
+    "$oid": "68d3cb3ab74abaddfef3ad64"
+  },
+  "content": {
+    "$oid": "68d3d6b6b74abaddfef3b205"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-24T11:32:07.157Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:38.066Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d3d995b74abaddfef3b365"
+  },
+  "title": "05 构建工具的使用",
+  "description": "主要学习 webpack",
+  "parent": {
+    "$oid": "68d3cb3ab74abaddfef3ad64"
+  },
+  "content": {
+    "$oid": "68d3d995b74abaddfef3b363"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-24T11:44:21.702Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:38.380Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d4036ab74abaddfef3b98d"
+  },
+  "title": "12 vue 入门到实战",
+  "description": "学习 vue2",
+  "parent": {
+    "$oid": "68cf56bb891786674545944a"
+  },
+  "content": {
+    "$oid": "68d40369b74abaddfef3b98b"
+  },
+  "children": [
+    {
+      "$oid": "68d407fab74abaddfef3bb4d"
+    },
+    {
+      "$oid": "68d40a4eb74abaddfef3bc05"
+    },
+    {
+      "$oid": "68d4ac75b74abaddfef3beec"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-24T14:42:50.142Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:39.371Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d407fab74abaddfef3bb4d"
+  },
+  "title": "01 前端框架的由来",
+  "parent": {
+    "$oid": "68d4036ab74abaddfef3b98d"
+  },
+  "content": {
+    "$oid": "68d407fab74abaddfef3bb4b"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-24T15:02:18.658Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:39.634Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d40a4eb74abaddfef3bc05"
+  },
+  "title": "02 第一个 vue 应用",
+  "description": "核心特点是，只需要关注数据的变化，而不需要关注页面的变化，因为模板是根据数据生成的，而页面是模版生成的",
+  "parent": {
+    "$oid": "68d4036ab74abaddfef3b98d"
+  },
+  "content": {
+    "$oid": "68d40a4eb74abaddfef3bc03"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-24T15:12:14.794Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:39.896Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d4ac75b74abaddfef3beec"
+  },
+  "title": "03 核心概念",
+  "parent": {
+    "$oid": "68d4036ab74abaddfef3b98d"
+  },
+  "content": {
+    "$oid": "68d4ac74b74abaddfef3beea"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-25T02:44:05.068Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:40.179Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d4da53b74abaddfef3c93f"
+  },
+  "title": "22 微信小程序",
+  "parent": {
+    "$oid": "68cf56bb891786674545944a"
+  },
+  "content": {
+    "$oid": "68d4da53b74abaddfef3c93d"
+  },
+  "children": [
+    {
+      "$oid": "68d4dab8b74abaddfef3c9fd"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-25T05:59:47.610Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:42.367Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d4dab8b74abaddfef3c9fd"
+  },
+  "title": "1-1 初始微信小程序",
+  "parent": {
+    "$oid": "68d4da53b74abaddfef3c93f"
+  },
+  "content": {
+    "$oid": "68d4dab7b74abaddfef3c9fb"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-25T06:01:28.035Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:42.630Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d4de39b74abaddfef3cbd9"
+  },
+  "title": "02 高薪就业",
+  "parent": {
+    "$oid": "68cf55b08917866745459432"
+  },
+  "content": {
+    "$oid": "68d4de39b74abaddfef3cbd7"
+  },
+  "children": [
+    {
+      "$oid": "68d4de49b74abaddfef3cc9a"
+    },
+    {
+      "$oid": "68d53b51b74abaddfef3d35e"
+    },
+    {
+      "$oid": "68d53b62b74abaddfef3d423"
+    },
+    {
+      "$oid": "68e23b304e114c764a4c109d"
+    },
+    {
+      "$oid": "68f0a9b6796cf06658aa094a"
+    },
+    {
+      "$oid": "68f0a9f3796cf06658aa0a7b"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-25T06:16:25.642Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:42.883Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d4de49b74abaddfef3cc9a"
+  },
+  "title": "01 前端必会算法",
+  "parent": {
+    "$oid": "68d4de39b74abaddfef3cbd9"
+  },
+  "content": {
+    "$oid": "68d4de49b74abaddfef3cc98"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-25T06:16:41.489Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:43.609Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d53b51b74abaddfef3d35e"
+  },
+  "title": "02 移动端入门到实战",
+  "description": "uniapp 课程",
+  "parent": {
+    "$oid": "68d4de39b74abaddfef3cbd9"
+  },
+  "content": {
+    "$oid": "68d53b51b74abaddfef3d35c"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-25T12:53:37.606Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:45.327Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d53b62b74abaddfef3d423"
+  },
+  "title": "03 node",
+  "parent": {
+    "$oid": "68d4de39b74abaddfef3cbd9"
+  },
+  "content": {
+    "$oid": "68d53b62b74abaddfef3d421"
+  },
+  "children": [
+    {
+      "$oid": "68e109ba6a7089135220e8cf"
+    },
+    {
+      "$oid": "68e109c36a7089135220e9ea"
+    },
+    {
+      "$oid": "68e11cbe6a7089135220ee73"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-25T12:53:54.992Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:45.608Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e109ba6a7089135220e8cf"
+  },
+  "title": "1-01 Node 概述",
+  "parent": {
+    "$oid": "68d53b62b74abaddfef3d423"
+  },
+  "content": {
+    "$oid": "68e109ba6a7089135220e8cd"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-04T11:49:14.783Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:45.861Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e109c36a7089135220e9ea"
+  },
+  "title": "1-02 全局对象",
+  "parent": {
+    "$oid": "68d53b62b74abaddfef3d423"
+  },
+  "content": {
+    "$oid": "68e109c36a7089135220e9e8"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-04T11:49:23.472Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:46.693Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e11cbe6a7089135220ee73"
+  },
+  "title": "1-03 Node的模块化细节",
+  "parent": {
+    "$oid": "68d53b62b74abaddfef3d423"
+  },
+  "content": {
+    "$oid": "68e11cbe6a7089135220ee71"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-04T13:10:22.776Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:46.951Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e23b304e114c764a4c109d"
+  },
+  "title": "15 TypeScript 基础",
+  "description": "TS 是一个可选的静态类型系统",
+  "parent": {
+    "$oid": "68d4de39b74abaddfef3cbd9"
+  },
+  "content": {
+    "$oid": "68e23b2f4e114c764a4c109b"
+  },
+  "children": [
+    {
+      "$oid": "68e367e7746d081250373a40"
+    },
+    {
+      "$oid": "68e36a562c298781bb9b5171"
+    },
+    {
+      "$oid": "68e3a4ea2c298781bb9b5e0e"
+    },
+    {
+      "$oid": "68e4c23d7465099a4e95f987"
+    },
+    {
+      "$oid": "68e4c7c77465099a4e9601b2"
+    },
+    {
+      "$oid": "68e5f87e7465099a4e960c98"
+    },
+    {
+      "$oid": "68ef8385796cf06658aa002b"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-10-05T09:32:32.089Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:47.203Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e367e7746d081250373a40"
+  },
+  "title": "02 node 搭建 ts 开发环境",
+  "parent": {
+    "$oid": "68e23b304e114c764a4c109d"
+  },
+  "content": {
+    "$oid": "68e367e6746d081250373a3e"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-06T06:55:35.262Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:49.278Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e36a562c298781bb9b5171"
+  },
+  "title": "03 基本类型",
+  "parent": {
+    "$oid": "68e23b304e114c764a4c109d"
+  },
+  "content": {
+    "$oid": "68e36a552c298781bb9b516f"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-06T07:05:58.024Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:49.536Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e3a4ea2c298781bb9b5e0e"
+  },
+  "title": "04 枚举",
+  "parent": {
+    "$oid": "68e23b304e114c764a4c109d"
+  },
+  "content": {
+    "$oid": "68e3a4ea2c298781bb9b5e0c"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-06T11:15:54.261Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:49.788Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e4c23d7465099a4e95f987"
+  },
+  "title": "05 模块化",
+  "description": "课程较老了，使用的还是CommonJS",
+  "parent": {
+    "$oid": "68e23b304e114c764a4c109d"
+  },
+  "content": {
+    "$oid": "68e4c23d7465099a4e95f985"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-07T07:33:17.460Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:50.527Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e4c7c77465099a4e9601b2"
+  },
+  "title": "06 接口和类型兼容性",
+  "parent": {
+    "$oid": "68e23b304e114c764a4c109d"
+  },
+  "content": {
+    "$oid": "68e4c7c77465099a4e9601b0"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-07T07:56:55.616Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:50.786Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e5f87e7465099a4e960c98"
+  },
+  "title": "07 TS 中的类",
+  "parent": {
+    "$oid": "68e23b304e114c764a4c109d"
+  },
+  "content": {
+    "$oid": "68e5f87e7465099a4e960c96"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-08T05:37:02.414Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:51.060Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68ef8385796cf06658aa002b"
+  },
+  "title": "08 泛型",
+  "parent": {
+    "$oid": "68e23b304e114c764a4c109d"
+  },
+  "content": {
+    "$oid": "68ef8385796cf06658aa0029"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-15T11:20:37.497Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:51.336Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f0a9b6796cf06658aa094a"
+  },
+  "title": "10 Webpack 详细版",
+  "parent": {
+    "$oid": "68d4de39b74abaddfef3cbd9"
+  },
+  "content": {
+    "$oid": "68f0a9b6796cf06658aa0948"
+  },
+  "children": [
+    {
+      "$oid": "68f0aa15796cf06658aa0bae"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-10-16T08:15:51.005Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:51.595Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f0aa15796cf06658aa0bae"
+  },
+  "title": "1-1 如何在浏览器端实现模块化",
+  "parent": {
+    "$oid": "68f0a9b6796cf06658aa094a"
+  },
+  "content": {
+    "$oid": "68f0aa14796cf06658aa0bac"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-16T08:17:25.209Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:52.642Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f0a9f3796cf06658aa0a7b"
+  },
+  "title": "16 TypeScript 进阶",
+  "parent": {
+    "$oid": "68d4de39b74abaddfef3cbd9"
+  },
+  "content": {
+    "$oid": "68f0a9f2796cf06658aa0a79"
+  },
+  "children": [
+    {
+      "$oid": "68f0aa2c796cf06658aa0ce3"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-10-16T08:16:51.063Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:53.653Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f0aa2c796cf06658aa0ce3"
+  },
+  "title": "01 类和接口",
+  "parent": {
+    "$oid": "68f0a9f3796cf06658aa0a7b"
+  },
+  "content": {
+    "$oid": "68f0aa2c796cf06658aa0ce1"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-16T08:17:48.562Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:53.912Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d66cf3b74abaddfef3e202"
+  },
+  "title": "JavaScript 高级程序设计-4",
+  "description": "更像是一本字典，而不是系统学习的入门教程",
+  "parent": {
+    "$oid": "68cf54bc8917866745459426"
+  },
+  "content": {
+    "$oid": "68d66cf3b74abaddfef3e200"
+  },
+  "children": [
+    {
+      "$oid": "68d66dd7b74abaddfef3e32e"
+    },
+    {
+      "$oid": "68d66e87b74abaddfef3e4da"
+    },
+    {
+      "$oid": "68d74be36a708913522056a0"
+    },
+    {
+      "$oid": "68d7512c6a70891352205a15"
+    },
+    {
+      "$oid": "68d756946a70891352205d46"
+    },
+    {
+      "$oid": "68d7932b6a70891352206b4a"
+    },
+    {
+      "$oid": "68d79d4d6a70891352206f38"
+    },
+    {
+      "$oid": "68d8faa36a7089135220820d"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-26T10:37:39.933Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:54.168Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d66dd7b74abaddfef3e32e"
+  },
+  "title": "第三章 语法基础",
+  "description": "基础知识，快速扫过即可",
+  "parent": {
+    "$oid": "68d66cf3b74abaddfef3e202"
+  },
+  "content": {
+    "$oid": "68d66dd7b74abaddfef3e32c"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-26T10:41:27.395Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:54.422Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d66e87b74abaddfef3e4da"
+  },
+  "title": "第四章 变量、作用域与内存",
+  "parent": {
+    "$oid": "68d66cf3b74abaddfef3e202"
+  },
+  "content": {
+    "$oid": "68d66e87b74abaddfef3e4d8"
+  },
+  "children": [
+    {
+      "$oid": "68d66e96b74abaddfef3e5a7"
+    },
+    {
+      "$oid": "68d673bfb74abaddfef3e92b"
+    },
+    {
+      "$oid": "68d742f46a7089135220532c"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-26T10:44:23.429Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:54.678Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d66e96b74abaddfef3e5a7"
+  },
+  "title": "4.1 原始值与引用值",
+  "description": "ECMAScript 中所有函数的参数都是按值传递的（pass by value）",
+  "parent": {
+    "$oid": "68d66e87b74abaddfef3e4da"
+  },
+  "content": {
+    "$oid": "68d66e95b74abaddfef3e5a5"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-26T10:44:38.175Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:54.928Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d673bfb74abaddfef3e92b"
+  },
+  "title": "4.2 执行上下文与作用域",
+  "description": "执行上下文的概念在 JavaScript 中是颇为重要的",
+  "parent": {
+    "$oid": "68d66e87b74abaddfef3e4da"
+  },
+  "content": {
+    "$oid": "68d673bfb74abaddfef3e929"
+  },
+  "children": [
+    {
+      "$oid": "68d6b4cfb74abaddfef3f2ce"
+    },
+    {
+      "$oid": "68d6b4ddb74abaddfef3f3a2"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-26T11:06:39.632Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:55.186Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d6b4cfb74abaddfef3f2ce"
+  },
+  "title": "4.2.1 作用域链增强",
+  "parent": {
+    "$oid": "68d673bfb74abaddfef3e92b"
+  },
+  "content": {
+    "$oid": "68d6b4cfb74abaddfef3f2cc"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-26T15:44:15.953Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:55.449Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d6b4ddb74abaddfef3f3a2"
+  },
+  "title": "4.2.2 变量声明",
+  "description": "ES6 增加了 let 和 const 关键字，且压倒性地超越了 var 成为首选",
+  "parent": {
+    "$oid": "68d673bfb74abaddfef3e92b"
+  },
+  "content": {
+    "$oid": "68d6b4ddb74abaddfef3f3a0"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-26T15:44:29.757Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:55.718Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d742f46a7089135220532c"
+  },
+  "title": "4.3 垃圾回收",
+  "parent": {
+    "$oid": "68d66e87b74abaddfef3e4da"
+  },
+  "content": {
+    "$oid": "68d742f36a7089135220532a"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-27T01:50:44.144Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:55.984Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d74be36a708913522056a0"
+  },
+  "title": "第五章 基本引用类型",
+  "description": "在 ECMAScript 中，引用类型是把数据和功能组织到一起的结构，经常被人错误地称作“类”",
+  "parent": {
+    "$oid": "68d66cf3b74abaddfef3e202"
+  },
+  "content": {
+    "$oid": "68d74be36a7089135220569e"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-27T02:28:51.458Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:56.248Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d7512c6a70891352205a15"
+  },
+  "title": "第六章 集合引用类型",
+  "description": "了解即可",
+  "parent": {
+    "$oid": "68d66cf3b74abaddfef3e202"
+  },
+  "content": {
+    "$oid": "68d7512c6a70891352205a13"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-27T02:51:24.811Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:56.502Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d756946a70891352205d46"
+  },
+  "title": "第七章 迭代器与生成器",
+  "parent": {
+    "$oid": "68d66cf3b74abaddfef3e202"
+  },
+  "content": {
+    "$oid": "68d756946a70891352205d44"
+  },
+  "children": [
+    {
+      "$oid": "68d75b906a7089135220604a"
+    },
+    {
+      "$oid": "68d784c46a70891352206718"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-27T03:14:28.273Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:56.755Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d75b906a7089135220604a"
+  },
+  "title": "7.2 迭代器模式",
+  "description": "任何实现 Iterable 接口的数据结构都可以被实现 Iterator 接口的结构“消费”（consume）",
+  "parent": {
+    "$oid": "68d756946a70891352205d46"
+  },
+  "content": {
+    "$oid": "68d75b8f6a70891352206048"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-27T03:35:44.283Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:57.045Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d784c46a70891352206718"
+  },
+  "title": "7.3 生成器",
+  "description": "只要是可以定义函数的地方，就可以定义生成器（暂时搞不懂）",
+  "parent": {
+    "$oid": "68d756946a70891352205d46"
+  },
+  "content": {
+    "$oid": "68d784c46a70891352206716"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-27T06:31:32.715Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:58.428Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d7932b6a70891352206b4a"
+  },
+  "title": "第八章 对象、类与面向对象编程",
+  "parent": {
+    "$oid": "68d66cf3b74abaddfef3e202"
+  },
+  "content": {
+    "$oid": "68d7932a6a70891352206b48"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-27T07:32:59.018Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:58.681Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d79d4d6a70891352206f38"
+  },
+  "title": "第九章 代理与反射",
+  "description": "笔记来源 MDN Proxy",
+  "parent": {
+    "$oid": "68d66cf3b74abaddfef3e202"
+  },
+  "content": {
+    "$oid": "68d79d4d6a70891352206f36"
+  },
+  "children": [
+    {
+      "$oid": "68d7dad86a708913522079bd"
+    },
+    {
+      "$oid": "68d7db1f6a70891352207ace"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-27T08:16:13.446Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:58.941Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d7dad86a708913522079bd"
+  },
+  "title": "Proxy",
+  "parent": {
+    "$oid": "68d79d4d6a70891352206f38"
+  },
+  "content": {
+    "$oid": "68d7dad86a708913522079bb"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-27T12:38:48.991Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:59.197Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d7db1f6a70891352207ace"
+  },
+  "title": "Reflect",
+  "description": "Reflect 是一个内置的全局对象",
+  "parent": {
+    "$oid": "68d79d4d6a70891352206f38"
+  },
+  "content": {
+    "$oid": "68d7db1f6a70891352207acc"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-27T12:39:59.193Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:59.453Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d8faa36a7089135220820d"
+  },
+  "title": "第十章 函数",
+  "description": "10.1 ~ 10.5",
+  "parent": {
+    "$oid": "68d66cf3b74abaddfef3e202"
+  },
+  "content": {
+    "$oid": "68d8faa36a7089135220820b"
+  },
+  "children": [
+    {
+      "$oid": "68d923bf6a70891352208cb9"
+    },
+    {
+      "$oid": "68d9283d6a708913522090ae"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-28T09:06:43.438Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:59.719Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d923bf6a70891352208cb9"
+  },
+  "title": "10.6 参数扩展与收集",
+  "parent": {
+    "$oid": "68d8faa36a7089135220820d"
+  },
+  "content": {
+    "$oid": "68d923be6a70891352208cb7"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-28T12:02:07.034Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:45:59.978Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d9283d6a708913522090ae"
+  },
+  "title": "10.7 函数声明与函数表达式",
+  "parent": {
+    "$oid": "68d8faa36a7089135220820d"
+  },
+  "content": {
+    "$oid": "68d9283d6a708913522090ac"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-28T12:21:17.841Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:00.242Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d92e256a708913522093f1"
+  },
+  "title": "Node.js",
+  "parent": {
+    "$oid": "68cf54bc8917866745459426"
+  },
+  "content": {
+    "$oid": "68d92e246a708913522093ef"
+  },
+  "children": [
+    {
+      "$oid": "68d9ed606a708913522096be"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-28T12:46:29.414Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:00.960Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d9ed606a708913522096be"
+  },
+  "title": "快速上手",
+  "parent": {
+    "$oid": "68d92e256a708913522093f1"
+  },
+  "content": {
+    "$oid": "68d9ed606a708913522096bc"
+  },
+  "children": [
+    {
+      "$oid": "68d9ed866a708913522097b1"
+    },
+    {
+      "$oid": "68db30876a7089135220c0f0"
+    },
+    {
+      "$oid": "68db30936a7089135220c1fb"
+    },
+    {
+      "$oid": "68db35ba6a7089135220c6a9"
+    },
+    {
+      "$oid": "68db36796a7089135220c83e"
+    },
+    {
+      "$oid": "68db368e6a7089135220c94f"
+    },
+    {
+      "$oid": "68db37ec6a7089135220cbfa"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-29T02:22:24.978Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:01.226Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d9ed866a708913522097b1"
+  },
+  "title": "使用 Node.js 需要了解多少 JavaScript",
+  "parent": {
+    "$oid": "68d9ed606a708913522096be"
+  },
+  "content": {
+    "$oid": "68d9ed856a708913522097af"
+  },
+  "children": [
+    {
+      "$oid": "68d9edb06a708913522098a6"
+    },
+    {
+      "$oid": "68d9ee086a70891352209a17"
+    },
+    {
+      "$oid": "68d9ee2d6a70891352209b10"
+    },
+    {
+      "$oid": "68d9ee386a70891352209c0b"
+    },
+    {
+      "$oid": "68d9eeaf6a70891352209e8e"
+    },
+    {
+      "$oid": "68d9eec46a7089135220a089"
+    },
+    {
+      "$oid": "68da22786a7089135220ad55"
+    },
+    {
+      "$oid": "68da253f6a7089135220b077"
+    },
+    {
+      "$oid": "68da25606a7089135220b17c"
+    },
+    {
+      "$oid": "68da292e6a7089135220b6a9"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-29T02:23:02.230Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:01.958Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d9edb06a708913522098a6"
+  },
+  "title": "Lexical Structure",
+  "description": "就是语法规则",
+  "parent": {
+    "$oid": "68d9ed866a708913522097b1"
+  },
+  "content": {
+    "$oid": "68d9edb06a708913522098a4"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-29T02:23:44.664Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:02.217Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d9ee086a70891352209a17"
+  },
+  "title": "Expressions",
+  "description": "可以跳过，忘记再回来查",
+  "parent": {
+    "$oid": "68d9ed866a708913522097b1"
+  },
+  "content": {
+    "$oid": "68d9ee076a70891352209a15"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-29T02:25:12.197Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:02.502Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d9ee2d6a70891352209b10"
+  },
+  "title": "Data Types",
+  "description": "搞清楚 Primitive Types 和 Object Types，还有 typeof 关键字",
+  "parent": {
+    "$oid": "68d9ed866a708913522097b1"
+  },
+  "content": {
+    "$oid": "68d9ee2c6a70891352209b0e"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-29T02:25:49.257Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:02.756Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d9ee386a70891352209c0b"
+  },
+  "title": "Classes",
+  "description": "类声明和类表达式默认以严格模式执行",
+  "parent": {
+    "$oid": "68d9ed866a708913522097b1"
+  },
+  "content": {
+    "$oid": "68d9ee376a70891352209c09"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-29T02:26:00.235Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:03.477Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d9eeaf6a70891352209e8e"
+  },
+  "title": "Variables",
+  "description": "var let const",
+  "parent": {
+    "$oid": "68d9ed866a708913522097b1"
+  },
+  "content": {
+    "$oid": "68d9eeaf6a70891352209e8c"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-29T02:27:59.642Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:03.731Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68d9eec46a7089135220a089"
+  },
+  "title": "Functions",
+  "description": "回想回想 CS61A 中提到的，调用函数创建的作用域链，这条链是变量能够被访问的原因",
+  "parent": {
+    "$oid": "68d9ed866a708913522097b1"
+  },
+  "content": {
+    "$oid": "68d9eec46a7089135220a087"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-29T02:28:20.698Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:03.985Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68da22786a7089135220ad55"
+  },
+  "title": "`this` operator",
+  "parent": {
+    "$oid": "68d9ed866a708913522097b1"
+  },
+  "content": {
+    "$oid": "68da22786a7089135220ad53"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-29T06:08:56.731Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:04.237Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68da253f6a7089135220b077"
+  },
+  "title": "Arrow Functions",
+  "parent": {
+    "$oid": "68d9ed866a708913522097b1"
+  },
+  "content": {
+    "$oid": "68da253f6a7089135220b075"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-29T06:20:47.616Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:05.224Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68da25606a7089135220b17c"
+  },
+  "title": "做了解，可以跳过",
+  "description": "Loops / Scopes / Arrays / Template Literals / Strict Mode / ECMAScript 2015 (ES6) and beyond",
+  "parent": {
+    "$oid": "68d9ed866a708913522097b1"
+  },
+  "content": {
+    "$oid": "68da255f6a7089135220b17a"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-29T06:21:20.226Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:05.486Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68da292e6a7089135220b6a9"
+  },
+  "title": "Asynchronous JavaScript",
+  "description": "已在高薪课中学过一遍了，主要初步了解 worker",
+  "parent": {
+    "$oid": "68d9ed866a708913522097b1"
+  },
+  "content": {
+    "$oid": "68da292e6a7089135220b6a7"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-29T06:37:34.878Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:05.737Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68db30876a7089135220c0f0"
+  },
+  "title": "Node.js 与浏览器的区别",
+  "parent": {
+    "$oid": "68d9ed606a708913522096be"
+  },
+  "content": {
+    "$oid": "68db30876a7089135220c0ee"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-30T01:21:11.503Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:05.987Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68db30936a7089135220c1fb"
+  },
+  "title": "JavaScript V8 引擎",
+  "description": "现代 JS 引擎有了 JIT 优化，编译 JS 代码而不仅仅是解释，准备阶段可能会多耗时一点点，但执行阶段速度快很多",
+  "parent": {
+    "$oid": "68d9ed606a708913522096be"
+  },
+  "content": {
+    "$oid": "68db30936a7089135220c1f9"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-30T01:21:23.505Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:06.268Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68db35ba6a7089135220c6a9"
+  },
+  "title": "npm 包管理器简介",
+  "parent": {
+    "$oid": "68d9ed606a708913522096be"
+  },
+  "content": {
+    "$oid": "68db35b96a7089135220c6a7"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-30T01:43:22.155Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:06.636Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68db36796a7089135220c83e"
+  },
+  "title": "ECMAScript 2015(ES6) 与未来",
+  "parent": {
+    "$oid": "68d9ed606a708913522096be"
+  },
+  "content": {
+    "$oid": "68db36786a7089135220c83c"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-30T01:46:33.034Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:07.367Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68db368e6a7089135220c94f"
+  },
+  "title": "Node.js 在开发与生产环境中的区别",
+  "description": "没区别",
+  "parent": {
+    "$oid": "68d9ed606a708913522096be"
+  },
+  "content": {
+    "$oid": "68db368e6a7089135220c94d"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-30T01:46:54.869Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:07.628Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68db37ec6a7089135220cbfa"
+  },
+  "title": "使用 WebAssembly 的 Node.js",
+  "description": "WebAssembly 目前看来还是太前沿，简单了解即可",
+  "parent": {
+    "$oid": "68d9ed606a708913522096be"
+  },
+  "content": {
+    "$oid": "68db37ec6a7089135220cbf8"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-30T01:52:44.805Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:07.908Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e0aa2c6a7089135220ddc6"
+  },
+  "title": "Tailwind CSS v4",
+  "description": "A YouTuBe Video named: Tailwind CSS v4 Full Course 2025 | Master Tailwind in One Hour",
+  "parent": {
+    "$oid": "68cf54bc8917866745459426"
+  },
+  "content": {
+    "$oid": "68e0aa2c6a7089135220ddc4"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-04T05:01:32.386Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:08.647Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e4c7277465099a4e95ff51"
+  },
+  "title": "浏览器",
+  "parent": {
+    "$oid": "68cf54bc8917866745459426"
+  },
+  "content": {
+    "$oid": "68e4c7277465099a4e95ff4f"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-07T07:54:15.970Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:08.918Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68da5fc86a7089135220bc50"
+  },
+  "title": "百家讲坛系列",
+  "parent": null,
+  "content": {
+    "$oid": "68da5fc96a7089135220bc53"
+  },
+  "children": [
+    {
+      "$oid": "68da5fd76a7089135220bc5d"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-29T10:30:32.881Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:09.182Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68da5fd76a7089135220bc5d"
+  },
+  "title": "曾仕强《胡雪岩的启示》",
+  "parent": {
+    "$oid": "68da5fc86a7089135220bc50"
+  },
+  "content": {
+    "$oid": "68da5fd66a7089135220bc5b"
+  },
+  "children": [
+    {
+      "$oid": "68da5feb6a7089135220bc68"
+    },
+    {
+      "$oid": "68da60166a7089135220bc75"
+    },
+    {
+      "$oid": "68da61ff6a7089135220bcf9"
+    },
+    {
+      "$oid": "68dbecbc6a7089135220d4a5"
+    },
+    {
+      "$oid": "68dd0ce56a7089135220d4f9"
+    },
+    {
+      "$oid": "68de4ee06a7089135220d5ee"
+    },
+    {
+      "$oid": "68e25d6c4e114c764a4c128e"
+    },
+    {
+      "$oid": "68e341d6746d0812503737e1"
+    },
+    {
+      "$oid": "68e6121d7465099a4e961ea1"
+    },
+    {
+      "$oid": "68e77bc267467da6146d35ec"
+    },
+    {
+      "$oid": "68e8a030f1c3576b020ca9f7"
+    },
+    {
+      "$oid": "68e8af0cf1c3576b020caa65"
+    },
+    {
+      "$oid": "68ea63b8796cf06658a9f8a7"
+    },
+    {
+      "$oid": "68eb2232796cf06658a9f9d6"
+    },
+    {
+      "$oid": "68eb3a54796cf06658a9fa10"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-09-29T10:30:47.153Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:09.438Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68da5feb6a7089135220bc68"
+  },
+  "title": "1 德行定终生",
+  "description": "似乎是介绍了胡雪岩的家教，和如何获得第一个机会的",
+  "parent": {
+    "$oid": "68da5fd76a7089135220bc5d"
+  },
+  "content": {
+    "$oid": "68da5feb6a7089135220bc66"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-29T10:31:07.657Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:09.694Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68da60166a7089135220bc75"
+  },
+  "title": "2 诚信为本",
+  "description": "胡雪岩的职业变迁，19岁去到了钱庄工作",
+  "parent": {
+    "$oid": "68da5fd76a7089135220bc5d"
+  },
+  "content": {
+    "$oid": "68da60156a7089135220bc73"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-29T10:31:50.109Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:10.427Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68da61ff6a7089135220bcf9"
+  },
+  "title": "3 随机应变",
+  "description": "胡雪岩的第一桶金，27岁继承钱庄",
+  "parent": {
+    "$oid": "68da5fd76a7089135220bc5d"
+  },
+  "content": {
+    "$oid": "68da61ff6a7089135220bcf7"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-29T10:39:59.285Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:10.675Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68dbecbc6a7089135220d4a5"
+  },
+  "title": "4 患难见真情",
+  "parent": {
+    "$oid": "68da5fd76a7089135220bc5d"
+  },
+  "content": {
+    "$oid": "68dbecbc6a7089135220d4a3"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-09-30T14:44:12.302Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:11.398Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68dd0ce56a7089135220d4f9"
+  },
+  "title": "5 福祸相依",
+  "parent": {
+    "$oid": "68da5fd76a7089135220bc5d"
+  },
+  "content": {
+    "$oid": "68dd0ce56a7089135220d4f7"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-01T11:13:41.538Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:11.660Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68de4ee06a7089135220d5ee"
+  },
+  "title": "6 重在朋友",
+  "parent": {
+    "$oid": "68da5fd76a7089135220bc5d"
+  },
+  "content": {
+    "$oid": "68de4ee06a7089135220d5ec"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-02T10:07:28.364Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:12.387Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e25d6c4e114c764a4c128e"
+  },
+  "title": "7 以诚取信",
+  "parent": {
+    "$oid": "68da5fd76a7089135220bc5d"
+  },
+  "content": {
+    "$oid": "68e25d6b4e114c764a4c128c"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-05T11:58:36.058Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:12.661Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e341d6746d0812503737e1"
+  },
+  "title": "8 大意留祸根",
+  "parent": {
+    "$oid": "68da5fd76a7089135220bc5d"
+  },
+  "content": {
+    "$oid": "68e341d5746d0812503737df"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-06T04:13:10.017Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:13.844Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e6121d7465099a4e961ea1"
+  },
+  "title": "9 为富要仁",
+  "description": "左宗棠收复杭州，这一年胡雪岩39岁",
+  "parent": {
+    "$oid": "68da5fd76a7089135220bc5d"
+  },
+  "content": {
+    "$oid": "68e6121d7465099a4e961e9f"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-08T07:26:21.617Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:14.126Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e77bc267467da6146d35ec"
+  },
+  "title": "10 先义后利",
+  "parent": {
+    "$oid": "68da5fd76a7089135220bc5d"
+  },
+  "content": {
+    "$oid": "68e77bc167467da6146d35ea"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-09T09:09:22.191Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:15.248Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e8a030f1c3576b020ca9f7"
+  },
+  "title": "11 盛名难副",
+  "parent": {
+    "$oid": "68da5fd76a7089135220bc5d"
+  },
+  "content": {
+    "$oid": "68e8a02ff1c3576b020ca9f5"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-10T05:57:04.164Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:15.526Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e8af0cf1c3576b020caa65"
+  },
+  "title": "12 德业传百年",
+  "parent": {
+    "$oid": "68da5fd76a7089135220bc5d"
+  },
+  "content": {
+    "$oid": "68e8af0cf1c3576b020caa63"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-10T07:00:28.875Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:16.255Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68ea63b8796cf06658a9f8a7"
+  },
+  "title": "13 阴沟里能翻船",
+  "description": "倒左先倒胡",
+  "parent": {
+    "$oid": "68da5fd76a7089135220bc5d"
+  },
+  "content": {
+    "$oid": "68ea63b8796cf06658a9f8a5"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-11T14:03:36.644Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:16.542Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68eb2232796cf06658a9f9d6"
+  },
+  "title": "14 冷静收残局",
+  "parent": {
+    "$oid": "68da5fd76a7089135220bc5d"
+  },
+  "content": {
+    "$oid": "68eb2232796cf06658a9f9d4"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-12T03:36:18.739Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:16.932Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68eb3a54796cf06658a9fa10"
+  },
+  "title": "15 自作自受",
+  "description": "反求诸己",
+  "parent": {
+    "$oid": "68da5fd76a7089135220bc5d"
+  },
+  "content": {
+    "$oid": "68eb3a54796cf06658a9fa0e"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-12T05:19:16.976Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:17.229Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e255194e114c764a4c124e"
+  },
+  "title": "有趣的事情",
+  "parent": null,
+  "content": {
+    "$oid": "68e2551a4e114c764a4c1251"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-05T11:23:05.628Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:17.485Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e4f3e87465099a4e960408"
+  },
+  "title": "前端扫盲",
+  "parent": null,
+  "content": {
+    "$oid": "68e4f3e87465099a4e96040b"
+  },
+  "children": [
+    {
+      "$oid": "68e4f4167465099a4e960415"
+    },
+    {
+      "$oid": "68e50ab27465099a4e960783"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-10-07T11:05:12.144Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:18.256Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e4f4167465099a4e960415"
+  },
+  "title": "TypeScript",
+  "description": "B站，王教员，[中文字幕]TypeScript Pro 基础\n(deprecated)",
+  "parent": {
+    "$oid": "68e4f3e87465099a4e960408"
+  },
+  "content": {
+    "$oid": "68e4f4167465099a4e960413"
+  },
+  "children": [
+    {
+      "$oid": "68ef7c3c796cf06658a9fc6b"
+    },
+    {
+      "$oid": "68ef7c9d796cf06658a9fcd2"
+    },
+    {
+      "$oid": "68ef7d3e796cf06658a9fd6a"
+    },
+    {
+      "$oid": "68ef7d9f796cf06658a9fe15"
+    },
+    {
+      "$oid": "68ef7de5796cf06658a9fe62"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-10-07T11:05:58.273Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:18.526Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68ef7c3c796cf06658a9fc6b"
+  },
+  "title": "基础类型系统的理解与运用（基本功）",
+  "description": "考察意图：看你是否真的在用 TS，而不是仅仅把文件后缀从 .js 改成 .ts。",
+  "parent": {
+    "$oid": "68e4f4167465099a4e960415"
+  },
+  "content": {
+    "$oid": "68ef7c3c796cf06658a9fc69"
+  },
+  "children": [
+    {
+      "$oid": "68ef7c5f796cf06658a9fc89"
+    },
+    {
+      "$oid": "68ef7c85796cf06658a9fcab"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-10-15T10:49:32.884Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:18.787Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68ef7c5f796cf06658a9fc89"
+  },
+  "title": "基本类型",
+  "description": "string, number, boolean, array, tuple, enum, any, unknown, void, null/undefined",
+  "parent": {
+    "$oid": "68ef7c3c796cf06658a9fc6b"
+  },
+  "content": {
+    "$oid": "68ef7c5e796cf06658a9fc87"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-15T10:50:07.240Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:19.051Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68ef7c85796cf06658a9fcab"
+  },
+  "title": "any & unknown",
+  "description": "重点区分 any 和 unknown：什么时候用 any（应尽量避免），什么时候用 unknown（更安全的选择）。",
+  "parent": {
+    "$oid": "68ef7c3c796cf06658a9fc6b"
+  },
+  "content": {
+    "$oid": "68ef7c85796cf06658a9fca9"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-15T10:50:45.305Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:19.311Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68ef7c9d796cf06658a9fcd2"
+  },
+  "title": "类型组合与抽象的能力（核心能力）",
+  "parent": {
+    "$oid": "68e4f4167465099a4e960415"
+  },
+  "content": {
+    "$oid": "68ef7c9d796cf06658a9fcd0"
+  },
+  "children": [
+    {
+      "$oid": "68ef7ca8796cf06658a9fce9"
+    },
+    {
+      "$oid": "68ef7ccc796cf06658a9fd17"
+    },
+    {
+      "$oid": "68ef7ced796cf06658a9fd32"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-10-15T10:51:09.309Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:19.612Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68ef7ca8796cf06658a9fce9"
+  },
+  "title": "接口和类型别名",
+  "description": "理解 interface 和 type 的区别与适用场景。",
+  "parent": {
+    "$oid": "68ef7c9d796cf06658a9fcd2"
+  },
+  "content": {
+    "$oid": "68ef7ca7796cf06658a9fce7"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-15T10:51:20.036Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:19.883Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68ef7ccc796cf06658a9fd17"
+  },
+  "title": "联合类型和交叉类型",
+  "description": "能否灵活使用 | 和 & 来组合出复杂的类型。",
+  "parent": {
+    "$oid": "68ef7c9d796cf06658a9fcd2"
+  },
+  "content": {
+    "$oid": "68ef7ccb796cf06658a9fd15"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-15T10:51:56.041Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:20.138Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68ef7ced796cf06658a9fd32"
+  },
+  "title": "泛型（重中之重）",
+  "parent": {
+    "$oid": "68ef7c9d796cf06658a9fcd2"
+  },
+  "content": {
+    "$oid": "68ef7ced796cf06658a9fd30"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-15T10:52:29.730Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:20.393Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68ef7d3e796cf06658a9fd6a"
+  },
+  "title": "工程化与实战应用能力（经验体现）",
+  "description": "考察意图：这能区分出“学习过 TS 语法”的人和“在真实项目中用过 TS”的人。考察你解决实际工程问题的能力。",
+  "parent": {
+    "$oid": "68e4f4167465099a4e960415"
+  },
+  "content": {
+    "$oid": "68ef7d3d796cf06658a9fd68"
+  },
+  "children": [
+    {
+      "$oid": "68ef7d5c796cf06658a9fd89"
+    },
+    {
+      "$oid": "68ef7d77796cf06658a9fdaa"
+    },
+    {
+      "$oid": "68ef7d81796cf06658a9fdcd"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-10-15T10:53:50.181Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:20.655Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68ef7d5c796cf06658a9fd89"
+  },
+  "title": "模块声明",
+  "description": "如何为第三方库（没有类型定义的）或全局变量编写类型声明文件（d.ts）。",
+  "parent": {
+    "$oid": "68ef7d3e796cf06658a9fd6a"
+  },
+  "content": {
+    "$oid": "68ef7d5b796cf06658a9fd87"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-15T10:54:20.166Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:21.626Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68ef7d77796cf06658a9fdaa"
+  },
+  "title": "工具类型",
+  "description": "是否了解并能使用一些内置的工具类型，如 Partial<T>（所有属性变为可选）, Pick<T, K>（挑选部分属性）, Omit<T, K>（忽略部分属性）, ReturnType<T>（获取函数返回类型）等。",
+  "parent": {
+    "$oid": "68ef7d3e796cf06658a9fd6a"
+  },
+  "content": {
+    "$oid": "68ef7d76796cf06658a9fda8"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-15T10:54:47.033Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:21.887Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68ef7d81796cf06658a9fdcd"
+  },
+  "title": "配置能力",
+  "description": "对 tsconfig.json 中的常用配置（如编译目标、模块解析策略、严格模式开关）是否有了解。",
+  "parent": {
+    "$oid": "68ef7d3e796cf06658a9fd6a"
+  },
+  "content": {
+    "$oid": "68ef7d81796cf06658a9fdcb"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-15T10:54:57.994Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:22.139Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68ef7d9f796cf06658a9fe15"
+  },
+  "title": "类型编程与思维（高阶能力，用于区分水平）",
+  "description": "自己实现类型，较为深入，初级阶段暂时做了解",
+  "parent": {
+    "$oid": "68e4f4167465099a4e960415"
+  },
+  "content": {
+    "$oid": "68ef7d9f796cf06658a9fe13"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-15T10:55:27.426Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:23.077Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68ef7de5796cf06658a9fe62"
+  },
+  "title": "设计思想与最佳实践",
+  "description": "很好的辅助理解TS知识",
+  "parent": {
+    "$oid": "68e4f4167465099a4e960415"
+  },
+  "content": {
+    "$oid": "68ef7de4796cf06658a9fe60"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-15T10:56:37.242Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:23.346Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68e50ab27465099a4e960783"
+  },
+  "title": "浏览器",
+  "parent": {
+    "$oid": "68e4f3e87465099a4e960408"
+  },
+  "content": {
+    "$oid": "68e50ab27465099a4e960781"
+  },
+  "children": [
+    {
+      "$oid": "68ef7873796cf06658a9fc23"
+    },
+    {
+      "$oid": "68f0db9c5861ecb4d30c818c"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-10-07T12:42:26.969Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:23.602Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68ef7873796cf06658a9fc23"
+  },
+  "title": "输入URL到渲染页面过程",
+  "description": "详细过程参考 MDN: https://developer.mozilla.org/zh-CN/docs/Web/Performance/Guides/How_browsers_work",
+  "parent": {
+    "$oid": "68e50ab27465099a4e960783"
+  },
+  "content": {
+    "$oid": "68ef7872796cf06658a9fc21"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-15T10:33:23.215Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:23.853Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f0db9c5861ecb4d30c818c"
+  },
+  "title": "事件循环",
+  "description": "主要是解决学习中遇到的知识矛盾：微任务 / 宏任务 / 渲染时机 的执行顺序问题",
+  "parent": {
+    "$oid": "68e50ab27465099a4e960783"
+  },
+  "content": {
+    "$oid": "68f0db9c5861ecb4d30c818a"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-16T11:48:44.412Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:24.110Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68ecc1f7796cf06658a9fbd0"
+  },
+  "title": "大道易行",
+  "description": "共22。完结撒花（2025.10.28 13:13）",
+  "parent": null,
+  "content": {
+    "$oid": "68ecc1f8796cf06658a9fbd3"
+  },
+  "children": [
+    {
+      "$oid": "68edfc7a796cf06658a9fbf1"
+    },
+    {
+      "$oid": "68fca08aa9e180c087531695"
+    },
+    {
+      "$oid": "68fef617c3a4d23ad07da45f"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-10-13T09:10:15.658Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:24.370Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68edfc7a796cf06658a9fbf1"
+  },
+  "title": "1-4",
+  "description": "2025/10/14",
+  "parent": {
+    "$oid": "68ecc1f7796cf06658a9fbd0"
+  },
+  "content": {
+    "$oid": "68edfc78796cf06658a9fbef"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-14T07:32:10.623Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:24.631Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68fca08aa9e180c087531695"
+  },
+  "title": "5-9",
+  "description": "2025/10/25 20:06",
+  "parent": {
+    "$oid": "68ecc1f7796cf06658a9fbd0"
+  },
+  "content": {
+    "$oid": "68fca08aa9e180c087531693"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-25T10:03:54.807Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:24.895Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68fef617c3a4d23ad07da45f"
+  },
+  "title": "10-12 13-22",
+  "description": "22人活着的目的讲到心里去了！2025.10.27 - 28；；；13-15 跳过",
+  "parent": {
+    "$oid": "68ecc1f7796cf06658a9fbd0"
+  },
+  "content": {
+    "$oid": "68fef617c3a4d23ad07da45d"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-27T04:33:27.804Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:25.627Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68ef89bc796cf06658aa020b"
+  },
+  "title": "健康生活",
+  "parent": null,
+  "content": {
+    "$oid": "68ef89be796cf06658aa020e"
+  },
+  "children": [
+    {
+      "$oid": "68ef89fa796cf06658aa0218"
+    },
+    {
+      "$oid": "68ef8a19796cf06658aa0223"
+    },
+    {
+      "$oid": "68ef8a48796cf06658aa0231"
+    },
+    {
+      "$oid": "68ef8a68796cf06658aa0240"
+    },
+    {
+      "$oid": "68ef8a91796cf06658aa0251"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-10-15T11:47:08.988Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:25.887Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68ef89fa796cf06658aa0218"
+  },
+  "title": "睡眠是头等大事",
+  "description": "睡眠是最棒的长寿秘诀，每个人都应该围绕睡眠规划生活。每天固定时间躺下，关掉电子设备，保持卧室环境舒适。睡眠好了，一切都会变好。",
+  "parent": {
+    "$oid": "68ef89bc796cf06658aa020b"
+  },
+  "content": {
+    "$oid": "68ef89fa796cf06658aa0216"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-15T11:48:10.548Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:26.149Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68ef8a19796cf06658aa0223"
+  },
+  "title": "拒绝垃圾食品",
+  "description": "加工食品（热狗/薯片/甜饮料）直接戒掉！多吃纯天然的食物",
+  "parent": {
+    "$oid": "68ef89bc796cf06658aa020b"
+  },
+  "content": {
+    "$oid": "68ef8a19796cf06658aa0221"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-15T11:48:41.960Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:26.409Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68ef8a48796cf06658aa0231"
+  },
+  "title": "多多社交",
+  "description": "人类是群居动物！每周约朋友吃饭/打电话/参加兴趣小组，孤独真的催人老",
+  "parent": {
+    "$oid": "68ef89bc796cf06658aa020b"
+  },
+  "content": {
+    "$oid": "68ef8a44796cf06658aa022f"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-15T11:49:28.819Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:26.676Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68ef8a68796cf06658aa0240"
+  },
+  "title": "坚持锻炼",
+  "description": "每天都应该坚持锻炼，如果没时间去健身房，散步、拉伸、爬楼梯都算数，关键是要行动起来",
+  "parent": {
+    "$oid": "68ef89bc796cf06658aa020b"
+  },
+  "content": {
+    "$oid": "68ef8a68796cf06658aa023e"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-15T11:50:00.579Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:26.932Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68ef8a91796cf06658aa0251"
+  },
+  "title": "戒掉坏习惯",
+  "description": "抽烟/喝酒/熬夜刷手机。。。这些都在消耗你的健康、毁掉你的大脑，直到你的大脑废掉",
+  "parent": {
+    "$oid": "68ef89bc796cf06658aa020b"
+  },
+  "content": {
+    "$oid": "68ef8a91796cf06658aa024f"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-15T11:50:41.457Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:27.194Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f2171d5861ecb4d30c85bb"
+  },
+  "title": "时间规划",
+  "description": "还剩最多两个月的时间（2025/10/17～2025/12/17）",
+  "parent": null,
+  "content": {
+    "$oid": "68f2171e5861ecb4d30c85be"
+  },
+  "children": [
+    {
+      "$oid": "68f2173f5861ecb4d30c85c8"
+    },
+    {
+      "$oid": "68f217515861ecb4d30c85d3"
+    },
+    {
+      "$oid": "68f217865861ecb4d30c8613"
+    },
+    {
+      "$oid": "69002463c3a4d23ad07daa38"
+    },
+    {
+      "$oid": "6900841cb05e22b68012f4f3"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-10-17T10:14:53.093Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:27.447Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f2173f5861ecb4d30c85c8"
+  },
+  "title": "从焦虑症中走出来",
+  "description": "21天“戒断+重建”计划",
+  "parent": {
+    "$oid": "68f2171d5861ecb4d30c85bb"
+  },
+  "content": {
+    "$oid": "68f2173f5861ecb4d30c85c6"
+  },
+  "children": [
+    {
+      "$oid": "69002205c3a4d23ad07da95f"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-10-17T10:15:27.848Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:27.703Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69002205c3a4d23ad07da95f"
+  },
+  "title": "🥉 第一阶段：断（第1～7天）",
+  "description": "目标： 从“惯性触发”到“觉察中断”",
+  "parent": {
+    "$oid": "68f2173f5861ecb4d30c85c8"
+  },
+  "content": {
+    "$oid": "69002205c3a4d23ad07da95d"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-28T01:53:09.640Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:27.961Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f217515861ecb4d30c85d3"
+  },
+  "title": "毕业设计",
+  "parent": {
+    "$oid": "68f2171d5861ecb4d30c85bb"
+  },
+  "content": {
+    "$oid": "68f217515861ecb4d30c85d1"
+  },
+  "children": [
+    {
+      "$oid": "68f2175f5861ecb4d30c85e0"
+    },
+    {
+      "$oid": "68f217725861ecb4d30c85ef"
+    },
+    {
+      "$oid": "68f217785861ecb4d30c8600"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-10-17T10:15:45.880Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:28.224Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f2175f5861ecb4d30c85e0"
+  },
+  "title": "Reverse Roadmap",
+  "parent": {
+    "$oid": "68f217515861ecb4d30c85d3"
+  },
+  "content": {
+    "$oid": "68f2175e5861ecb4d30c85de"
+  },
+  "children": [
+    {
+      "$oid": "69060a3270b2324c88cb0fad"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-10-17T10:15:59.203Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:28.953Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69060a3270b2324c88cb0fad"
+  },
+  "title": "NestJS",
+  "parent": {
+    "$oid": "68f2175f5861ecb4d30c85e0"
+  },
+  "content": {
+    "$oid": "69060a3270b2324c88cb0fab"
+  },
+  "children": [
+    {
+      "$oid": "690c0f42e413e458c07d1325"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-01T13:25:06.609Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:29.216Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690c0f42e413e458c07d1325"
+  },
+  "title": "概述",
+  "description": "Controllers / Providers / Modules / Middleware / Exception Filters / Pipes / Guards / Interceptors / Custom decorators",
+  "parent": {
+    "$oid": "69060a3270b2324c88cb0fad"
+  },
+  "content": {
+    "$oid": "690c0f41e413e458c07d1323"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-11-06T03:00:18.443Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:29.491Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f217725861ecb4d30c85ef"
+  },
+  "title": "开题答辩（报告）",
+  "parent": {
+    "$oid": "68f217515861ecb4d30c85d3"
+  },
+  "content": {
+    "$oid": "68f217725861ecb4d30c85ed"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-17T10:16:18.608Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:30.217Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f217785861ecb4d30c8600"
+  },
+  "title": "毕业论文",
+  "parent": {
+    "$oid": "68f217515861ecb4d30c85d3"
+  },
+  "content": {
+    "$oid": "68f217785861ecb4d30c85fe"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-17T10:16:24.791Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:30.472Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f217865861ecb4d30c8613"
+  },
+  "title": "就业",
+  "parent": {
+    "$oid": "68f2171d5861ecb4d30c85bb"
+  },
+  "content": {
+    "$oid": "68f217865861ecb4d30c8611"
+  },
+  "children": [
+    {
+      "$oid": "68f2179d5861ecb4d30c8628"
+    },
+    {
+      "$oid": "68f217ce5861ecb4d30c8640"
+    },
+    {
+      "$oid": "68f217d85861ecb4d30c8659"
+    },
+    {
+      "$oid": "68f217f75861ecb4d30c86a2"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-10-17T10:16:38.540Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:30.725Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f2179d5861ecb4d30c8628"
+  },
+  "title": "渡一前端课程",
+  "parent": {
+    "$oid": "68f217865861ecb4d30c8613"
+  },
+  "content": {
+    "$oid": "68f2179d5861ecb4d30c8626"
+  },
+  "children": [
+    {
+      "$oid": "68f235785861ecb4d30c8871"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-10-17T10:17:01.422Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:31.463Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f235785861ecb4d30c8871"
+  },
+  "title": "duyiWeb前端高薪工程师培养计划2024版",
+  "parent": {
+    "$oid": "68f2179d5861ecb4d30c8628"
+  },
+  "content": {
+    "$oid": "68f235785861ecb4d30c886f"
+  },
+  "children": [
+    {
+      "$oid": "68f235885861ecb4d30c8890"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-10-17T12:24:24.523Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:31.738Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f235885861ecb4d30c8890"
+  },
+  "title": "02 高薪就业",
+  "parent": {
+    "$oid": "68f235785861ecb4d30c8871"
+  },
+  "content": {
+    "$oid": "68f235885861ecb4d30c888e"
+  },
+  "children": [
+    {
+      "$oid": "68f235935861ecb4d30c88b1"
+    },
+    {
+      "$oid": "68f2359f5861ecb4d30c88d4"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-10-17T12:24:40.321Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:32.002Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f235935861ecb4d30c88b1"
+  },
+  "title": "16 TypeScript 进阶",
+  "parent": {
+    "$oid": "68f235885861ecb4d30c8890"
+  },
+  "content": {
+    "$oid": "68f235935861ecb4d30c88af"
+  },
+  "children": [
+    {
+      "$oid": "68f2360b5861ecb4d30c88f9"
+    },
+    {
+      "$oid": "68fd8d11c3a4d23ad07da233"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-10-17T12:24:51.289Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:33.093Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f2360b5861ecb4d30c88f9"
+  },
+  "title": "01 类和接口",
+  "parent": {
+    "$oid": "68f235935861ecb4d30c88b1"
+  },
+  "content": {
+    "$oid": "68f2360b5861ecb4d30c88f7"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-17T12:26:51.914Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:33.400Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68fd8d11c3a4d23ad07da233"
+  },
+  "title": "03 装饰器",
+  "description": "面向对象概念（Java：注解，c#：特征），decorator。Angular 中大量使用",
+  "parent": {
+    "$oid": "68f235935861ecb4d30c88b1"
+  },
+  "content": {
+    "$oid": "68fd8d11c3a4d23ad07da231"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-26T02:53:05.532Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:33.670Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f2359f5861ecb4d30c88d4"
+  },
+  "title": "10 Webpack 详细版",
+  "parent": {
+    "$oid": "68f235885861ecb4d30c8890"
+  },
+  "content": {
+    "$oid": "68f2359f5861ecb4d30c88d2"
+  },
+  "children": [
+    {
+      "$oid": "68f2368b5861ecb4d30c89d8"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-10-17T12:25:03.933Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:33.920Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f2368b5861ecb4d30c89d8"
+  },
+  "title": "1-1 如何在浏览器端实现模块化",
+  "parent": {
+    "$oid": "68f2359f5861ecb4d30c88d4"
+  },
+  "content": {
+    "$oid": "68f2368b5861ecb4d30c89d6"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-17T12:28:59.734Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:34.174Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f217ce5861ecb4d30c8640"
+  },
+  "title": "算法",
+  "parent": {
+    "$oid": "68f217865861ecb4d30c8613"
+  },
+  "content": {
+    "$oid": "68f217ce5861ecb4d30c863e"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-17T10:17:50.371Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:34.427Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f217d85861ecb4d30c8659"
+  },
+  "title": "八股文",
+  "description": "对应目标中的：前端扫盲",
+  "parent": {
+    "$oid": "68f217865861ecb4d30c8613"
+  },
+  "content": {
+    "$oid": "68f217d85861ecb4d30c8657"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-17T10:18:00.504Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:35.183Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f217f75861ecb4d30c86a2"
+  },
+  "title": "简历制作",
+  "parent": {
+    "$oid": "68f217865861ecb4d30c8613"
+  },
+  "content": {
+    "$oid": "68f217f65861ecb4d30c86a0"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-17T10:18:31.132Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:35.500Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69002463c3a4d23ad07daa38"
+  },
+  "title": "整理需要做的事情",
+  "description": "这周要做 或 开始做 的事情",
+  "parent": {
+    "$oid": "68f2171d5861ecb4d30c85bb"
+  },
+  "content": {
+    "$oid": "69002463c3a4d23ad07daa36"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-28T02:03:15.316Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:35.760Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6900841cb05e22b68012f4f3"
+  },
+  "title": "开发能力",
+  "parent": {
+    "$oid": "68f2171d5861ecb4d30c85bb"
+  },
+  "content": {
+    "$oid": "6900841cb05e22b68012f4f1"
+  },
+  "children": [
+    {
+      "$oid": "6900843db05e22b68012f524"
+    },
+    {
+      "$oid": "6905ae3be8da9147120bf964"
+    },
+    {
+      "$oid": "6908485658ff0229b043e6a9"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-10-28T08:51:40.700Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:36.031Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6900843db05e22b68012f524"
+  },
+  "title": "Functional Programming Paradigms",
+  "parent": {
+    "$oid": "6900841cb05e22b68012f4f3"
+  },
+  "content": {
+    "$oid": "6900843db05e22b68012f522"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-28T08:52:13.841Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:37.246Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6905ae3be8da9147120bf964"
+  },
+  "title": "Design Patterns",
+  "parent": {
+    "$oid": "6900841cb05e22b68012f4f3"
+  },
+  "content": {
+    "$oid": "6905ae3ae8da9147120bf962"
+  },
+  "children": [
+    {
+      "$oid": "6905bb7ce8da9147120bf9ff"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-01T06:52:43.513Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:37.985Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6905bb7ce8da9147120bf9ff"
+  },
+  "title": "Strategy Pattern",
+  "description": "策略模式（Strategy Pattern）定义了一系列算法，并将每个算法封装起来，使它们可以相互替换。",
+  "parent": {
+    "$oid": "6905ae3be8da9147120bf964"
+  },
+  "content": {
+    "$oid": "6905bb7ce8da9147120bf9fd"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-11-01T07:49:16.628Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:38.267Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6908485658ff0229b043e6a9"
+  },
+  "title": "MongoDB",
+  "parent": {
+    "$oid": "6900841cb05e22b68012f4f3"
+  },
+  "content": {
+    "$oid": "6908485658ff0229b043e6a7"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-11-03T06:14:46.724Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:39.353Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f8d3a0a5e4888e05b55fe1"
+  },
+  "title": "Daily Routine",
+  "description": "每天期望做的事情",
+  "parent": null,
+  "content": {
+    "$oid": "68f8d3a0a5e4888e05b55fe4"
+  },
+  "children": [
+    {
+      "$oid": "68f8d3b5a5e4888e05b55fee"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-10-22T12:52:48.321Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:39.628Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f8d3b5a5e4888e05b55fee"
+  },
+  "title": "Year 2025",
+  "parent": {
+    "$oid": "68f8d3a0a5e4888e05b55fe1"
+  },
+  "content": {
+    "$oid": "68f8d3b5a5e4888e05b55fec"
+  },
+  "children": [
+    {
+      "$oid": "68f8d3c7a5e4888e05b55ff9"
+    },
+    {
+      "$oid": "69055ee9e8da9147120bf838"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-10-22T12:53:10.002Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:40.377Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f8d3c7a5e4888e05b55ff9"
+  },
+  "title": "10月份",
+  "description": "23 ~ 31，今天是 2025-10-22",
+  "parent": {
+    "$oid": "68f8d3b5a5e4888e05b55fee"
+  },
+  "content": {
+    "$oid": "68f8d3c6a5e4888e05b55ff7"
+  },
+  "children": [
+    {
+      "$oid": "68f8d424a5e4888e05b5600f"
+    },
+    {
+      "$oid": "68fa2f878c23f2fd0b6bcc0a"
+    },
+    {
+      "$oid": "68fb6608a9e180c0875315b2"
+    },
+    {
+      "$oid": "68fc9c96a9e180c087531652"
+    },
+    {
+      "$oid": "69002e4d260648ee103e301b"
+    },
+    {
+      "$oid": "690174c4b05e22b68012f5d0"
+    },
+    {
+      "$oid": "69020a52e8da9147120bf4ee"
+    },
+    {
+      "$oid": "69042ebae8da9147120bf762"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-10-22T12:53:27.297Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:41.471Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68f8d424a5e4888e05b5600f"
+  },
+  "title": "10.23",
+  "parent": {
+    "$oid": "68f8d3c7a5e4888e05b55ff9"
+  },
+  "content": {
+    "$oid": "68f8d423a5e4888e05b5600d"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-22T12:55:00.377Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:41.726Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68fa2f878c23f2fd0b6bcc0a"
+  },
+  "title": "10.24",
+  "parent": {
+    "$oid": "68f8d3c7a5e4888e05b55ff9"
+  },
+  "content": {
+    "$oid": "68fa2f868c23f2fd0b6bcc08"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-23T13:37:11.104Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:41.989Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68fb6608a9e180c0875315b2"
+  },
+  "title": "10.25",
+  "parent": {
+    "$oid": "68f8d3c7a5e4888e05b55ff9"
+  },
+  "content": {
+    "$oid": "68fb6607a9e180c0875315b0"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-24T11:42:00.468Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:42.310Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68fc9c96a9e180c087531652"
+  },
+  "title": "10.26",
+  "parent": {
+    "$oid": "68f8d3c7a5e4888e05b55ff9"
+  },
+  "content": {
+    "$oid": "68fc9c95a9e180c087531650"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-25T09:47:02.062Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:42.594Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69002e4d260648ee103e301b"
+  },
+  "title": "10.28",
+  "parent": {
+    "$oid": "68f8d3c7a5e4888e05b55ff9"
+  },
+  "content": {
+    "$oid": "69002e4d260648ee103e3019"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-28T02:45:33.447Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:42.853Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690174c4b05e22b68012f5d0"
+  },
+  "title": "10.29",
+  "parent": {
+    "$oid": "68f8d3c7a5e4888e05b55ff9"
+  },
+  "content": {
+    "$oid": "690174c4b05e22b68012f5ce"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-29T01:58:28.840Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:43.126Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69020a52e8da9147120bf4ee"
+  },
+  "title": "10.30",
+  "parent": {
+    "$oid": "68f8d3c7a5e4888e05b55ff9"
+  },
+  "content": {
+    "$oid": "69020a52e8da9147120bf4ec"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-29T12:36:34.312Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:44.103Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69042ebae8da9147120bf762"
+  },
+  "title": "10.31",
+  "parent": {
+    "$oid": "68f8d3c7a5e4888e05b55ff9"
+  },
+  "content": {
+    "$oid": "69042ebae8da9147120bf760"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-10-31T03:36:26.405Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:44.387Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69055ee9e8da9147120bf838"
+  },
+  "title": "11月份",
+  "parent": {
+    "$oid": "68f8d3b5a5e4888e05b55fee"
+  },
+  "content": {
+    "$oid": "69055ee8e8da9147120bf836"
+  },
+  "children": [
+    {
+      "$oid": "69055ef1e8da9147120bf857"
+    },
+    {
+      "$oid": "6906dcaa70b2324c88cb1088"
+    },
+    {
+      "$oid": "690844eb58ff0229b043e617"
+    },
+    {
+      "$oid": "69096db358ff0229b043e91b"
+    },
+    {
+      "$oid": "690af29a11a3838e1118e4b5"
+    },
+    {
+      "$oid": "690bf443afcf6306b04a7403"
+    },
+    {
+      "$oid": "690dedb627be4fb288336f94"
+    },
+    {
+      "$oid": "690e950eb3a7f8e5f8536a64"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-01T01:14:17.044Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-08T00:55:43.166Z"
+  },
+  "__v": 2
+},
+{
+  "_id": {
+    "$oid": "69055ef1e8da9147120bf857"
+  },
+  "title": "11.1",
+  "parent": {
+    "$oid": "69055ee9e8da9147120bf838"
+  },
+  "content": {
+    "$oid": "69055ef0e8da9147120bf855"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-11-01T01:14:25.104Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:44.902Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6906dcaa70b2324c88cb1088"
+  },
+  "title": "11.2",
+  "parent": {
+    "$oid": "69055ee9e8da9147120bf838"
+  },
+  "content": {
+    "$oid": "6906dca970b2324c88cb1086"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-11-02T04:23:06.709Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:45.163Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690844eb58ff0229b043e617"
+  },
+  "title": "11.3",
+  "description": "Attention",
+  "parent": {
+    "$oid": "69055ee9e8da9147120bf838"
+  },
+  "content": {
+    "$oid": "690844eb58ff0229b043e615"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-11-03T06:00:11.396Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:45.434Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "69096db358ff0229b043e91b"
+  },
+  "title": "11.4",
+  "parent": {
+    "$oid": "69055ee9e8da9147120bf838"
+  },
+  "content": {
+    "$oid": "69096db258ff0229b043e919"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-11-04T03:06:27.119Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:46.171Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690af29a11a3838e1118e4b5"
+  },
+  "title": "11.5",
+  "parent": {
+    "$oid": "69055ee9e8da9147120bf838"
+  },
+  "content": {
+    "$oid": "690af29a11a3838e1118e4b3"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-11-05T06:45:46.448Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:46.967Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690bf443afcf6306b04a7403"
+  },
+  "title": "11.6",
+  "parent": {
+    "$oid": "69055ee9e8da9147120bf838"
+  },
+  "content": {
+    "$oid": "690bf443afcf6306b04a7401"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-11-06T01:05:07.656Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T12:46:47.236Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690dedb627be4fb288336f94"
+  },
+  "title": "11.7",
+  "parent": {
+    "$oid": "69055ee9e8da9147120bf838"
+  },
+  "content": {
+    "$oid": "690dedb627be4fb288336f95"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-11-07T13:01:43.345Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-07T13:01:43.345Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e950eb3a7f8e5f8536a64"
+  },
+  "title": "11.8",
+  "parent": {
+    "$oid": "69055ee9e8da9147120bf838"
+  },
+  "content": {
+    "$oid": "690e950eb3a7f8e5f8536a65"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-11-08T00:55:43.424Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-08T00:55:43.424Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690e9a29b3a7f8e5f8536a78"
+  },
+  "title": "圆通的人际关系",
+  "description": "曾仕强（全15讲）",
+  "parent": null,
+  "content": {
+    "$oid": "690e9a29b3a7f8e5f8536a79"
+  },
+  "children": [
+    {
+      "$oid": "690e9a37b3a7f8e5f8536a83"
+    },
+    {
+      "$oid": "690ea12ab3a7f8e5f8536acb"
+    },
+    {
+      "$oid": "690ea7b8b3a7f8e5f8536b8a"
+    },
+    {
+      "$oid": "690eb9d5b3a7f8e5f8536bf2"
+    }
+  ],
+  "createdAt": {
+    "$date": "2025-11-08T01:17:29.380Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-08T03:32:38.240Z"
+  },
+  "__v": 4
+},
+{
+  "_id": {
+    "$oid": "690e9a37b3a7f8e5f8536a83"
+  },
+  "title": "01 中西方人际关系",
+  "parent": {
+    "$oid": "690e9a29b3a7f8e5f8536a78"
+  },
+  "content": {
+    "$oid": "690e9a37b3a7f8e5f8536a84"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-11-08T01:17:44.227Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-08T01:17:44.227Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690ea12ab3a7f8e5f8536acb"
+  },
+  "title": "02 圆通人际关系概述",
+  "parent": {
+    "$oid": "690e9a29b3a7f8e5f8536a78"
+  },
+  "content": {
+    "$oid": "690ea12ab3a7f8e5f8536acc"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-11-08T01:47:23.165Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-08T01:47:23.165Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690ea7b8b3a7f8e5f8536b8a"
+  },
+  "title": "03 人际关系起点之“一表人才”",
+  "parent": {
+    "$oid": "690e9a29b3a7f8e5f8536a78"
+  },
+  "content": {
+    "$oid": "690ea7b8b3a7f8e5f8536b8b"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-11-08T02:15:21.077Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-08T02:15:21.077Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "690eb9d5b3a7f8e5f8536bf2"
+  },
+  "title": "04 人际关系起点之“两套西装”",
+  "parent": {
+    "$oid": "690e9a29b3a7f8e5f8536a78"
+  },
+  "content": {
+    "$oid": "690eb9d5b3a7f8e5f8536bf3"
+  },
+  "children": [],
+  "createdAt": {
+    "$date": "2025-11-08T03:32:38.486Z"
+  },
+  "updatedAt": {
+    "$date": "2025-11-08T03:32:38.486Z"
+  },
+  "__v": 0
+}]

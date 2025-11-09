@@ -17,6 +17,10 @@ export class RrContentService {
     return this.rrContentRepository.findOne(id);
   }
 
+  findMany(ids: string[]) {
+    return this.rrContentRepository.findMany(ids);
+  }
+
   async update(id: string, updateRrContentDto: UpdateRrContentDto) {
     return this.rrContentRepository.update(id, updateRrContentDto);
   }

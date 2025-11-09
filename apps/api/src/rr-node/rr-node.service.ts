@@ -7,6 +7,7 @@ import {
 } from './repositories/rr-node.repository';
 import { UpdateRrNodeDto } from './dto/update-rr-node.dto';
 import { RrContentService } from 'src/rr-content/rr-content.service';
+import { CreateRrContentDto } from 'src/rr-content/dto/create-rr-content.dto';
 
 @Injectable()
 export class RrNodeService {
@@ -15,7 +16,8 @@ export class RrNodeService {
     private readonly rrContentService: RrContentService,
   ) {}
 
-  private readonly defaultTiptapContent = {
+  private readonly defaultRrContent: CreateRrContentDto = {
+    tabTitle: 'newTab',
     type: 'doc',
     content: [{ type: 'paragraph' }],
   };
@@ -42,9 +44,12 @@ export class RrNodeService {
 
     const newRrNode = this.rrNodeRepository.create(rrNodeEntity);
     const newRrContent = await this.rrContentService.create(
-      this.defaultTiptapContent,
+      this.defaultRrContent,
     );
-    newRrNode.content = newRrContent._id;
+    newRrNode.content.push({
+      rrContent: newRrContent._id,
+      tabTitle: this.defaultRrContent.tabTitle,
+    });
 
     if (parentNode) {
       newRrNode.parent = parentNode._id;
@@ -95,10 +100,9 @@ export class RrNodeService {
     const allNodeIds = [id, ...descendantIds];
 
     const nodesToDelete = await this.rrNodeRepository.findByIds(allNodeIds);
-    const contentIds = nodesToDelete
-      .map((node) => node.content)
-      .filter((contentId) => contentId !== null)
-      .map((contentId) => contentId.toString());
+    const contentIds = nodesToDelete.flatMap((node) =>
+      node.content.map((c) => c.rrContent.toString()),
+    );
 
     if (contentIds.length > 0) {
       await this.rrContentService.removeMany(contentIds);

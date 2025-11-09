@@ -19,6 +19,15 @@ export const fetchRrContentById = async (id: string) => {
   return rrContent;
 };
 
+export const fetchRrContents = async (ids: string[]) => {
+  const result = await apiClient<RrContent[]>(`rr-content/batch`, {
+    method: "POST",
+    body: JSON.stringify(ids),
+  });
+  const rrContents = result.data;
+  return rrContents;
+};
+
 export const updateRrContentById = async (
   id: string,
   updateRrContentDto: UpdateRrContentDto,

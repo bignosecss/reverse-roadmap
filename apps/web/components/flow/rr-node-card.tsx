@@ -44,15 +44,10 @@ export default function RrNodeCard({
 
   const handleNodeClick = useCallback(
     (node: RrNode) => {
-      if (currentRrNode && (currentRrNode._id !== node._id || !canvasOpen)) {
-        queryClient.invalidateQueries({
-          queryKey: ["rrNodeContent", node.content],
-        });
-      }
       setCurrentRrNode(node);
       if (!canvasOpen) setCanvasOpen(true);
     },
-    [canvasOpen, currentRrNode, queryClient, setCanvasOpen, setCurrentRrNode],
+    [canvasOpen, setCanvasOpen, setCurrentRrNode],
   );
 
   return (

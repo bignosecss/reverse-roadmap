@@ -30,6 +30,11 @@ export class RrContentController {
     return rrContent;
   }
 
+  @Post('batch')
+  findMany(@Body() body: { ids: string[] }) {
+    return this.rrContentService.findMany(body.ids);
+  }
+
   @Patch(':id')
   async update(
     @Param('id') id: string,
