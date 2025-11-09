@@ -43,12 +43,13 @@ export class RrNodeService {
     };
 
     const newRrNode = this.rrNodeRepository.create(rrNodeEntity);
-    const newRrContent = await this.rrContentService.create(
-      this.defaultRrContent,
-    );
+    const newRrContent = await this.rrContentService.create({
+      ...this.defaultRrContent,
+      tabTitle: newRrNode.title,
+    } as CreateRrContentDto);
     newRrNode.content.push({
       rrContent: newRrContent._id,
-      tabTitle: this.defaultRrContent.tabTitle,
+      tabTitle: newRrNode.title,
     });
 
     if (parentNode) {
