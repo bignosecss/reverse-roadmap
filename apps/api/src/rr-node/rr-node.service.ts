@@ -47,6 +47,7 @@ export class RrNodeService {
       ...this.defaultRrContent,
       tabTitle: newRrNode.title,
     } as CreateRrContentDto);
+
     newRrNode.content.push({
       rrContent: newRrContent._id,
       tabTitle: newRrNode.title,
