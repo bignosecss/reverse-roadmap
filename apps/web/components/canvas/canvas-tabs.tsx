@@ -99,7 +99,7 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
         handleTabsValueChange(currentRrContentTab)
       }
     >
-      <div className="m-5 flex flex-row items-center">
+      <div className="p-5 flex flex-row items-center">
         <TabsList>
           {currentRrNode.content.map((nodeContent) => (
             <TabsTrigger
