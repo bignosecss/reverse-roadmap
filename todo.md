@@ -2,7 +2,6 @@
 
 ## Todos
 
-- [ ] 将 lucide-react icon 删掉，换成 radix-ui icon
 - [ ] Reverse Roadmap 用户登录功能，如何做权限管理
 - [ ] Api 做一个定时任务，定期导出数据库的文档，到本地
 - [ ] Api 了解 MongoDB transaction session 这些概念，然后看看怎么解决 rr-node-service create 的 race condition
@@ -86,6 +85,7 @@
 
 ## Deprecated
 
+- [ ] 将 lucide-react icon 删掉，换成 radix-ui icon
 - [ ] Flow 节点的 toolbar 添加一个打开 Canvas 的按钮，以后通过该按钮控制 Canvas 开关
 - [?] Flow 整个区域方向键移动，React-Flow 默认选中节点后，方向键可以控制点移动
   > 没必要了吧？
