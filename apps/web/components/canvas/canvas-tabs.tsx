@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import useCanvasStore from "@/lib/stores/canvas";
 import { RrContent, RrNode } from "@/lib/types/models";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
@@ -16,6 +16,7 @@ import { useCreateRrContentForNode } from "@/hooks/use-rr-node";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
+import useFlowStore from "@/lib/stores/flow";
 
 const selector = (state: CanvasState) => ({
   selectedRrContentTab: state.selectedRrContentTab,
@@ -25,6 +26,8 @@ const selector = (state: CanvasState) => ({
 export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
   const params = useParams();
   const treeId = params.id as string;
+
+  const setCurrentRrNode = useFlowStore((state) => state.setCurrentRrNode);
 
   const { selectedRrContentTab, setSelectedRrContentTab } = useCanvasStore(
     useShallow(selector),
@@ -42,11 +45,13 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
 
   const { mutate: createRrContentForNode } = useCreateRrContentForNode();
   const queryClient = useQueryClient();
+  const prevRrContentTab = useRef("");
 
   const handleCreateRrContentForNode = useCallback(
     (nodeId: string) => {
       createRrContentForNode(nodeId, {
         onSuccess: (data: { node: RrNode; content: RrContent }) => {
+          setCurrentRrNode(data.node);
           queryClient.invalidateQueries({ queryKey: ["rrTree", treeId] });
           toast.success("Content 创建成功", {
             description: `成功为节点 ${data.node.title} 创建 content ${data.content.tabTitle}`,
@@ -54,7 +59,23 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
         },
       });
     },
-    [createRrContentForNode, queryClient, treeId],
+    [queryClient, treeId, setCurrentRrNode, createRrContentForNode],
+  );
+
+  const handleTabsValueChange = useCallback(
+    (currentRrContentTab: string) => {
+      if (
+        prevRrContentTab.current &&
+        prevRrContentTab.current !== currentRrContentTab
+      ) {
+        queryClient.invalidateQueries({
+          queryKey: ["rrContent", prevRrContentTab.current],
+        });
+      }
+      setSelectedRrContentTab(currentRrContentTab);
+      prevRrContentTab.current = currentRrContentTab;
+    },
+    [queryClient, setSelectedRrContentTab],
   );
 
   useEffect(() => {
@@ -75,7 +96,7 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
       defaultValue={currentRrNode.content[0]!.rrContent}
       value={selectedRrContentTab}
       onValueChange={(currentRrContentTab) =>
-        setSelectedRrContentTab(currentRrContentTab)
+        handleTabsValueChange(currentRrContentTab)
       }
     >
       <div className="m-5 flex flex-row items-center">

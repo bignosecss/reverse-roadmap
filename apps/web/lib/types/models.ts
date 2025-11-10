@@ -86,5 +86,5 @@ export type CanvasState = {
   selectedRrContentTab: string;
   setCanvasOpen: (open: boolean) => void;
   setSavingContent: (saving: boolean) => void;
-  setSelectedRrContentTab: (rrContent: string) => void;
+  setSelectedRrContentTab: (rrContentTab: string) => void;
 };
