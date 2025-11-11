@@ -78,10 +78,32 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
     [queryClient, setSelectedRrContentTab],
   );
 
+  /**
+   * Keynote: useEffect 的回调函数总是在组件渲染并提交到 DOM 之后才运行。
+   * 这个模式（Prop Change -> Render 1 -> useEffect -> State Change -> Render 2）
+   * 在 React 中非常常见，它被称为“将 props 同步到 state”。虽然会引起一次额外的渲染，
+   * 但这通常是正确且必要的逻辑，以确保组件状态和外部数据保持一致。在大多数情况下，
+   * 这种额外的渲染对性能的影响可以忽略不计，除非组件极其复杂。
+   */
   useEffect(() => {
-    if (currentRrNode)
+    // When the node changes, update the selected tab to its first content tab.
+    const firstContentTab = currentRrNode.content[0]!.rrContent;
+    setSelectedRrContentTab(firstContentTab);
+
+    // 通过判断 zustand 中选中的当前 tab id 是否存在于 currentRrNode.content
+    // 来判断是否切换了节点，因为 handleTabsValueChange 在初始化时不会执行
+    const isFlowNodeChanged = !currentRrNode.content.some(
+      (nodeContent) => nodeContent.rrContent === selectedRrContentTab,
+    );
+    if (isFlowNodeChanged) {
+      queryClient.invalidateQueries({
+        queryKey: ["rrContent", selectedRrContentTab],
+      });
       setSelectedRrContentTab(currentRrNode.content[0]!.rrContent);
-  }, [currentRrNode, setSelectedRrContentTab]);
+    }
+    // selectedRrContentTab 不应该作为依赖项
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentRrNode, queryClient, setSelectedRrContentTab]);
 
   if (!selectedRrContentTab) {
     return (
@@ -93,6 +115,9 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
 
   return (
     <Tabs
+      // The key ensures the Tabs component resets if the node fundamentally changes.
+      // The value prop makes it a controlled component, which is updated by the useEffect.
+      key={currentRrNode._id}
       defaultValue={currentRrNode.content[0]!.rrContent}
       value={selectedRrContentTab}
       onValueChange={(currentRrContentTab) =>
