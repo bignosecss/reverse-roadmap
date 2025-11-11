@@ -12,6 +12,7 @@ import {
 } from "@/hooks/use-rr-node";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
+import useCanvasStore from "@/lib/stores/canvas";
 
 /**
  * 自定义 RrNode 组件
@@ -37,6 +38,7 @@ export default function RrNodeComponent({
   const { mutate: createRrNode } = useCreate();
   const { mutate: updateRrNode } = useUpdateRrNodeById(rrNode._id);
   const { mutate: removeRrNode } = useRemoveRrNodeById(rrNode._id);
+  const setCanvasOpen = useCanvasStore((state) => state.setCanvasOpen);
 
   // 处理 Dialog 确认操作
   const handleDialogConfirm = (
@@ -91,6 +93,7 @@ export default function RrNodeComponent({
         removeRrNode(undefined, {
           onSuccess: (deletedNode: RrNode) => {
             queryClient.invalidateQueries({ queryKey: ["rrTree", treeId] });
+            setCanvasOpen(false);
             toast.success("节点删除成功", {
               description: `节点 "${deletedNode.title}" 已删除`,
             });
