@@ -59,3 +59,17 @@ export const removeRrNodeById = async (id: string) => {
   const removedRrNode = result.data;
   return removedRrNode;
 };
+
+export const removeRrContentForNode = async (
+  nodeId: string,
+  contentId: string,
+) => {
+  const result = await apiClient<{ node: RrNode; content: RrContent }>(
+    `rr-node/nodes/${nodeId}/contents/${contentId}`,
+    {
+      method: "DELETE",
+    },
+  );
+  const rrNodeAndContent = result.data;
+  return rrNodeAndContent;
+};

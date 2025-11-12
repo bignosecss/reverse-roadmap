@@ -44,4 +44,14 @@ export class RrNodeController {
   remove(@Param('id') id: string) {
     return this.rrNodeService.remove(id);
   }
+
+  @Delete('nodes/:nodeId/contents/:contentId')
+  removeNodeContent(
+    @Param('nodeId') nodeId: string,
+    @Param('contentId') contentId: string,
+  ) {
+    // 1. 删除 node 与 content 的关联关系
+    // 2. 删除 content 实体本身
+    return this.rrNodeService.removeNodeContent(nodeId, contentId);
+  }
 }

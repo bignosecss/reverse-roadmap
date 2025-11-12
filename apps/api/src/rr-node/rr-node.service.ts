@@ -134,4 +134,28 @@ export class RrNodeService {
 
     return nodeToRemove;
   }
+
+  async removeNodeContent(nodeId: string, contentId: string) {
+    const contentToRemove = await this.rrContentService.findOne(contentId);
+    if (!contentToRemove) {
+      throw new NotFoundException(`Content with ID ${contentId} not found.`);
+    }
+
+    const updatedNode = await this.rrNodeRepository.update(nodeId, {
+      $pull: { content: { rrContent: contentToRemove._id } },
+    });
+
+    if (!updatedNode) {
+      throw new NotFoundException(
+        `Node with ID ${nodeId} not found or content not associated with it.`,
+      );
+    }
+
+    const removedContent = await this.rrContentService.remove(contentId);
+
+    return {
+      node: await this.findNode(nodeId),
+      content: removedContent,
+    };
+  }
 }

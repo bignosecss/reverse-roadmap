@@ -6,6 +6,7 @@ import {
   updateRrNodeById,
   removeRrNodeById,
   createRrContentForNode,
+  removeRrContentForNode,
 } from "@/lib/service/rr-node";
 import { CreateRrNodeDto, UpdateRrNodeDto } from "@/lib/types/apiRequests";
 
@@ -45,5 +46,17 @@ export const useUpdateRrNodeById = (id: string) => {
 export const useRemoveRrNodeById = (id: string) => {
   return useMutation({
     mutationFn: () => removeRrNodeById(id),
+  });
+};
+
+export const useRemoveRrContentForNode = () => {
+  return useMutation({
+    mutationFn: ({
+      nodeId,
+      contentId,
+    }: {
+      nodeId: string;
+      contentId: string;
+    }) => removeRrContentForNode(nodeId, contentId),
   });
 };

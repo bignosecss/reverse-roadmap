@@ -9,10 +9,13 @@ import {
   useGetRrContentById,
   useUpdateRrContentById,
 } from "@/hooks/use-rr-content";
+import {
+  useCreateRrContentForNode,
+  useRemoveRrContentForNode,
+} from "@/hooks/use-rr-node";
 import { CanvasState } from "@/lib/types/models";
 import { useShallow } from "zustand/react/shallow";
-import { PlusIcon } from "@radix-ui/react-icons";
-import { useCreateRrContentForNode } from "@/hooks/use-rr-node";
+import { PlusIcon, Cross2Icon } from "@radix-ui/react-icons";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
@@ -44,6 +47,7 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
   );
 
   const { mutate: createRrContentForNode } = useCreateRrContentForNode();
+  const { mutate: removeRrContent } = useRemoveRrContentForNode();
   const queryClient = useQueryClient();
   const prevRrContentTab = useRef("");
 
@@ -62,6 +66,24 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
     [queryClient, treeId, setCurrentRrNode, createRrContentForNode],
   );
 
+  const handleRemoveRrContent = useCallback(
+    (nodeId: string, contentId: string) => {
+      removeRrContent(
+        { nodeId, contentId },
+        {
+          onSuccess: (data: { node: RrNode; content: RrContent }) => {
+            setCurrentRrNode(data.node);
+            queryClient.invalidateQueries({ queryKey: ["rrTree", treeId] });
+            toast.success("Content 删除成功", {
+              description: `成功为节点 ${data.node._id} 删除 content ${data.content._id}`,
+            });
+          },
+        },
+      );
+    },
+    [queryClient, treeId, removeRrContent, setCurrentRrNode],
+  );
+
   const handleTabsValueChange = useCallback(
     (currentRrContentTab: string) => {
       if (
@@ -78,15 +100,8 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
     [queryClient, setSelectedRrContentTab],
   );
 
-  /**
-   * Keynote: useEffect 的回调函数总是在组件渲染并提交到 DOM 之后才运行。
-   * 这个模式（Prop Change -> Render 1 -> useEffect -> State Change -> Render 2）
-   * 在 React 中非常常见，它被称为“将 props 同步到 state”。虽然会引起一次额外的渲染，
-   * 但这通常是正确且必要的逻辑，以确保组件状态和外部数据保持一致。在大多数情况下，
-   * 这种额外的渲染对性能的影响可以忽略不计，除非组件极其复杂。
-   */
+  // Keynote: useEffect 的回调函数总是在组件渲染并提交到 DOM 之后才运行。
   useEffect(() => {
-    // When the node changes, update the selected tab to its first content tab.
     const firstContentTab = currentRrNode.content[0]!.rrContent;
     setSelectedRrContentTab(firstContentTab);
 
@@ -115,8 +130,6 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
 
   return (
     <Tabs
-      // The key ensures the Tabs component resets if the node fundamentally changes.
-      // The value prop makes it a controlled component, which is updated by the useEffect.
       key={currentRrNode._id}
       defaultValue={currentRrNode.content[0]!.rrContent}
       value={selectedRrContentTab}
@@ -130,8 +143,26 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
             <TabsTrigger
               key={nodeContent.rrContent}
               value={nodeContent.rrContent}
+              className="group relative pr-7"
             >
               {nodeContent.tabTitle}
+              <Button
+                variant="ghost"
+                size="icon"
+                asChild
+                className="absolute right-1 top-1/2 -translate-y-1/2 h-5 w-5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleRemoveRrContent(
+                    currentRrNode._id,
+                    nodeContent.rrContent,
+                  );
+                }}
+              >
+                <span>
+                  <Cross2Icon className="h-3 w-3" />
+                </span>
+              </Button>
             </TabsTrigger>
           ))}
         </TabsList>
