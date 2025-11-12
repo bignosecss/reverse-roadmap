@@ -2,7 +2,6 @@
 
 ## Todos
 
-- [ ] Reverse Roadmap 用户登录功能，如何做权限管理
 - [ ] Api 做一个定时任务，定期导出数据库的文档，到本地
 - [ ] Canvas 中的操作（除了 content 更新外），如果涉及到外部节点的状态改变，都不会及时反应（重渲染）。比如：1. 外部节点信息更新 Canvas 无法及时更新。2. Canvas 中创建了新的 content，但是 Tab 不会及时更新，只能手动 invalidate 整棵树，然后点击对应节点，这非常低效。需要想办法优化
 - [ ] Canvas 在中文输入，打出字母的时候，onUpdate 也触发了，想想解决方法
@@ -85,6 +84,8 @@
 
 ## Deprecated
 
+- [ ] Reverse Roadmap 用户登录功能，如何做权限管理
+  > 这只是个人使用的项目，并不涉及多人协作功能，所以目前看来同样不需要登录模块
 - [ ] Api 了解 MongoDB transaction session 这些概念，然后看看怎么解决 rr-node-service create 的 race condition
   > 过度设计了
 - [ ] Sidebar 了解 Sidebar 常见的样式，和实现方式（似乎没必要了）
