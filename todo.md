@@ -8,6 +8,7 @@
 - [ ] Canvas 中的操作（除了 content 更新外），如果涉及到外部节点的状态改变，都不会及时反应（重渲染）。比如：1. 外部节点信息更新 Canvas 无法及时更新。2. Canvas 中创建了新的 content，但是 Tab 不会及时更新，只能手动 invalidate 整棵树，然后点击对应节点，这非常低效。需要想办法优化
 - [ ] Canvas 在中文输入，打出字母的时候，onUpdate 也触发了，想想解决方法
   > 我记得渡一有个视频讲过，是讲的 debounce
+  > 合成事件
 - [ ] Canvas Content 文字内容加密
 - [ ] Canvas 设置每个节点 Content 的访问密码（访问密码在传输过程中的加密，可以参考 TLS 协商中 pre-master secret 的过程）
 - [ ] Canvas 想想如何添加 AI Agent
