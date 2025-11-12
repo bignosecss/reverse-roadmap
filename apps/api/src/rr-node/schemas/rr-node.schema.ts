@@ -15,11 +15,15 @@ export class RrNode {
   parent!: mongoose.Types.ObjectId | null;
 
   @Prop({
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'RrContent',
-    default: null,
+    type: [
+      {
+        rrContent: { type: mongoose.Schema.Types.ObjectId, ref: 'RrContent' },
+        tabTitle: { type: String },
+      },
+    ],
+    default: [],
   })
-  content!: mongoose.Types.ObjectId | null;
+  content!: { rrContent: mongoose.Types.ObjectId; tabTitle: string }[];
 
   @Prop({
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'RrNode' }],

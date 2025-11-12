@@ -8,7 +8,7 @@ async function runMigration() {
 
   try {
     console.log('Starting data migration...');
-    const result = await migrationService.migrateFromOldData();
+    const result = await migrationService.migrateOldData();
     console.log('Migration completed:', result);
   } catch (error) {
     console.error('Migration failed:', error);

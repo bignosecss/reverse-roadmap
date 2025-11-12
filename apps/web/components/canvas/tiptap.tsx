@@ -15,19 +15,17 @@ interface TiptapProps {
 
 export const Tiptap = ({ content, onSave: saveContent }: TiptapProps) => {
   const [value, setValue] = useState<Content>(content ? content : "");
-  const setUpdatingContent = useCanvasStore(
-    (state) => state.setUpdatingContent,
-  );
+  const setSavingContent = useCanvasStore((state) => state.setSavingContent);
 
   const handleSetValue = useCallback(
     (value: Content) => {
-      setUpdatingContent(true);
+      setSavingContent(true);
       setValue(value);
       saveContent(value as RrContent, {
-        onSettled: () => setUpdatingContent(false),
+        onSettled: () => setSavingContent(false),
       });
     },
-    [saveContent, setUpdatingContent],
+    [saveContent, setSavingContent],
   );
 
   return (

@@ -5,6 +5,9 @@ export type RrContentDocument = HydratedDocument<RrContent>;
 
 @Schema({ timestamps: true, collection: 'rr_contents' })
 export class RrContent {
+  @Prop({ type: String })
+  tabTitle!: string;
+
   @Prop({ type: String, required: true })
   type!: string;
 

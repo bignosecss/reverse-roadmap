@@ -21,12 +21,16 @@ export interface RrRoot {
 }
 
 /** 思维导图节点 */
+export type NodeContent = {
+  rrContent: string;
+  tabTitle: string;
+};
 export interface RrNode {
   _id: string;
   title: string;
   description?: string;
   parent: string | null;
-  content: string | null;
+  content: NodeContent[];
   children: RrNode[];
   createdAt?: Date;
   updatedAt?: Date;
@@ -34,6 +38,7 @@ export interface RrNode {
 
 export interface RrContent {
   _id: string;
+  tabTitle: string;
   type: "doc";
   // 方便起见，暂时使用 any 作为 tiptap 文档的类型( edirot.getJSON() )
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -77,7 +82,9 @@ export type SidebarState = {
 
 export type CanvasState = {
   canvasOpen: boolean;
-  updatingContent: boolean;
+  savingContent: boolean;
+  selectedRrContentTab: string;
   setCanvasOpen: (open: boolean) => void;
-  setUpdatingContent: (updating: boolean) => void;
+  setSavingContent: (saving: boolean) => void;
+  setSelectedRrContentTab: (rrContentTab: string) => void;
 };

@@ -7,6 +7,9 @@ import {
 } from './repositories/rr-node.repository';
 import { UpdateRrNodeDto } from './dto/update-rr-node.dto';
 import { RrContentService } from 'src/rr-content/rr-content.service';
+import { CreateRrContentDto } from 'src/rr-content/dto/create-rr-content.dto';
+import { UpdateRrContentTabDto } from 'src/rr-content/dto/update-rr-content-tab.dto';
+import { UpdateRrContentDto } from 'src/rr-content/dto/update-rr-content.dto';
 
 @Injectable()
 export class RrNodeService {
@@ -15,7 +18,8 @@ export class RrNodeService {
     private readonly rrContentService: RrContentService,
   ) {}
 
-  private readonly defaultTiptapContent = {
+  private readonly defaultRrContent: CreateRrContentDto = {
+    tabTitle: 'newTab',
     type: 'doc',
     content: [{ type: 'paragraph' }],
   };
@@ -41,10 +45,15 @@ export class RrNodeService {
     };
 
     const newRrNode = this.rrNodeRepository.create(rrNodeEntity);
-    const newRrContent = await this.rrContentService.create(
-      this.defaultTiptapContent,
-    );
-    newRrNode.content = newRrContent._id;
+    const newRrContent = await this.rrContentService.create({
+      ...this.defaultRrContent,
+      tabTitle: newRrNode.title,
+    } as CreateRrContentDto);
+
+    newRrNode.content.push({
+      rrContent: newRrContent._id,
+      tabTitle: newRrNode.title,
+    });
 
     if (parentNode) {
       newRrNode.parent = parentNode._id;
@@ -53,6 +62,26 @@ export class RrNodeService {
     }
 
     return await this.rrNodeRepository.save(newRrNode);
+  }
+
+  async createRrContentForNode(id: string) {
+    const targetRrNode = await this.findNode(id);
+    if (!targetRrNode) {
+      throw new NotFoundException(
+        `Node with ID: ${id} not found when trying to create a rr content for it`,
+      );
+    }
+
+    const newRrContent = await this.rrContentService.create(
+      this.defaultRrContent,
+    );
+
+    targetRrNode.content.push({
+      rrContent: newRrContent._id,
+      tabTitle: newRrContent.tabTitle,
+    });
+
+    return { node: await targetRrNode.save(), content: newRrContent };
   }
 
   findNode(id: string) {
@@ -78,6 +107,35 @@ export class RrNodeService {
     return this.rrNodeRepository.update(id, updateRrNodeDto);
   }
 
+  async updateRrContentForNode(
+    nodeId: string,
+    updateRrContentTabDto: UpdateRrContentTabDto,
+  ) {
+    const targetRrNode = await this.rrNodeRepository.findById(nodeId);
+    if (!targetRrNode) {
+      throw new NotFoundException(`Node with ID ${nodeId} not found`);
+    }
+
+    const contentIndex = targetRrNode.content.findIndex(
+      (c) => c.rrContent.toString() === updateRrContentTabDto.rrContent,
+    );
+    if (contentIndex === -1) {
+      throw new NotFoundException(
+        `Content with ID ${updateRrContentTabDto.rrContent} not associated with node ${nodeId}`,
+      );
+    }
+
+    const updatedContent = await this.rrContentService.update(
+      updateRrContentTabDto.rrContent,
+      { tabTitle: updateRrContentTabDto.tabTitle } as UpdateRrContentDto,
+    );
+
+    targetRrNode.content[contentIndex]!.tabTitle =
+      updateRrContentTabDto.tabTitle;
+
+    return { node: await targetRrNode.save(), content: updatedContent };
+  }
+
   async remove(id: string) {
     const nodeToRemove = await this.rrNodeRepository.findById(id);
     if (!nodeToRemove) {
@@ -95,10 +153,9 @@ export class RrNodeService {
     const allNodeIds = [id, ...descendantIds];
 
     const nodesToDelete = await this.rrNodeRepository.findByIds(allNodeIds);
-    const contentIds = nodesToDelete
-      .map((node) => node.content)
-      .filter((contentId) => contentId !== null)
-      .map((contentId) => contentId.toString());
+    const contentIds = nodesToDelete.flatMap((node) =>
+      node.content.map((c) => c.rrContent.toString()),
+    );
 
     if (contentIds.length > 0) {
       await this.rrContentService.removeMany(contentIds);
@@ -107,5 +164,29 @@ export class RrNodeService {
     await this.rrNodeRepository.removeMany(allNodeIds);
 
     return nodeToRemove;
+  }
+
+  async removeNodeContent(nodeId: string, contentId: string) {
+    const contentToRemove = await this.rrContentService.findOne(contentId);
+    if (!contentToRemove) {
+      throw new NotFoundException(`Content with ID ${contentId} not found.`);
+    }
+
+    const updatedNode = await this.rrNodeRepository.update(nodeId, {
+      $pull: { content: { rrContent: contentToRemove._id } },
+    });
+
+    if (!updatedNode) {
+      throw new NotFoundException(
+        `Node with ID ${nodeId} not found or content not associated with it.`,
+      );
+    }
+
+    const removedContent = await this.rrContentService.remove(contentId);
+
+    return {
+      node: await this.findNode(nodeId),
+      content: removedContent,
+    };
   }
 }

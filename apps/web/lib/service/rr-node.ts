@@ -1,6 +1,10 @@
 import { apiClient } from "./client";
-import { RrNode } from "../types/models";
-import { CreateRrNodeDto, UpdateRrNodeDto } from "../types/apiRequests";
+import { RrContent, RrNode } from "../types/models";
+import {
+  CreateRrNodeDto,
+  UpdateRrContentTabDto,
+  UpdateRrNodeDto,
+} from "../types/apiRequests";
 
 /**
  * Create rr node if the parent attribute in `CreateRrNodeDto` is not null
@@ -15,6 +19,17 @@ export const create = async (createRrNodeDto: CreateRrNodeDto) => {
   });
   const newRrNode = result.data;
   return newRrNode;
+};
+
+export const createRrContentForNode = async (id: string) => {
+  const result = await apiClient<{ node: RrNode; content: RrContent }>(
+    `rr-node/${id}/contents`,
+    {
+      method: "POST",
+    },
+  );
+  const rrNodeAndContent = result.data;
+  return rrNodeAndContent;
 };
 
 export const fetchRrNodeById = async (id: string) => {
@@ -41,10 +56,39 @@ export const updateRrNodeById = async (
   return updatedRrNode;
 };
 
+export const updateRrContentForNode = async (
+  nodeId: string,
+  updateRrContentTabDto: UpdateRrContentTabDto,
+) => {
+  const result = await apiClient<{ node: RrNode; content: RrContent }>(
+    `rr-node/nodes/${nodeId}/contents`,
+    {
+      method: "PATCH",
+      body: JSON.stringify(updateRrContentTabDto),
+    },
+  );
+  const rrNodeAndContent = result.data;
+  return rrNodeAndContent;
+};
+
 export const removeRrNodeById = async (id: string) => {
   const result = await apiClient<RrNode>(`rr-node/${id}`, {
     method: "DELETE",
   });
   const removedRrNode = result.data;
   return removedRrNode;
+};
+
+export const removeRrContentForNode = async (
+  nodeId: string,
+  contentId: string,
+) => {
+  const result = await apiClient<{ node: RrNode; content: RrContent }>(
+    `rr-node/nodes/${nodeId}/contents/${contentId}`,
+    {
+      method: "DELETE",
+    },
+  );
+  const rrNodeAndContent = result.data;
+  return rrNodeAndContent;
 };

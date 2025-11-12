@@ -1,23 +1,17 @@
-import { Controller, Post, Get } from '@nestjs/common';
+import { Controller, Post } from '@nestjs/common';
 import { DataMigrationService } from './data-migration.service';
 
-@Controller('migrate')
+@Controller('data-migration')
 export class DataMigrationController {
-  constructor(private readonly migrationService: DataMigrationService) {}
+  constructor(private readonly dataMigrationService: DataMigrationService) {}
 
-  @Post('old-data')
-  async migrateOldData() {
-    return this.migrationService.migrateFromOldData();
+  @Post('seed')
+  seedData() {
+    return this.dataMigrationService.seedData();
   }
 
-  @Get('status')
-  async getMigrationStatus() {
-    return {
-      message: 'Data migration service is available',
-      endpoints: {
-        'POST /migrate/old-data': 'Migrate old data to new schema',
-        'GET /migrate/status': 'Get migration status',
-      },
-    };
+  @Post('migrate-old-data')
+  migrateOldData() {
+    return this.dataMigrationService.migrateOldData();
   }
 }

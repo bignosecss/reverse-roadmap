@@ -4,6 +4,7 @@ import {
   fetchRrContentById,
   updateRrContentById,
   removeRrContentById,
+  fetchRrContents,
 } from "@/lib/service/rr-content";
 import {
   CreateRrContentDto,
@@ -19,9 +20,17 @@ export const useCreateRrContent = () => {
 
 export const useGetRrContentById = (id: string) => {
   return useQuery({
-    queryKey: ["rrNodeContent", id],
+    queryKey: ["rrContent", id],
     queryFn: () => fetchRrContentById(id),
     enabled: !!id,
+  });
+};
+
+export const useGetRrContents = (ids: string[]) => {
+  return useQuery({
+    queryKey: ["rrContents", JSON.stringify(ids)],
+    queryFn: () => fetchRrContents(ids),
+    enabled: ids.length > 0,
   });
 };
 
@@ -38,7 +47,7 @@ export const useRemoveRrContentById = (id: string) => {
   return useMutation({
     mutationFn: () => removeRrContentById(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["rrNodeContent", id] });
+      queryClient.invalidateQueries({ queryKey: ["rrContent", id] });
     },
   });
 };

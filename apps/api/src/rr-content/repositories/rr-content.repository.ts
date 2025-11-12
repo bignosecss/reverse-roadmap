@@ -22,6 +22,10 @@ export class RrContentRepository {
     return this.rrContentModel.findById(id).exec();
   }
 
+  findMany(ids: string[]) {
+    return this.rrContentModel.find({ _id: { $in: ids } }).exec();
+  }
+
   async update(id: string, updateQuery: UpdateQuery<RrContent>) {
     return this.rrContentModel
       .findByIdAndUpdate(id, updateQuery, { new: true })

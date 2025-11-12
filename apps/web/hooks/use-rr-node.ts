@@ -5,12 +5,25 @@ import {
   fetchRrTreeById,
   updateRrNodeById,
   removeRrNodeById,
+  createRrContentForNode,
+  removeRrContentForNode,
+  updateRrContentForNode,
 } from "@/lib/service/rr-node";
-import { CreateRrNodeDto, UpdateRrNodeDto } from "@/lib/types/apiRequests";
+import {
+  CreateRrNodeDto,
+  UpdateRrContentTabDto,
+  UpdateRrNodeDto,
+} from "@/lib/types/apiRequests";
 
 export const useCreate = () => {
   return useMutation({
     mutationFn: (createRrNodeDto: CreateRrNodeDto) => create(createRrNodeDto),
+  });
+};
+
+export const useCreateRrContentForNode = () => {
+  return useMutation({
+    mutationFn: (id: string) => createRrContentForNode(id),
   });
 };
 
@@ -35,8 +48,27 @@ export const useUpdateRrNodeById = (id: string) => {
   });
 };
 
+export const useUpdateRrContentForNode = (nodeId: string) => {
+  return useMutation({
+    mutationFn: (updateRrContentTabDto: UpdateRrContentTabDto) =>
+      updateRrContentForNode(nodeId, updateRrContentTabDto),
+  });
+};
+
 export const useRemoveRrNodeById = (id: string) => {
   return useMutation({
     mutationFn: () => removeRrNodeById(id),
+  });
+};
+
+export const useRemoveRrContentForNode = () => {
+  return useMutation({
+    mutationFn: ({
+      nodeId,
+      contentId,
+    }: {
+      nodeId: string;
+      contentId: string;
+    }) => removeRrContentForNode(nodeId, contentId),
   });
 };

@@ -3,12 +3,11 @@
 ## Todos
 
 - [ ] Reverse Roadmap 用户登录功能，如何做权限管理
-- [ ] Api 将旧数据库结构，转换为新结构，然后导入到对应集合
 - [ ] Api 做一个定时任务，定期导出数据库的文档，到本地
-- [ ] Api 了解 MongoDB transaction session 这些概念，然后看看怎么解决 rr-node-service create 的 race condition
-- [ ] Canvas 切换 tab，区分：笔记 / 感想 / 思考 等等，并且 tab 之间可以通过“链接”的方式互相引用跳转
+- [ ] Canvas 中的操作（除了 content 更新外），如果涉及到外部节点的状态改变，都不会及时反应（重渲染）。比如：1. 外部节点信息更新 Canvas 无法及时更新。2. Canvas 中创建了新的 content，但是 Tab 不会及时更新，只能手动 invalidate 整棵树，然后点击对应节点，这非常低效。需要想办法优化
 - [ ] Canvas 在中文输入，打出字母的时候，onUpdate 也触发了，想想解决方法
   > 我记得渡一有个视频讲过，是讲的 debounce
+  > 合成事件
 - [ ] Canvas Content 文字内容加密
 - [ ] Canvas 设置每个节点 Content 的访问密码（访问密码在传输过程中的加密，可以参考 TLS 协商中 pre-master secret 的过程）
 - [ ] Canvas 想想如何添加 AI Agent
@@ -30,7 +29,6 @@
 - [ ] Flow 能够链接到其他的目标，在本目标中的其他目标，渲染为 subflow
 - [ ] Flow Goal Page 顶部，引入AI来获取该 Goal 的内容，然后总结一句正能量鼓励文字，显示在顶部区域
 - [ ] Sidebar 也和 Flow 同样的搜索功能，快捷键 cmd+k 是 sidebar，cmd+j 是 Flow；这就要解决 cmd+j 快捷键和 chrome extension 的冲突了
-- [ ] Sidebar 了解 Sidebar 常见的样式，和实现方式（似乎没必要了）
 - [ ] Sidebar roots 部分请求数据时候的交互
 
 ## Unclear Tasks
@@ -44,6 +42,12 @@
 
 ## Done
 
+- [x] Canvas 切换 tab，区分：笔记 / 感想 / 思考 等等，并且 tab 之间可以通过“链接”的方式互相引用跳转。还需包含 Tab 的新增、删除、重命名
+  > 渲染 tab 及其内容的功能已经实现
+  > 现在需要对 UX 进行打磨，修复一些 BUG
+  > 后续实现，基本增删改功能，UI 类似浏览器窗口，得改改 TabTrigger 组件
+  > 之后回过头来优化 UI/UX 的时候，拆分/重构 较屎山的代码，提高其可维护性
+- [x] Api 将旧数据库结构，转换为新结构，然后导入到对应集合
 - [x] Sidebar 取消 shadcn/ui 或者 radix/ui 默认的快捷键开关方式，因为 control + B 与 mac 默认的快捷键冲突，很别扭
 - [x] Api 修改底层数据库 rr_nodes 集合的数据结构
 - [x] Tiptap 编辑了内容后，直接关闭 Canvas，然后打开同样的节点；使用的是 React-Query 的缓存数据，而不是最新数据
@@ -79,8 +83,12 @@
 - [x] Flow page 中，顶部的样式需要研究怎么改
 - [x] Flow 搜索定位节点功能
 
-# Deprecated
+## Deprecated
 
+- [ ] Api 了解 MongoDB transaction session 这些概念，然后看看怎么解决 rr-node-service create 的 race condition
+  > 过度设计了
+- [ ] Sidebar 了解 Sidebar 常见的样式，和实现方式（似乎没必要了）
+- [ ] 将 lucide-react icon 删掉，换成 radix-ui icon
 - [ ] Flow 节点的 toolbar 添加一个打开 Canvas 的按钮，以后通过该按钮控制 Canvas 开关
 - [?] Flow 整个区域方向键移动，React-Flow 默认选中节点后，方向键可以控制点移动
   > 没必要了吧？

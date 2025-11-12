@@ -1,4 +1,4 @@
-import { SquarePen, Search } from "lucide-react";
+import { SquarePen } from "lucide-react";
 
 export const HEAD_MENU_ITEMS = [
   // {

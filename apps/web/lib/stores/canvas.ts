@@ -3,12 +3,16 @@ import { CanvasState } from "../types/models";
 
 const useCanvasStore = create<CanvasState>((set) => ({
   canvasOpen: false,
-  updatingContent: false,
+  savingContent: false,
+  selectedRrContentTab: "",
   setCanvasOpen: (open) => {
     set({ canvasOpen: open });
   },
-  setUpdatingContent: (updating) => {
-    set({ updatingContent: updating });
+  setSavingContent: (updating) => {
+    set({ savingContent: updating });
+  },
+  setSelectedRrContentTab: (rrContentTab) => {
+    set({ selectedRrContentTab: rrContentTab });
   },
 }));
 

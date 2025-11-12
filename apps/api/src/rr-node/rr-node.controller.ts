@@ -10,6 +10,7 @@ import {
 import { RrNodeService } from './rr-node.service';
 import { CreateRrNodeDto } from './dto/create-rr-node.dto';
 import { UpdateRrNodeDto } from './dto/update-rr-node.dto';
+import { UpdateRrContentTabDto } from 'src/rr-content/dto/update-rr-content-tab.dto';
 
 @Controller('rr-node')
 export class RrNodeController {
@@ -18,6 +19,11 @@ export class RrNodeController {
   @Post()
   create(@Body() createRrNodeDto: CreateRrNodeDto) {
     return this.rrNodeService.create(createRrNodeDto);
+  }
+
+  @Post(':id/contents')
+  createRrContentForNode(@Param('id') id: string) {
+    return (this, this.rrNodeService.createRrContentForNode(id));
   }
 
   @Get(':id')
@@ -35,8 +41,29 @@ export class RrNodeController {
     return this.rrNodeService.update(id, updateRrNodeDto);
   }
 
+  @Patch('nodes/:nodeId/contents')
+  updateRrContentForNode(
+    @Param('nodeId') nodeId: string,
+    @Body() updateRrContentTabDto: UpdateRrContentTabDto,
+  ) {
+    return this.rrNodeService.updateRrContentForNode(
+      nodeId,
+      updateRrContentTabDto,
+    );
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.rrNodeService.remove(id);
+  }
+
+  @Delete('nodes/:nodeId/contents/:contentId')
+  removeNodeContent(
+    @Param('nodeId') nodeId: string,
+    @Param('contentId') contentId: string,
+  ) {
+    // 1. 删除 node 与 content 的关联关系
+    // 2. 删除 content 实体本身
+    return this.rrNodeService.removeNodeContent(nodeId, contentId);
   }
 }
