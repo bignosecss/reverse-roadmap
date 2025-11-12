@@ -28,7 +28,6 @@
 - [ ] Flow 能够链接到其他的目标，在本目标中的其他目标，渲染为 subflow
 - [ ] Flow Goal Page 顶部，引入AI来获取该 Goal 的内容，然后总结一句正能量鼓励文字，显示在顶部区域
 - [ ] Sidebar 也和 Flow 同样的搜索功能，快捷键 cmd+k 是 sidebar，cmd+j 是 Flow；这就要解决 cmd+j 快捷键和 chrome extension 的冲突了
-- [ ] Sidebar roots 部分请求数据时候的交互
 
 ## Unclear Tasks
 
@@ -41,6 +40,7 @@
 
 ## Done
 
+- [x] Sidebar roots 部分请求数据时候的交互
 - [x] Canvas 切换 tab，区分：笔记 / 感想 / 思考 等等，并且 tab 之间可以通过“链接”的方式互相引用跳转。还需包含 Tab 的新增、删除、重命名
   > 渲染 tab 及其内容的功能已经实现
   > 现在需要对 UX 进行打磨，修复一些 BUG
