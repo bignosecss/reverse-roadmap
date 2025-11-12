@@ -8,6 +8,8 @@ import {
 import { UpdateRrNodeDto } from './dto/update-rr-node.dto';
 import { RrContentService } from 'src/rr-content/rr-content.service';
 import { CreateRrContentDto } from 'src/rr-content/dto/create-rr-content.dto';
+import { UpdateRrContentTabDto } from 'src/rr-content/dto/update-rr-content-tab.dto';
+import { UpdateRrContentDto } from 'src/rr-content/dto/update-rr-content.dto';
 
 @Injectable()
 export class RrNodeService {
@@ -103,6 +105,35 @@ export class RrNodeService {
 
   update(id: string, updateRrNodeDto: UpdateRrNodeDto) {
     return this.rrNodeRepository.update(id, updateRrNodeDto);
+  }
+
+  async updateRrContentForNode(
+    nodeId: string,
+    updateRrContentTabDto: UpdateRrContentTabDto,
+  ) {
+    const targetRrNode = await this.rrNodeRepository.findById(nodeId);
+    if (!targetRrNode) {
+      throw new NotFoundException(`Node with ID ${nodeId} not found`);
+    }
+
+    const contentIndex = targetRrNode.content.findIndex(
+      (c) => c.rrContent.toString() === updateRrContentTabDto.rrContent,
+    );
+    if (contentIndex === -1) {
+      throw new NotFoundException(
+        `Content with ID ${updateRrContentTabDto.rrContent} not associated with node ${nodeId}`,
+      );
+    }
+
+    const updatedContent = await this.rrContentService.update(
+      updateRrContentTabDto.rrContent,
+      { tabTitle: updateRrContentTabDto.tabTitle } as UpdateRrContentDto,
+    );
+
+    targetRrNode.content[contentIndex]!.tabTitle =
+      updateRrContentTabDto.tabTitle;
+
+    return { node: await targetRrNode.save(), content: updatedContent };
   }
 
   async remove(id: string) {

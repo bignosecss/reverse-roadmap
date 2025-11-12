@@ -7,8 +7,13 @@ import {
   removeRrNodeById,
   createRrContentForNode,
   removeRrContentForNode,
+  updateRrContentForNode,
 } from "@/lib/service/rr-node";
-import { CreateRrNodeDto, UpdateRrNodeDto } from "@/lib/types/apiRequests";
+import {
+  CreateRrNodeDto,
+  UpdateRrContentTabDto,
+  UpdateRrNodeDto,
+} from "@/lib/types/apiRequests";
 
 export const useCreate = () => {
   return useMutation({
@@ -40,6 +45,13 @@ export const useUpdateRrNodeById = (id: string) => {
   return useMutation({
     mutationFn: (updateRrNodeDto: UpdateRrNodeDto) =>
       updateRrNodeById(id, updateRrNodeDto),
+  });
+};
+
+export const useUpdateRrContentForNode = (nodeId: string) => {
+  return useMutation({
+    mutationFn: (updateRrContentTabDto: UpdateRrContentTabDto) =>
+      updateRrContentForNode(nodeId, updateRrContentTabDto),
   });
 };
 

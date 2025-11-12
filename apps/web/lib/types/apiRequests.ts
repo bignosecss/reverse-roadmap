@@ -20,3 +20,8 @@ export interface CreateRrContentDto {
 }
 
 export type UpdateRrContentDto = CreateRrContentDto;
+
+export interface UpdateRrContentTabDto {
+  rrContent: string;
+  tabTitle: string;
+}

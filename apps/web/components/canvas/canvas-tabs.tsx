@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import useCanvasStore from "@/lib/stores/canvas";
-import { RrContent, RrNode } from "@/lib/types/models";
+import { NodeContent, RrContent, RrNode } from "@/lib/types/models";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Spinner } from "../ui/spinner";
 import { Tiptap } from "./tiptap";
@@ -12,6 +12,7 @@ import {
 import {
   useCreateRrContentForNode,
   useRemoveRrContentForNode,
+  useUpdateRrContentForNode,
 } from "@/hooks/use-rr-node";
 import { CanvasState } from "@/lib/types/models";
 import { useShallow } from "zustand/react/shallow";
@@ -20,6 +21,8 @@ import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import useFlowStore from "@/lib/stores/flow";
+import { Input } from "../ui/input";
+import { UpdateRrContentTabDto } from "@/lib/types/apiRequests";
 
 const selector = (state: CanvasState) => ({
   selectedRrContentTab: state.selectedRrContentTab,
@@ -48,6 +51,8 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
 
   const { mutate: createRrContentForNode } = useCreateRrContentForNode();
   const { mutate: removeRrContent } = useRemoveRrContentForNode();
+  const { mutate: updateRrContent, isPending: isRrContentTabUpdating } =
+    useUpdateRrContentForNode(currentRrNode._id);
   const queryClient = useQueryClient();
   const prevRrContentTab = useRef("");
 
@@ -84,6 +89,22 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
     [queryClient, treeId, removeRrContent, setCurrentRrNode],
   );
 
+  const handleUpdateRrContentTab = useCallback(
+    (updateRrContentTabDto: UpdateRrContentTabDto) => {
+      updateRrContent(updateRrContentTabDto, {
+        onSuccess: (data: { node: RrNode; content: RrContent }) => {
+          setEditingTab(false);
+          setCurrentRrNode(data.node);
+          queryClient.invalidateQueries({ queryKey: ["rrTree", treeId] });
+          toast.success("Content Tab Title 更新成功", {
+            description: `成功更新节点 ${data.node.title} content ${data.content._id} 的 tab title`,
+          });
+        },
+      });
+    },
+    [queryClient, treeId, setCurrentRrNode, updateRrContent],
+  );
+
   const handleTabsValueChange = useCallback(
     (currentRrContentTab: string) => {
       if (
@@ -98,6 +119,20 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
       prevRrContentTab.current = currentRrContentTab;
     },
     [queryClient, setSelectedRrContentTab],
+  );
+
+  const [editingTab, setEditingTab] = useState(false);
+  const [editingTabId, setEditingTabId] = useState("");
+  const [editingTabValue, setEditingTabValue] = useState("");
+
+  const handleTabDoubleClick = useCallback(
+    (targetTab: NodeContent) => {
+      if (targetTab.rrContent !== selectedRrContentTab) return;
+      setEditingTabValue(targetTab.tabTitle);
+      setEditingTabId(targetTab.rrContent);
+      setEditingTab(true);
+    },
+    [selectedRrContentTab],
   );
 
   // Keynote: useEffect 的回调函数总是在组件渲染并提交到 DOM 之后才运行。
@@ -144,8 +179,33 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
               key={nodeContent.rrContent}
               value={nodeContent.rrContent}
               className="group relative pr-7"
+              onDoubleClick={() => handleTabDoubleClick(nodeContent)}
             >
-              {nodeContent.tabTitle}
+              {editingTab && editingTabId === nodeContent.rrContent ? (
+                <Input
+                  type="text"
+                  autoFocus
+                  value={editingTabValue}
+                  onChange={(e) => {
+                    setEditingTabValue(e.target.value);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Escape") {
+                      setEditingTab(false);
+                    }
+                    if (e.key === "Enter") {
+                      handleUpdateRrContentTab({
+                        rrContent: nodeContent.rrContent,
+                        tabTitle: editingTabValue,
+                      } as UpdateRrContentTabDto);
+                    }
+                  }}
+                  onBlur={() => setEditingTab(false)}
+                  disabled={isRrContentTabUpdating}
+                />
+              ) : (
+                nodeContent.tabTitle
+              )}
               <Button
                 variant="ghost"
                 size="icon"

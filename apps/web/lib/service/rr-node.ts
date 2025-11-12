@@ -1,6 +1,10 @@
 import { apiClient } from "./client";
 import { RrContent, RrNode } from "../types/models";
-import { CreateRrNodeDto, UpdateRrNodeDto } from "../types/apiRequests";
+import {
+  CreateRrNodeDto,
+  UpdateRrContentTabDto,
+  UpdateRrNodeDto,
+} from "../types/apiRequests";
 
 /**
  * Create rr node if the parent attribute in `CreateRrNodeDto` is not null
@@ -50,6 +54,21 @@ export const updateRrNodeById = async (
   });
   const updatedRrNode = result.data;
   return updatedRrNode;
+};
+
+export const updateRrContentForNode = async (
+  nodeId: string,
+  updateRrContentTabDto: UpdateRrContentTabDto,
+) => {
+  const result = await apiClient<{ node: RrNode; content: RrContent }>(
+    `rr-node/nodes/${nodeId}/contents`,
+    {
+      method: "PATCH",
+      body: JSON.stringify(updateRrContentTabDto),
+    },
+  );
+  const rrNodeAndContent = result.data;
+  return rrNodeAndContent;
 };
 
 export const removeRrNodeById = async (id: string) => {
