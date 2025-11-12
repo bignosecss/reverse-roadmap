@@ -11,6 +11,7 @@ import {
 import { CanvasState, RrNode } from "@/lib/types/models";
 import useFlowStore from "@/lib/stores/flow";
 import useCanvasStore from "@/lib/stores/canvas";
+import { useSidebar } from "../ui/sidebar";
 
 interface RrNodeCardProps {
   rrNode: RrNode;
@@ -33,13 +34,17 @@ export default function RrNodeCard({
   const { canvasOpen, setCanvasOpen } = useCanvasStore(
     useShallow(canvasSelector),
   );
+  const { setOpen } = useSidebar();
 
   const handleNodeClick = useCallback(
     (node: RrNode) => {
       setCurrentRrNode(node);
-      if (!canvasOpen) setCanvasOpen(true);
+      if (!canvasOpen) {
+        setCanvasOpen(true);
+        setOpen(false);
+      }
     },
-    [canvasOpen, setCanvasOpen, setCurrentRrNode],
+    [canvasOpen, setCanvasOpen, setCurrentRrNode, setOpen],
   );
 
   return (
