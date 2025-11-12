@@ -30,7 +30,6 @@
 - [ ] Flow 能够链接到其他的目标，在本目标中的其他目标，渲染为 subflow
 - [ ] Flow Goal Page 顶部，引入AI来获取该 Goal 的内容，然后总结一句正能量鼓励文字，显示在顶部区域
 - [ ] Sidebar 也和 Flow 同样的搜索功能，快捷键 cmd+k 是 sidebar，cmd+j 是 Flow；这就要解决 cmd+j 快捷键和 chrome extension 的冲突了
-- [ ] Sidebar 了解 Sidebar 常见的样式，和实现方式（似乎没必要了）
 - [ ] Sidebar roots 部分请求数据时候的交互
 
 ## Unclear Tasks
@@ -87,6 +86,7 @@
 
 ## Deprecated
 
+- [ ] Sidebar 了解 Sidebar 常见的样式，和实现方式（似乎没必要了）
 - [ ] 将 lucide-react icon 删掉，换成 radix-ui icon
 - [ ] Flow 节点的 toolbar 添加一个打开 Canvas 的按钮，以后通过该按钮控制 Canvas 开关
 - [?] Flow 整个区域方向键移动，React-Flow 默认选中节点后，方向键可以控制点移动
