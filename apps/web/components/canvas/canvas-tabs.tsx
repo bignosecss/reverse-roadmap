@@ -61,6 +61,7 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
       createRrContentForNode(nodeId, {
         onSuccess: (data: { node: RrNode; content: RrContent }) => {
           setCurrentRrNode(data.node);
+          setSelectedRrContentTab(data.content._id);
           queryClient.invalidateQueries({ queryKey: ["rrTree", treeId] });
           toast.success("Content 创建成功", {
             description: `成功为节点 ${data.node.title} 创建 content ${data.content.tabTitle}`,
@@ -68,7 +69,13 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
         },
       });
     },
-    [queryClient, treeId, setCurrentRrNode, createRrContentForNode],
+    [
+      queryClient,
+      treeId,
+      createRrContentForNode,
+      setCurrentRrNode,
+      setSelectedRrContentTab,
+    ],
   );
 
   const handleRemoveRrContent = useCallback(
@@ -137,9 +144,6 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
 
   // Keynote: useEffect 的回调函数总是在组件渲染并提交到 DOM 之后才运行。
   useEffect(() => {
-    const firstContentTab = currentRrNode.content[0]!.rrContent;
-    setSelectedRrContentTab(firstContentTab);
-
     // 通过判断 zustand 中选中的当前 tab id 是否存在于 currentRrNode.content
     // 来判断是否切换了节点，因为 handleTabsValueChange 在初始化时不会执行
     const isFlowNodeChanged = !currentRrNode.content.some(
@@ -166,7 +170,6 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
   return (
     <Tabs
       key={currentRrNode._id}
-      defaultValue={currentRrNode.content[0]!.rrContent}
       value={selectedRrContentTab}
       onValueChange={(currentRrContentTab) =>
         handleTabsValueChange(currentRrContentTab)
