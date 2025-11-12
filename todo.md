@@ -5,10 +5,6 @@
 - [ ] Reverse Roadmap 用户登录功能，如何做权限管理
 - [ ] Api 做一个定时任务，定期导出数据库的文档，到本地
 - [ ] Api 了解 MongoDB transaction session 这些概念，然后看看怎么解决 rr-node-service create 的 race condition
-- [ ] Canvas 切换 tab，区分：笔记 / 感想 / 思考 等等，并且 tab 之间可以通过“链接”的方式互相引用跳转。还需包含 Tab 的新增、删除、重命名
-  > 渲染 tab 及其内容的功能已经实现
-  > 现在需要对 UX 进行打磨，修复一些 BUG
-  > 后续实现，基本增删改功能，UI 类似浏览器窗口，得改改 TabTrigger 组件
 - [ ] Canvas 中的操作（除了 content 更新外），如果涉及到外部节点的状态改变，都不会及时反应（重渲染）。比如：1. 外部节点信息更新 Canvas 无法及时更新。2. Canvas 中创建了新的 content，但是 Tab 不会及时更新，只能手动 invalidate 整棵树，然后点击对应节点，这非常低效。需要想办法优化
 - [ ] Canvas 在中文输入，打出字母的时候，onUpdate 也触发了，想想解决方法
   > 我记得渡一有个视频讲过，是讲的 debounce
@@ -47,6 +43,11 @@
 
 ## Done
 
+- [x] Canvas 切换 tab，区分：笔记 / 感想 / 思考 等等，并且 tab 之间可以通过“链接”的方式互相引用跳转。还需包含 Tab 的新增、删除、重命名
+  > 渲染 tab 及其内容的功能已经实现
+  > 现在需要对 UX 进行打磨，修复一些 BUG
+  > 后续实现，基本增删改功能，UI 类似浏览器窗口，得改改 TabTrigger 组件
+  > 之后回过头来优化 UI/UX 的时候，拆分/重构 较屎山的代码，提高其可维护性
 - [x] Api 将旧数据库结构，转换为新结构，然后导入到对应集合
 - [x] Sidebar 取消 shadcn/ui 或者 radix/ui 默认的快捷键开关方式，因为 control + B 与 mac 默认的快捷键冲突，很别扭
 - [x] Api 修改底层数据库 rr_nodes 集合的数据结构
