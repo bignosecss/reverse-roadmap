@@ -9,6 +9,7 @@
   > 合成事件
 - [ ] Canvas Content 文字内容加密
 - [ ] Canvas 设置每个节点 Content 的访问密码（访问密码在传输过程中的加密，可以参考 TLS 协商中 pre-master secret 的过程）
+  > 先暂时给 Sidebar root 设置了 public/private 模式，密码到时候应该存到本地的环境变量文件里面
 - [ ] Canvas 想想如何添加 AI Agent
 - [ ] Canvas 添加 TableOfContents extension，以在文档中导航标题
 - [ ] Canvas 中添加表格模块
