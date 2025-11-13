@@ -45,7 +45,8 @@ export function SidebarCustomContent() {
         </SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
-            {rrRoots &&
+            {!!rrRoots &&
+              rrRoots.length > 0 &&
               rrRoots.map((rrRoot: RrRoot) => (
                 <SidebarTreeItem
                   key={rrRoot._id}
