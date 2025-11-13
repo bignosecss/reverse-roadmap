@@ -31,6 +31,10 @@ export class RrRootService {
     return await this.rrRootRepository.save(newRrRoot);
   }
 
+  findAllPublic() {
+    return this.rrRootRepository.findAll({ status: 'active' });
+  }
+
   findAll() {
     return this.rrRootRepository.findAll();
   }

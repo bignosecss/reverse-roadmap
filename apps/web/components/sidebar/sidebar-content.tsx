@@ -8,20 +8,37 @@ import {
   SidebarMenu,
 } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
-import type { RrRoot } from "@/lib/types/models";
+import { RrRootStatus, type RrRoot } from "@/lib/types/models";
 import SidebarTreeItem from "./sidebar-content-item";
-import { useGetRrRoots } from "@/hooks/use-rr-root";
+import { useGetPublicRrRoots, useGetRrRoots } from "@/hooks/use-rr-root";
 import { Spinner } from "../ui/spinner";
+import useSidebarStore from "@/lib/stores/sidebar";
 
 export function SidebarCustomContent() {
   const pathname = usePathname();
 
-  // 直接从URL派生当前选中的树ID，消除冗余状态
   const currentTreeId = pathname.startsWith("/g/")
     ? pathname.split("/g/")[1]
     : null;
 
-  const { data: rrRoots, isLoading, isError } = useGetRrRoots();
+  const mode = useSidebarStore((state) => state.mode);
+
+  const publicRootsQuery = useGetPublicRrRoots();
+  const allRootsQuery = useGetRrRoots();
+
+  let rrRoots: RrRoot[] = [];
+  let isLoading = false;
+  let isError = false;
+
+  if (mode === RrRootStatus.public) {
+    rrRoots = publicRootsQuery.data ?? [];
+    isLoading = publicRootsQuery.isLoading;
+    isError = publicRootsQuery.isError;
+  } else {
+    rrRoots = allRootsQuery.data ?? [];
+    isLoading = allRootsQuery.isLoading;
+    isError = allRootsQuery.isError;
+  }
 
   if (isLoading) {
     return (

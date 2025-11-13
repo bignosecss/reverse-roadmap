@@ -20,6 +20,11 @@ export class RrRootController {
     return this.rrRootService.create(createRrRootDto);
   }
 
+  @Get('/public')
+  findAllPublic() {
+    return this.rrRootService.findAllPublic();
+  }
+
   @Get()
   findAll() {
     return this.rrRootService.findAll();
