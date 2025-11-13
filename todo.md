@@ -2,6 +2,7 @@
 
 ## Todos
 
+- [ ] Monorepo 知识学习，搞懂怎么在 monorepo 中管理环境变量
 - [ ] Api 做一个定时任务，定期导出数据库的文档，到本地
 - [ ] Canvas 中的操作（除了 content 更新外），如果涉及到外部节点的状态改变，都不会及时反应（重渲染）。比如：1. 外部节点信息更新 Canvas 无法及时更新。2. Canvas 中创建了新的 content，但是 Tab 不会及时更新，只能手动 invalidate 整棵树，然后点击对应节点，这非常低效。需要想办法优化
 - [ ] Canvas 在中文输入，打出字母的时候，onUpdate 也触发了，想想解决方法
@@ -26,6 +27,8 @@
 - [ ] Flow 能够链接到其他的目标，在本目标中的其他目标，渲染为 subflow
 - [ ] Flow Goal Page 顶部，引入AI来获取该 Goal 的内容，然后总结一句正能量鼓励文字，显示在顶部区域
 - [ ] Sidebar 也和 Flow 同样的搜索功能，快捷键 cmd+k 是 sidebar，cmd+j 是 Flow；这就要解决 cmd+j 快捷键和 chrome extension 的冲突了
+- [ ] Sidebar dialog 需要重构，目前 sidebar / flow node 都有自己的 dialog，但其实这些 dialog 的 UI 十分相似（两种）
+  > 想办法将 UI / 表单处理 / 业务场景 分离抽象出来
 
 ## Under Consideration Tasks
 
