@@ -103,6 +103,7 @@ export default function SidebarTreeItem({
             onClick={() => {
               if (!isActive) setCanvasOpen(false);
             }}
+            onDoubleClick={() => setIsEditing(true)}
           >
             <span className="group-data-[collapsible=icon]:hidden">
               {rrRoot.title}
@@ -136,7 +137,12 @@ export default function SidebarTreeItem({
           align="start"
           onCloseAutoFocus={(e) => e.preventDefault()}
         >
-          <DropdownMenuItem onClick={() => setIsEditing(true)}>
+          <DropdownMenuItem
+            onClick={() => {
+              if (isEditing) return;
+              setIsEditing(true);
+            }}
+          >
             <Edit2 />
             <span>重命名</span>
           </DropdownMenuItem>
