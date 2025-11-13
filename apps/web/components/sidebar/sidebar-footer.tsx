@@ -19,6 +19,7 @@ export function SidebarFooterComponent() {
   const [isPasswordDialogOpen, setIsPasswordDialogOpen] = useState(false);
 
   const handlePasswordConfirm = (password: string) => {
+    // todo: 密码存储到本地的环境变量文件里
     if (password === "123456") {
       toggleMode(RrRootStatus.private);
       toast.success("已切换到私有模式");
