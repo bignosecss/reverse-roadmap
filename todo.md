@@ -33,8 +33,6 @@
 
 ### Sidebar
 
-- [ ] Sidebar dialog 需要重构，目前 sidebar / flow node 都有自己的 dialog，但其实这些 dialog 的 UI 十分相似（两种）
-  > 想办法将 UI / 表单处理 / 业务场景 分离抽象出来
 - [ ] Sidebar 也和 Flow 同样的搜索功能，快捷键 cmd+k 是 sidebar，cmd+j 是 Flow；这就要解决 cmd+j 快捷键和 chrome extension 的冲突了
 
 ### Bug Fix Tasks
@@ -44,6 +42,9 @@
 
 ## Under Consideration Tasks
 
+- [ ] Sidebar dialog 需要重构，目前 sidebar / flow node 都有自己的 dialog，但其实这些 dialog 的 UI 十分相似（两种）
+  > 想办法将 UI / 表单处理 / 业务场景 分离抽象出来
+  > 是否是自找麻烦
 - [ ] Flow Canvas 关闭的时候搜索定位节点，将节点定位在距离 Flow 左侧 1/4 视口宽度的位置；Canvas 打开的时候正常 center
 - [ ] Flow 记忆节点位置与连线，更改节点连线等功能
 - [ ] Flow 能够链接到其他的目标，在本目标中的其他目标，渲染为 subflow
