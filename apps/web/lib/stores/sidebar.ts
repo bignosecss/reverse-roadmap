@@ -1,10 +1,10 @@
 import { create } from "zustand";
-import { SidebarState } from "../types/models";
+import { RrRootStatus, SidebarState } from "../types/models";
 
 const useSidebarStore = create<SidebarState>((set) => ({
-  rrRoots: [],
-  setRrRoots: (roots) => {
-    set({ rrRoots: roots });
+  mode: RrRootStatus.public,
+  toggleMode: (m) => {
+    set({ mode: m });
   },
 }));
 

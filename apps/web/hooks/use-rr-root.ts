@@ -5,6 +5,7 @@ import {
   fetchRrRootById,
   updateRrRoot,
   removeRrRootById,
+  fetchAllPublicRrRoots,
 } from "@/lib/service/rr-root";
 import { CreateRrRootDto, UpdateRrRootDto } from "@/lib/types/apiRequests";
 
@@ -17,6 +18,13 @@ export const useCreateRrRoot = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["rrRoots"] });
     },
+  });
+};
+
+export const useGetPublicRrRoots = () => {
+  return useQuery({
+    queryKey: ["publicRrRoots"],
+    queryFn: fetchAllPublicRrRoots,
   });
 };
 

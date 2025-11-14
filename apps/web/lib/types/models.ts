@@ -11,11 +11,16 @@ import type {
 } from "@xyflow/react";
 
 /** 侧边栏数据 */
+export enum RrRootStatus {
+  public = "active",
+  private = "archived",
+}
+
 export interface RrRoot {
   _id: string;
   title: string;
   rootRrNode: string;
-  status: "active" | "archived";
+  status: RrRootStatus;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -76,8 +81,8 @@ export type FlowState = {
 };
 
 export type SidebarState = {
-  rrRoots: RrRoot[];
-  setRrRoots: (roots: RrRoot[]) => void;
+  mode: RrRootStatus;
+  toggleMode: (m: RrRootStatus) => void;
 };
 
 export type CanvasState = {

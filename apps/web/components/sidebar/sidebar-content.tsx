@@ -8,33 +8,50 @@ import {
   SidebarMenu,
 } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
-import type { RrRoot } from "@/lib/types/models";
+import { RrRootStatus, type RrRoot } from "@/lib/types/models";
 import SidebarTreeItem from "./sidebar-content-item";
+import { useGetPublicRrRoots, useGetRrRoots } from "@/hooks/use-rr-root";
+import { Spinner } from "../ui/spinner";
+import useSidebarStore from "@/lib/stores/sidebar";
 
-interface SidebarCustomContentProps {
-  rrRoots: RrRoot[] | undefined;
-  isLoading: boolean;
-  isError: boolean;
-}
-
-export function SidebarCustomContent({
-  rrRoots,
-  isLoading,
-  isError,
-}: SidebarCustomContentProps) {
+export function SidebarCustomContent() {
   const pathname = usePathname();
 
-  // 直接从URL派生当前选中的树ID，消除冗余状态
   const currentTreeId = pathname.startsWith("/g/")
     ? pathname.split("/g/")[1]
     : null;
 
+  const mode = useSidebarStore((state) => state.mode);
+
+  const publicRootsQuery = useGetPublicRrRoots();
+  const allRootsQuery = useGetRrRoots();
+
+  let rrRoots: RrRoot[] = [];
+  let isLoading = false;
+  let isError = false;
+
+  if (mode === RrRootStatus.public) {
+    rrRoots = publicRootsQuery.data ?? [];
+    isLoading = publicRootsQuery.isLoading;
+    isError = publicRootsQuery.isError;
+  } else {
+    rrRoots = allRootsQuery.data ?? [];
+    isLoading = allRootsQuery.isLoading;
+    isError = allRootsQuery.isError;
+  }
+
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="w-full h-1/4 p-4 flex justify-center items-center">
+        <Spinner className="size-8" />
+      </div>
+    );
   }
 
   if (isError) {
-    return <div>Error: No data</div>;
+    return (
+      <div className="w-full p-4 text-[var(--destructive)]">Error: No data</div>
+    );
   }
 
   return (
@@ -45,7 +62,8 @@ export function SidebarCustomContent({
         </SidebarGroupLabel>
         <SidebarGroupContent>
           <SidebarMenu>
-            {rrRoots &&
+            {!!rrRoots &&
+              rrRoots.length > 0 &&
               rrRoots.map((rrRoot: RrRoot) => (
                 <SidebarTreeItem
                   key={rrRoot._id}

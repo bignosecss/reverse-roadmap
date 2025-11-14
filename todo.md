@@ -2,46 +2,59 @@
 
 ## Todos
 
-- [ ] Reverse Roadmap 用户登录功能，如何做权限管理
+- [ ] Monorepo 知识学习，搞懂怎么在 monorepo 中管理环境变量
 - [ ] Api 做一个定时任务，定期导出数据库的文档，到本地
-- [ ] Canvas 中的操作（除了 content 更新外），如果涉及到外部节点的状态改变，都不会及时反应（重渲染）。比如：1. 外部节点信息更新 Canvas 无法及时更新。2. Canvas 中创建了新的 content，但是 Tab 不会及时更新，只能手动 invalidate 整棵树，然后点击对应节点，这非常低效。需要想办法优化
+
+### Canvas
+
+- [ ] Canvas 想想如何添加 AI Agent
+- [ ] Canvas Content 文字内容加密
 - [ ] Canvas 在中文输入，打出字母的时候，onUpdate 也触发了，想想解决方法
   > 我记得渡一有个视频讲过，是讲的 debounce
   > 合成事件
-- [ ] Canvas Content 文字内容加密
-- [ ] Canvas 设置每个节点 Content 的访问密码（访问密码在传输过程中的加密，可以参考 TLS 协商中 pre-master secret 的过程）
-- [ ] Canvas 想想如何添加 AI Agent
-- [ ] Canvas 添加 TableOfContents extension，以在文档中导航标题
+- [ ] Canvas 中的操作（除了 content 更新外），如果涉及到外部节点的状态改变，都不会及时反应（重渲染）。比如：1. 外部节点信息更新 Canvas 无法及时更新。2. Canvas 中创建了新的 content，但是 Tab 不会及时更新，只能手动 invalidate 整棵树，然后点击对应节点，这非常低效。需要想办法优化
+- [ ] Canvas 打开/关闭的动画效果，会导致 Canvas 内容在宽度较小时被挤压，要做一个类似渐变消失的效果
 - [ ] Canvas 中添加表格模块
   > 有点难啊！
   > 困难在于，怎么将 shadcn/ui 的 table 组件与 tiptap table extension 联系起来
   > 现在表格功能并不是刚需，先做别的
-- [ ] Canvas 打开/关闭的动画效果，会导致 Canvas 内容在宽度较小时被挤压，要做一个类似渐变消失的效果
+- [ ] Canvas 添加 TableOfContents extension，以在文档中导航标题
+
+### Flow
+
+- [ ] Flow 跟节点能够创建另外一个跟节点，当前的跟节点变为其子节点
 - [ ] Flow CRUD 节点时，等待途中冻结 Flow，操作结束（成功或失败）后再恢复（增加 UX，也方便探测性能）
   > Optimistic UI + 局部 Loading 标识
   > 用户点击“新增节点”时，先立即在前端添加节点（假设成功）。同时发送后端请求。如果失败 → 显示 toast/error，并 revert。
   > 视觉效果通常是：节点半透明 + loading spinner；其他节点可继续操作；Flow 不会整体锁住。
   > Figma / Notion / Miro / Draw.io / React Flow Pro demos 都是这种方式
   > 现在仅我个人使用，我当然会注意，所以该功能并不着急，要紧的是核心功能的开发，所以照此思路排优先级
-- [ ] Flow Canvas 关闭的时候搜索定位节点，将节点定位在距离 Flow 左侧 1/4 视口宽度的位置；Canvas 打开的时候正常 center
-- [ ] Flow 跟节点能够创建另外一个跟节点，当前的跟节点变为其子节点
-- [ ] Flow 记忆节点位置与连线，更改节点连线等功能
-- [ ] Flow 能够链接到其他的目标，在本目标中的其他目标，渲染为 subflow
 - [ ] Flow Goal Page 顶部，引入AI来获取该 Goal 的内容，然后总结一句正能量鼓励文字，显示在顶部区域
+
+### Sidebar
+
 - [ ] Sidebar 也和 Flow 同样的搜索功能，快捷键 cmd+k 是 sidebar，cmd+j 是 Flow；这就要解决 cmd+j 快捷键和 chrome extension 的冲突了
-- [ ] Sidebar roots 部分请求数据时候的交互
 
-## Unclear Tasks
-
-- [ ] 统计每个 `tree` 的信息（节点数等），或是在 Flow 中增加一个绝对定位的类似切换布局方式的按钮来控制显示，或者在 Dashboard 中可视化统计（使用 D3.js）
-
-## Bug Fix Tasks
+### Bug Fix Tasks
 
 - [ ] Canvas 中，点击的节点，如果其 content 存在图片，那么 tiptap 初始化之后，会出现 flushSync 的报错
 - [ ] Canvas Bubble Menu UX 有些问题。在选中文本后，BubbleMenu 出现 OK 没问题，然后点击其中的 dropdown 组件，BubbleMenu 消失，dropdown item 显示到了屏幕左上角，坐标 (0, 0) 的地方
 
+## Under Consideration Tasks
+
+- [ ] Sidebar dialog 需要重构，目前 sidebar / flow node 都有自己的 dialog，但其实这些 dialog 的 UI 十分相似（两种）
+  > 想办法将 UI / 表单处理 / 业务场景 分离抽象出来
+  > 是否是自找麻烦
+- [ ] Flow Canvas 关闭的时候搜索定位节点，将节点定位在距离 Flow 左侧 1/4 视口宽度的位置；Canvas 打开的时候正常 center
+- [ ] Flow 记忆节点位置与连线，更改节点连线等功能
+- [ ] Flow 能够链接到其他的目标，在本目标中的其他目标，渲染为 subflow
+- [ ] Canvas 设置每个节点 Content 的访问密码（访问密码在传输过程中的加密，可以参考 TLS 协商中 pre-master secret 的过程）
+  > 先暂时给 Sidebar root 设置了 public/private 模式，密码到时候应该存到本地的环境变量文件里面
+- [ ] 统计每个 `tree` 的信息（节点数等），或是在 Flow 中增加一个绝对定位的类似切换布局方式的按钮来控制显示，或者在 Dashboard 中可视化统计（使用 D3.js）
+
 ## Done
 
+- [x] Sidebar roots 部分请求数据时候的交互
 - [x] Canvas 切换 tab，区分：笔记 / 感想 / 思考 等等，并且 tab 之间可以通过“链接”的方式互相引用跳转。还需包含 Tab 的新增、删除、重命名
   > 渲染 tab 及其内容的功能已经实现
   > 现在需要对 UX 进行打磨，修复一些 BUG
@@ -85,6 +98,8 @@
 
 ## Deprecated
 
+- [ ] Reverse Roadmap 用户登录功能，如何做权限管理
+  > 这只是个人使用的项目，并不涉及多人协作功能，所以目前看来同样不需要登录模块
 - [ ] Api 了解 MongoDB transaction session 这些概念，然后看看怎么解决 rr-node-service create 的 race condition
   > 过度设计了
 - [ ] Sidebar 了解 Sidebar 常见的样式，和实现方式（似乎没必要了）

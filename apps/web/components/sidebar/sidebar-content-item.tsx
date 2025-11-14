@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import Link from "next/link";
 import { Edit2, MoreHorizontal, Trash2 } from "lucide-react";
 import {
@@ -37,14 +37,6 @@ export default function SidebarTreeItem({
   const [editValue, setEditValue] = useState(rrRoot.title);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const setCanvasOpen = useCanvasStore((state) => state.setCanvasOpen);
-
-  useEffect(() => {
-    if (isEditing && inputRef.current) {
-      setTimeout(() => {
-        inputRef.current?.focus();
-      }, 10);
-    }
-  }, [isEditing]);
 
   const handleBlur = useCallback(() => {
     setIsEditing(false);
@@ -103,6 +95,7 @@ export default function SidebarTreeItem({
             onClick={() => {
               if (!isActive) setCanvasOpen(false);
             }}
+            onDoubleClick={() => setIsEditing(true)}
           >
             <span className="group-data-[collapsible=icon]:hidden">
               {rrRoot.title}
@@ -111,6 +104,7 @@ export default function SidebarTreeItem({
         ) : (
           <Input
             ref={inputRef}
+            autoFocus
             type="text"
             value={editValue}
             onChange={(e) => {
@@ -136,7 +130,12 @@ export default function SidebarTreeItem({
           align="start"
           onCloseAutoFocus={(e) => e.preventDefault()}
         >
-          <DropdownMenuItem onClick={() => setIsEditing(true)}>
+          <DropdownMenuItem
+            onClick={() => {
+              if (isEditing) return;
+              setIsEditing(true);
+            }}
+          >
             <Edit2 />
             <span>重命名</span>
           </DropdownMenuItem>
