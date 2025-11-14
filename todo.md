@@ -7,8 +7,8 @@
 
 ### Canvas
 
-- [ ] Canvas Content 文字内容加密
 - [ ] Canvas 想想如何添加 AI Agent
+- [ ] Canvas Content 文字内容加密
 - [ ] Canvas 在中文输入，打出字母的时候，onUpdate 也触发了，想想解决方法
   > 我记得渡一有个视频讲过，是讲的 debounce
   > 合成事件
