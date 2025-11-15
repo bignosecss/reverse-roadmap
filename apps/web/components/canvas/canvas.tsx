@@ -72,13 +72,7 @@ export function Canvas() {
         )}
 
         <main className="w-full px-8">
-          {currentRrNode.content.length > 0 ? (
-            <CanvasTabs currentRrNode={currentRrNode} />
-          ) : (
-            <div className="w-full, px-8 text-[var(--destructive)]">
-              Content attribute of current rr node has no data
-            </div>
-          )}
+          <CanvasTabs currentRrNode={currentRrNode} />
         </main>
       </section>
     </div>

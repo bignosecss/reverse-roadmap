@@ -149,6 +149,7 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
 
   // Keynote: useEffect 的回调函数总是在组件渲染并提交到 DOM 之后才运行。
   useEffect(() => {
+    if (currentRrNode.content.length <= 0) return;
     // 通过判断 zustand 中选中的当前 tab id 是否存在于 currentRrNode.content
     // 来判断是否切换了节点，因为 handleTabsValueChange 在初始化时不会执行
     const isFlowNodeChanged = !currentRrNode.content.some(
@@ -164,14 +165,6 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentRrNode, queryClient, setSelectedRrContentTab]);
 
-  if (!selectedRrContentTab) {
-    return (
-      <div className="w-full, px-8 text-[var(--destructive)]">
-        Current node has no contents
-      </div>
-    );
-  }
-
   return (
     <Tabs
       key={currentRrNode._id}
@@ -182,57 +175,58 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
     >
       <div className="p-5 flex flex-row items-center">
         <TabsList>
-          {currentRrNode.content.map((nodeContent) => (
-            <TabsTrigger
-              key={nodeContent.rrContent}
-              value={nodeContent.rrContent}
-              className="group relative pr-7"
-              onDoubleClick={() => handleTabDoubleClick(nodeContent)}
-            >
-              {editingTab && editingTabId === nodeContent.rrContent ? (
-                <Input
-                  type="text"
-                  autoFocus
-                  value={editingTabValue}
-                  onChange={(e) => {
-                    setEditingTabValue(e.target.value);
-                  }}
-                  onKeyDown={(e) => {
-                    if (e.key === "Escape") {
-                      setEditingTab(false);
-                    }
-                    if (e.key === "Enter") {
-                      handleUpdateRrContentTab({
-                        rrContent: nodeContent.rrContent,
-                        tabTitle: editingTabValue,
-                      } as UpdateRrContentTabDto);
-                    }
-                  }}
-                  onBlur={() => setEditingTab(false)}
-                  disabled={isRrContentTabUpdating}
-                />
-              ) : (
-                nodeContent.tabTitle
-              )}
-              <Button
-                variant="ghost"
-                size="icon"
-                asChild
-                className="absolute right-1 top-1/2 -translate-y-1/2 h-5 w-5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleRemoveRrContent(
-                    currentRrNode._id,
-                    nodeContent.rrContent,
-                  );
-                }}
+          {currentRrNode.content.length > 0 &&
+            currentRrNode.content.map((nodeContent) => (
+              <TabsTrigger
+                key={nodeContent.rrContent}
+                value={nodeContent.rrContent}
+                className="group relative pr-7"
+                onDoubleClick={() => handleTabDoubleClick(nodeContent)}
               >
-                <span>
-                  <Cross2Icon className="h-3 w-3" />
-                </span>
-              </Button>
-            </TabsTrigger>
-          ))}
+                {editingTab && editingTabId === nodeContent.rrContent ? (
+                  <Input
+                    type="text"
+                    autoFocus
+                    value={editingTabValue}
+                    onChange={(e) => {
+                      setEditingTabValue(e.target.value);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Escape") {
+                        setEditingTab(false);
+                      }
+                      if (e.key === "Enter") {
+                        handleUpdateRrContentTab({
+                          rrContent: nodeContent.rrContent,
+                          tabTitle: editingTabValue,
+                        } as UpdateRrContentTabDto);
+                      }
+                    }}
+                    onBlur={() => setEditingTab(false)}
+                    disabled={isRrContentTabUpdating}
+                  />
+                ) : (
+                  nodeContent.tabTitle
+                )}
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  asChild
+                  className="absolute right-1 top-1/2 -translate-y-1/2 h-5 w-5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleRemoveRrContent(
+                      currentRrNode._id,
+                      nodeContent.rrContent,
+                    );
+                  }}
+                >
+                  <span>
+                    <Cross2Icon className="h-3 w-3" />
+                  </span>
+                </Button>
+              </TabsTrigger>
+            ))}
         </TabsList>
         <Button
           variant="ghost"
