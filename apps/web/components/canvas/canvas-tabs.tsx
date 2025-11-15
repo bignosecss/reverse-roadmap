@@ -61,7 +61,11 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
       createRrContentForNode(nodeId, {
         onSuccess: (data: { node: RrNode; content: RrContent }) => {
           setCurrentRrNode(data.node);
+          queryClient.invalidateQueries({
+            queryKey: ["rrContent", selectedRrContentTab],
+          });
           setSelectedRrContentTab(data.content._id);
+          prevRrContentTab.current = data.content._id;
           queryClient.invalidateQueries({ queryKey: ["rrTree", treeId] });
           toast.success("Content 创建成功", {
             description: `成功为节点 ${data.node.title} 创建 content ${data.content.tabTitle}`,
@@ -70,11 +74,12 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
       });
     },
     [
-      queryClient,
-      treeId,
       createRrContentForNode,
       setCurrentRrNode,
+      queryClient,
+      selectedRrContentTab,
       setSelectedRrContentTab,
+      treeId,
     ],
   );
 
