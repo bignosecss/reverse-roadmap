@@ -39,6 +39,7 @@ export interface RrNode {
   children: RrNode[];
   createdAt?: Date;
   updatedAt?: Date;
+  pending?: boolean;
 }
 
 export interface RrContent {
@@ -78,6 +79,9 @@ export type FlowState = {
   setNodes: (nodes: FlowNode[]) => void;
   setEdges: (edges: FlowEdge[]) => void;
   setCurrentRrNode: (node: RrNode) => void;
+  addNode: (node: FlowNode, edge: Edge) => void;
+  updateNode: (nodeId: string, data: Partial<RrNode>) => void;
+  removeNode: (nodeId: string) => void;
 };
 
 export type SidebarState = {

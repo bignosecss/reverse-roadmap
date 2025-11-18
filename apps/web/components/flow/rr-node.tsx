@@ -1,7 +1,7 @@
 import { useParams } from "next/navigation";
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { NodeProps } from "@xyflow/react";
-import { FlowNode, RrNode } from "@/lib/types/models";
+import { FlowNode, FlowState, RrNode } from "@/lib/types/models";
 import RrNodeToolbar from "./rr-node-toolbar";
 import RrNodeCard from "./rr-node-card";
 import { NodeDialog, NodeOperation } from "../dialogs/node-dialog";
@@ -11,8 +11,18 @@ import {
   useRemoveRrNodeById,
 } from "@/hooks/use-rr-node";
 import { toast } from "sonner";
-import { useQueryClient } from "@tanstack/react-query";
 import useCanvasStore from "@/lib/stores/canvas";
+import useFlowStore from "@/lib/stores/flow";
+import { useShallow } from "zustand/react/shallow";
+import { useQueryClient } from "@tanstack/react-query";
+
+const flowSelector = (state: FlowState) => ({
+  addNode: state.addNode,
+  updateNode: state.updateNode,
+  removeNode: state.removeNode,
+  nodes: state.nodes,
+  edges: state.edges,
+});
 
 /**
  * 自定义 RrNode 组件
@@ -29,6 +39,19 @@ export default function RrNodeComponent({
     operation: "add" as NodeOperation,
   });
 
+  const { addNode, updateNode, removeNode, nodes, edges } = useFlowStore(
+    useShallow(flowSelector),
+  );
+
+  const getNode = useCallback(
+    (id: string) => nodes.find((n) => n.id === id),
+    [nodes],
+  );
+  const getEdge = useCallback(
+    (id: string) => edges.find((e) => e.target === id),
+    [edges],
+  );
+
   // 判断是否为根节点
   const treeId = useParams().id as string;
   const isRootNode = rrNode._id === treeId;
@@ -43,14 +66,17 @@ export default function RrNodeComponent({
   // 处理 Dialog 确认操作
   const handleDialogConfirm = (
     operation: NodeOperation,
-    data?: Partial<typeof rrNode>,
+    nodeData?: Partial<RrNode>,
   ) => {
+    const currentNode = getNode(rrNode._id);
+    if (!currentNode) return;
+
     switch (operation) {
-      case "add":
+      case "add": {
         createRrNode(
           {
-            title: data!.title!,
-            description: data?.description,
+            title: nodeData!.title!,
+            description: nodeData?.description,
             parent: rrNode._id,
           },
           {
@@ -68,20 +94,27 @@ export default function RrNodeComponent({
           },
         );
         break;
-      case "edit":
+      }
+      case "edit": {
+        const originalNode = getNode(rrNode._id)?.data.rrNode;
+        if (!originalNode) return;
+
+        updateNode(rrNode._id, { ...nodeData, pending: true });
+
         updateRrNode(
           {
-            title: data!.title!,
-            description: data?.description,
+            title: nodeData!.title!,
+            description: nodeData?.description,
           },
           {
             onSuccess: (updatedNode: RrNode) => {
-              queryClient.invalidateQueries({ queryKey: ["rrTree", treeId] });
+              updateNode(rrNode._id, { ...updatedNode, pending: false });
               toast.success("节点更新成功", {
                 description: `节点 "${updatedNode.title}" 已更新`,
               });
             },
             onError: (error: Error) => {
+              updateNode(rrNode._id, originalNode);
               toast.error("节点更新失败", {
                 description: error?.message || "发生未知错误",
               });
@@ -89,22 +122,32 @@ export default function RrNodeComponent({
           },
         );
         break;
-      case "delete":
+      }
+      case "delete": {
+        const nodeToRemove = getNode(rrNode._id);
+        const edgeToRemove = getEdge(rrNode._id);
+
+        if (!nodeToRemove) return;
+
         removeRrNode(undefined, {
           onSuccess: (deletedNode: RrNode) => {
-            queryClient.invalidateQueries({ queryKey: ["rrTree", treeId] });
+            removeNode(rrNode._id);
             setCanvasOpen(false);
             toast.success("节点删除成功", {
               description: `节点 "${deletedNode.title}" 已删除`,
             });
           },
           onError: (error: Error) => {
+            if (edgeToRemove) {
+              addNode(nodeToRemove, edgeToRemove);
+            }
             toast.error("节点删除失败", {
               description: error?.message || "发生未知错误",
             });
           },
         });
         break;
+      }
     }
   };
 
