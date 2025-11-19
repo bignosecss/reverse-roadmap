@@ -16,24 +16,20 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { RrRoot } from "@/lib/types/models";
-import { useUpdateRrRoot, useDeleteRrRoot } from "@/hooks/use-rr-root";
+import { useDeleteRrRoot, useUpdateRrRoot } from "@/hooks/use-rr-root";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { ConfirmDialog } from "@/components/dialogs/confirm-dialog";
-import { useRouter } from "next/navigation";
 import useCanvasStore from "@/lib/stores/canvas";
+import { BaseDeleteDialog } from "@/components/dialogs/base-delete-dialog";
+import { useRouter } from "next/navigation";
 
 interface SidebarProjectItemProps {
   rrRoot: RrRoot;
   isActive: boolean;
 }
 
-export default function SidebarTreeItem({
-  rrRoot,
-  isActive,
-}: SidebarProjectItemProps) {
+export function RrRootItem({ rrRoot, isActive }: SidebarProjectItemProps) {
   const [isEditing, setIsEditing] = useState(false);
-  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
   const [editValue, setEditValue] = useState(rrRoot.title);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const setCanvasOpen = useCanvasStore((state) => state.setCanvasOpen);
@@ -44,10 +40,9 @@ export default function SidebarTreeItem({
   }, [rrRoot.title]);
 
   const queryClient = useQueryClient();
-  const { mutateAsync: updateRrRootAsync, isPending } = useUpdateRrRoot(
-    rrRoot._id,
-  );
-  const { mutateAsync: deleteRrRootAsync } = useDeleteRrRoot(rrRoot._id);
+  const { mutateAsync: updateRrRootAsync, isPending: isRootUpdating } =
+    useUpdateRrRoot(rrRoot._id);
+
   const handleEnter = useCallback(async () => {
     // 乐观更新
     const prev = queryClient.getQueryData<RrRoot[] | undefined>(["rrRoots"]);
@@ -72,19 +67,33 @@ export default function SidebarTreeItem({
   }, [editValue, queryClient, rrRoot._id, updateRrRootAsync]);
 
   const router = useRouter();
-  const handleDelete = useCallback(async () => {
-    try {
-      await deleteRrRootAsync();
-      toast.success("删除成功", {
-        position: "top-center",
-      });
-      router.push("/");
-    } catch (err: unknown) {
-      toast.error("删除失败", {
-        description: JSON.stringify(err),
-      });
-    }
-  }, [deleteRrRootAsync, router]);
+  const { mutate: deleteRrRoot, isPending: isRootDeleting } = useDeleteRrRoot(
+    rrRoot._id,
+  );
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
+  const handleDeleteRoot = useCallback(() => {
+    deleteRrRoot(undefined, {
+      onSettled: () => {
+        setIsDialogOpen(false);
+      },
+      onSuccess: (deletedRoot: RrRoot) => {
+        router.push("/");
+        queryClient.invalidateQueries({ queryKey: ["publicRrRoots"] });
+        queryClient.invalidateQueries({ queryKey: ["rrRoots"] });
+        toast.success("删除成功", {
+          position: "top-center",
+          description: `成功删除 ${deletedRoot.title}`,
+        });
+      },
+      onError: (err: unknown) => {
+        toast.error("删除失败", {
+          position: "top-center",
+          description: JSON.stringify(err),
+        });
+      },
+    });
+  }, [deleteRrRoot, queryClient, router]);
 
   return (
     <SidebarMenuItem>
@@ -115,7 +124,7 @@ export default function SidebarTreeItem({
               if (e.key === "Enter") handleEnter();
             }}
             onBlur={handleBlur}
-            disabled={isPending}
+            disabled={isRootUpdating}
           />
         )}
       </SidebarMenuButton>
@@ -131,7 +140,7 @@ export default function SidebarTreeItem({
           onCloseAutoFocus={(e) => e.preventDefault()}
         >
           <DropdownMenuItem
-            onClick={() => {
+            onSelect={() => {
               if (isEditing) return;
               setIsEditing(true);
             }}
@@ -139,26 +148,25 @@ export default function SidebarTreeItem({
             <Edit2 />
             <span>重命名</span>
           </DropdownMenuItem>
-          <DropdownMenuItem
-            variant="destructive"
-            onClick={() => setIsDeleteDialogOpen(true)}
-          >
-            <Trash2 />
-            <span>删除</span>
-          </DropdownMenuItem>
+          <BaseDeleteDialog
+            open={isDialogOpen}
+            onOpenChange={setIsDialogOpen}
+            trigger={
+              <DropdownMenuItem
+                variant="destructive"
+                onSelect={(e) => e.preventDefault()}
+              >
+                <Trash2 />
+                <span>删除</span>
+              </DropdownMenuItem>
+            }
+            title="确定要删除吗？"
+            description={`此次操作无法撤销。这将永久删除该项目 "${rrRoot.title}"；以及所有相关数据。`}
+            onConfirm={handleDeleteRoot}
+            disabled={isRootDeleting}
+          />
         </DropdownMenuContent>
       </DropdownMenu>
-
-      <ConfirmDialog
-        open={isDeleteDialogOpen}
-        onOpenChange={setIsDeleteDialogOpen}
-        onConfirm={handleDelete}
-        title="删除目标"
-        description={`确定要删除目标 "${rrRoot.title}" 吗？此操作无法撤销。`}
-        confirmText="删除"
-        cancelText="取消"
-        variant="destructive"
-      />
     </SidebarMenuItem>
   );
 }

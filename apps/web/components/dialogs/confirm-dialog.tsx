@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { BaseDialog } from "@/components/ui/base-dialog";
+import { BaseDialog } from "./base-dialog";
 
 /**
  * 确认Dialog - 处理简单的确认操作

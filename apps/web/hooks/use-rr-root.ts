@@ -43,25 +43,14 @@ export const useGetRrRoot = (rootId: string) => {
 };
 
 export const useUpdateRrRoot = (rootId: string) => {
-  const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: (updateRrRootDto: UpdateRrRootDto) =>
       updateRrRoot(rootId, updateRrRootDto),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["rrRoot", rootId] });
-      queryClient.invalidateQueries({ queryKey: ["rrRoots"] });
-    },
   });
 };
 
 export const useDeleteRrRoot = (rootId: string) => {
-  const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: () => removeRrRootById(rootId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["rrRoots"] });
-    },
   });
 };

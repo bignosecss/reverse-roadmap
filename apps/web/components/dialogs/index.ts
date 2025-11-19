@@ -7,8 +7,7 @@
  * - NodeDialog: 专门处理节点的增删改
  * - ConfirmDialog: 处理简单的确认操作
  */
-
-export { BaseDialog } from "../ui/base-dialog";
+export { BaseDialog } from "./base-dialog";
 export { CreateRootDialog } from "./create-root-dialog";
 export { NodeDialog, type NodeOperation } from "./node-dialog";
 export { ConfirmDialog } from "./confirm-dialog";
