@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import useSidebarStore from "@/lib/stores/sidebar";
 import { useGetPublicRrRoots, useGetRrRoots } from "@/hooks/use-rr-root";
 import { RrRootItem } from "./rr-root-item";
+import { RrRootsSkeleton } from "./rr-roots-skeleton";
 
 export function RrRootsList() {
   const pathname = usePathname();
@@ -17,14 +18,21 @@ export function RrRootsList() {
   const allRootsQuery = useGetRrRoots();
 
   let rrRoots: RrRoot[] = [];
+  let isLoading = false;
   let isError = false;
 
   if (mode === RrRootStatus.public) {
     rrRoots = publicRootsQuery.data ?? [];
+    isLoading = publicRootsQuery.isLoading;
     isError = publicRootsQuery.isError;
   } else {
     rrRoots = allRootsQuery.data ?? [];
+    isLoading = allRootsQuery.isLoading;
     isError = allRootsQuery.isError;
+  }
+
+  if (isLoading) {
+    return <RrRootsSkeleton />;
   }
 
   if (isError) {
