@@ -124,23 +124,15 @@ export default function RrNodeComponent({
         break;
       }
       case "delete": {
-        const nodeToRemove = getNode(rrNode._id);
-        const edgeToRemove = getEdge(rrNode._id);
-
-        if (!nodeToRemove) return;
-
         removeRrNode(undefined, {
           onSuccess: (deletedNode: RrNode) => {
-            removeNode(rrNode._id);
+            queryClient.invalidateQueries({ queryKey: ["rrTree", treeId] });
             setCanvasOpen(false);
             toast.success("节点删除成功", {
               description: `节点 "${deletedNode.title}" 已删除`,
             });
           },
           onError: (error: Error) => {
-            if (edgeToRemove) {
-              addNode(nodeToRemove, edgeToRemove);
-            }
             toast.error("节点删除失败", {
               description: error?.message || "发生未知错误",
             });
