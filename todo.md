@@ -39,7 +39,6 @@
 
 - [ ] Canvas 中，点击的节点，如果其 content 存在图片，那么 tiptap 初始化之后，会出现 flushSync 的报错
 - [ ] Canvas Bubble Menu UX 有些问题。在选中文本后，BubbleMenu 出现 OK 没问题，然后点击其中的 dropdown 组件，BubbleMenu 消失，dropdown item 显示到了屏幕左上角，坐标 (0, 0) 的地方
-- [ ] 删除 root 之后，对应的 node & content 没有删除
 
 ## Under Consideration Tasks
 
@@ -55,6 +54,8 @@
 
 ## Done
 
+- [x] 删除 root 之后，对应的 node & content 没有删除
+  > 不存在
 - [x] Sidebar roots 部分请求数据时候的交互
 - [x] Canvas 切换 tab，区分：笔记 / 感想 / 思考 等等，并且 tab 之间可以通过“链接”的方式互相引用跳转。还需包含 Tab 的新增、删除、重命名
   > 渲染 tab 及其内容的功能已经实现
