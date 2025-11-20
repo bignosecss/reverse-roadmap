@@ -25,6 +25,7 @@ export function EditNodeTrigger({ currentNode }: EditNodeTriggerProps) {
     description,
     setDescription,
     handleEditRrNode,
+    isUpdatingNode,
     isConfirmDisabled,
   } = useEditNode({ currentNode });
 
@@ -47,7 +48,7 @@ export function EditNodeTrigger({ currentNode }: EditNodeTriggerProps) {
       title="编辑节点"
       description="更新当前节点的信息"
       onConfirm={handleEditRrNode}
-      disabled={isConfirmDisabled}
+      disabled={isConfirmDisabled || isUpdatingNode}
     >
       <div className="grid gap-4">
         <div className="grid gap-3">

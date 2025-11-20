@@ -63,6 +63,7 @@ export default function FlowContent({ treeId }: { treeId: string }) {
     }
     return { nodes: [], edges: [] };
   }, [rrTree]);
+
   const onLayout = useCallback(
     (direction: DagreDirection) => {
       const layouted = getLayoutedNodes(
