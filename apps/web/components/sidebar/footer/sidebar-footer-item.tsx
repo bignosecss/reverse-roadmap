@@ -1,55 +1,43 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { BaseDialog } from "@/components/dialogs";
 import { SidebarMenuItem } from "@/components/ui/sidebar";
 import { FooterMenuItem } from "./constants";
-import useSidebarStore from "@/lib/stores/sidebar";
-import { RrRootStatus } from "@/lib/types/models";
-import { toast } from "sonner";
 import { BaseDialogTrigger } from "@/components/dialogs/base-dialog-trigger";
+import { useSwitchModeDialog } from "../hooks/use-switch-mode-dialog";
+import { RrRootStatus } from "@/lib/types/models";
 
 interface SidebarFooterItemProps {
   item: FooterMenuItem;
 }
 
 export function SidebarFooterItem({ item }: SidebarFooterItemProps) {
-  const [password, setPassword] = useState("");
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const {
+    isDialogOpen,
+    handleOpenChange,
+    password,
+    setPassword,
+    handleConfirm,
+    isFormValid,
+    mode,
+  } = useSwitchModeDialog();
 
-  useEffect(() => {
-    setPassword("");
-  }, []);
-
-  const mode = useSidebarStore((state) => state.mode);
-  const toggleMode = useSidebarStore((state) => state.toggleMode);
-
-  const handleConfirm = useCallback(() => {
-    if (mode === RrRootStatus.private) {
-      toggleMode(RrRootStatus.public);
-      toast.success(`已切换到 ${RrRootStatus.public} 模式`);
-      setIsDialogOpen(false);
-    } else if (mode === RrRootStatus.public && password === "123qwe") {
-      toggleMode(RrRootStatus.private);
-      toast.success(`已切换到 ${RrRootStatus.private} 模式`);
-      setIsDialogOpen(false);
-    } else {
-      toast.error("密码错误");
-    }
-  }, [mode, password, toggleMode]);
-
-  const isFormValid = password.trim().length > 0;
+  const isPrivate = mode === RrRootStatus.private;
+  const dialogTitle = isPrivate ? "切换到公开模式" : "输入密码";
+  const dialogDescription = isPrivate
+    ? "确定要切换到公开模式吗？"
+    : "请输入密码以查看私有内容";
 
   return (
     <SidebarMenuItem>
       <BaseDialog
         open={isDialogOpen}
-        onOpenChange={setIsDialogOpen}
+        onOpenChange={handleOpenChange}
         trigger={<BaseDialogTrigger title={item.title} Icon={item.icon} />}
-        title="输入密码"
-        description="请输入密码以查看私有内容"
+        title={dialogTitle}
+        description={dialogDescription}
         confirmText="切换"
         onConfirm={handleConfirm}
         disabled={!isFormValid}
