@@ -22,6 +22,7 @@ import { toast } from "sonner";
 import useCanvasStore from "@/lib/stores/canvas";
 import { BaseDeleteDialog } from "@/components/dialogs/base-delete-dialog";
 import { useRouter } from "next/navigation";
+import { AlertDialogTrigger } from "@/components/ui/alert-dialog";
 
 interface SidebarProjectItemProps {
   rrRoot: RrRoot;
@@ -152,13 +153,15 @@ export function RrRootItem({ rrRoot, isActive }: SidebarProjectItemProps) {
             open={isDialogOpen}
             onOpenChange={setIsDialogOpen}
             trigger={
-              <DropdownMenuItem
-                variant="destructive"
-                onSelect={(e) => e.preventDefault()}
-              >
-                <Trash2 />
-                <span>删除</span>
-              </DropdownMenuItem>
+              <AlertDialogTrigger asChild>
+                <DropdownMenuItem
+                  variant="destructive"
+                  onSelect={(e) => e.preventDefault()}
+                >
+                  <Trash2 />
+                  <span>删除</span>
+                </DropdownMenuItem>
+              </AlertDialogTrigger>
             }
             title="确定要删除吗？"
             description={`此次操作无法撤销。这将永久删除该项目 "${rrRoot.title}"；以及所有相关数据。`}

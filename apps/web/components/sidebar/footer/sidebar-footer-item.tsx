@@ -4,12 +4,12 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { BaseDialog } from "@/components/dialogs";
-import { SidebarMenuItem } from "@/components/ui/sidebar";
-import { SidebarFooterDialogTrigger } from "./footer-dialog-trigger";
+import { SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { FooterMenuItem } from "./constants";
 import useSidebarStore from "@/lib/stores/sidebar";
 import { RrRootStatus } from "@/lib/types/models";
 import { toast } from "sonner";
+import { BaseDialogTrigger } from "@/components/dialogs/base-dialog-trigger";
 
 interface SidebarFooterItemProps {
   item: FooterMenuItem;
@@ -48,7 +48,9 @@ export function SidebarFooterItem({ item }: SidebarFooterItemProps) {
         open={isDialogOpen}
         onOpenChange={setIsDialogOpen}
         trigger={
-          <SidebarFooterDialogTrigger title={item.title} Icon={item.icon} />
+          <SidebarMenuButton asChild>
+            <BaseDialogTrigger title={item.title} Icon={item.icon} />
+          </SidebarMenuButton>
         }
         title="输入密码"
         description="请输入密码以查看私有内容"

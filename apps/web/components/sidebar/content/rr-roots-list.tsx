@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import useSidebarStore from "@/lib/stores/sidebar";
 import { useGetPublicRrRoots, useGetRrRoots } from "@/hooks/use-rr-root";
 import { RrRootItem } from "./rr-root-item";
-import { RrRootsSkeleton } from "./rr-roots-skeleton";
+import { Spinner } from "@/components/ui/spinner";
 
 export function RrRootsList() {
   const pathname = usePathname();
@@ -32,7 +32,7 @@ export function RrRootsList() {
   }
 
   if (isLoading) {
-    return <RrRootsSkeleton />;
+    return <Spinner className="size-8 w-full flex justify-center mt-8" />;
   }
 
   if (isError) {

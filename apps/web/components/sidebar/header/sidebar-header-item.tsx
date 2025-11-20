@@ -1,6 +1,5 @@
 import { BaseDialog } from "@/components/dialogs";
-import { SidebarMenuItem } from "@/components/ui/sidebar";
-import { SidebarHeaderDialogTrigger } from "./header-dialog-trigger";
+import { SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { HeadMenuItem } from "./constants";
 import { CreateRrRootDto } from "@/lib/types/apiRequests";
 import { Label } from "@/components/ui/label";
@@ -12,6 +11,7 @@ import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { RrRoot } from "@/lib/types/models";
+import { BaseDialogTrigger } from "@/components/dialogs/base-dialog-trigger";
 
 interface SidebarHeaderItemProps {
   item: HeadMenuItem;
@@ -80,7 +80,9 @@ export function SidebarHeaderItem({ item }: SidebarHeaderItemProps) {
         open={isDialogOpen}
         onOpenChange={setIsDialogOpen}
         trigger={
-          <SidebarHeaderDialogTrigger title={item.title} Icon={item.icon} />
+          <SidebarMenuButton asChild>
+            <BaseDialogTrigger title={item.title} Icon={item.icon} />
+          </SidebarMenuButton>
         }
         title="创建新目标"
         description="创建一个新的目标树"
