@@ -9,7 +9,7 @@ import { CanvasState } from "@/lib/types/models";
 import { useShallow } from "zustand/react/shallow";
 import { cn } from "@/lib/utils";
 import useCanvasStore from "@/lib/stores/canvas";
-import { CanvasTabs } from "./canvas-tabs";
+import { CanvasTabs } from "./editor/canvas-tabs";
 
 const selector = (state: CanvasState) => ({
   canvasOpen: state.canvasOpen,
