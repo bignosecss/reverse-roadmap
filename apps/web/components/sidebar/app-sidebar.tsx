@@ -1,9 +1,9 @@
 "use client";
 
 import { Sidebar } from "@/components/ui/sidebar";
-import { SidebarHeaderComponent } from "./sidebar-header";
-import { SidebarCustomContent } from "./sidebar-content";
-import { SidebarFooterComponent } from "./sidebar-footer";
+import { SidebarHeaderComponent } from "./header/sidebar-header";
+import { SidebarCustomContent } from "./content/sidebar-content";
+import { SidebarFooterComponent } from "./footer/sidebar-footer";
 
 export default function AppSidebar() {
   return (

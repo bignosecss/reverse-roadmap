@@ -8,6 +8,7 @@ import {
   fetchAllPublicRrRoots,
 } from "@/lib/service/rr-root";
 import { CreateRrRootDto, UpdateRrRootDto } from "@/lib/types/apiRequests";
+import { RootsQueryKey } from "@/lib/types/models";
 
 export const useCreateRrRoot = () => {
   const queryClient = useQueryClient();
@@ -16,21 +17,21 @@ export const useCreateRrRoot = () => {
     mutationFn: (createRrRootDto: CreateRrRootDto) =>
       createRrRoot(createRrRootDto),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["rrRoots"] });
+      queryClient.invalidateQueries({ queryKey: [RootsQueryKey.private] });
     },
   });
 };
 
 export const useGetPublicRrRoots = () => {
   return useQuery({
-    queryKey: ["publicRrRoots"],
+    queryKey: [RootsQueryKey.public],
     queryFn: fetchAllPublicRrRoots,
   });
 };
 
 export const useGetRrRoots = () => {
   return useQuery({
-    queryKey: ["rrRoots"],
+    queryKey: [RootsQueryKey.private],
     queryFn: fetchAllRrRoots,
   });
 };
@@ -43,25 +44,14 @@ export const useGetRrRoot = (rootId: string) => {
 };
 
 export const useUpdateRrRoot = (rootId: string) => {
-  const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: (updateRrRootDto: UpdateRrRootDto) =>
       updateRrRoot(rootId, updateRrRootDto),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["rrRoot", rootId] });
-      queryClient.invalidateQueries({ queryKey: ["rrRoots"] });
-    },
   });
 };
 
 export const useDeleteRrRoot = (rootId: string) => {
-  const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: () => removeRrRootById(rootId),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["rrRoots"] });
-    },
   });
 };

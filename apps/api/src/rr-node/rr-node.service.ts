@@ -104,7 +104,13 @@ export class RrNodeService {
   }
 
   update(id: string, updateRrNodeDto: UpdateRrNodeDto) {
-    return this.rrNodeRepository.update(id, updateRrNodeDto);
+    const { ...updateData } = updateRrNodeDto;
+
+    if (updateData && updateData.description === undefined) {
+      updateData.description = '';
+    }
+
+    return this.rrNodeRepository.update(id, updateData);
   }
 
   async updateRrContentForNode(

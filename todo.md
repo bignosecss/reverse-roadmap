@@ -42,9 +42,6 @@
 
 ## Under Consideration Tasks
 
-- [ ] Sidebar dialog 需要重构，目前 sidebar / flow node 都有自己的 dialog，但其实这些 dialog 的 UI 十分相似（两种）
-  > 想办法将 UI / 表单处理 / 业务场景 分离抽象出来
-  > 是否是自找麻烦
 - [ ] Flow Canvas 关闭的时候搜索定位节点，将节点定位在距离 Flow 左侧 1/4 视口宽度的位置；Canvas 打开的时候正常 center
 - [ ] Flow 记忆节点位置与连线，更改节点连线等功能
 - [ ] Flow 能够链接到其他的目标，在本目标中的其他目标，渲染为 subflow
@@ -54,6 +51,12 @@
 
 ## Done
 
+- [x] Sidebar dialog 需要重构，目前 sidebar / flow node 都有自己的 dialog，但其实这些 dialog 的 UI 十分相似（两种）
+  > 想办法将 UI / 表单处理 / 业务场景 分离抽象出来
+  > 是否是自找麻烦
+  > 将所有 dialog 重构了一遍，很好
+- [x] 删除 root 之后，对应的 node & content 没有删除
+  > 不存在
 - [x] Sidebar roots 部分请求数据时候的交互
 - [x] Canvas 切换 tab，区分：笔记 / 感想 / 思考 等等，并且 tab 之间可以通过“链接”的方式互相引用跳转。还需包含 Tab 的新增、删除、重命名
   > 渲染 tab 及其内容的功能已经实现

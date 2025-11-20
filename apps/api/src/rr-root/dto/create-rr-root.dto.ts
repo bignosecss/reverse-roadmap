@@ -6,4 +6,6 @@ export class CreateRrRootDto {
 
   @IsString()
   description?: string;
+
+  status!: 'active' | 'archived';
 }
