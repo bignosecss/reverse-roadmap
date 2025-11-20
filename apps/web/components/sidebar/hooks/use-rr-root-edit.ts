@@ -93,5 +93,6 @@ export function useRrRootEdit(rrRoot: RrRoot) {
     isRootUpdating,
     handleKeyDown,
     handleBlur,
+    mode,
   };
 }

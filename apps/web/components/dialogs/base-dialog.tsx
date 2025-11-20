@@ -18,7 +18,7 @@ interface BaseDialogProps extends ButtonPropsType {
   trigger: React.ReactElement;
   title: string;
   description: string;
-  children?: React.ReactElement;
+  children?: React.ReactNode;
   confirmText?: string;
   cancelText?: string;
   onConfirm: () => void;

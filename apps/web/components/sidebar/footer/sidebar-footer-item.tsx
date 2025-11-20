@@ -6,6 +6,7 @@ import { BaseDialog } from "@/components/dialogs";
 import { SidebarMenuItem } from "@/components/ui/sidebar";
 import { FooterMenuItem } from "./constants";
 import { BaseDialogTrigger } from "@/components/dialogs/base-dialog-trigger";
+import { RrRootStatus } from "@/lib/types/models";
 import { useSwitchModeDialog } from "../hooks/use-switch-mode-dialog";
 
 interface SidebarFooterItemProps {
@@ -22,6 +23,7 @@ export function SidebarFooterItem({ item }: SidebarFooterItemProps) {
     isFormValid,
     dialogTitle,
     dialogDescription,
+    mode,
   } = useSwitchModeDialog();
 
   return (
@@ -36,18 +38,20 @@ export function SidebarFooterItem({ item }: SidebarFooterItemProps) {
         onConfirm={handleConfirm}
         disabled={!isFormValid}
       >
-        <div className="grid gap-4">
-          <div className="grid gap-3">
-            <Label htmlFor="password">密码</Label>
-            <Input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="请输入密码"
-            />
+        {mode === RrRootStatus.public && (
+          <div className="grid gap-4">
+            <div className="grid gap-3">
+              <Label htmlFor="password">密码</Label>
+              <Input
+                id="password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="请输入密码"
+              />
+            </div>
           </div>
-        </div>
+        )}
       </BaseDialog>
     </SidebarMenuItem>
   );

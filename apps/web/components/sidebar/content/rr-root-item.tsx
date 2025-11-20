@@ -7,7 +7,6 @@ import { RrRoot, RrRootStatus } from "@/lib/types/models";
 import useCanvasStore from "@/lib/stores/canvas";
 import { useRrRootEdit } from "@/components/sidebar/hooks/use-rr-root-edit";
 import { useRrRootDelete } from "@/components/sidebar/hooks/use-rr-root-delete";
-import useSidebarStore from "@/lib/stores/sidebar";
 import { RrRootItemDropdown } from "./rr-root-item-dropdown";
 
 interface SidebarProjectItemProps {
@@ -17,7 +16,6 @@ interface SidebarProjectItemProps {
 
 export function RrRootItem({ rrRoot, isActive }: SidebarProjectItemProps) {
   const setCanvasOpen = useCanvasStore((state) => state.setCanvasOpen);
-  const mode = useSidebarStore((state) => state.mode);
 
   const {
     isEditing,
@@ -28,6 +26,7 @@ export function RrRootItem({ rrRoot, isActive }: SidebarProjectItemProps) {
     isRootUpdating,
     handleKeyDown,
     handleBlur,
+    mode,
   } = useRrRootEdit(rrRoot);
 
   const { isDialogOpen, setIsDialogOpen, isRootDeleting, handleDeleteRoot } =
