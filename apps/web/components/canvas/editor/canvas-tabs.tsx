@@ -1,4 +1,4 @@
-import { RrNode } from "@/lib/types/models";
+import { RrNode, RrRootStatus } from "@/lib/types/models";
 import { Tabs, TabsList } from "../../ui/tabs";
 import { Button } from "../../ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
@@ -7,8 +7,11 @@ import { useTabEditing } from "../hooks/useTabEditing";
 import { useActiveRrContent } from "../hooks/useActiveRrContent";
 import { EditableTabTrigger } from "./editable-tab-trigger";
 import { TabContentPanel } from "./tab-content-panel";
+import useSidebarStore from "@/lib/stores/sidebar";
 
 export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
+  const mode = useSidebarStore((state) => state.mode);
+
   const {
     selectedRrContentTab,
     handleCreateRrContent,
@@ -42,6 +45,7 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
         <TabsList>
           {currentRrNode.content.map((nodeContent) => (
             <EditableTabTrigger
+              mode={mode}
               key={nodeContent.rrContent}
               nodeContent={nodeContent}
               selectedRrContentTab={selectedRrContentTab}
@@ -55,14 +59,16 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
             />
           ))}
         </TabsList>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="rounded-full"
-          onClick={handleCreateRrContent}
-        >
-          <PlusIcon className="size-4" />
-        </Button>
+        {mode === RrRootStatus.private && (
+          <Button
+            variant="ghost"
+            size="icon"
+            className="rounded-full"
+            onClick={handleCreateRrContent}
+          >
+            <PlusIcon className="size-4" />
+          </Button>
+        )}
       </div>
       {currentRrNode.content.map((nodeContent) => (
         <TabContentPanel
