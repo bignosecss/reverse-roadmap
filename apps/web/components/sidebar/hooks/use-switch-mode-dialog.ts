@@ -8,6 +8,8 @@ import { toast } from "sonner";
 export function useSwitchModeDialog() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [password, setPassword] = useState("");
+  const [dialogTitle, setDialogTitle] = useState("");
+  const [dialogDescription, setDialogDescription] = useState("");
 
   const mode = useSidebarStore((state) => state.mode);
   const toggleMode = useSidebarStore((state) => state.toggleMode);
@@ -18,12 +20,19 @@ export function useSwitchModeDialog() {
 
   const handleOpenChange = useCallback(
     (open: boolean) => {
+      if (open) {
+        const isPrivate = mode === RrRootStatus.private;
+        setDialogTitle(isPrivate ? "切换到公开模式" : "输入密码");
+        setDialogDescription(
+          isPrivate ? "确定要切换到公开模式吗？" : "请输入密码以查看私有内容",
+        );
+      }
       setIsDialogOpen(open);
       if (!open) {
         resetForm();
       }
     },
-    [resetForm],
+    [resetForm, mode],
   );
 
   const handleConfirm = useCallback(() => {
@@ -52,5 +61,7 @@ export function useSwitchModeDialog() {
     handleConfirm,
     isFormValid,
     mode,
+    dialogTitle,
+    dialogDescription,
   };
 }

@@ -7,7 +7,6 @@ import { SidebarMenuItem } from "@/components/ui/sidebar";
 import { FooterMenuItem } from "./constants";
 import { BaseDialogTrigger } from "@/components/dialogs/base-dialog-trigger";
 import { useSwitchModeDialog } from "../hooks/use-switch-mode-dialog";
-import { RrRootStatus } from "@/lib/types/models";
 
 interface SidebarFooterItemProps {
   item: FooterMenuItem;
@@ -21,14 +20,9 @@ export function SidebarFooterItem({ item }: SidebarFooterItemProps) {
     setPassword,
     handleConfirm,
     isFormValid,
-    mode,
+    dialogTitle,
+    dialogDescription,
   } = useSwitchModeDialog();
-
-  const isPrivate = mode === RrRootStatus.private;
-  const dialogTitle = isPrivate ? "切换到公开模式" : "输入密码";
-  const dialogDescription = isPrivate
-    ? "确定要切换到公开模式吗？"
-    : "请输入密码以查看私有内容";
 
   return (
     <SidebarMenuItem>
