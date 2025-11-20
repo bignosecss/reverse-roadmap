@@ -27,6 +27,7 @@ import { Spinner } from "../ui/spinner";
 import { Button } from "../ui/button";
 import { ButtonGroup } from "../ui/button-group";
 import { FIT_VIEW_OPTIONS } from "./constants";
+import useCanvasStore from "@/lib/stores/canvas";
 
 // 注册自定义节点类型
 const nodeTypes = {
@@ -41,6 +42,7 @@ const selector = (state: FlowState) => ({
   onConnect: state.onConnect,
   setNodes: state.setNodes,
   setEdges: state.setEdges,
+  getNode: state.getNode,
 });
 
 export default function FlowContent({ treeId }: { treeId: string }) {
@@ -54,8 +56,11 @@ export default function FlowContent({ treeId }: { treeId: string }) {
     onConnect,
     setNodes,
     setEdges,
+    getNode,
   } = useFlowStore(useShallow(selector));
   const { setCenter, fitView } = useReactFlow();
+  const currentRrNode = useFlowStore((state) => state.currentRrNode);
+  const setCanvasOpen = useCanvasStore((state) => state.setCanvasOpen);
 
   const flowData = useMemo(() => {
     if (rrTree) {
@@ -82,7 +87,11 @@ export default function FlowContent({ treeId }: { treeId: string }) {
     if (rrTree) {
       onLayout(DagreDirection.TB);
     }
-  }, [rrTree, onLayout]);
+    if (currentRrNode && !getNode(currentRrNode._id)) {
+      setCanvasOpen(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rrTree, onLayout, getNode, setCanvasOpen]);
 
   if (isLoading) {
     return (
