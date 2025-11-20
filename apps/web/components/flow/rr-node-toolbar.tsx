@@ -1,60 +1,31 @@
 import { NodeToolbar, Position } from "@xyflow/react";
-import { Button } from "../ui/button";
-import { Edit, Plus, Trash2 } from "lucide-react";
+
+import { RrNode } from "@/lib/types/models";
+
+import { AddNodeTrigger } from "./toolbar/add-node-trigger";
+import { EditNodeTrigger } from "./toolbar/edit-node-trigger";
+import { DeleteNodeTrigger } from "./toolbar/delete-node-trigger";
 
 interface RrNodeToolbarProps {
   isVisible: boolean;
+  currentNode: RrNode;
   isRootNode: boolean;
-  onAdd: () => void;
-  onUpdate: () => void;
-  onRemove: () => void;
 }
 
 export default function RrNodeToolbar({
   isVisible,
+  currentNode,
   isRootNode,
-  onAdd: handleAdd,
-  onUpdate: handleUpdate,
-  onRemove: handleRemove,
 }: RrNodeToolbarProps) {
   return (
-    <>
-      {/* NodeToolbar - 节点工具栏 */}
-      <NodeToolbar
-        isVisible={isVisible}
-        position={Position.Top}
-        className="flex gap-1 p-1 bg-background border rounded-md shadow-lg"
-      >
-        <Button
-          size="sm"
-          variant="ghost"
-          onClick={handleAdd}
-          className="h-7 w-7 p-0"
-          title="添加"
-        >
-          <Plus className="h-3 w-3" />
-        </Button>
-        <Button
-          size="sm"
-          variant="ghost"
-          onClick={handleUpdate}
-          className="h-7 w-7 p-0"
-          title="编辑"
-        >
-          <Edit className="h-3 w-3" />
-        </Button>
-        {!isRootNode && (
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={handleRemove}
-            className="h-7 w-7 p-0 text-destructive hover:text-destructive"
-            title="删除"
-          >
-            <Trash2 className="h-3 w-3" />
-          </Button>
-        )}
-      </NodeToolbar>
-    </>
+    <NodeToolbar
+      isVisible={isVisible}
+      position={Position.Top}
+      className="flex gap-1 p-1 bg-background border rounded-md shadow-lg"
+    >
+      <AddNodeTrigger currentNode={currentNode} />
+      <EditNodeTrigger currentNode={currentNode} />
+      {!isRootNode && <DeleteNodeTrigger currentNode={currentNode} />}
+    </NodeToolbar>
   );
 }
