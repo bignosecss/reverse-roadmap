@@ -23,7 +23,7 @@ export class RrRootService {
     const newRrRootEntity: Partial<RrRoot> = {
       title: createRrRootDto.title,
       rootRrNode: newRootRrNode._id,
-      status: 'active',
+      status: createRrRootDto.status,
     };
 
     // 3. Call repository to save the entity.

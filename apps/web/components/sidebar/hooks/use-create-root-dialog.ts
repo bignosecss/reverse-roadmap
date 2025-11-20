@@ -5,13 +5,14 @@ import { useCreateRrRoot } from "@/hooks/use-rr-root";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { RrRoot } from "@/lib/types/models";
+import { RrRoot, RrRootStatus } from "@/lib/types/models";
 import { CreateRrRootDto } from "@/lib/types/apiRequests";
 
 export function useCreateRootDialog() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [status, setStatus] = useState<RrRootStatus>(RrRootStatus.private);
 
   const { mutate: createRrRoot, isPending } = useCreateRrRoot();
   const router = useRouter();
@@ -20,6 +21,7 @@ export function useCreateRootDialog() {
   const resetForm = useCallback(() => {
     setTitle("");
     setDescription("");
+    setStatus(RrRootStatus.private);
   }, []);
 
   const handleOpenChange = useCallback(
@@ -67,10 +69,11 @@ export function useCreateRootDialog() {
     const data: CreateRrRootDto = {
       title: trimmedTitle,
       description: trimmedDescription || undefined,
+      status,
     };
 
     handleCreateRoot(data);
-  }, [description, handleCreateRoot, title]);
+  }, [description, handleCreateRoot, title, status]);
 
   const isFormValid = title.trim().length > 0;
 
@@ -81,6 +84,8 @@ export function useCreateRootDialog() {
     setTitle,
     description,
     setDescription,
+    status,
+    setStatus,
     handleConfirm,
     isFormValid,
     isPending,
