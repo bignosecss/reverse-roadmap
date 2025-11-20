@@ -1,5 +1,5 @@
 import { BaseDialog } from "@/components/dialogs";
-import { SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
+import { SidebarMenuItem } from "@/components/ui/sidebar";
 import { HeadMenuItem } from "./constants";
 import { CreateRrRootDto } from "@/lib/types/apiRequests";
 import { Label } from "@/components/ui/label";
@@ -79,11 +79,7 @@ export function SidebarHeaderItem({ item }: SidebarHeaderItemProps) {
       <BaseDialog
         open={isDialogOpen}
         onOpenChange={setIsDialogOpen}
-        trigger={
-          <SidebarMenuButton asChild>
-            <BaseDialogTrigger title={item.title} Icon={item.icon} />
-          </SidebarMenuButton>
-        }
+        trigger={<BaseDialogTrigger title={item.title} Icon={item.icon} />}
         title="创建新目标"
         description="创建一个新的目标树"
         confirmText="创建"

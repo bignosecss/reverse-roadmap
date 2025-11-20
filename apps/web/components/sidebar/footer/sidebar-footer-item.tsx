@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { BaseDialog } from "@/components/dialogs";
-import { SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
+import { SidebarMenuItem } from "@/components/ui/sidebar";
 import { FooterMenuItem } from "./constants";
 import useSidebarStore from "@/lib/stores/sidebar";
 import { RrRootStatus } from "@/lib/types/models";
@@ -47,11 +47,7 @@ export function SidebarFooterItem({ item }: SidebarFooterItemProps) {
       <BaseDialog
         open={isDialogOpen}
         onOpenChange={setIsDialogOpen}
-        trigger={
-          <SidebarMenuButton asChild>
-            <BaseDialogTrigger title={item.title} Icon={item.icon} />
-          </SidebarMenuButton>
-        }
+        trigger={<BaseDialogTrigger title={item.title} Icon={item.icon} />}
         title="输入密码"
         description="请输入密码以查看私有内容"
         confirmText="切换"
