@@ -2,9 +2,9 @@ import { NodeToolbar, Position } from "@xyflow/react";
 
 import { RrNode } from "@/lib/types/models";
 
-import { AddNodeTrigger } from "./toolbar/add-node-trigger";
-import { EditNodeTrigger } from "./toolbar/edit-node-trigger";
-import { DeleteNodeTrigger } from "./toolbar/delete-node-trigger";
+import { AddNodeTrigger } from "./add-node-trigger";
+import { EditNodeTrigger } from "./edit-node-trigger";
+import { DeleteNodeTrigger } from "./delete-node-trigger";
 
 interface RrNodeToolbarProps {
   isVisible: boolean;
