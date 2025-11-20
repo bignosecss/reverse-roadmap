@@ -2,11 +2,12 @@
 
 import { useCallback, useState } from "react";
 import { Content } from "@tiptap/react";
-import { RrContent } from "@/lib/types/models";
+import { RrContent, RrRootStatus } from "@/lib/types/models";
 import useCanvasStore from "@/lib/stores/canvas";
 import { UseMutateFunction } from "@tanstack/react-query";
 import { CreateRrContentDto } from "@/lib/types/apiRequests";
 import { MinimalTiptapEditor } from "@/components/ui/minimal-tiptap";
+import useSidebarStore from "@/lib/stores/sidebar";
 
 interface TiptapProps {
   content: RrContent | undefined;
@@ -14,6 +15,7 @@ interface TiptapProps {
 }
 
 export const Tiptap = ({ content, onSave: saveContent }: TiptapProps) => {
+  const mode = useSidebarStore((state) => state.mode);
   const [value, setValue] = useState<Content>(content ? content : "");
   const setSavingContent = useCanvasStore((state) => state.setSavingContent);
 
@@ -37,7 +39,7 @@ export const Tiptap = ({ content, onSave: saveContent }: TiptapProps) => {
       output="json"
       placeholder="Enter your description..."
       autofocus={false}
-      editable={true}
+      editable={mode === RrRootStatus.private}
       editorClassName="focus:outline-hidden"
       throttleDelay={3000}
     />
