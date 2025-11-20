@@ -8,6 +8,7 @@ import {
   fetchAllPublicRrRoots,
 } from "@/lib/service/rr-root";
 import { CreateRrRootDto, UpdateRrRootDto } from "@/lib/types/apiRequests";
+import { RootsQueryKey } from "@/lib/types/models";
 
 export const useCreateRrRoot = () => {
   const queryClient = useQueryClient();
@@ -16,21 +17,21 @@ export const useCreateRrRoot = () => {
     mutationFn: (createRrRootDto: CreateRrRootDto) =>
       createRrRoot(createRrRootDto),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["rrRoots"] });
+      queryClient.invalidateQueries({ queryKey: [RootsQueryKey.private] });
     },
   });
 };
 
 export const useGetPublicRrRoots = () => {
   return useQuery({
-    queryKey: ["publicRrRoots"],
+    queryKey: [RootsQueryKey.public],
     queryFn: fetchAllPublicRrRoots,
   });
 };
 
 export const useGetRrRoots = () => {
   return useQuery({
-    queryKey: ["rrRoots"],
+    queryKey: [RootsQueryKey.private],
     queryFn: fetchAllRrRoots,
   });
 };
