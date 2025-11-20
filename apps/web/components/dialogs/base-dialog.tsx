@@ -40,7 +40,15 @@ export function BaseDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <form>
         {trigger}
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent
+          className="sm:max-w-[425px]"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              onConfirm();
+              e.preventDefault();
+            }
+          }}
+        >
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
             <DialogDescription>{description}</DialogDescription>

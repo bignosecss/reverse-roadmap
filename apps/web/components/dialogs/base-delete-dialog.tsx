@@ -37,7 +37,14 @@ export function BaseDeleteDialog({
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
       {trigger}
-      <AlertDialogContent>
+      <AlertDialogContent
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            onConfirm();
+            e.preventDefault();
+          }
+        }}
+      >
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
           <AlertDialogDescription>{description}</AlertDialogDescription>
