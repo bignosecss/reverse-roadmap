@@ -36,10 +36,10 @@ const useFlowStore = create<FlowState>((set, get) => ({
       edges: [...state.edges, edge],
     }));
   },
-  updateNode: (nodeId: string, data: Partial<RrNode>) => {
+  updateNode: (rrNodeId: string, data: Partial<RrNode>) => {
     set((state) => ({
       nodes: state.nodes.map((node) =>
-        node.id === nodeId
+        node.data.rrNode._id === rrNodeId
           ? {
               ...node,
               data: {
@@ -59,6 +59,9 @@ const useFlowStore = create<FlowState>((set, get) => ({
       nodes: state.nodes.filter((node) => node.id !== nodeId),
       edges: state.edges.filter((edge) => edge.target !== nodeId),
     }));
+  },
+  getNode: (rrNodeId: string) => {
+    return get().nodes.find((node) => node.data.rrNode._id === rrNodeId);
   },
 }));
 

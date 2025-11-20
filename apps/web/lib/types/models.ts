@@ -87,6 +87,7 @@ export type FlowState = {
   addNode: (node: FlowNode, edge: Edge) => void;
   updateNode: (nodeId: string, data: Partial<RrNode>) => void;
   removeNode: (nodeId: string) => void;
+  getNode: (rrNodeId: string) => FlowNode | undefined;
 };
 
 export type SidebarState = {
