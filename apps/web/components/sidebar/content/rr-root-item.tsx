@@ -1,26 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { Edit2, MoreHorizontal, Trash2 } from "lucide-react";
-import {
-  SidebarMenuAction,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "@/components/ui/sidebar";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
 import { RrRoot, RrRootStatus } from "@/lib/types/models";
 import useCanvasStore from "@/lib/stores/canvas";
-import { BaseDeleteDialog } from "@/components/dialogs/base-delete-dialog";
-import { AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { useRrRootEdit } from "@/components/sidebar/hooks/use-rr-root-edit";
 import { useRrRootDelete } from "@/components/sidebar/hooks/use-rr-root-delete";
 import useSidebarStore from "@/lib/stores/sidebar";
+import { RrRootItemDropdown } from "./rr-root-item-dropdown";
 
 interface SidebarProjectItemProps {
   rrRoot: RrRoot;
@@ -75,47 +63,15 @@ export function RrRootItem({ rrRoot, isActive }: SidebarProjectItemProps) {
         )}
       </SidebarMenuButton>
       {mode === RrRootStatus.private && (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <SidebarMenuAction showOnHover className="cursor-pointer">
-              <MoreHorizontal />
-            </SidebarMenuAction>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            side="right"
-            align="start"
-            onCloseAutoFocus={(e) => e.preventDefault()}
-          >
-            <DropdownMenuItem
-              onSelect={() => {
-                if (isEditing) return;
-                setIsEditing(true);
-              }}
-            >
-              <Edit2 />
-              <span>重命名</span>
-            </DropdownMenuItem>
-            <BaseDeleteDialog
-              open={isDialogOpen}
-              onOpenChange={setIsDialogOpen}
-              trigger={
-                <AlertDialogTrigger asChild>
-                  <DropdownMenuItem
-                    variant="destructive"
-                    onSelect={(e) => e.preventDefault()}
-                  >
-                    <Trash2 />
-                    <span>删除</span>
-                  </DropdownMenuItem>
-                </AlertDialogTrigger>
-              }
-              title="确定要删除吗？"
-              description={`此次操作无法撤销。这将永久删除该项目 "${rrRoot.title}"；以及所有相关数据。`}
-              onConfirm={handleDeleteRoot}
-              disabled={isRootDeleting}
-            />
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <RrRootItemDropdown
+          rrRoot={rrRoot}
+          isEditing={isEditing}
+          setIsEditing={setIsEditing}
+          isDialogOpen={isDialogOpen}
+          setIsDialogOpen={setIsDialogOpen}
+          isRootDeleting={isRootDeleting}
+          handleDeleteRoot={handleDeleteRoot}
+        />
       )}
     </SidebarMenuItem>
   );
