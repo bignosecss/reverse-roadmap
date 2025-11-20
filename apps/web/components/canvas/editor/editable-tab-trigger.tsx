@@ -1,0 +1,89 @@
+import { Cross2Icon } from "@radix-ui/react-icons";
+import { NodeContent } from "@/lib/types/models";
+import { UpdateRrContentTabDto } from "@/lib/types/apiRequests";
+import { TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+
+interface EditableTabTriggerProps {
+  nodeContent: NodeContent;
+  selectedRrContentTab: string;
+  editingState: {
+    editingTab: boolean;
+    editingTabId: string;
+    editingTabValue: string;
+  };
+  isRrContentTabUpdating: boolean;
+  handleTabDoubleClick: (
+    targetTab: NodeContent,
+    selectedRrContentTab: string,
+  ) => void;
+  setEditingTabValue: (value: string) => void;
+  setEditingTab: (isEditing: boolean) => void;
+  handleUpdateRrContentTab: (dto: UpdateRrContentTabDto) => void;
+  handleRemoveRrContent: (contentId: string) => void;
+}
+
+export function EditableTabTrigger({
+  nodeContent,
+  selectedRrContentTab,
+  editingState,
+  isRrContentTabUpdating,
+  handleTabDoubleClick,
+  setEditingTabValue,
+  setEditingTab,
+  handleUpdateRrContentTab,
+  handleRemoveRrContent,
+}: EditableTabTriggerProps) {
+  const { editingTab, editingTabId, editingTabValue } = editingState;
+  const isEditingThisTab = editingTab && editingTabId === nodeContent.rrContent;
+
+  return (
+    <TabsTrigger
+      key={nodeContent.rrContent}
+      value={nodeContent.rrContent}
+      className="group relative pr-7"
+      onDoubleClick={() =>
+        handleTabDoubleClick(nodeContent, selectedRrContentTab)
+      }
+    >
+      {isEditingThisTab ? (
+        <Input
+          type="text"
+          autoFocus
+          value={editingTabValue}
+          onChange={(e) => setEditingTabValue(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Escape") {
+              setEditingTab(false);
+            }
+            if (e.key === "Enter") {
+              handleUpdateRrContentTab({
+                rrContent: nodeContent.rrContent,
+                tabTitle: editingTabValue,
+              } as UpdateRrContentTabDto);
+            }
+          }}
+          onBlur={() => setEditingTab(false)}
+          disabled={isRrContentTabUpdating}
+        />
+      ) : (
+        nodeContent.tabTitle
+      )}
+      <Button
+        variant="ghost"
+        size="icon"
+        asChild
+        className="absolute right-1 top-1/2 -translate-y-1/2 h-5 w-5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+        onClick={(e) => {
+          e.stopPropagation();
+          handleRemoveRrContent(nodeContent.rrContent);
+        }}
+      >
+        <span>
+          <Cross2Icon className="h-3 w-3" />
+        </span>
+      </Button>
+    </TabsTrigger>
+  );
+}
