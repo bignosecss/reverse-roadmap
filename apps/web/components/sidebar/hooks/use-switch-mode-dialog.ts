@@ -4,13 +4,15 @@ import { useState, useCallback } from "react";
 import useSidebarStore from "@/lib/stores/sidebar";
 import { RrRootStatus } from "@/lib/types/models";
 import { toast } from "sonner";
-import { CONFIG } from "@/lib/service/config";
+import { useCheckSwitchMode } from "@/hooks/use-check-switch-mode";
+import { SwitchModeDto } from "@/lib/types/apiRequests";
 
 export function useSwitchModeDialog() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [password, setPassword] = useState("");
   const [dialogTitle, setDialogTitle] = useState("");
   const [dialogDescription, setDialogDescription] = useState("");
+  const { mutate: checkSwitchMode, isPending } = useCheckSwitchMode();
 
   const mode = useSidebarStore((state) => state.mode);
   const toggleMode = useSidebarStore((state) => state.toggleMode);
@@ -36,25 +38,7 @@ export function useSwitchModeDialog() {
     [resetForm, mode],
   );
 
-  /**
-   * React 渲染行为中的一个典型微妙之处。
-   * 在 toggleMode() 之前调用了 handleOpenChange(false)
-   * 但是，看到的视觉故障是由 React 的状态更新批处理引起的。
-   * 
-   * 下面是事件发生的顺序：                                                              
-      1.当 handleConfirm 运行时，它会在同一个函数中安排两次状态更新：
-        setIsDialogOpen(false) 和 toggleMode()。                                                
-      2.为了提高效率，React 会对这些更新进行批处理，然后只重新渲染组件一次，同时应用这两个新状态。
-        同时应用两个新状态。                                            
-      3.在这一次重新呈现中，isDialogOpen 为 false（因此对话框开始关闭
-        动画），但模式也发生了变化。                                              
-      4.由于对话框的内容取决于模式，因此在关闭动画结束之前，对话框中的表单将以新的模式值重新渲染。
-        模式值重新渲染。这使得窗体看起来闪烁或变化。
-
-    解决方法是将这两个操作分离开来：首先关闭对话框，只有在对话框的
-    动画消失后，才更新模式。我们可以通过一个简短的 setTimeout 来做到这一点。
-   */
-  const handleConfirm = useCallback(() => {
+  const handleConfirm = useCallback(async () => {
     const closeDialogAndToggle = (newMode: RrRootStatus) => {
       handleOpenChange(false);
       setTimeout(() => {
@@ -65,19 +49,27 @@ export function useSwitchModeDialog() {
 
     if (mode === RrRootStatus.private) {
       closeDialogAndToggle(RrRootStatus.public);
-    } else if (
-      mode === RrRootStatus.public &&
-      password === CONFIG.TOGGLE_MODE
-    ) {
-      closeDialogAndToggle(RrRootStatus.private);
-    } else {
-      toast.error("密码错误");
+      return;
     }
-  }, [mode, password, toggleMode, handleOpenChange]);
 
-  // If mode is private, form is always valid for switching to public
+    if (mode === RrRootStatus.public) {
+      checkSwitchMode({ password: password } as SwitchModeDto, {
+        onSuccess: () => {
+          closeDialogAndToggle(RrRootStatus.private);
+        },
+        onError: (error) => {
+          if (error instanceof Error) {
+            toast.error(error.message);
+          } else {
+            toast.error("网络请求失败，请稍后重试");
+          }
+        },
+      });
+    }
+  }, [mode, handleOpenChange, toggleMode, checkSwitchMode, password]);
+
   const isFormValid =
-    mode === RrRootStatus.private || password.trim().length > 0;
+    mode === RrRootStatus.private || (password.trim().length > 0 && !isPending);
 
   return {
     isDialogOpen,
@@ -89,5 +81,6 @@ export function useSwitchModeDialog() {
     mode,
     dialogTitle,
     dialogDescription,
+    isSubmitting: isPending,
   };
 }

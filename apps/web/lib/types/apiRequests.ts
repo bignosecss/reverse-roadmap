@@ -28,3 +28,7 @@ export interface UpdateRrContentTabDto {
   rrContent: string;
   tabTitle: string;
 }
+
+export interface SwitchModeDto {
+  password: string;
+}
