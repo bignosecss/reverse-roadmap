@@ -38,6 +38,24 @@ export function useSwitchModeDialog() {
     [resetForm, mode],
   );
 
+  /**
+   * React 渲染行为中的一个典型微妙之处。
+   * 在 toggleMode() 之前调用了 handleOpenChange(false)
+   * 但是，看到的视觉故障是由 React 的状态更新批处理引起的。
+   * 
+   * 下面是事件发生的顺序：                                                              
+      1.当 handleConfirm 运行时，它会在同一个函数中安排两次状态更新：
+        setIsDialogOpen(false) 和 toggleMode()。                                                
+      2.为了提高效率，React 会对这些更新进行批处理，然后只重新渲染组件一次，同时应用这两个新状态。
+        同时应用两个新状态。                                            
+      3.在这一次重新呈现中，isDialogOpen 为 false（因此对话框开始关闭
+        动画），但模式也发生了变化。                                              
+      4.由于对话框的内容取决于模式，因此在关闭动画结束之前，对话框中的表单将以新的模式值重新渲染。
+        模式值重新渲染。这使得窗体看起来闪烁或变化。
+
+    解决方法是将这两个操作分离开来：首先关闭对话框，只有在对话框的
+    动画消失后，才更新模式。我们可以通过一个简短的 setTimeout 来做到这一点。
+   */
   const handleConfirm = useCallback(async () => {
     const closeDialogAndToggle = (newMode: RrRootStatus) => {
       handleOpenChange(false);
