@@ -4,7 +4,7 @@ import { HeadMenuItem } from "./constants";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { BaseDialogTrigger } from "@/components/dialogs/base-dialog-trigger";
+import { BaseDialogTrigger } from "@/components/dialogs";
 import { useCreateRootDialog } from "../hooks/use-create-root-dialog";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { RrRootStatus } from "@/lib/types/models";

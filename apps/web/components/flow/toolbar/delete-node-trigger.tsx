@@ -4,7 +4,7 @@ import React from "react";
 import { Trash } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { BaseDeleteDialog } from "@/components/dialogs/base-delete-dialog";
+import { BaseDeleteDialog } from "@/components/dialogs";
 import { RrNode } from "@/lib/types/models";
 import { useDeleteNode } from "../hooks/use-delete-node";
 import { AlertDialogTrigger } from "@/components/ui/alert-dialog";

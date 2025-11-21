@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { BaseDialog } from "@/components/dialogs";
 import { SidebarMenuItem } from "@/components/ui/sidebar";
 import { FooterMenuItem } from "./constants";
-import { BaseDialogTrigger } from "@/components/dialogs/base-dialog-trigger";
+import { BaseDialogTrigger } from "@/components/dialogs";
 import { RrRootStatus } from "@/lib/types/models";
 import { useSwitchModeDialog } from "../hooks/use-switch-mode-dialog";
 

@@ -9,7 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { RrRoot } from "@/lib/types/models";
-import { BaseDeleteDialog } from "@/components/dialogs/base-delete-dialog";
+import { BaseDeleteDialog } from "@/components/dialogs";
 import { AlertDialogTrigger } from "@/components/ui/alert-dialog";
 
 interface RrRootItemDropdownProps {

@@ -8,6 +8,5 @@
  * - ConfirmDialog: 处理简单的确认操作
  */
 export { BaseDialog } from "./base-dialog";
-export { CreateRootDialog } from "./create-root-dialog";
-export { NodeDialog, type NodeOperation } from "./node-dialog";
-export { ConfirmDialog } from "./confirm-dialog";
+export { BaseDialogTrigger } from "./base-dialog-trigger";
+export { BaseDeleteDialog } from "./base-delete-dialog";
