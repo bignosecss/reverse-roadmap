@@ -4,6 +4,7 @@ import { useState, useCallback } from "react";
 import useSidebarStore from "@/lib/stores/sidebar";
 import { RrRootStatus } from "@/lib/types/models";
 import { toast } from "sonner";
+import { CONFIG } from "@/lib/service/config";
 
 export function useSwitchModeDialog() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -64,7 +65,10 @@ export function useSwitchModeDialog() {
 
     if (mode === RrRootStatus.private) {
       closeDialogAndToggle(RrRootStatus.public);
-    } else if (mode === RrRootStatus.public && password === "123qwe") {
+    } else if (
+      mode === RrRootStatus.public &&
+      password === CONFIG.TOGGLE_MODE
+    ) {
       closeDialogAndToggle(RrRootStatus.private);
     } else {
       toast.error("密码错误");

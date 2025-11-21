@@ -1,7 +1,7 @@
 import { ApiResponse } from "../types/apiResponses";
+import { CONFIG } from "./config";
 
-const BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api/";
+const BASE_URL = CONFIG.RR_API;
 const DEFAULT_FETCH_OPTIONS: RequestInit = {};
 const REQUEST_TIMEOUT = 15000; // 15 seconds
 

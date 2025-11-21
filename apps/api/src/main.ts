@@ -1,14 +1,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import * as dotenv from 'dotenv';
 import { ResponseInterceptor } from './common/response.interceptor';
 import { json } from 'express';
 
-// 加载环境变量
-dotenv.config({ path: '../../.env' });
-
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const PORT = process.env.PORT ?? 3001;
 
   // 设置全局前缀
   app.setGlobalPrefix('api');
@@ -17,9 +14,7 @@ async function bootstrap() {
   // 增加 request body 中 JSON 字符串的大小限制
   app.use(json({ limit: '16MB' }));
 
-  await app.listen(process.env.PORT ?? 3001);
-  console.log(
-    `🚀 API Server is running on: http://localhost:${process.env.PORT ?? 3001}/api`,
-  );
+  await app.listen(PORT);
+  console.log(`🚀 API Server is running on: http://localhost:${PORT}/api`);
 }
 void bootstrap();
