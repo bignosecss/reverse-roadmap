@@ -89,9 +89,11 @@ export function EditableTabTrigger({
         nodeContent.tabTitle
       )}
       {mode === RrRootStatus.private &&
-        !isCreatingRrContentTab &&
-        !isRemovingRrContentTab &&
-        !isRrContentTabUpdating && (
+        !(
+          isCreatingRrContentTab ||
+          isRemovingRrContentTab ||
+          isRrContentTabUpdating
+        ) && (
           <Button
             variant="ghost"
             size="icon"

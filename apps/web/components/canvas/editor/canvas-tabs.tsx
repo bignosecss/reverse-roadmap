@@ -64,9 +64,11 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
           ))}
         </TabsList>
         {mode === RrRootStatus.private &&
-          !isCreatingRrContentTab &&
-          !isRemovingRrContentTab &&
-          !isRrContentTabUpdating && (
+          !(
+            isCreatingRrContentTab ||
+            isRemovingRrContentTab ||
+            isRrContentTabUpdating
+          ) && (
             <Button
               variant="ghost"
               size="icon"
