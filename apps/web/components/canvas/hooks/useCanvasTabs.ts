@@ -27,8 +27,10 @@ export function useCanvasTabs(currentRrNode: RrNode) {
     useShallow(selector),
   );
 
-  const { mutate: createRrContentForNode } = useCreateRrContentForNode();
-  const { mutate: removeRrContent } = useRemoveRrContentForNode();
+  const { mutate: createRrContentForNode, isPending: isCreatingRrContentTab } =
+    useCreateRrContentForNode();
+  const { mutate: removeRrContent, isPending: isRemovingRrContentTab } =
+    useRemoveRrContentForNode();
 
   const prevRrContentTab = useRef("");
 
@@ -110,7 +112,9 @@ export function useCanvasTabs(currentRrNode: RrNode) {
   return {
     selectedRrContentTab,
     handleCreateRrContent,
+    isCreatingRrContentTab,
     handleRemoveRrContent,
+    isRemovingRrContentTab,
     handleSelectRrContent,
   };
 }

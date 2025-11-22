@@ -15,7 +15,9 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
   const {
     selectedRrContentTab,
     handleCreateRrContent,
+    isCreatingRrContentTab,
     handleRemoveRrContent,
+    isRemovingRrContentTab,
     handleSelectRrContent,
   } = useCanvasTabs(currentRrNode);
 
@@ -50,6 +52,8 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
               nodeContent={nodeContent}
               selectedRrContentTab={selectedRrContentTab}
               editingState={editingState}
+              isCreatingRrContentTab={isCreatingRrContentTab}
+              isRemovingRrContentTab={isRemovingRrContentTab}
               isRrContentTabUpdating={isRrContentTabUpdating}
               handleTabDoubleClick={handleTabDoubleClick}
               setEditingTabValue={setEditingTabValue}
@@ -59,16 +63,19 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
             />
           ))}
         </TabsList>
-        {mode === RrRootStatus.private && (
-          <Button
-            variant="ghost"
-            size="icon"
-            className="rounded-full"
-            onClick={handleCreateRrContent}
-          >
-            <PlusIcon className="size-4" />
-          </Button>
-        )}
+        {mode === RrRootStatus.private &&
+          !isCreatingRrContentTab &&
+          !isRemovingRrContentTab &&
+          !isRrContentTabUpdating && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="rounded-full"
+              onClick={handleCreateRrContent}
+            >
+              <PlusIcon className="size-4" />
+            </Button>
+          )}
       </div>
       {currentRrNode.content.map((nodeContent) => (
         <TabContentPanel
