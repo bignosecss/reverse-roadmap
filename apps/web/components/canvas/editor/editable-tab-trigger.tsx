@@ -15,6 +15,8 @@ interface EditableTabTriggerProps {
     editingTabId: string;
     editingTabValue: string;
   };
+  isCreatingRrContentTab: boolean;
+  isRemovingRrContentTab: boolean;
   isRrContentTabUpdating: boolean;
   handleTabDoubleClick: (
     targetTab: NodeContent,
@@ -31,6 +33,8 @@ export function EditableTabTrigger({
   nodeContent,
   selectedRrContentTab,
   editingState,
+  isCreatingRrContentTab,
+  isRemovingRrContentTab,
   isRrContentTabUpdating,
   handleTabDoubleClick,
   setEditingTabValue,
@@ -84,22 +88,27 @@ export function EditableTabTrigger({
       ) : (
         nodeContent.tabTitle
       )}
-      {mode === RrRootStatus.private && (
-        <Button
-          variant="ghost"
-          size="icon"
-          asChild
-          className="absolute right-1 top-1/2 -translate-y-1/2 h-5 w-5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleRemoveRrContent(nodeContent.rrContent);
-          }}
-        >
-          <span>
-            <Cross2Icon className="h-3 w-3" />
-          </span>
-        </Button>
-      )}
+      {mode === RrRootStatus.private &&
+        !(
+          isCreatingRrContentTab ||
+          isRemovingRrContentTab ||
+          isRrContentTabUpdating
+        ) && (
+          <Button
+            variant="ghost"
+            size="icon"
+            asChild
+            className="absolute right-1 top-1/2 -translate-y-1/2 h-5 w-5 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleRemoveRrContent(nodeContent.rrContent);
+            }}
+          >
+            <span>
+              <Cross2Icon className="h-3 w-3" />
+            </span>
+          </Button>
+        )}
     </TabsTrigger>
   );
 }
