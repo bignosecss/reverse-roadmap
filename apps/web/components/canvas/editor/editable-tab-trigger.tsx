@@ -84,6 +84,7 @@ export function EditableTabTrigger({
           onKeyDown={handleEnter}
           onBlur={() => setEditingTab(false)}
           disabled={isRrContentTabUpdating}
+          className="min-w-16"
         />
       ) : (
         nodeContent.tabTitle

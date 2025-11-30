@@ -43,7 +43,10 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
       value={selectedRrContentTab || ""}
       onValueChange={handleSelectRrContent}
     >
-      <div className="p-5 flex flex-row items-center">
+      <div
+        className="p-5 flex flex-row items-center max-w-full overflow-scroll"
+        style={{ scrollbarWidth: "none" }}
+      >
         <TabsList>
           {currentRrNode.content.map((nodeContent) => (
             <EditableTabTrigger
