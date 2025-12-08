@@ -64,7 +64,6 @@ export default function FlowContent({ treeId }: { treeId: string }) {
 
   const flowData = useMemo(() => {
     if (rrTree) {
-      console.log("rr tree", rrTree);
       return convertTreeToFlow(rrTree);
     }
     return { nodes: [], edges: [] };
@@ -104,7 +103,7 @@ export default function FlowContent({ treeId }: { treeId: string }) {
 
   if (isError || (!isLoading && !rrTree)) {
     return (
-      <div className="p-4 text-[var(--destructive)]">
+      <div className="p-4 text-[var(--destructive)] size-full flex justify-center items-center">
         Error loading flow data.
       </div>
     );
