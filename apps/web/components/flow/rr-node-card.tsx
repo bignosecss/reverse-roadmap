@@ -12,7 +12,6 @@ import { CanvasState, RrNode } from "@/lib/types/models";
 import useFlowStore from "@/lib/stores/flow";
 import useCanvasStore from "@/lib/stores/canvas";
 import { useSidebar } from "../ui/sidebar";
-import { Spinner } from "../ui/spinner";
 import { cn } from "@/lib/utils";
 
 interface RrNodeCardProps {
@@ -58,7 +57,6 @@ export default function RrNodeCard({
         "transition-all duration-200",
         "hover:shadow-lg",
         selected ? "ring-2 ring-primary shadow-lg" : "",
-        rrNode.pending ? "opacity-50" : "",
       )}
     >
       {/* 输入连接点 */}
@@ -68,12 +66,6 @@ export default function RrNodeCard({
           position={Position.Top}
           className="w-3 h-3 bg-primary border-2 border-background"
         />
-      )}
-
-      {rrNode.pending && (
-        <div className="absolute top-2 right-2">
-          <Spinner />
-        </div>
       )}
 
       <CardHeader className="pb-2">
