@@ -3,7 +3,7 @@ import useFlowStore from "@/lib/stores/flow";
 import { TabsManager } from "./tabs-manager";
 import { RichTextEditor } from "./rich-text-editor";
 import useCanvasStore from "@/lib/stores/canvas";
-import { useTabSelection } from "../hooks/useTabSelection";
+import { useTabSelection } from "../hooks";
 
 export function ContentWorkspace() {
   const currentRrNode = useFlowStore((state) => state.currentRrNode);

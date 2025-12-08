@@ -5,8 +5,11 @@ import { UpdateRrContentTabDto } from "@/lib/types/apiRequests";
 import { TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Tooltip } from "@radix-ui/react-tooltip";
-import { TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface TabData {
   nodeContent: NodeContent;

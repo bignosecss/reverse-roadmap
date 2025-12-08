@@ -3,9 +3,8 @@
 import useFlowStore from "@/lib/stores/flow";
 import { cn } from "@/lib/utils";
 import useCanvasStore from "@/lib/stores/canvas";
-import { CanvasHeader } from "./static-section/canvas-header";
-import { DescriptionQuote } from "./static-section/description-quote";
-import { ContentWorkspace } from "./editor/content-workspace";
+import { CanvasHeader, DescriptionQuote } from "./static-section";
+import { ContentWorkspace } from "./editor";
 
 export function Canvas() {
   const currentRrNode = useFlowStore((state) => state.currentRrNode);

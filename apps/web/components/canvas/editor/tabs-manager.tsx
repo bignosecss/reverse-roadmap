@@ -2,12 +2,14 @@ import { RrNode, RrRootStatus } from "@/lib/types/models";
 import { TabsList } from "../../ui/tabs";
 import { Button } from "../../ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
-import { useTabAddition } from "../hooks/useTabAddition";
-import { useTabRemoval } from "../hooks/useTabRemoval";
-import { useTabRename } from "../hooks/useTabRename";
+import {
+  useTabAddition,
+  useTabRemoval,
+  useTabRename,
+  useActiveRrContent,
+} from "../hooks";
 import { EditableTabTrigger } from "./editable-tab-trigger";
 import useSidebarStore from "@/lib/stores/sidebar";
-import { useActiveRrContent } from "../hooks/useActiveRrContent";
 
 interface TabsManagerProps {
   currentRrNode: RrNode;
