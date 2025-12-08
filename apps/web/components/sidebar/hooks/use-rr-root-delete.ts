@@ -20,32 +20,31 @@ export function useRrRootDelete(rrRoot: RrRoot) {
   );
 
   const handleDeleteRoot = useCallback(() => {
-    const previousData: RrRoot[] | undefined = queryClient.getQueryData([
+    // Store previous data for both private and public roots
+    const previousPrivateData: RrRoot[] | undefined = queryClient.getQueryData([
       RootsQueryKey.private,
     ]);
-    queryClient.cancelQueries({ queryKey: [RootsQueryKey.private] });
-    queryClient.setQueryData(
-      [RootsQueryKey.private],
-      (old: RrRoot[] | undefined) => {
+    const previousPublicData: RrRoot[] | undefined = queryClient.getQueryData([
+      RootsQueryKey.public,
+    ]);
+
+    const rootsQueryKeys = [RootsQueryKey.private, RootsQueryKey.public];
+
+    // Cancel queries and update both private and public roots optimistically
+    rootsQueryKeys.forEach((key) => {
+      queryClient.cancelQueries({ queryKey: [key] });
+      queryClient.setQueryData([key], (old: RrRoot[] | undefined) => {
         if (!old) return old;
         return old.filter((root) => root._id !== rrRoot._id);
-      },
-    );
+      });
+    });
 
-    // Also handle public roots if needed
-    const previousPublicData = queryClient.getQueryData([RootsQueryKey.public]);
-    queryClient.cancelQueries({ queryKey: [RootsQueryKey.public] });
-    queryClient.setQueryData(
-      [RootsQueryKey.public],
-      (old: RrRoot[] | undefined) => {
-        if (!old) return old;
-        return old.filter((root) => root._id !== rrRoot._id);
-      },
-    );
-
+    const currentData: RrRoot[] | undefined = queryClient.getQueryData([
+      RootsQueryKey.private,
+    ]);
     setIsDialogOpen(false);
     if (currentTreeId === rrRoot.rootRrNode) {
-      router.push(`/g/${previousData![1]!.rootRrNode}`);
+      router.push(`/g/${currentData![0]!.rootRrNode}`);
     }
 
     deleteRrRoot(undefined, {
@@ -59,8 +58,8 @@ export function useRrRootDelete(rrRoot: RrRoot) {
         });
       },
       onError: (err: unknown) => {
-        // If the mutation fails, rollback the optimistic update
-        queryClient.setQueryData([RootsQueryKey.private], previousData);
+        // If the mutation fails, rollback the optimistic update for both private and public roots
+        queryClient.setQueryData([RootsQueryKey.private], previousPrivateData);
         queryClient.setQueryData([RootsQueryKey.public], previousPublicData);
 
         toast.error("删除失败", {
