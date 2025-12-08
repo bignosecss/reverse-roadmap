@@ -11,7 +11,7 @@ import { TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 interface EditableTabTriggerProps {
   mode: RrRootStatus;
   nodeContent: NodeContent;
-  rrContent: RrContent |undefined;
+  rrContent: RrContent | undefined;
   selectedRrContentTab: string;
   editingState: {
     editingTab: boolean;
