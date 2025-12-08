@@ -2,77 +2,86 @@ import { RrNode, RrRootStatus } from "@/lib/types/models";
 import { TabsList } from "../../ui/tabs";
 import { Button } from "../../ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
-import { useCanvasTabs } from "../hooks/useCanvasTabs";
-import { useTabEditing } from "../hooks/useTabEditing";
+import { useTabAddition } from "../hooks/useTabAddition";
+import { useTabRemoval } from "../hooks/useTabRemoval";
+import { useTabRename } from "../hooks/useTabRename";
 import { EditableTabTrigger } from "./editable-tab-trigger";
 import useSidebarStore from "@/lib/stores/sidebar";
+import { useActiveRrContent } from "../hooks/useActiveRrContent";
 
 interface TabsManagerProps {
   currentRrNode: RrNode;
+  selectedRrContentTab: string;
+  onSelectTab: (contentId: string) => void;
 }
 
-export function TabsManager({ currentRrNode }: TabsManagerProps) {
+export function TabsManager({
+  currentRrNode,
+  selectedRrContentTab,
+  onSelectTab: handleSelectTab,
+}: TabsManagerProps) {
   const mode = useSidebarStore((state) => state.mode);
 
-  const {
-    selectedRrContentTab,
-    handleCreateRrContent,
-    isCreatingRrContentTab,
-    handleRemoveRrContent,
-    isRemovingRrContentTab,
-    handleSelectRrContent,
-  } = useCanvasTabs(currentRrNode);
-
+  const { handleAddTab, isCreatingRrContentTab } =
+    useTabAddition(currentRrNode);
+  const { handleRemoveTab, isRemovingRrContentTab } =
+    useTabRemoval(currentRrNode);
   const {
     editingState,
     isRrContentTabUpdating,
-    handleTabDoubleClick,
-    handleUpdateRrContentTab,
-    setEditingTabValue,
-    setEditingTab,
-  } = useTabEditing(currentRrNode);
+    startEditing,
+    updateTabValue,
+    handleRenameTab,
+  } = useTabRename(currentRrNode);
+
+  const isAnyOperationPending =
+    isCreatingRrContentTab || isRemovingRrContentTab || isRrContentTabUpdating;
+
+  const { rrContent } = useActiveRrContent(selectedRrContentTab);
 
   return (
     <>
       <div
-        className="p-5 flex flex-row items-center max-w-full overflow-scroll"
+        className="p-5 flex flex-row items-center max-w-full overflow-x-auto"
         style={{ scrollbarWidth: "none" }}
       >
-        <TabsList>
-          {currentRrNode.content.map((nodeContent) => (
-            <EditableTabTrigger
-              mode={mode}
-              key={nodeContent.rrContent}
-              nodeContent={nodeContent}
-              rrContent={undefined} // Will be fetched by the component if needed
-              selectedRrContentTab={selectedRrContentTab}
-              editingState={editingState}
-              isCreatingRrContentTab={isCreatingRrContentTab}
-              isRemovingRrContentTab={isRemovingRrContentTab}
-              isRrContentTabUpdating={isRrContentTabUpdating}
-              handleTabDoubleClick={handleTabDoubleClick}
-              setEditingTabValue={setEditingTabValue}
-              setEditingTab={setEditingTab}
-              handleUpdateRrContentTab={handleUpdateRrContentTab}
-              handleRemoveRrContent={handleRemoveRrContent}
-            />
-          ))}
+        <TabsList className="flex">
+          {currentRrNode.content.map((nodeContent) => {
+            return (
+              <EditableTabTrigger
+                key={nodeContent.rrContent}
+                mode={mode}
+                tabData={{
+                  nodeContent,
+                  rrContent,
+                  isSelected: selectedRrContentTab === nodeContent.rrContent,
+                  shouldDisable: isAnyOperationPending,
+                  isUpdating: isRrContentTabUpdating,
+                }}
+                editing={{
+                  editingState,
+                  onStartEditing: startEditing,
+                  onUpdateValue: updateTabValue,
+                  onFinishEditing: handleRenameTab,
+                }}
+                operations={{
+                  onRemove: handleRemoveTab,
+                  onSelect: handleSelectTab,
+                }}
+              />
+            );
+          })}
         </TabsList>
-        {mode === RrRootStatus.private &&
-          !(
-            isCreatingRrContentTab ||
-            isRemovingRrContentTab ||
-            isRrContentTabUpdating
-          ) && (
-            <Button
-              variant="ghost"
-              size="icon"
-              className="rounded-full"
-              onClick={handleCreateRrContent}
-            >
-              <PlusIcon className="size-4" />
-            </Button>
-          )}
+        {mode === RrRootStatus.private && !isAnyOperationPending && (
+          <Button
+            variant="ghost"
+            size="icon"
+            className="rounded-full"
+            onClick={handleAddTab}
+          >
+            <PlusIcon className="size-4" />
+          </Button>
+        )}
       </div>
     </>
   );

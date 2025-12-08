@@ -11,12 +11,11 @@ interface RichTextEditorProps {
 
 export function RichTextEditor({
   nodeContent,
-  selectedRrContentTab
+  selectedRrContentTab,
 }: RichTextEditorProps) {
   // Load content for the currently selected tab to show in this panel
-  const { rrContent, isPending, saveRrNodeContent } = useActiveRrContent(
-    selectedRrContentTab
-  );
+  const { rrContent, isPending, saveRrNodeContent } =
+    useActiveRrContent(selectedRrContentTab);
 
   return (
     <TabsContent key={nodeContent.rrContent} value={nodeContent.rrContent}>
