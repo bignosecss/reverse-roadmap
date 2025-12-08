@@ -1,14 +1,17 @@
 import { useCallback } from "react";
 import { Cross2Icon } from "@radix-ui/react-icons";
-import { NodeContent, RrRootStatus } from "@/lib/types/models";
+import { NodeContent, RrContent, RrRootStatus } from "@/lib/types/models";
 import { UpdateRrContentTabDto } from "@/lib/types/apiRequests";
 import { TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Tooltip } from "@radix-ui/react-tooltip";
+import { TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface EditableTabTriggerProps {
   mode: RrRootStatus;
   nodeContent: NodeContent;
+  rrContent: RrContent |undefined;
   selectedRrContentTab: string;
   editingState: {
     editingTab: boolean;
@@ -31,6 +34,7 @@ interface EditableTabTriggerProps {
 export function EditableTabTrigger({
   mode,
   nodeContent,
+  rrContent,
   selectedRrContentTab,
   editingState,
   isCreatingRrContentTab,
@@ -87,7 +91,10 @@ export function EditableTabTrigger({
           className="min-w-16"
         />
       ) : (
-        nodeContent.tabTitle
+        <Tooltip>
+          <TooltipTrigger>{nodeContent.tabTitle}</TooltipTrigger>
+          <TooltipContent>{`上次修改时间${rrContent?.updatedAt}`}</TooltipContent>
+        </Tooltip>
       )}
       {mode === RrRootStatus.private &&
         !(

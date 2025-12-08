@@ -53,6 +53,7 @@ export function CanvasTabs({ currentRrNode }: { currentRrNode: RrNode }) {
               mode={mode}
               key={nodeContent.rrContent}
               nodeContent={nodeContent}
+              rrContent={rrContent}
               selectedRrContentTab={selectedRrContentTab}
               editingState={editingState}
               isCreatingRrContentTab={isCreatingRrContentTab}
