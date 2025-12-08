@@ -1,11 +1,11 @@
 {
   "$schema": "https://turborepo.com/schema.json",
   "ui": "tui",
-  "globalEnv": ["PORT", "NEXT_PUBLIC_RR_API", "TOGGLE_MODE"],
+  "globalEnv": ["PORT", "NEXT_PUBLIC_RR_API", "TOGGLE_MODE", "MONGODB_URI"],
   "globalDependencies": [],
   "tasks": {
     "build": {
-      "dependsOn": ["^build", "$MONGODB_URI", "PORT"],
+      "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
       "outputs": [".next/**", "!.next/cache/**"]
     },

@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   create,
   fetchRrNodeById,
@@ -41,63 +41,10 @@ export const useGetRrTreeById = (id: string) => {
   });
 };
 
-export const useUpdateRrNodeById = (nodeId: string, currentTreeId: string) => {
-  const queryClient = useQueryClient();
-
+export const useUpdateRrNodeById = (nodeId: string) => {
   return useMutation({
     mutationFn: (updateRrNodeDto: UpdateRrNodeDto) =>
       updateRrNodeById(nodeId, updateRrNodeDto),
-    // onMutate: async (updatedData: UpdateRrNodeDto) => {
-    //   if (!currentTreeId) return;
-    //   await queryClient.cancelQueries({ queryKey: ["rrTree", currentTreeId] });
-    //   const previousNode = useFlowStore.getState().getNode(nodeId);
-    //   useFlowStore.getState().updateNode(nodeId, updatedData);
-    //   return { previousNode };
-    // },
-    // onError: (err, variables, context) => {
-    //   if (context?.previousNode) {
-    //     useFlowStore
-    //       .getState()
-    //       .updateNode(nodeId, context.previousNode.data.rrNode);
-    //   }
-    // },
-    // onSuccess: (updatedNodeFromServer: RrNode) => {
-    //   if (!currentTreeId) return;
-
-    //   queryClient.setQueryData(
-    //     ["rrTree", currentTreeId],
-    //     (oldTreeData: RrNode | undefined) => {
-    //       if (!oldTreeData) return undefined;
-
-    //       const updateRrNodeInRrTree = (rrNode: RrNode): RrNode => {
-    //         if (rrNode._id === updatedNodeFromServer._id) {
-    //           return { ...rrNode, ...updatedNodeFromServer };
-    //         }
-
-    //         if (rrNode.children && rrNode.children.length > 0) {
-    //           let hasChanged = false;
-    //           const newChildren = rrNode.children.map((child) => {
-    //             const newChild = updateRrNodeInRrTree(child);
-    //             if (newChild !== child) {
-    //               hasChanged = true;
-    //             }
-    //             return newChild;
-    //           });
-
-    //           if (hasChanged) {
-    //             return { ...rrNode, children: newChildren };
-    //           }
-    //         }
-    //         return rrNode;
-    //       };
-    //       return updateRrNodeInRrTree(oldTreeData);
-    //     },
-    //   );
-    // },
-    onSettled: () => {
-      if (!currentTreeId) return;
-      queryClient.invalidateQueries({ queryKey: ["rrTree", currentTreeId] });
-    },
   });
 };
 

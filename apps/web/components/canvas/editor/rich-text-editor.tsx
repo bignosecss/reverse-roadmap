@@ -1,22 +1,21 @@
-import { RrContent, NodeContent } from "@/lib/types/models";
+import { NodeContent } from "@/lib/types/models";
 import { TabsContent } from "../../ui/tabs";
 import { Spinner } from "../../ui/spinner";
 import { Tiptap } from "./tiptap";
+import { useActiveRrContent } from "../hooks/useActiveRrContent";
 
-interface TabContentPanelProps {
+interface RichTextEditorProps {
   nodeContent: NodeContent;
-  isPending: boolean;
-  rrContent: RrContent | undefined;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  saveRrNodeContent: (content: any) => void;
+  selectedRrContentTab: string | null;
 }
 
-export function TabContentPanel({
+export function RichTextEditor({
   nodeContent,
-  isPending,
-  rrContent,
-  saveRrNodeContent,
-}: TabContentPanelProps) {
+  selectedRrContentTab,
+}: RichTextEditorProps) {
+  const { rrContent, isPending, saveRrNodeContent } =
+    useActiveRrContent(selectedRrContentTab);
+
   return (
     <TabsContent key={nodeContent.rrContent} value={nodeContent.rrContent}>
       {isPending ? (

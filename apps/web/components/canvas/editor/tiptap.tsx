@@ -35,7 +35,7 @@ export const Tiptap = ({ content, onSave: saveContent }: TiptapProps) => {
       value={value}
       onChange={handleSetValue}
       className="w-full"
-      editorContentClassName="p-5"
+      editorContentClassName="p-5 pb-25"
       output="json"
       placeholder="Enter your description..."
       autofocus={false}

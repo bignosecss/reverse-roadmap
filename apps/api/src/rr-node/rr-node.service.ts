@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateRrNodeDto } from './dto/create-rr-node.dto';
-import { RrNode, RrNodeDocument } from './schemas/rr-node.schema';
+import { RrNode, RrNodeDocument, RrNodeStatus } from './schemas/rr-node.schema';
 import {
   RrNodeRepository,
   RrNodeTree,
@@ -25,7 +25,7 @@ export class RrNodeService {
   };
 
   async create(createRrNodeDto: CreateRrNodeDto) {
-    const { parent: parentId, ...nodeData } = createRrNodeDto;
+    const { parent: parentId, status, ...nodeData } = createRrNodeDto;
 
     let parentNode: RrNodeDocument | null = null;
     if (parentId) {
@@ -41,6 +41,7 @@ export class RrNodeService {
 
     const rrNodeEntity: Partial<RrNode> = {
       ...nodeData,
+      status: status || RrNodeStatus.Active, // Default to 'active' if no status provided
       parent: parentNode ? parentNode._id : null,
     };
 

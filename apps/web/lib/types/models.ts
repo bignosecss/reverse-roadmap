@@ -30,6 +30,18 @@ export interface RrRoot {
   updatedAt: Date;
 }
 
+/** 思维导图节点状态 */
+export enum RrNodeStatus {
+  Completed = "completed",
+  Deprecated = "deprecated",
+  InProgress = "in-progress",
+  NotStarted = "not-started",
+  Blocked = "blocked",
+  Review = "review",
+  Cancelled = "cancelled",
+  Active = "active",
+}
+
 /** 思维导图节点 */
 export type NodeContent = {
   rrContent: string;
@@ -42,9 +54,9 @@ export interface RrNode {
   parent: string | null;
   content: NodeContent[];
   children: RrNode[];
+  status?: RrNodeStatus;
   createdAt?: Date;
   updatedAt?: Date;
-  pending?: boolean;
 }
 
 export interface RrContent {
@@ -84,9 +96,6 @@ export type FlowState = {
   setNodes: (nodes: FlowNode[]) => void;
   setEdges: (edges: FlowEdge[]) => void;
   setCurrentRrNode: (node: RrNode) => void;
-  addNode: (node: FlowNode, edge: Edge) => void;
-  updateNode: (nodeId: string, data: Partial<RrNode>) => void;
-  removeNode: (nodeId: string) => void;
   getNode: (rrNodeId: string) => FlowNode | undefined;
 };
 

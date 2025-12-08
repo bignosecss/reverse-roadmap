@@ -4,11 +4,11 @@ import { useParams } from "next/navigation";
 import { toast } from "sonner";
 
 import useFlowStore from "@/lib/stores/flow";
-import { RrNode, RrContent, NodeContent } from "@/lib/types/models";
+import { RrNode, NodeContent, RrContent } from "@/lib/types/models";
 import { useUpdateRrContentForNode } from "@/hooks/use-rr-node";
 import { UpdateRrContentTabDto } from "@/lib/types/apiRequests";
 
-export function useTabEditing(currentRrNode: RrNode) {
+export function useTabRename(currentRrNode: RrNode | null) {
   const params = useParams();
   const treeId = params.id as string;
   const queryClient = useQueryClient();
@@ -16,27 +16,43 @@ export function useTabEditing(currentRrNode: RrNode) {
   const setCurrentRrNode = useFlowStore((state) => state.setCurrentRrNode);
 
   const { mutate: updateRrContent, isPending: isRrContentTabUpdating } =
-    useUpdateRrContentForNode(currentRrNode._id);
+    useUpdateRrContentForNode(currentRrNode?._id || "");
 
-  const [editingTab, setEditingTab] = useState(false);
-  const [editingTabId, setEditingTabId] = useState("");
-  const [editingTabValue, setEditingTabValue] = useState("");
+  const [editingState, setEditingState] = useState({
+    editingTab: false,
+    editingTabId: "",
+    editingTabValue: "",
+  });
 
-  const handleTabDoubleClick = useCallback(
-    (targetTab: NodeContent, selectedRrContentTab: string) => {
-      if (targetTab.rrContent !== selectedRrContentTab) return;
-      setEditingTabValue(targetTab.tabTitle);
-      setEditingTabId(targetTab.rrContent);
-      setEditingTab(true);
-    },
-    [],
-  );
+  const startEditing = useCallback((targetTab: NodeContent) => {
+    setEditingState({
+      editingTab: true,
+      editingTabId: targetTab.rrContent,
+      editingTabValue: targetTab.tabTitle,
+    });
+  }, []);
 
-  const handleUpdateRrContentTab = useCallback(
+  const stopEditing = useCallback(() => {
+    setEditingState((prev) => ({
+      ...prev,
+      editingTab: false,
+    }));
+  }, []);
+
+  const updateTabValue = useCallback((value: string) => {
+    setEditingState((prev) => ({
+      ...prev,
+      editingTabValue: value,
+    }));
+  }, []);
+
+  const handleRenameTab = useCallback(
     (updateRrContentTabDto: UpdateRrContentTabDto) => {
+      if (!currentRrNode) return;
+
       updateRrContent(updateRrContentTabDto, {
         onSuccess: (data: { node: RrNode; content: RrContent }) => {
-          setEditingTab(false);
+          stopEditing();
           setCurrentRrNode(data.node);
           queryClient.invalidateQueries({ queryKey: ["rrTree", treeId] });
           toast.success("Content Tab Title 更新成功", {
@@ -45,15 +61,22 @@ export function useTabEditing(currentRrNode: RrNode) {
         },
       });
     },
-    [queryClient, treeId, setCurrentRrNode, updateRrContent],
+    [
+      currentRrNode,
+      queryClient,
+      treeId,
+      setCurrentRrNode,
+      updateRrContent,
+      stopEditing,
+    ],
   );
 
   return {
-    editingState: { editingTab, editingTabId, editingTabValue },
+    editingState,
     isRrContentTabUpdating,
-    handleTabDoubleClick,
-    handleUpdateRrContentTab,
-    setEditingTabValue,
-    setEditingTab,
+    startEditing,
+    stopEditing,
+    updateTabValue,
+    handleRenameTab,
   };
 }

@@ -1,4 +1,4 @@
-import { RrRootStatus } from "./models";
+import { RrNodeStatus, RrRootStatus } from "./models";
 
 export interface CreateRrRootDto {
   title: string;
@@ -12,6 +12,7 @@ export interface CreateRrNodeDto {
   title: string;
   description?: string;
   parent: string | null;
+  status?: RrNodeStatus;
 }
 
 export type UpdateRrNodeDto = Partial<CreateRrNodeDto>;
