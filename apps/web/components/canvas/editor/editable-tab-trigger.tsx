@@ -10,6 +10,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { formatDate } from "@/lib/utils";
 
 interface TabData {
   nodeContent: NodeContent;
@@ -122,7 +123,7 @@ export function EditableTabTrigger({
           <TooltipTrigger className="truncate max-w-[150px]">
             {nodeContent.tabTitle}
           </TooltipTrigger>
-          <TooltipContent>{`上次修改时间${rrContent?.updatedAt}`}</TooltipContent>
+          <TooltipContent>{`上次修改时间：${rrContent?.updatedAt ? formatDate(rrContent.updatedAt) : ""}`}</TooltipContent>
         </Tooltip>
       )}
       {mode === RrRootStatus.private && !shouldDisable && (
