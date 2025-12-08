@@ -3,6 +3,17 @@ import mongoose, { HydratedDocument } from 'mongoose';
 
 export type RrNodeDocument = HydratedDocument<RrNode>;
 
+export enum RrNodeStatus {
+  Completed = 'completed',
+  Deprecated = 'deprecated',
+  InProgress = 'in-progress',
+  NotStarted = 'not-started',
+  Blocked = 'blocked',
+  Review = 'review',
+  Cancelled = 'cancelled',
+  Active = 'active',
+}
+
 @Schema({ timestamps: true, collection: 'rr_nodes' })
 export class RrNode {
   @Prop({ required: true, type: String })
@@ -30,6 +41,13 @@ export class RrNode {
     default: [],
   })
   children!: mongoose.Types.ObjectId[];
+
+  @Prop({
+    type: String,
+    enum: RrNodeStatus,
+    default: RrNodeStatus.Active,
+  })
+  status!: RrNodeStatus;
 }
 
 export const RrNodeSchema = SchemaFactory.createForClass(RrNode);

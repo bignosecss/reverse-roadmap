@@ -30,6 +30,18 @@ export interface RrRoot {
   updatedAt: Date;
 }
 
+/** 思维导图节点状态 */
+export enum RrNodeStatus {
+  Completed = "completed",
+  Deprecated = "deprecated",
+  InProgress = "in-progress",
+  NotStarted = "not-started",
+  Blocked = "blocked",
+  Review = "review",
+  Cancelled = "cancelled",
+  Active = "active",
+}
+
 /** 思维导图节点 */
 export type NodeContent = {
   rrContent: string;
@@ -42,6 +54,7 @@ export interface RrNode {
   parent: string | null;
   content: NodeContent[];
   children: RrNode[];
+  status?: RrNodeStatus;
   createdAt?: Date;
   updatedAt?: Date;
 }

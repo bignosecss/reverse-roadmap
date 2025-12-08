@@ -6,13 +6,15 @@ import { toast } from "sonner";
 
 import { useUpdateRrNodeById } from "@/hooks/use-rr-node";
 import { UpdateRrNodeDto } from "@/lib/types/apiRequests";
-import { RrNode } from "@/lib/types/models";
+import { RrNode, RrNodeStatus } from "@/lib/types/models";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface UseEditNodeProps {
   currentNode: RrNode;
 }
 
 export function useEditNode({ currentNode }: UseEditNodeProps) {
+  const queryClient = useQueryClient();
   const pathname = usePathname();
   const currentTreeId = pathname.startsWith("/g/")
     ? pathname.split("/g/")[1]
@@ -21,16 +23,22 @@ export function useEditNode({ currentNode }: UseEditNodeProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [title, setTitle] = useState(currentNode.title);
   const [description, setDescription] = useState(currentNode.description || "");
+  const [status, setStatus] = useState<RrNodeStatus>(
+    currentNode.status || RrNodeStatus.Active,
+  );
 
   const { mutate: updateRrNode, isPending: isUpdatingNode } =
-    useUpdateRrNodeById(currentNode._id, currentTreeId!);
+    useUpdateRrNodeById(currentNode._id);
 
   useEffect(() => {
     if (isDialogOpen) {
       setTitle(currentNode.title);
       setDescription(currentNode.description || "");
+      console.log("curent node", currentNode.title);
+      console.log("yes", currentNode.status);
+      setStatus(currentNode.status || RrNodeStatus.Active);
     }
-  }, [isDialogOpen, currentNode.title, currentNode.description]);
+  }, [isDialogOpen, currentNode]);
 
   const handleEditRrNode = useCallback(() => {
     const trimmedTitle = title.trim();
@@ -45,6 +53,7 @@ export function useEditNode({ currentNode }: UseEditNodeProps) {
       {
         title: trimmedTitle,
         description: trimmedDescription,
+        status,
       } as UpdateRrNodeDto,
       {
         onSuccess: (updatedNode: RrNode) => {
@@ -57,10 +66,15 @@ export function useEditNode({ currentNode }: UseEditNodeProps) {
             description: error?.message || "发生未知错误",
           });
         },
-        onSettled: () => setIsDialogOpen(false),
+        onSettled: () => {
+          setIsDialogOpen(false);
+          queryClient.invalidateQueries({
+            queryKey: ["rrTree", currentTreeId],
+          });
+        },
       },
     );
-  }, [title, description, updateRrNode]);
+  }, [title, description, updateRrNode, status, queryClient, currentTreeId]);
 
   const handleOpenChange = useCallback((open: boolean) => {
     setIsDialogOpen(open);
@@ -73,6 +87,8 @@ export function useEditNode({ currentNode }: UseEditNodeProps) {
     setTitle,
     description,
     setDescription,
+    status,
+    setStatus,
     handleEditRrNode,
     isUpdatingNode,
     isConfirmDisabled: title.trim().length === 0,

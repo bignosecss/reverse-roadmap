@@ -64,6 +64,7 @@ export default function FlowContent({ treeId }: { treeId: string }) {
 
   const flowData = useMemo(() => {
     if (rrTree) {
+      console.log("rr tree", rrTree);
       return convertTreeToFlow(rrTree);
     }
     return { nodes: [], edges: [] };

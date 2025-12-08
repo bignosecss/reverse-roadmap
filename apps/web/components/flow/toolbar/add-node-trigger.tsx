@@ -11,6 +11,7 @@ import { BaseDialog } from "@/components/dialogs/base-dialog";
 import { RrNode } from "@/lib/types/models";
 import { DialogTrigger } from "@/components/ui/dialog";
 import { useAddNode } from "../hooks/use-add-node";
+import { NodeStatusToggleGroup } from "../node-status-toggle-group";
 
 interface AddNodeTriggerProps {
   currentNode: RrNode;
@@ -24,6 +25,8 @@ export function AddNodeTrigger({ currentNode }: AddNodeTriggerProps) {
     setTitle,
     description,
     setDescription,
+    status,
+    setStatus,
     handleAddRrNode,
     isAddingNode,
     isConfirmDisabled,
@@ -69,6 +72,10 @@ export function AddNodeTrigger({ currentNode }: AddNodeTriggerProps) {
             className="min-h-[100px]"
             placeholder="请输入节点描述（可选）"
           />
+        </div>
+        <div className="grid gap-3">
+          <Label>节点状态</Label>
+          <NodeStatusToggleGroup value={status} onChange={setStatus} />
         </div>
       </div>
     </BaseDialog>

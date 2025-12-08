@@ -7,7 +7,7 @@ import { toast } from "sonner";
 
 import { useCreate } from "@/hooks/use-rr-node";
 import { CreateRrNodeDto } from "@/lib/types/apiRequests";
-import { RrNode } from "@/lib/types/models";
+import { RrNode, RrNodeStatus } from "@/lib/types/models";
 
 interface UseAddNodeProps {
   currentNode: RrNode;
@@ -22,6 +22,7 @@ export function useAddNode({ currentNode }: UseAddNodeProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [status, setStatus] = useState<RrNodeStatus>(RrNodeStatus.Active);
 
   const { mutate: addRrNode, isPending: isAddingNode } = useCreate();
   const queryClient = useQueryClient();
@@ -40,6 +41,7 @@ export function useAddNode({ currentNode }: UseAddNodeProps) {
         title: trimmedTitle,
         description: trimmedDescription,
         parent: currentNode._id,
+        status,
       } as CreateRrNodeDto,
       {
         onSuccess: (newNode: RrNode) => {
@@ -66,11 +68,13 @@ export function useAddNode({ currentNode }: UseAddNodeProps) {
     description,
     queryClient,
     title,
+    status,
   ]);
 
   const resetForm = useCallback(() => {
     setTitle("");
     setDescription("");
+    setStatus(RrNodeStatus.Active);
   }, []);
 
   const handleOpenChange = useCallback(
@@ -88,6 +92,8 @@ export function useAddNode({ currentNode }: UseAddNodeProps) {
     setTitle,
     description,
     setDescription,
+    status,
+    setStatus,
     handleAddRrNode,
     isAddingNode,
     isConfirmDisabled: title.trim().length === 0,
