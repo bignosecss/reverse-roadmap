@@ -11,7 +11,6 @@ export function ContentWorkspace() {
     (state) => state.selectedRrContentTab,
   );
 
-  // Include the tab selection handler functionality
   const { handleSelectTab } = useTabSelection(currentRrNode);
 
   if (!currentRrNode) {
