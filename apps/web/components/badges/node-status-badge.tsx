@@ -1,6 +1,6 @@
+import { RrNodeStatus } from "@repo/shared/models";
 import { Badge } from "../ui/badge";
 import { cn } from "@/lib/utils";
-import { RrNodeStatus } from "@/lib/types/models";
 
 interface NodeStatusBadgeProps {
   status: RrNodeStatus;

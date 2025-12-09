@@ -8,10 +8,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { BaseDialog } from "@/components/dialogs/base-dialog";
-import { RrNode } from "@/lib/types/models";
 import { DialogTrigger } from "@/components/ui/dialog";
 import { useEditNode } from "../hooks/use-edit-node";
 import { NodeStatusToggleGroup } from "../node-status-toggle-group";
+import { RrNode } from "@repo/shared/models";
 
 interface EditNodeTriggerProps {
   currentNode: RrNode;

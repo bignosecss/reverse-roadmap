@@ -1,4 +1,4 @@
-import { ApiResponse } from "../types/apiResponses";
+import { ApiResponse } from "@repo/shared/apiResponse";
 import { CONFIG } from "./config";
 
 const BASE_URL = CONFIG.RR_API;

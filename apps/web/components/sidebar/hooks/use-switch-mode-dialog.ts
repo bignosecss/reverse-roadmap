@@ -2,10 +2,10 @@
 
 import { useState, useCallback } from "react";
 import useSidebarStore from "@/lib/stores/sidebar";
-import { RrRootStatus } from "@/lib/types/models";
 import { toast } from "sonner";
 import { useCheckSwitchMode } from "@/hooks/use-check-switch-mode";
-import { SwitchModeDto } from "@/lib/types/apiRequests";
+import { RrRootStatus } from "@repo/shared/models";
+import { SwitchModeDto } from "@repo/shared/dto";
 
 export function useSwitchModeDialog() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);

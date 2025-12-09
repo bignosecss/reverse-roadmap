@@ -1,4 +1,3 @@
-import { RrNode, RrRootStatus } from "@/lib/types/models";
 import { TabsList } from "../../ui/tabs";
 import { Button } from "../../ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
@@ -10,6 +9,7 @@ import {
 } from "../hooks";
 import { EditableTabTrigger } from "./editable-tab-trigger";
 import useSidebarStore from "@/lib/stores/sidebar";
+import { RrNode, RrRootStatus } from "@repo/shared/models";
 
 interface TabsManagerProps {
   currentRrNode: RrNode;

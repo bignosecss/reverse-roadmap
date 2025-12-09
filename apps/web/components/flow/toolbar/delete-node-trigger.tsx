@@ -5,9 +5,9 @@ import { Trash } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { BaseDeleteDialog } from "@/components/dialogs";
-import { RrNode } from "@/lib/types/models";
 import { useDeleteNode } from "../hooks/use-delete-node";
 import { AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { RrNode } from "@repo/shared/models";
 
 interface DeleteNodeTriggerProps {
   currentNode: RrNode;

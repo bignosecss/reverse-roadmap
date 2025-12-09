@@ -1,8 +1,8 @@
-import { NodeContent } from "@/lib/types/models";
 import { TabsContent } from "../../ui/tabs";
 import { Spinner } from "../../ui/spinner";
 import { Tiptap } from "./tiptap";
 import { useActiveRrContent } from "../hooks/useActiveRrContent";
+import { NodeContent } from "@repo/shared/models";
 
 interface RichTextEditorProps {
   nodeContent: NodeContent;

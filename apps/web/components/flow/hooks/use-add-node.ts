@@ -6,8 +6,8 @@ import { usePathname } from "next/navigation";
 import { toast } from "sonner";
 
 import { useCreate } from "@/hooks/use-rr-node";
-import { CreateRrNodeDto } from "@/lib/types/apiRequests";
-import { RrNode, RrNodeStatus } from "@/lib/types/models";
+import { RrNode, RrNodeStatus } from "@repo/shared/models";
+import { CreateRrNodeDto } from "@repo/shared/dto";
 
 interface UseAddNodeProps {
   currentNode: RrNode;

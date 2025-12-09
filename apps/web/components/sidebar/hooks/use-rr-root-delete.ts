@@ -2,9 +2,8 @@ import { useCallback, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter, usePathname } from "next/navigation";
 import { toast } from "sonner";
-import { RrRoot } from "@/lib/types/models";
 import { useDeleteRrRoot } from "@/hooks/use-rr-root";
-import { RootsQueryKey } from "@/lib/types/models";
+import { RootsQueryKey, RrRoot } from "@repo/shared/models";
 
 export function useRrRootDelete(rrRoot: RrRoot) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);

@@ -4,8 +4,8 @@ import { useParams } from "next/navigation";
 import { toast } from "sonner";
 
 import useFlowStore from "@/lib/stores/flow";
-import { RrNode, RrContent } from "@/lib/types/models";
 import { useCreateRrContentForNode } from "@/hooks/use-rr-node";
+import { RrContent, RrNode } from "@repo/shared/models";
 
 export function useTabAddition(currentRrNode: RrNode | null) {
   const params = useParams();

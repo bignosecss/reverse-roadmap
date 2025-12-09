@@ -5,9 +5,9 @@ import { usePathname } from "next/navigation";
 import { toast } from "sonner";
 
 import { useUpdateRrNodeById } from "@/hooks/use-rr-node";
-import { UpdateRrNodeDto } from "@/lib/types/apiRequests";
-import { RrNode, RrNodeStatus } from "@/lib/types/models";
 import { useQueryClient } from "@tanstack/react-query";
+import { RrNode, RrNodeStatus } from "@repo/shared/models";
+import { UpdateRrNodeDto } from "@repo/shared/dto";
 
 interface UseEditNodeProps {
   currentNode: RrNode;

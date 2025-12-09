@@ -1,9 +1,9 @@
 import { SidebarMenu } from "@/components/ui/sidebar";
-import { RrRoot } from "@/lib/types/models";
 import { usePathname } from "next/navigation";
 import { RrRootItem } from "./rr-root-item";
 import { Spinner } from "@/components/ui/spinner";
 import { useRrRootsList } from "../hooks/use-rr-roots-list";
+import { RrRoot } from "@repo/shared/models";
 
 export function RrRootsList() {
   const pathname = usePathname();

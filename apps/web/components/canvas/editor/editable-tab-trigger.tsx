@@ -1,7 +1,5 @@
 import { useCallback } from "react";
 import { Cross2Icon } from "@radix-ui/react-icons";
-import { NodeContent, RrContent, RrRootStatus } from "@/lib/types/models";
-import { UpdateRrContentTabDto } from "@/lib/types/apiRequests";
 import { TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -11,6 +9,8 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { formatDate } from "@/lib/utils";
+import { NodeContent, RrContent, RrRootStatus } from "@repo/shared/models";
+import { UpdateRrContentTabDto } from "@repo/shared/dto";
 
 interface TabData {
   nodeContent: NodeContent;

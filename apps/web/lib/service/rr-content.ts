@@ -1,6 +1,6 @@
+import { RrContent } from "@repo/shared/models";
 import { apiClient } from "./client";
-import { RrContent } from "../types/models";
-import { CreateRrContentDto, UpdateRrContentDto } from "../types/apiRequests";
+import { CreateRrContentDto, UpdateRrContentDto } from "@repo/shared/dto";
 
 export const createRrContent = async (
   createRrContentDto: CreateRrContentDto,

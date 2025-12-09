@@ -8,12 +8,13 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { CanvasState, RrNode, RrNodeStatus } from "@/lib/types/models";
+import { CanvasState } from "@/lib/types/models";
 import useFlowStore from "@/lib/stores/flow";
 import useCanvasStore from "@/lib/stores/canvas";
 import { useSidebar } from "../ui/sidebar";
 import { cn } from "@/lib/utils";
 import { NodeStatusBadge } from "../badges";
+import { RrNode, RrNodeStatus } from "@repo/shared/models";
 
 interface RrNodeCardProps {
   rrNode: RrNode;

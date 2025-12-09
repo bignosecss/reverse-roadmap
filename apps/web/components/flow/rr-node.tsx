@@ -2,10 +2,11 @@ import { useParams } from "next/navigation";
 import React from "react";
 import { NodeProps } from "@xyflow/react";
 
-import { FlowNode, RrRootStatus } from "@/lib/types/models";
+import { FlowNode } from "@/lib/types/models";
 import RrNodeToolbar from "./toolbar/rr-node-toolbar";
 import RrNodeCard from "./rr-node-card";
 import useSidebarStore from "@/lib/stores/sidebar";
+import { RrRootStatus } from "@repo/shared/models";
 
 /**
  * 自定义 RrNode 组件

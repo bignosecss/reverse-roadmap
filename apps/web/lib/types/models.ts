@@ -9,66 +9,8 @@ import type {
   OnEdgesChange,
   OnConnect,
 } from "@xyflow/react";
-
-/** 侧边栏数据 */
-export enum RootsQueryKey {
-  public = "publicRrRoots",
-  private = "rrRoots",
-}
-
-export enum RrRootStatus {
-  public = "active",
-  private = "archived",
-}
-
-export interface RrRoot {
-  _id: string;
-  title: string;
-  rootRrNode: string;
-  status: RrRootStatus;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-/** 思维导图节点状态 */
-export enum RrNodeStatus {
-  Completed = "completed",
-  Deprecated = "deprecated",
-  InProgress = "in-progress",
-  NotStarted = "not-started",
-  Blocked = "blocked",
-  Review = "review",
-  Cancelled = "cancelled",
-  Active = "active",
-}
-
-/** 思维导图节点 */
-export type NodeContent = {
-  rrContent: string;
-  tabTitle: string;
-};
-export interface RrNode {
-  _id: string;
-  title: string;
-  description?: string;
-  parent: string | null;
-  content: NodeContent[];
-  children: RrNode[];
-  status?: RrNodeStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
-export interface RrContent {
-  _id: string;
-  tabTitle: string;
-  type: "doc";
-  // 方便起见，暂时使用 any 作为 tiptap 文档的类型( edirot.getJSON() )
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  content: any[];
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { RrNode } from "@repo/shared/models";
+import { RrRootStatus } from "@repo/shared/models";
 
 export type FlowNode = Node<
   {

@@ -1,4 +1,4 @@
-import { RrRootStatus } from "@/lib/types/models";
+import { RrRootStatus } from "@repo/shared/models";
 import { KeyRound, LogOut, LucideProps } from "lucide-react";
 import { ForwardRefExoticComponent, RefAttributes } from "react";
 

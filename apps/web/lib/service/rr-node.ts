@@ -1,10 +1,10 @@
-import { apiClient } from "./client";
-import { RrContent, RrNode } from "../types/models";
 import {
   CreateRrNodeDto,
   UpdateRrContentTabDto,
   UpdateRrNodeDto,
-} from "../types/apiRequests";
+} from "@repo/shared/dto";
+import { apiClient } from "./client";
+import { RrContent, RrNode } from "@repo/shared/models";
 
 /**
  * Create rr node if the parent attribute in `CreateRrNodeDto` is not null

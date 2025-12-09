@@ -4,9 +4,8 @@ import { useCallback, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePathname } from "next/navigation";
 import { toast } from "sonner";
-
 import { useRemoveRrNodeById } from "@/hooks/use-rr-node";
-import { RrNode } from "@/lib/types/models";
+import { RrNode } from "@repo/shared/models";
 
 interface UseDeleteNodeProps {
   currentNode: RrNode;

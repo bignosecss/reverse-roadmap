@@ -1,6 +1,6 @@
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { RrNodeStatus } from "@/lib/types/models";
 import { cn } from "@/lib/utils";
+import { RrNodeStatus } from "@repo/shared/models";
 
 interface NodeStatusToggleGroupProps {
   value: RrNodeStatus;
