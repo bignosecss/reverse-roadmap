@@ -338,6 +338,18 @@ importers:
         specifier: ^8.37.0
         version: 8.42.0(eslint@9.34.0(jiti@2.5.1))(typescript@5.8.3)
 
+  packages/shared:
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
+
   packages/typescript-config: {}
 
   packages/ui:
