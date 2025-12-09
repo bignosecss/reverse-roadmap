@@ -2,12 +2,15 @@
   "name": "@repo/shared",
   "type": "module",
   "main": "src/index.ts",
-  "types": "src/index.ts",
   "exports": {
-    ".": "./src/index.ts",
-    "./types": "./src/types/index.ts"
+    "./dto": "./src/types/dto/index.ts",
+    "./models": "./src/types/models/index.ts",
+    "./apiResponse": "./src/types/api-responses.ts"
   },
-  "scripts": {},
+  "scripts": {
+    "lint": "eslint . --max-warnings 0",
+    "check-types": "tsc --noEmit"
+  },
   "devDependencies": {
     "@repo/typescript-config": "workspace:*",
     "@repo/eslint-config": "workspace:*",
