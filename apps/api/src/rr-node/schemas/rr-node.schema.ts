@@ -1,18 +1,8 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
+import { RrNodeStatus as SharedRrNodeStatus } from '@repo/shared/models';
 
 export type RrNodeDocument = HydratedDocument<RrNode>;
-
-export enum RrNodeStatus {
-  Completed = 'completed',
-  Deprecated = 'deprecated',
-  InProgress = 'in-progress',
-  NotStarted = 'not-started',
-  Blocked = 'blocked',
-  Review = 'review',
-  Cancelled = 'cancelled',
-  Active = 'active',
-}
 
 @Schema({ timestamps: true, collection: 'rr_nodes' })
 export class RrNode {
@@ -44,10 +34,10 @@ export class RrNode {
 
   @Prop({
     type: String,
-    enum: RrNodeStatus,
-    default: RrNodeStatus.Active,
+    enum: SharedRrNodeStatus,
+    default: SharedRrNodeStatus.Active,
   })
-  status!: RrNodeStatus;
+  status!: SharedRrNodeStatus;
 }
 
 export const RrNodeSchema = SchemaFactory.createForClass(RrNode);

@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateRrNodeDto } from './dto/create-rr-node.dto';
-import { RrNode, RrNodeDocument, RrNodeStatus } from './schemas/rr-node.schema';
+import { RrNode, RrNodeDocument } from './schemas/rr-node.schema';
+import { RrNodeStatus } from '@repo/shared/models';
 import {
   RrNodeRepository,
   RrNodeTree,
@@ -134,7 +135,7 @@ export class RrNodeService {
 
     const updatedContent = await this.rrContentService.update(
       updateRrContentTabDto.rrContent,
-      { tabTitle: updateRrContentTabDto.tabTitle } as UpdateRrContentDto,
+      { tabTitle: updateRrContentTabDto.tabTitle } as unknown as UpdateRrContentDto,
     );
 
     targetRrNode.content[contentIndex]!.tabTitle =

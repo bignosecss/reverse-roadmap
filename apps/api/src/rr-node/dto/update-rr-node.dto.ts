@@ -1,4 +1,9 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateRrNodeDto } from './create-rr-node.dto';
+import { UpdateRrNodeDto as SharedUpdateRrNodeDto } from '@repo/shared/dto';
+import { RrNodeStatus } from '@repo/shared/models';
 
-export class UpdateRrNodeDto extends PartialType(CreateRrNodeDto) {}
+export class UpdateRrNodeDto implements SharedUpdateRrNodeDto {
+  title!: string;
+  description?: string;
+  parent!: string | null;
+  status?: RrNodeStatus;
+}

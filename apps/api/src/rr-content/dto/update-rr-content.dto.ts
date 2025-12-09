@@ -1,4 +1,6 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateRrContentDto } from './create-rr-content.dto';
+import { UpdateRrContentDto as SharedUpdateRrContentDto } from '@repo/shared/dto';
 
-export class UpdateRrContentDto extends PartialType(CreateRrContentDto) {}
+export class UpdateRrContentDto implements SharedUpdateRrContentDto {
+  type!: 'doc';
+  content!: any[];
+}
