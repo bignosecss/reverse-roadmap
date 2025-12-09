@@ -8,7 +8,7 @@ export function DescriptionQuote() {
   }
 
   return (
-    <section className="w-full flex flex-row justify-center py-6 px-4">
+    <section className="w-full flex flex-row justify-center">
       <div className="w-full h-fit flex flex-row justify-center py-8 px-4">
         <div className="min-w-1/3 max-w-4/5 h-fit">
           <blockquote className="border-l-2 pl-6 italic max-h-fit">
