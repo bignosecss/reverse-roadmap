@@ -8,6 +8,7 @@
     "./apiResponse": "./src/types/api-responses.ts"
   },
   "scripts": {
+    "build": "tsc",
     "lint": "eslint . --max-warnings 0",
     "check-types": "tsc --noEmit"
   },
