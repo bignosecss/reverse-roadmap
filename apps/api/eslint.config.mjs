@@ -1,7 +1,7 @@
 import { nestJsConfig } from '@repo/eslint-config/nest';
-import tseslint from 'typescript-eslint';
 
-export default tseslint.config(
+/** @type {import("eslint").Linter.Config} */
+export default [
   ...nestJsConfig,
   {
     ignores: [
@@ -22,4 +22,4 @@ export default tseslint.config(
       'netlify.json',
     ],
   },
-);
+];
