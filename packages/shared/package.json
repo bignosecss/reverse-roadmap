@@ -1,20 +1,31 @@
 {
   "name": "@repo/shared",
-  "type": "module",
-  "main": "src/index.ts",
-  "exports": {
-    "./dto": "./src/types/dto/index.ts",
-    "./models": "./src/types/models/index.ts",
-    "./apiResponse": "./src/types/api-responses.ts"
-  },
   "scripts": {
-    "build": "tsc",
+    "build": "tsup",
     "lint": "eslint . --max-warnings 0",
     "check-types": "tsc --noEmit"
   },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./dto": {
+      "import": "./dist/types/dto/index.mjs",
+      "require": "./dist/types/dto/index.js"
+    },
+    "./models": {
+      "import": "./dist/types/models/index.mjs",
+      "require": "./dist/types/models/index.js"
+    }
+  },
   "devDependencies": {
-    "@repo/typescript-config": "workspace:*",
     "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "tsup": "^8.5.1",
     "typescript": "^5.8.3"
   }
 }
