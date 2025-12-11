@@ -34,8 +34,6 @@ export function useEditNode({ currentNode }: UseEditNodeProps) {
     if (isDialogOpen) {
       setTitle(currentNode.title);
       setDescription(currentNode.description || "");
-      console.log("curent node", currentNode.title);
-      console.log("yes", currentNode.status);
       setStatus(currentNode.status || RrNodeStatus.Active);
     }
   }, [isDialogOpen, currentNode]);
