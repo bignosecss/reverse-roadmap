@@ -6,6 +6,7 @@ import type { OnNodesChange, OnEdgesChange, OnConnect } from "@xyflow/react";
 import { RrNode } from "@repo/shared/models";
 import { RrRootStatus } from "@repo/shared/models";
 import { FlowNode, FlowEdge } from "@repo/shared/flow";
+import { UpdateRrNodeDto } from "@repo/shared/dto";
 
 export type FlowState = {
   nodes: FlowNode[];
@@ -18,6 +19,7 @@ export type FlowState = {
   setEdges: (edges: FlowEdge[]) => void;
   setCurrentRrNode: (node: RrNode) => void;
   getNode: (rrNodeId: string) => FlowNode | undefined;
+  updateNode: (rrNodeId: string, updateRrNodeDto: UpdateRrNodeDto) => void;
 };
 
 export type SidebarState = {
