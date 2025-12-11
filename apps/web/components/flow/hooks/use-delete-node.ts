@@ -18,6 +18,8 @@ interface UseDeleteNodeProps {
 const flowStoreSelector = (state: FlowState) => ({
   nodes: state.nodes,
   edges: state.edges,
+  setNodes: state.setNodes,
+  setEdges: state.setEdges,
 });
 
 export function useDeleteNode({ currentNode }: UseDeleteNodeProps) {
@@ -31,8 +33,9 @@ export function useDeleteNode({ currentNode }: UseDeleteNodeProps) {
   const { mutateAsync: removeRrNodeAsync, isPending: isDeletingNode } =
     useRemoveRrNodeById(currentNode._id);
   const queryClient = useQueryClient();
-  const { nodes, edges } = useFlowStore(useShallow(flowStoreSelector));
-  const { setNodes, setEdges } = useFlowStore();
+  const { nodes, edges, setNodes, setEdges } = useFlowStore(
+    useShallow(flowStoreSelector),
+  );
 
   const collectNodesToDelete = useCallback(
     (nodeId: string, allNodes: FlowNode[]): string[] => {
@@ -98,9 +101,7 @@ export function useDeleteNode({ currentNode }: UseDeleteNodeProps) {
       });
     } finally {
       // Invalidate queries to ensure fresh data from server
-      queryClient.invalidateQueries({
-        queryKey: ["rrTree", currentTreeId],
-      });
+      queryClient.invalidateQueries({ queryKey: ["rrTree", currentTreeId] });
     }
   }, [
     removeRrNodeAsync,
