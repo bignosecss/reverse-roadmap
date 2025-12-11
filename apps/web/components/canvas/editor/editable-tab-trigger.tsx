@@ -120,8 +120,10 @@ export function EditableTabTrigger({
         />
       ) : (
         <Tooltip>
-          <TooltipTrigger className="truncate max-w-[150px]">
-            {nodeContent.tabTitle}
+          <TooltipTrigger asChild>
+            <span className="truncate max-w-[150px]">
+              {nodeContent.tabTitle}
+            </span>
           </TooltipTrigger>
           <TooltipContent>{`上次修改时间：${rrContent?.updatedAt ? formatDate(rrContent.updatedAt) : ""}`}</TooltipContent>
         </Tooltip>
