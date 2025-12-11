@@ -1,8 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import {
-  RrNode,
-  RrNodeDocument,
-} from '../schemas/rr-node.schema';
+import { RrNode, RrNodeDocument } from '../schemas/rr-node.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { DeleteResult, Model, Types, UpdateQuery } from 'mongoose';
 import { RrNodeStatus } from '@repo/shared/models';

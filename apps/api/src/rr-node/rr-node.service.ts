@@ -135,7 +135,9 @@ export class RrNodeService {
 
     const updatedContent = await this.rrContentService.update(
       updateRrContentTabDto.rrContent,
-      { tabTitle: updateRrContentTabDto.tabTitle } as unknown as UpdateRrContentDto,
+      {
+        tabTitle: updateRrContentTabDto.tabTitle,
+      } as unknown as UpdateRrContentDto,
     );
 
     targetRrNode.content[contentIndex]!.tabTitle =
