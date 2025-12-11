@@ -6,10 +6,19 @@ import { usePathname } from "next/navigation";
 import { toast } from "sonner";
 import { useRemoveRrNodeById } from "@/hooks/use-rr-node";
 import { RrNode } from "@repo/shared/models";
+import { FlowState } from "@/lib/types/models";
+import { FlowData, FlowNode } from "@repo/shared";
+import useFlowStore from "@/lib/stores/flow";
+import { useShallow } from "zustand/react/shallow";
 
 interface UseDeleteNodeProps {
   currentNode: RrNode;
 }
+
+const flowStoreSelector = (state: FlowState) => ({
+  nodes: state.nodes,
+  edges: state.edges,
+});
 
 export function useDeleteNode({ currentNode }: UseDeleteNodeProps) {
   const pathname = usePathname();
@@ -19,29 +28,91 @@ export function useDeleteNode({ currentNode }: UseDeleteNodeProps) {
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 
-  const { mutate: removeRrNode, isPending: isDeletingNode } =
+  const { mutateAsync: removeRrNodeAsync, isPending: isDeletingNode } =
     useRemoveRrNodeById(currentNode._id);
   const queryClient = useQueryClient();
+  const { nodes, edges } = useFlowStore(useShallow(flowStoreSelector));
+  const { setNodes, setEdges } = useFlowStore();
 
-  const handleDeleteRrNode = useCallback(() => {
-    removeRrNode(undefined, {
-      onSuccess: () => {
-        setIsDialogOpen(false);
-        queryClient.invalidateQueries({
-          queryKey: ["rrTree", currentTreeId],
-        });
-        toast.success("节点删除成功", {
-          description: `节点 "${currentNode.title}" 已被删除`,
-        });
-      },
-      onError: (error: Error) => {
-        setIsDialogOpen(false);
-        toast.error("节点删除失败", {
-          description: error?.message || "发生未知错误",
-        });
-      },
-    });
-  }, [removeRrNode, currentTreeId, queryClient, currentNode.title]);
+  const collectNodesToDelete = useCallback(
+    (nodeId: string, allNodes: FlowNode[]): string[] => {
+      const nodeIdsToDelete: string[] = [nodeId];
+
+      // Find children of the current node
+      const children = allNodes.filter((n) => n.data.rrNode.parent === nodeId);
+      for (const child of children) {
+        nodeIdsToDelete.push(...collectNodesToDelete(child.id, allNodes));
+      }
+
+      return nodeIdsToDelete;
+    },
+    [],
+  );
+
+  const handleDeleteRrNode = useCallback(async () => {
+    // Save nodes & edges copy for potential rollback
+    const prevFlowData: FlowData = { nodes, edges };
+
+    // Find nodes and edges to be removed
+    // Nodes to remove: current selected node and its children nodes (if it has children)
+    // Edges to remove: edges connected to these nodes
+    const nodeIdsToDelete = collectNodesToDelete(currentNode._id, nodes);
+
+    // Find edges to remove - those connected to nodes we're deleting
+    const edgesToRemove = edges.filter(
+      (edge) =>
+        nodeIdsToDelete.includes(edge.source) ||
+        nodeIdsToDelete.includes(edge.target),
+    );
+    const edgeIdsToRemove = edgesToRemove.map((edge) => edge.id);
+
+    // Optimistically update UI by removing nodes and edges from state
+    const updatedNodes = nodes.filter(
+      (node) => !nodeIdsToDelete.includes(node.id),
+    );
+    const updatedEdges = edges.filter(
+      (edge) => !edgeIdsToRemove.includes(edge.id),
+    );
+
+    setNodes(updatedNodes);
+    setEdges(updatedEdges);
+
+    try {
+      await removeRrNodeAsync(undefined);
+
+      setIsDialogOpen(false);
+      queryClient.invalidateQueries({
+        queryKey: ["rrTree", currentTreeId],
+      });
+      toast.success("节点删除成功", {
+        description: `节点 "${currentNode.title}" 已被删除`,
+      });
+    } catch (error) {
+      // Rollback to previous state if API call fails
+      setNodes(prevFlowData.nodes);
+      setEdges(prevFlowData.edges);
+
+      setIsDialogOpen(false);
+      toast.error("节点删除失败", {
+        description: error instanceof Error ? error.message : "发生未知错误",
+      });
+    } finally {
+      // Invalidate queries to ensure fresh data from server
+      queryClient.invalidateQueries({
+        queryKey: ["rrTree", currentTreeId],
+      });
+    }
+  }, [
+    removeRrNodeAsync,
+    currentTreeId,
+    queryClient,
+    currentNode,
+    nodes,
+    edges,
+    setNodes,
+    setEdges,
+    collectNodesToDelete,
+  ]);
 
   const handleOpenChange = (open: boolean) => {
     setIsDialogOpen(open);
