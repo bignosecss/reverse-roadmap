@@ -7,7 +7,9 @@
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
@@ -20,11 +22,16 @@
     "./models": {
       "import": "./dist/types/models/index.mjs",
       "require": "./dist/types/models/index.js"
+    },
+    "./flow": {
+      "import": "./dist/types/flow/index.mjs",
+      "require": "./dist/types/flow/index.js"
     }
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
+    "@xyflow/react": "^12.8.4",
     "tsup": "^8.5.1",
     "typescript": "^5.8.3"
   }

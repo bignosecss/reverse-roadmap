@@ -12,7 +12,7 @@ import {
   CommandList,
   CommandSeparator,
 } from "@/components/ui/command";
-import { FlowNode } from "@/lib/types/models";
+import { FlowNode } from "@repo/shared/flow";
 import { ViewportHelperFunctionOptions } from "@xyflow/react";
 
 interface SearchNodeProps {

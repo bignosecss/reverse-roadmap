@@ -2,7 +2,7 @@ import { useParams } from "next/navigation";
 import React from "react";
 import { NodeProps } from "@xyflow/react";
 
-import { FlowNode } from "@/lib/types/models";
+import { FlowNode } from "@repo/shared/flow";
 import RrNodeToolbar from "./toolbar/rr-node-toolbar";
 import RrNodeCard from "./rr-node-card";
 import useSidebarStore from "@/lib/stores/sidebar";

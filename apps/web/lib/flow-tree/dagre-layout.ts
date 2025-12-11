@@ -1,6 +1,6 @@
 import dagre from "@dagrejs/dagre";
+import { FlowData, FlowEdge, FlowNode } from "@repo/shared/flow";
 import { Position } from "@xyflow/react";
-import { FlowData, FlowEdge, FlowNode } from "../types/models";
 
 const NODE_WIDTH = 250;
 const NODE_HEIGHT = 150;

@@ -2,31 +2,10 @@
  * 数据模型类型定义
  */
 
-import type {
-  Node,
-  Edge,
-  OnNodesChange,
-  OnEdgesChange,
-  OnConnect,
-} from "@xyflow/react";
+import type { OnNodesChange, OnEdgesChange, OnConnect } from "@xyflow/react";
 import { RrNode } from "@repo/shared/models";
 import { RrRootStatus } from "@repo/shared/models";
-
-export type FlowNode = Node<
-  {
-    label: string;
-    rrNode: RrNode;
-  },
-  "rrNode"
->;
-
-export type FlowEdge = Edge;
-
-// 转换结果类型
-export type FlowData = {
-  nodes: FlowNode[];
-  edges: FlowEdge[];
-};
+import { FlowNode, FlowEdge } from "@repo/shared/flow";
 
 export type FlowState = {
   nodes: FlowNode[];
