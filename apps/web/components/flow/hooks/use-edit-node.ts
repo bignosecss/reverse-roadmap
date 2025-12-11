@@ -11,7 +11,6 @@ import { UpdateRrNodeDto } from "@repo/shared/dto";
 import useFlowStore from "@/lib/stores/flow";
 import { FlowState } from "@/lib/types/models";
 import { useShallow } from "zustand/react/shallow";
-import { FlowData, FlowNode } from "@repo/shared/flow";
 
 interface UseEditNodeProps {
   currentNode: RrNode;
@@ -75,32 +74,6 @@ export function useEditNode({ currentNode }: UseEditNodeProps) {
     // Update zustand store optimistically
     updateNode(currentNode._id, updateRrNodeDto);
 
-    // Update react-query cache optimistically
-    queryClient.setQueryData(
-      ["rrTree", currentTreeId],
-      (old: FlowData | undefined) => {
-        if (!old) return old;
-        return {
-          ...old,
-          nodes: old.nodes.map((node: FlowNode) => {
-            if (node.id === currentNode._id) {
-              return {
-                ...node,
-                data: {
-                  ...node.data,
-                  rrNode: {
-                    ...node.data.rrNode,
-                    ...updateRrNodeDto,
-                  },
-                },
-              };
-            }
-            return node;
-          }),
-        };
-      },
-    );
-
     try {
       const updatedNode = await updateRrNodeAsync(updateRrNodeDto);
       toast.success("节点更新成功", {
@@ -109,29 +82,6 @@ export function useEditNode({ currentNode }: UseEditNodeProps) {
     } catch (error) {
       // Rollback on error
       updateNode(currentNode._id, previousValues);
-
-      // Rollback react-query cache
-      queryClient.setQueryData(["rrTree", currentTreeId], (old: FlowData) => {
-        if (!old) return old;
-        return {
-          ...old,
-          nodes: old.nodes.map((node: FlowNode) => {
-            if (node.id === currentNode._id) {
-              return {
-                ...node,
-                data: {
-                  ...node.data,
-                  rrNode: {
-                    ...node.data.rrNode,
-                    ...previousValues,
-                  },
-                },
-              };
-            }
-            return node;
-          }),
-        };
-      });
 
       toast.error("节点更新失败", {
         description: error instanceof Error ? error.message : "发生未知错误",
