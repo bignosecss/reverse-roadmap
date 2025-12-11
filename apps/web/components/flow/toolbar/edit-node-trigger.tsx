@@ -12,6 +12,7 @@ import { DialogTrigger } from "@/components/ui/dialog";
 import { useEditNode } from "../hooks/use-edit-node";
 import { NodeStatusToggleGroup } from "../node-status-toggle-group";
 import { RrNode } from "@repo/shared/models";
+import { formatDate } from "@/lib/utils";
 
 interface EditNodeTriggerProps {
   currentNode: RrNode;
@@ -77,6 +78,13 @@ export function EditNodeTrigger({ currentNode }: EditNodeTriggerProps) {
           <Label>节点状态</Label>
           <NodeStatusToggleGroup value={status} onChange={setStatus} />
         </div>
+        {/* Show creation and last edited times */}
+        {!!currentNode && (
+          <div className="grid gap-1 text-xs text-muted-foreground">
+            <p>创建时间: {formatDate(currentNode.createdAt!)}</p>
+            <p>最后编辑时间: {formatDate(currentNode.updatedAt!)}</p>
+          </div>
+        )}
       </div>
     </BaseDialog>
   );
