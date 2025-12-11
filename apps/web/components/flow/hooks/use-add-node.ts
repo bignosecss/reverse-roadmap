@@ -11,7 +11,7 @@ import { CreateRrNodeDto } from "@repo/shared/dto";
 import { FlowState } from "@/lib/types/models";
 import useFlowStore from "@/lib/stores/flow";
 import { useShallow } from "zustand/react/shallow";
-import { FlowEdge, FlowNode } from "@repo/shared";
+import { FlowEdge, FlowNode } from "@repo/shared/flow";
 
 interface UseAddNodeProps {
   currentNode: RrNode;
