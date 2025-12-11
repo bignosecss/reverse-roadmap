@@ -1,8 +1,8 @@
 // API Response Types
-export * from "./api-responses.js";
+export * from "./api-responses";
 
 // DTO Types
-export * from "./dto/index.js";
+export * from "./dto/index";
 
 // Data Model Types
-export * from "./models/index.js";
+export * from "./models/index";
