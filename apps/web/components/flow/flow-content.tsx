@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { useTheme } from "next-themes";
 import {
@@ -21,7 +21,6 @@ import { FlowState } from "@/lib/types/models";
 import useFlowStore from "@/lib/stores/flow";
 import { DagreDirection, getLayoutedNodes } from "@/lib/flow-tree/dagre-layout";
 import { useGetRrTreeById } from "@/hooks/use-rr-node";
-import { convertTreeToFlow } from "@/lib/flow-tree/converter";
 import { SearchNode } from "./search-node";
 import { Spinner } from "../ui/spinner";
 import { Button } from "../ui/button";
@@ -47,7 +46,7 @@ const selector = (state: FlowState) => ({
 
 export default function FlowContent({ treeId }: { treeId: string }) {
   const { theme } = useTheme();
-  const { data: rrTree, isLoading, isError } = useGetRrTreeById(treeId);
+  const { data: flowData, isLoading, isError } = useGetRrTreeById(treeId);
   const {
     nodes,
     edges,
@@ -58,40 +57,34 @@ export default function FlowContent({ treeId }: { treeId: string }) {
     setEdges,
     getNode,
   } = useFlowStore(useShallow(selector));
-  const { setCenter, fitView } = useReactFlow();
+  const { setCenter } = useReactFlow();
   const currentRrNode = useFlowStore((state) => state.currentRrNode);
   const setCanvasOpen = useCanvasStore((state) => state.setCanvasOpen);
 
-  const flowData = useMemo(() => {
-    if (rrTree) {
-      return convertTreeToFlow(rrTree);
-    }
-    return { nodes: [], edges: [] };
-  }, [rrTree]);
-
   const onLayout = useCallback(
     (direction: DagreDirection) => {
-      const layouted = getLayoutedNodes(
-        flowData.nodes,
-        flowData.edges,
-        direction,
-      );
-      setNodes(layouted.nodes);
-      setEdges(layouted.edges);
-      fitView(FIT_VIEW_OPTIONS);
+      if (flowData) {
+        const layouted = getLayoutedNodes(
+          flowData.nodes,
+          flowData.edges,
+          direction,
+        );
+        setNodes(layouted.nodes);
+        setEdges(layouted.edges);
+      }
     },
-    [flowData, setEdges, setNodes, fitView],
+    [flowData, setEdges, setNodes],
   );
 
   useEffect(() => {
-    if (rrTree) {
+    if (flowData) {
       onLayout(DagreDirection.TB);
     }
     if (currentRrNode && !getNode(currentRrNode._id)) {
       setCanvasOpen(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rrTree, onLayout, getNode, setCanvasOpen]);
+  }, [flowData, onLayout, getNode, setCanvasOpen]);
 
   if (isLoading) {
     return (
@@ -101,7 +94,7 @@ export default function FlowContent({ treeId }: { treeId: string }) {
     );
   }
 
-  if (isError || (!isLoading && !rrTree)) {
+  if (isError || (!isLoading && !flowData)) {
     return (
       <div className="p-4 text-[var(--destructive)] size-full flex justify-center items-center">
         Error loading flow data.

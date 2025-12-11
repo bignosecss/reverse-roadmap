@@ -26,6 +26,10 @@
     "./flow": {
       "import": "./dist/types/flow/index.mjs",
       "require": "./dist/types/flow/index.js"
+    },
+    "./utils": {
+      "import": "./dist/utils/index.mjs",
+      "require": "./dist/utils/index.js"
     }
   },
   "devDependencies": {

@@ -1,5 +1,5 @@
-import { FlowData, FlowEdge, FlowNode } from "@repo/shared/flow";
-import { RrNode } from "@repo/shared/models";
+import { FlowData, FlowEdge, FlowNode } from "../types/flow/flow-types";
+import { RrNode } from "../types/models";
 
 /**
  * 将 RrNode 转换为 React Flow Node 类型格式

@@ -1,11 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateRrNodeDto } from './dto/create-rr-node.dto';
 import { RrNode, RrNodeDocument } from './schemas/rr-node.schema';
-import { RrNodeStatus } from '@repo/shared/models';
-import {
-  RrNodeRepository,
-  RrNodeTree,
-} from './repositories/rr-node.repository';
+import { RrNodeStatus, RrNode as RrNodeTree } from '@repo/shared/models';
+import { RrNodeRepository } from './repositories/rr-node.repository';
 import { UpdateRrNodeDto } from './dto/update-rr-node.dto';
 import { RrContentService } from 'src/rr-content/rr-content.service';
 import { CreateRrContentDto } from 'src/rr-content/dto/create-rr-content.dto';
