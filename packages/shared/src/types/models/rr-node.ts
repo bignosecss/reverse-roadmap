@@ -1,4 +1,4 @@
-import { RrNodeStatus } from "./enums.js";
+import { RrNodeStatus } from "./enums";
 
 /** 思维导图节点 */
 export type NodeContent = {

@@ -1,7 +1,7 @@
 // Enums
-export * from "./enums.js";
+export * from "./enums";
 
 // Models
-export * from "./rr-root.js";
-export * from "./rr-node.js";
-export * from "./rr-content.js";
+export * from "./rr-root";
+export * from "./rr-node";
+export * from "./rr-content";

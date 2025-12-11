@@ -1,5 +1,5 @@
 // DTOs
-export * from "./rr-root.dto.js";
-export * from "./rr-node.dto.js";
-export * from "./rr-content.dto.js";
-export * from "./auth.dto.js";
+export * from "./rr-root.dto";
+export * from "./rr-node.dto";
+export * from "./rr-content.dto";
+export * from "./auth.dto";

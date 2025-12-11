@@ -1,4 +1,4 @@
-import { RrNodeStatus } from "../models/enums.js";
+import { RrNodeStatus } from "../models";
 
 export interface CreateRrNodeDto {
   title: string;

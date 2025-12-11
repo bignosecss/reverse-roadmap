@@ -1,4 +1,4 @@
-import { RrRootStatus } from "../models/enums.js";
+import { RrRootStatus } from "../models";
 
 export interface CreateRrRootDto {
   title: string;

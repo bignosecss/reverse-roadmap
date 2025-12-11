@@ -1,4 +1,4 @@
-import { RrRootStatus } from "./enums.js";
+import { RrRootStatus } from "./enums";
 
 export interface RrRoot {
   _id: string;
