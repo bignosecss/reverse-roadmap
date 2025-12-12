@@ -101,7 +101,7 @@ export function EditableTabTrigger({
       onClick={() => onSelect(nodeContent.rrContent)}
       onDoubleClick={handleDoubleClick}
     >
-      {isEditingThisTab ? (
+      {isSelected && isEditingThisTab ? (
         <Input
           type="text"
           autoFocus
@@ -128,7 +128,7 @@ export function EditableTabTrigger({
           <TooltipContent>{`上次修改时间：${rrContent?.updatedAt ? formatDate(rrContent.updatedAt) : ""}`}</TooltipContent>
         </Tooltip>
       )}
-      {mode === RrRootStatus.private && !shouldDisable && (
+      {isSelected && mode === RrRootStatus.private && !shouldDisable && (
         <Button
           variant="ghost"
           size="icon"
