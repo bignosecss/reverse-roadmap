@@ -49,6 +49,8 @@ export class RrNodeRepository {
                   content: '$content',
                   children: '$children',
                   status: '$status',
+                  createdAt: '$createdAt',
+                  updatedAt: '$updatedAt',
                 },
               ],
               '$descendants',
