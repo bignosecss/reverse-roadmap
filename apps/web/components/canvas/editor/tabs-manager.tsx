@@ -1,12 +1,7 @@
 import { TabsList } from "../../ui/tabs";
 import { Button } from "../../ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
-import {
-  useTabAddition,
-  useTabRemoval,
-  useTabRename,
-  useActiveRrContent,
-} from "../hooks";
+import { useTabAddition, useTabRemoval, useTabRename } from "../hooks";
 import { EditableTabTrigger } from "./editable-tab-trigger";
 import useSidebarStore from "@/lib/stores/sidebar";
 import { RrNode, RrRootStatus } from "@repo/shared/models";
@@ -40,8 +35,6 @@ export function TabsManager({
   const isAnyOperationPending =
     isCreatingRrContentTab || isRemovingRrContentTab || isRrContentTabUpdating;
 
-  const { rrContent } = useActiveRrContent(selectedRrContentTab);
-
   return (
     <>
       <div
@@ -56,7 +49,6 @@ export function TabsManager({
                 mode={mode}
                 tabData={{
                   nodeContent,
-                  rrContent,
                   isSelected: selectedRrContentTab === nodeContent.rrContent,
                   shouldDisable: isAnyOperationPending,
                   isUpdating: isRrContentTabUpdating,

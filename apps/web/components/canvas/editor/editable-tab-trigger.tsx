@@ -9,12 +9,12 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { formatDate } from "@/lib/utils";
-import { NodeContent, RrContent, RrRootStatus } from "@repo/shared/models";
+import { NodeContent, RrRootStatus } from "@repo/shared/models";
 import { UpdateRrContentTabDto } from "@repo/shared/dto";
+import { useActiveRrContent } from "../hooks";
 
 interface TabData {
   nodeContent: NodeContent;
-  rrContent: RrContent | undefined;
   isSelected: boolean;
   shouldDisable: boolean;
   isUpdating: boolean;
@@ -50,8 +50,7 @@ export function EditableTabTrigger({
   editing,
   operations,
 }: EditableTabTriggerProps) {
-  const { nodeContent, rrContent, isSelected, shouldDisable, isUpdating } =
-    tabData;
+  const { nodeContent, isSelected, shouldDisable, isUpdating } = tabData;
   const {
     editingState,
     onStartEditing,
@@ -60,6 +59,8 @@ export function EditableTabTrigger({
     onFinishEditing,
   } = editing;
   const { onRemove, onSelect } = operations;
+
+  const { rrContent } = useActiveRrContent(nodeContent.rrContent);
 
   const isEditingThisTab =
     editingState.editingTab &&
@@ -124,7 +125,7 @@ export function EditableTabTrigger({
       ) : (
         <Tooltip>
           <TooltipTrigger asChild>
-            <span className="truncate max-w-[150px]">
+            <span className="truncate max-w-[75px]">
               {nodeContent.tabTitle}
             </span>
           </TooltipTrigger>
