@@ -57,7 +57,7 @@ export default function FlowContent({ treeId }: { treeId: string }) {
     setEdges,
     getNode,
   } = useFlowStore(useShallow(selector));
-  const { setCenter } = useReactFlow();
+  const { setCenter, fitView } = useReactFlow();
   const currentRrNode = useFlowStore((state) => state.currentRrNode);
   const setCanvasOpen = useCanvasStore((state) => state.setCanvasOpen);
 
@@ -74,6 +74,14 @@ export default function FlowContent({ treeId }: { treeId: string }) {
       }
     },
     [flowData, setEdges, setNodes],
+  );
+
+  const handleButtonLayout = useCallback(
+    (d: DagreDirection) => {
+      onLayout(d);
+      fitView(FIT_VIEW_OPTIONS);
+    },
+    [fitView, onLayout],
   );
 
   useEffect(() => {
@@ -125,7 +133,11 @@ export default function FlowContent({ treeId }: { treeId: string }) {
       <Panel position="top-left">
         <ButtonGroup aria-label="Layout Direction">
           {Object.values(DagreDirection).map((dir) => (
-            <Button key={dir} variant="outline" onClick={() => onLayout(dir)}>
+            <Button
+              key={dir}
+              variant="outline"
+              onClick={() => handleButtonLayout(dir)}
+            >
               {dir}
             </Button>
           ))}
