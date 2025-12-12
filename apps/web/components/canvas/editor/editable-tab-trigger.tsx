@@ -128,7 +128,14 @@ export function EditableTabTrigger({
               {nodeContent.tabTitle}
             </span>
           </TooltipTrigger>
-          <TooltipContent>{`上次修改时间：${rrContent?.updatedAt ? formatDate(rrContent.updatedAt) : ""}`}</TooltipContent>
+          <TooltipContent>
+            <div className="text-center">
+              <div>{rrContent?.tabTitle}</div>
+              <div className="text-xs opacity-80">
+                {`上次修改时间：${rrContent?.updatedAt ? formatDate(rrContent.updatedAt) : ""}`}
+              </div>
+            </div>
+          </TooltipContent>
         </Tooltip>
       )}
       {isSelected && mode === RrRootStatus.private && !shouldDisable && (
