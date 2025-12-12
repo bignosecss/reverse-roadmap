@@ -32,6 +32,7 @@ export function TabsManager({
     editingState,
     isRrContentTabUpdating,
     startEditing,
+    stopEditing,
     updateTabValue,
     handleRenameTab,
   } = useTabRename(currentRrNode);
@@ -63,6 +64,7 @@ export function TabsManager({
                 editing={{
                   editingState,
                   onStartEditing: startEditing,
+                  onStopEditing: stopEditing,
                   onUpdateValue: updateTabValue,
                   onFinishEditing: handleRenameTab,
                 }}

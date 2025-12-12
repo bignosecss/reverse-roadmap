@@ -27,6 +27,7 @@ interface Editing {
     editingTabValue: string;
   };
   onStartEditing: (nodeContent: NodeContent) => void;
+  onStopEditing: () => void;
   onUpdateValue: (value: string) => void;
   onFinishEditing: (dto: UpdateRrContentTabDto) => void;
 }
@@ -51,19 +52,27 @@ export function EditableTabTrigger({
 }: EditableTabTriggerProps) {
   const { nodeContent, rrContent, isSelected, shouldDisable, isUpdating } =
     tabData;
-  const { editingState, onStartEditing, onUpdateValue, onFinishEditing } =
-    editing;
+  const {
+    editingState,
+    onStartEditing,
+    onStopEditing,
+    onUpdateValue,
+    onFinishEditing,
+  } = editing;
   const { onRemove, onSelect } = operations;
 
   const isEditingThisTab =
     editingState.editingTab &&
     editingState.editingTabId === nodeContent.rrContent;
 
+  const handleInputBlur = useCallback(() => {
+    onStopEditing();
+  }, [onStopEditing]);
+
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
       if (e.key === "Escape") {
-        // Cancel editing without saving
-        onStartEditing(nodeContent); // This will stop editing by toggling
+        handleInputBlur();
       }
       if (e.key === "Enter") {
         onFinishEditing({
@@ -74,9 +83,9 @@ export function EditableTabTrigger({
     },
     [
       editingState.editingTabValue,
-      nodeContent,
+      handleInputBlur,
+      nodeContent.rrContent,
       onFinishEditing,
-      onStartEditing,
     ],
   );
 
@@ -108,13 +117,7 @@ export function EditableTabTrigger({
           value={editingState.editingTabValue}
           onChange={(e) => onUpdateValue(e.target.value)}
           onKeyDown={handleKeyDown}
-          onBlur={() => {
-            // On blur, finish editing with the current value
-            onFinishEditing({
-              rrContent: nodeContent.rrContent,
-              tabTitle: editingState.editingTabValue,
-            } as UpdateRrContentTabDto);
-          }}
+          onBlur={handleInputBlur}
           disabled={isUpdating}
           className="min-w-16"
         />
