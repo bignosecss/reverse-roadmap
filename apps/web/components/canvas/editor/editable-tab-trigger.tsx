@@ -125,7 +125,7 @@ export function EditableTabTrigger({
       ) : (
         <Tooltip>
           <TooltipTrigger asChild>
-            <span className="truncate max-w-[75px]">
+            <span className="truncate max-w-[75px] min-w-[15px]">
               {nodeContent.tabTitle}
             </span>
           </TooltipTrigger>
