@@ -7,6 +7,7 @@ const useFlowStore = create<FlowState>((set, get) => ({
   nodes: [],
   edges: [],
   currentRrNode: null,
+  deletingFlowData: null,
   onNodesChange: (changes) => {
     set({
       nodes: applyNodeChanges(changes, get().nodes),
@@ -52,6 +53,9 @@ const useFlowStore = create<FlowState>((set, get) => ({
         return node;
       }),
     });
+  },
+  setDeletingFlowData: (fd) => {
+    set({ deletingFlowData: fd });
   },
 }));
 
