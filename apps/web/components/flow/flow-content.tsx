@@ -27,6 +27,7 @@ import { Button } from "../ui/button";
 import { ButtonGroup } from "../ui/button-group";
 import { FIT_VIEW_OPTIONS } from "./constants";
 import useCanvasStore from "@/lib/stores/canvas";
+import { useFlowConnection } from "./hooks/use-flow-connection";
 
 // 注册自定义节点类型
 const nodeTypes = {
@@ -38,7 +39,6 @@ const selector = (state: FlowState) => ({
   edges: state.edges,
   onNodesChange: state.onNodesChange,
   onEdgesChange: state.onEdgesChange,
-  onConnect: state.onConnect,
   setNodes: state.setNodes,
   setEdges: state.setEdges,
   getNode: state.getNode,
@@ -52,7 +52,6 @@ export default function FlowContent({ treeId }: { treeId: string }) {
     edges,
     onNodesChange,
     onEdgesChange,
-    onConnect,
     setNodes,
     setEdges,
     getNode,
@@ -60,6 +59,14 @@ export default function FlowContent({ treeId }: { treeId: string }) {
   const { setCenter, fitView } = useReactFlow();
   const currentRrNode = useFlowStore((state) => state.currentRrNode);
   const setCanvasOpen = useCanvasStore((state) => state.setCanvasOpen);
+
+  // Use the custom hook to handle connection logic
+  const { onConnect } = useFlowConnection({
+    edges,
+    nodes,
+    setEdges,
+    setNodes,
+  });
 
   const onLayout = useCallback(
     (direction: DagreDirection) => {
