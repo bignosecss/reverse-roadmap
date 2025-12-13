@@ -20,7 +20,15 @@ const useFlowStore = create<FlowState>((set, get) => ({
   },
   onConnect: (connection) => {
     set({
-      edges: addEdge(connection, get().edges),
+      edges: addEdge(
+        connection,
+        get().edges.filter(
+          (edge) =>
+            // In a tree structure, each node (except root) typically has only one parent
+            // So remove any existing incoming connection to the same target
+            edge.target !== connection.target
+        ),
+      ),
     });
   },
   setNodes: (nodes) => {
