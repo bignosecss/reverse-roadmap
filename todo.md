@@ -34,6 +34,7 @@
 ## Done
 
 - [x] Flow CRUD 节点时，等待途中冻结 Flow，操作结束（成功或失败）后再恢复（增加 UX，也方便探测性能）
+
   > Optimistic UI + 局部 Loading 标识
   > 用户点击“新增节点”时，先立即在前端添加节点（假设成功）。同时发送后端请求。如果失败 → 显示 toast/error，并 revert。
   > 视觉效果通常是：节点半透明 + loading spinner；其他节点可继续操作；Flow 不会整体锁住。
@@ -51,6 +52,7 @@
   > 两周时间，这个优先级可以往后稍一稍，先看看 RAG
 
   > 虽然效果和预期不太一样，但也凑活
+
 - [x] Canvas 设置每个节点 Content 的访问密码（访问密码在传输过程中的加密，可以参考 TLS 协商中 pre-master secret 的过程）
   > 先暂时给 Sidebar root 设置了 public/private 模式，密码到时候应该存到本地的环境变量文件里面
   > 太复杂，没时间做，不做了
