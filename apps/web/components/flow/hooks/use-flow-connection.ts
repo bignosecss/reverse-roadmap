@@ -4,6 +4,7 @@ import { FlowNode, FlowEdge, UpdateConnectionDto } from "@repo/shared";
 import { useUpdateConnection } from "@/hooks/use-rr-node";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
+import { usePathname } from "next/navigation";
 
 interface UseFlowConnectionProps {
   edges: FlowEdge[];
@@ -18,6 +19,11 @@ export const useFlowConnection = ({
   setEdges,
   setNodes,
 }: UseFlowConnectionProps) => {
+  const pathname = usePathname();
+  const currentTreeId = pathname.startsWith("/g/")
+    ? pathname.split("/g/")[1]
+    : null;
+
   const { mutateAsync: updateConnectionAsync } = useUpdateConnection();
   const queryClient = useQueryClient();
 
@@ -115,11 +121,19 @@ export const useFlowConnection = ({
         toast.error(errorMessage);
       } finally {
         queryClient.invalidateQueries({
-          queryKey: ["rrTree", nodes[0]?.data.rrNode._id],
+          queryKey: ["rrTree", currentTreeId],
         });
       }
     },
-    [edges, nodes, queryClient, setEdges, setNodes, updateConnectionAsync],
+    [
+      currentTreeId,
+      edges,
+      nodes,
+      queryClient,
+      setEdges,
+      setNodes,
+      updateConnectionAsync,
+    ],
   );
 
   return { onConnect };
