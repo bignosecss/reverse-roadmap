@@ -1,3 +1,4 @@
+import { FlowNode } from "../flow";
 import { RrNodeStatus } from "../models";
 
 export interface CreateRrNodeDto {
@@ -8,3 +9,7 @@ export interface CreateRrNodeDto {
 }
 
 export type UpdateRrNodeDto = Partial<CreateRrNodeDto>;
+
+export interface UpdateConnectionDto {
+  nodes: FlowNode[];
+}

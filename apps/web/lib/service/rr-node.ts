@@ -1,5 +1,6 @@
 import {
   CreateRrNodeDto,
+  UpdateConnectionDto,
   UpdateRrContentTabDto,
   UpdateRrNodeDto,
 } from "@repo/shared/dto";
@@ -94,4 +95,14 @@ export const removeRrContentForNode = async (
   );
   const rrNodeAndContent = result.data;
   return rrNodeAndContent;
+};
+
+export const updateConnection = async (
+  updateConnectionDto: UpdateConnectionDto,
+) => {
+  const result = await apiClient<void>("rr-node/update-connections", {
+    method: "POST",
+    body: JSON.stringify(updateConnectionDto),
+  });
+  return result.data;
 };

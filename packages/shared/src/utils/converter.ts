@@ -27,5 +27,16 @@ export function convertToFlow(flatRrNodes: RrNode[]): FlowData {
     }
   });
 
-  return { nodes, edges };
+  return { nodes, edges } as FlowData;
+}
+
+export function convertToRr(flowNodes: FlowNode[]): RrNode[] {
+  return flowNodes.map((flowNode) => {
+    // Extract parent and children from the flow node's rrNode data
+    const rrNodeData = flowNode.data?.rrNode;
+
+    return {
+      ...rrNodeData,
+    };
+  });
 }

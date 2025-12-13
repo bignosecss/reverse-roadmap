@@ -8,9 +8,11 @@ import {
   createRrContentForNode,
   removeRrContentForNode,
   updateRrContentForNode,
+  updateConnection,
 } from "@/lib/service/rr-node";
 import {
   CreateRrNodeDto,
+  UpdateConnectionDto,
   UpdateRrContentTabDto,
   UpdateRrNodeDto,
 } from "@repo/shared/dto";
@@ -52,6 +54,13 @@ export const useUpdateRrContentForNode = (nodeId: string) => {
   return useMutation({
     mutationFn: (updateRrContentTabDto: UpdateRrContentTabDto) =>
       updateRrContentForNode(nodeId, updateRrContentTabDto),
+  });
+};
+
+export const useUpdateConnection = () => {
+  return useMutation({
+    mutationFn: (updateConnectionDto: UpdateConnectionDto) =>
+      updateConnection(updateConnectionDto),
   });
 };
 

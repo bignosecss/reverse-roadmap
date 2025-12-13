@@ -4,7 +4,13 @@ import {
   RrNode as RrNodeModel,
   RrNodeDocument,
 } from './schemas/rr-node.schema';
-import { RrNodeStatus, FlowData, convertToFlow } from '@repo/shared';
+import {
+  RrNodeStatus,
+  FlowData,
+  FlowNode,
+  convertToFlow,
+  convertToRr,
+} from '@repo/shared';
 import { RrNodeRepository } from './repositories/rr-node.repository';
 import { UpdateRrNodeDto } from './dto/update-rr-node.dto';
 import { RrContentService } from 'src/rr-content/rr-content.service';
@@ -96,8 +102,7 @@ export class RrNodeService {
       throw new NotFoundException(`RootNode with ID ${rootRrNodeId} not found`);
     }
 
-    // Convert flat rr nodes to flow data
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+    // Convert flat rr-nodes to flow data
     return convertToFlow(flatNodes);
   }
 
@@ -193,6 +198,61 @@ export class RrNodeService {
     return {
       node: await this.findNode(nodeId),
       content: removedContent,
+    };
+  }
+
+  async updateConnection(flowNodes: FlowNode[]) {
+    // Convert flow nodes to RrNode entities
+    const rrNodes = convertToRr(flowNodes);
+
+    // Get all existing nodes from DB to compare with new values
+    const nodeIds = rrNodes.map((node) => node._id);
+    const existingNodes = await this.rrNodeRepository.findByIds(nodeIds);
+    const existingNodeMap = new Map(
+      existingNodes.map((node) => [node._id.toString(), node]),
+    );
+
+    // Update only the nodes that have connection changes (parent/children)
+    const nodesToUpdate = rrNodes.filter((node) => {
+      const existingNode = existingNodeMap.get(node._id);
+      if (!existingNode) {
+        // If node doesn't exist in DB, it shouldn't happen but we'll skip
+        return false;
+      }
+
+      // Check if parent or children have changed
+      const hasParentChanged = existingNode.parent?.toString() !== node.parent;
+      const existingChildrenSet = new Set(
+        existingNode.children.map((child) => child.toString()),
+      );
+      const newChildrenSet = new Set(node.children);
+      const hasChildrenChanged =
+        existingNode.children.length !== node.children.length ||
+        ![...existingChildrenSet].every((childId) =>
+          newChildrenSet.has(childId),
+        ) ||
+        ![...newChildrenSet].every((childId) =>
+          existingChildrenSet.has(childId),
+        );
+
+      return hasParentChanged || hasChildrenChanged;
+    });
+
+    // Update the nodes that have connection changes
+    const updatePromises = nodesToUpdate.map(async (node) => {
+      await this.rrNodeRepository.update(node._id, {
+        parent: node.parent,
+        children: node.children,
+        updatedAt: node.updatedAt,
+      });
+    });
+
+    await Promise.all(updatePromises);
+
+    return {
+      message: `Successfully processed ${rrNodes.length} nodes, updated ${nodesToUpdate.length} nodes with connection changes`,
+      totalProcessed: rrNodes.length,
+      totalUpdated: nodesToUpdate.length,
     };
   }
 }

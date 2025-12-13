@@ -11,6 +11,7 @@ import { RrNodeService } from './rr-node.service';
 import { CreateRrNodeDto } from './dto/create-rr-node.dto';
 import { UpdateRrNodeDto } from './dto/update-rr-node.dto';
 import { UpdateRrContentTabDto } from 'src/rr-content/dto/update-rr-content-tab.dto';
+import { UpdateConnectionDto } from './dto/update-connection';
 
 @Controller('rr-node')
 export class RrNodeController {
@@ -24,6 +25,11 @@ export class RrNodeController {
   @Post(':id/contents')
   createRrContentForNode(@Param('id') id: string) {
     return this.rrNodeService.createRrContentForNode(id);
+  }
+
+  @Post('update-connections')
+  updateConnection(@Body() updateConnectionDto: UpdateConnectionDto) {
+    return this.rrNodeService.updateConnection(updateConnectionDto.nodes);
   }
 
   @Get(':id')

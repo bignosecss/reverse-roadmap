@@ -1,6 +1,9 @@
 import { useCallback } from "react";
 import { Connection, addEdge } from "@xyflow/react";
-import { FlowNode, FlowEdge } from "@repo/shared/flow";
+import { FlowNode, FlowEdge, UpdateConnectionDto } from "@repo/shared";
+import { useUpdateConnection } from "@/hooks/use-rr-node";
+import { toast } from "sonner";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface UseFlowConnectionProps {
   edges: FlowEdge[];
@@ -15,8 +18,11 @@ export const useFlowConnection = ({
   setEdges,
   setNodes,
 }: UseFlowConnectionProps) => {
+  const { mutateAsync: updateConnectionAsync } = useUpdateConnection();
+  const queryClient = useQueryClient();
+
   const onConnect = useCallback(
-    (connection: Connection) => {
+    async (connection: Connection) => {
       // Get the edges before filtering to identify which edge is being removed
       const currentEdges = edges;
       const edgeToRemove = currentEdges.find(
@@ -92,8 +98,28 @@ export const useFlowConnection = ({
         ),
       );
       setNodes(updatedNodes);
+
+      try {
+        await updateConnectionAsync({
+          nodes: updatedNodes,
+        } as UpdateConnectionDto);
+
+        toast.success("连接关系已更新");
+      } catch (error) {
+        // Revert the changes if the API call fails
+        setEdges(currentEdges);
+        setNodes(nodes);
+
+        const errorMessage =
+          error instanceof Error ? error.message : "更新连接关系失败，请重试";
+        toast.error(errorMessage);
+      } finally {
+        queryClient.invalidateQueries({
+          queryKey: ["rrTree", nodes[0]?.data.rrNode._id],
+        });
+      }
     },
-    [edges, nodes, setEdges, setNodes],
+    [edges, nodes, queryClient, setEdges, setNodes, updateConnectionAsync],
   );
 
   return { onConnect };
