@@ -13,9 +13,6 @@
 
 ### Canvas
 
-- [ ] Canvas 在中文输入，打出字母的时候，onUpdate 也触发了，想想解决方法
-  > 合成事件
-
 ### Flow
 
 ### Sidebar
@@ -33,6 +30,8 @@
 
 ## Done
 
+- [x] Canvas 在中文输入，打出字母的时候，onUpdate 也触发了，想想解决方法
+  > 合成事件
 - [x] Flow CRUD 节点时，等待途中冻结 Flow，操作结束（成功或失败）后再恢复（增加 UX，也方便探测性能）
 
   > Optimistic UI + 局部 Loading 标识
