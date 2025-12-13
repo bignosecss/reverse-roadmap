@@ -1,2 +1,2 @@
 // Tree Converter Utilities
-export * from "./tree-converter";
+export * from "./converter";

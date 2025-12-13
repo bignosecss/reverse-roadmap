@@ -1,7 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateRrNodeDto } from './dto/create-rr-node.dto';
-import { RrNode, RrNodeDocument } from './schemas/rr-node.schema';
-import { RrNodeStatus, RrNode as RrNodeTree } from '@repo/shared/models';
+import {
+  RrNode as RrNodeModel,
+  RrNodeDocument,
+} from './schemas/rr-node.schema';
+import { RrNodeStatus, FlowData, convertToFlow } from '@repo/shared';
 import { RrNodeRepository } from './repositories/rr-node.repository';
 import { UpdateRrNodeDto } from './dto/update-rr-node.dto';
 import { RrContentService } from 'src/rr-content/rr-content.service';
@@ -37,7 +40,7 @@ export class RrNodeService {
     // 如果是创建 root 的过程中传递的 parent: null 即可接收
     // 如果是前端传递的 parent: null，抛出异常
 
-    const rrNodeEntity: Partial<RrNode> = {
+    const rrNodeEntity: Partial<RrNodeModel> = {
       ...nodeData,
       status: status || RrNodeStatus.Active, // Default to 'active' if no status provided
       parent: parentNode ? parentNode._id : null,
@@ -87,19 +90,15 @@ export class RrNodeService {
     return this.rrNodeRepository.findById(id);
   }
 
-  async findTree(rootRrNodeId: string): Promise<RrNodeTree> {
-    const node = await this.rrNodeRepository.findById(rootRrNodeId);
-    if (!node || !!node.parent) {
-      throw new NotFoundException(
-        `The node with ID ${rootRrNodeId} requested may not exist or not the root node's id`,
-      );
-    }
-
-    const tree = await this.rrNodeRepository.findTreeById(rootRrNodeId);
-    if (!tree) {
+  async findFlowData(rootRrNodeId: string): Promise<FlowData> {
+    const flatNodes = await this.rrNodeRepository.findFlatRrNodes(rootRrNodeId);
+    if (!flatNodes || flatNodes.length === 0) {
       throw new NotFoundException(`RootNode with ID ${rootRrNodeId} not found`);
     }
-    return tree;
+
+    // Convert flat rr nodes to flow data
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call
+    return convertToFlow(flatNodes);
   }
 
   update(id: string, updateRrNodeDto: UpdateRrNodeDto) {

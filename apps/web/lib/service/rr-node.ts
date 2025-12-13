@@ -39,9 +39,9 @@ export const fetchRrNodeById = async (id: string) => {
   return node;
 };
 
-export const fetchRrTreeById = async (id: string) => {
+export const fetchFlowDataById = async (id: string) => {
   const result = await apiClient<{ nodes: FlowNode[]; edges: FlowEdge[] }>(
-    `rr-node/tree/${id}`,
+    `rr-node/flow-data/${id}`,
   );
   const flowData = result.data;
   return flowData;

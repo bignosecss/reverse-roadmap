@@ -20,7 +20,7 @@ import "@xyflow/react/dist/style.css";
 import { FlowState } from "@/lib/types/models";
 import useFlowStore from "@/lib/stores/flow";
 import { DagreDirection, getLayoutedNodes } from "@/lib/flow-tree/dagre-layout";
-import { useGetRrTreeById } from "@/hooks/use-rr-node";
+import { useGetFlowDataById } from "@/hooks/use-rr-node";
 import { SearchNode } from "./search-node";
 import { Spinner } from "../ui/spinner";
 import { Button } from "../ui/button";
@@ -46,7 +46,7 @@ const selector = (state: FlowState) => ({
 
 export default function FlowContent({ treeId }: { treeId: string }) {
   const { theme } = useTheme();
-  const { data: flowData, isLoading, isError } = useGetRrTreeById(treeId);
+  const { data: flowData, isLoading, isError } = useGetFlowDataById(treeId);
   const {
     nodes,
     edges,

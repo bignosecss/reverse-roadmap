@@ -39,7 +39,7 @@ export const useFlowConnection = ({
         if (oldParentNode && oldParentNode.data.rrNode.children) {
           oldParentNode.data.rrNode.children =
             oldParentNode.data.rrNode.children.filter(
-              (child) => child._id !== edgeToRemove.target,
+              (childId) => childId !== edgeToRemove.target,
             );
         }
 
@@ -70,17 +70,11 @@ export const useFlowConnection = ({
 
           // Check if the child already exists in the parent's children to avoid duplicates
           const childExists = newParentNode.data.rrNode.children.some(
-            (child) => child._id === connection.target,
+            (childId) => childId === connection.target,
           );
           if (!childExists) {
-            // Add the child node data to the parent's children array
-            // Create a new object to avoid circular reference issues
-            const childNodeForParent = {
-              ...targetNode.data.rrNode,
-              parent: newParentNode.id, // Update parent reference
-              children: targetNode.data.rrNode.children, // Preserve existing children
-            };
-            newParentNode.data.rrNode.children.push(childNodeForParent);
+            // Add the child's ID to the parent's children array
+            newParentNode.data.rrNode.children.push(connection.target);
           }
         }
       }

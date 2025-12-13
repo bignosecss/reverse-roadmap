@@ -2,7 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   create,
   fetchRrNodeById,
-  fetchRrTreeById,
+  fetchFlowDataById,
   updateRrNodeById,
   removeRrNodeById,
   createRrContentForNode,
@@ -34,10 +34,10 @@ export const useGetRrNodeById = (id: string) => {
   });
 };
 
-export const useGetRrTreeById = (id: string) => {
+export const useGetFlowDataById = (id: string) => {
   return useQuery({
     queryKey: ["rrTree", id],
-    queryFn: () => fetchRrTreeById(id),
+    queryFn: () => fetchFlowDataById(id),
   });
 };
 

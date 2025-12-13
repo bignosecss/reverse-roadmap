@@ -1,18 +1,23 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { RrNode, RrNodeDocument } from '../schemas/rr-node.schema';
+import {
+  RrNode as RrNodeModel,
+  RrNodeDocument,
+} from '../schemas/rr-node.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { DeleteResult, Model, Types, UpdateQuery } from 'mongoose';
-import { RrNode as RrNodeTree } from '@repo/shared/models';
+import { RrNode } from '@repo/shared/models';
 
 @Injectable()
 export class RrNodeRepository {
-  constructor(@InjectModel(RrNode.name) private rrNodeModel: Model<RrNode>) {}
+  constructor(
+    @InjectModel(RrNodeModel.name) private rrNodeModel: Model<RrNodeModel>,
+  ) {}
 
   save(rrNodeEntity: RrNodeDocument) {
     return rrNodeEntity.save();
   }
 
-  create(rrNodeEntity: Partial<RrNode>) {
+  create(rrNodeEntity: Partial<RrNodeModel>) {
     return new this.rrNodeModel(rrNodeEntity);
   }
 
@@ -24,8 +29,8 @@ export class RrNodeRepository {
     return this.rrNodeModel.find({ _id: { $in: ids } }).exec();
   }
 
-  async findTreeById(id: string): Promise<RrNodeTree | null> {
-    const nodes: RrNodeTree[] = await this.rrNodeModel.aggregate([
+  async findFlatRrNodes(id: string): Promise<RrNode[] | null> {
+    const result: any[] = await this.rrNodeModel.aggregate([
       { $match: { _id: new Types.ObjectId(id) } },
       {
         $graphLookup: {
@@ -40,47 +45,84 @@ export class RrNodeRepository {
         $project: {
           allNodes: {
             $concatArrays: [
+              // Add the root node
               [
                 {
-                  _id: '$_id',
+                  _id: { $toString: '$_id' },
                   title: '$title',
                   description: '$description',
-                  parent: '$parent',
+                  parent: {
+                    $cond: {
+                      if: { $eq: ['$parent', null] },
+                      then: null,
+                      else: { $toString: '$parent' },
+                    },
+                  },
                   content: '$content',
-                  children: '$children',
+                  children: {
+                    $map: {
+                      input: '$children',
+                      as: 'child',
+                      in: { $toString: '$$child' },
+                    },
+                  },
                   status: '$status',
                   createdAt: '$createdAt',
                   updatedAt: '$updatedAt',
                 },
               ],
-              '$descendants',
+              // Add the descendants
+              {
+                $map: {
+                  input: '$descendants',
+                  as: 'desc',
+                  in: {
+                    _id: { $toString: '$$desc._id' },
+                    title: '$$desc.title',
+                    description: '$$desc.description',
+                    parent: {
+                      $cond: {
+                        if: { $eq: ['$$desc.parent', null] },
+                        then: null,
+                        else: { $toString: '$$desc.parent' },
+                      },
+                    },
+                    content: '$$desc.content',
+                    children: {
+                      $map: {
+                        input: '$$desc.children',
+                        as: 'child',
+                        in: { $toString: '$$child' },
+                      },
+                    },
+                    status: '$$desc.status',
+                    createdAt: '$$desc.createdAt',
+                    updatedAt: '$$desc.updatedAt',
+                  },
+                },
+              },
             ],
           },
         },
       },
       { $unwind: '$allNodes' },
       { $replaceRoot: { newRoot: '$allNodes' } },
+      // Add group stage to remove duplicates
+      {
+        $group: {
+          _id: '$_id',
+          doc: { $first: '$$ROOT' },
+        },
+      },
+      {
+        $replaceRoot: { newRoot: '$doc' },
+      },
     ]);
 
-    if (!nodes.length) {
-      return null;
-    }
-
-    const nodesById = new Map(nodes.map((node) => [node._id.toString(), node]));
-
-    nodes.forEach((node) => {
-      if (node.children && Array.isArray(node.children)) {
-        node.children = node.children
-          // eslint-disable-next-line @typescript-eslint/no-base-to-string
-          .map((childId) => nodesById.get(childId.toString()))
-          .filter(Boolean) as RrNodeTree[];
-      }
-    });
-
-    return nodes.find((node) => node._id.toString() === id) || null;
+    return result as RrNode[];
   }
 
-  async update(id: string, updateQuery: UpdateQuery<RrNode>) {
+  async update(id: string, updateQuery: UpdateQuery<RrNodeModel>) {
     const existingRrNode = await this.rrNodeModel
       .findByIdAndUpdate(id, updateQuery, { new: true })
       .exec();
