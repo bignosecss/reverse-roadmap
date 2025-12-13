@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { addEdge, applyNodeChanges, applyEdgeChanges } from "@xyflow/react";
+import { applyNodeChanges, applyEdgeChanges } from "@xyflow/react";
 import { FlowState } from "../types/models";
 import { UpdateRrNodeDto } from "@repo/shared/dto";
 
@@ -18,10 +18,9 @@ const useFlowStore = create<FlowState>((set, get) => ({
       edges: applyEdgeChanges(changes, get().edges),
     });
   },
-  onConnect: (connection) => {
-    set({
-      edges: addEdge(connection, get().edges),
-    });
+  onConnect: () => {
+    // This will be handled by the custom hook in the component
+    // This function is kept for type compatibility but won't be used directly
   },
   setNodes: (nodes) => {
     set({ nodes });

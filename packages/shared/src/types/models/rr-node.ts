@@ -12,7 +12,7 @@ export interface RrNode {
   description?: string;
   parent: string | null;
   content: NodeContent[];
-  children: RrNode[];
+  children: string[];
   status?: RrNodeStatus;
   createdAt?: Date;
   updatedAt?: Date;

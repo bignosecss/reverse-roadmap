@@ -2,15 +2,17 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import {
   create,
   fetchRrNodeById,
-  fetchRrTreeById,
+  fetchFlowDataById,
   updateRrNodeById,
   removeRrNodeById,
   createRrContentForNode,
   removeRrContentForNode,
   updateRrContentForNode,
+  updateConnection,
 } from "@/lib/service/rr-node";
 import {
   CreateRrNodeDto,
+  UpdateConnectionDto,
   UpdateRrContentTabDto,
   UpdateRrNodeDto,
 } from "@repo/shared/dto";
@@ -34,10 +36,10 @@ export const useGetRrNodeById = (id: string) => {
   });
 };
 
-export const useGetRrTreeById = (id: string) => {
+export const useGetFlowDataById = (id: string) => {
   return useQuery({
     queryKey: ["rrTree", id],
-    queryFn: () => fetchRrTreeById(id),
+    queryFn: () => fetchFlowDataById(id),
   });
 };
 
@@ -52,6 +54,13 @@ export const useUpdateRrContentForNode = (nodeId: string) => {
   return useMutation({
     mutationFn: (updateRrContentTabDto: UpdateRrContentTabDto) =>
       updateRrContentForNode(nodeId, updateRrContentTabDto),
+  });
+};
+
+export const useUpdateConnection = () => {
+  return useMutation({
+    mutationFn: (updateConnectionDto: UpdateConnectionDto) =>
+      updateConnection(updateConnectionDto),
   });
 };
 

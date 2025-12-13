@@ -20,13 +20,14 @@ import "@xyflow/react/dist/style.css";
 import { FlowState } from "@/lib/types/models";
 import useFlowStore from "@/lib/stores/flow";
 import { DagreDirection, getLayoutedNodes } from "@/lib/flow-tree/dagre-layout";
-import { useGetRrTreeById } from "@/hooks/use-rr-node";
+import { useGetFlowDataById } from "@/hooks/use-rr-node";
 import { SearchNode } from "./search-node";
 import { Spinner } from "../ui/spinner";
 import { Button } from "../ui/button";
 import { ButtonGroup } from "../ui/button-group";
 import { FIT_VIEW_OPTIONS } from "./constants";
 import useCanvasStore from "@/lib/stores/canvas";
+import { useFlowConnection } from "./hooks/use-flow-connection";
 
 // 注册自定义节点类型
 const nodeTypes = {
@@ -38,7 +39,6 @@ const selector = (state: FlowState) => ({
   edges: state.edges,
   onNodesChange: state.onNodesChange,
   onEdgesChange: state.onEdgesChange,
-  onConnect: state.onConnect,
   setNodes: state.setNodes,
   setEdges: state.setEdges,
   getNode: state.getNode,
@@ -46,13 +46,12 @@ const selector = (state: FlowState) => ({
 
 export default function FlowContent({ treeId }: { treeId: string }) {
   const { theme } = useTheme();
-  const { data: flowData, isLoading, isError } = useGetRrTreeById(treeId);
+  const { data: flowData, isLoading, isError } = useGetFlowDataById(treeId);
   const {
     nodes,
     edges,
     onNodesChange,
     onEdgesChange,
-    onConnect,
     setNodes,
     setEdges,
     getNode,
@@ -60,6 +59,14 @@ export default function FlowContent({ treeId }: { treeId: string }) {
   const { setCenter, fitView } = useReactFlow();
   const currentRrNode = useFlowStore((state) => state.currentRrNode);
   const setCanvasOpen = useCanvasStore((state) => state.setCanvasOpen);
+
+  // Use the custom hook to handle connection logic
+  const { onConnect } = useFlowConnection({
+    edges,
+    nodes,
+    setEdges,
+    setNodes,
+  });
 
   const onLayout = useCallback(
     (direction: DagreDirection) => {

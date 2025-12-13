@@ -1,5 +1,6 @@
 import {
   CreateRrNodeDto,
+  UpdateConnectionDto,
   UpdateRrContentTabDto,
   UpdateRrNodeDto,
 } from "@repo/shared/dto";
@@ -39,9 +40,9 @@ export const fetchRrNodeById = async (id: string) => {
   return node;
 };
 
-export const fetchRrTreeById = async (id: string) => {
+export const fetchFlowDataById = async (id: string) => {
   const result = await apiClient<{ nodes: FlowNode[]; edges: FlowEdge[] }>(
-    `rr-node/tree/${id}`,
+    `rr-node/flow-data/${id}`,
   );
   const flowData = result.data;
   return flowData;
@@ -94,4 +95,14 @@ export const removeRrContentForNode = async (
   );
   const rrNodeAndContent = result.data;
   return rrNodeAndContent;
+};
+
+export const updateConnection = async (
+  updateConnectionDto: UpdateConnectionDto,
+) => {
+  const result = await apiClient<void>("rr-node/update-connections", {
+    method: "POST",
+    body: JSON.stringify(updateConnectionDto),
+  });
+  return result.data;
 };

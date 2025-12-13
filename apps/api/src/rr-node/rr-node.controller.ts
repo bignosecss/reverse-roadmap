@@ -11,7 +11,7 @@ import { RrNodeService } from './rr-node.service';
 import { CreateRrNodeDto } from './dto/create-rr-node.dto';
 import { UpdateRrNodeDto } from './dto/update-rr-node.dto';
 import { UpdateRrContentTabDto } from 'src/rr-content/dto/update-rr-content-tab.dto';
-import { convertTreeToFlow } from '@repo/shared/utils';
+import { UpdateConnectionDto } from './dto/update-connection';
 
 @Controller('rr-node')
 export class RrNodeController {
@@ -27,19 +27,19 @@ export class RrNodeController {
     return this.rrNodeService.createRrContentForNode(id);
   }
 
+  @Post('update-connections')
+  updateConnection(@Body() updateConnectionDto: UpdateConnectionDto) {
+    return this.rrNodeService.updateConnection(updateConnectionDto.nodes);
+  }
+
   @Get(':id')
   findNode(@Param('id') id: string) {
     return this.rrNodeService.findNode(id);
   }
 
-  @Get('tree/:id')
-  async findTree(@Param('id') id: string) {
-    const tree = await this.rrNodeService.findTree(id);
-    // 这傻逼 eslint 为什么会给警告
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
-    const flowData = convertTreeToFlow(tree);
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return flowData;
+  @Get('flow-data/:id')
+  async findFlowData(@Param('id') id: string) {
+    return await this.rrNodeService.findFlowData(id);
   }
 
   @Patch(':id')
