@@ -204,8 +204,14 @@ export const useMinimalTiptapEditor = ({
     throttleDelay,
   );
 
+  const isComposing = React.useRef(false);
+
   const handleUpdate = React.useCallback(
-    (editor: Editor) => throttledSetValue(getOutput(editor, output)),
+    (editor: Editor) => {
+      // Skip update if we're in the middle of a composition event (e.g. IME input)
+      if (isComposing.current) return;
+      throttledSetValue(getOutput(editor, output));
+    },
     [output, throttledSetValue],
   );
 
@@ -239,12 +245,50 @@ export const useMinimalTiptapEditor = ({
         autocapitalize: "off",
         class: cn("focus:outline-hidden", editorClassName),
       },
+      // Handle composition events for IME input (e.g. Chinese input)
+      handleDOMEvents: {
+        compositionstart: () => {
+          isComposing.current = true;
+          return false;
+        },
+        compositionend: () => {
+          isComposing.current = false;
+          return false;
+        },
+      },
     },
     onUpdate: ({ editor }) => handleUpdate(editor),
     onCreate: ({ editor }) => handleCreate(editor),
     onBlur: ({ editor }) => handleBlur(editor),
     ...props,
   });
+
+  // Add composition event listeners after editor is created
+  React.useEffect(() => {
+    if (!editor) return;
+
+    const element = editor.view.dom;
+
+    const handleCompositionStart = () => {
+      isComposing.current = true;
+    };
+
+    const handleCompositionEnd = () => {
+      isComposing.current = false;
+      // Trigger an update after composition ends to ensure final content is saved
+      if (editor && !editor.isDestroyed) {
+        throttledSetValue(getOutput(editor, output));
+      }
+    };
+
+    element.addEventListener("compositionstart", handleCompositionStart);
+    element.addEventListener("compositionend", handleCompositionEnd);
+
+    return () => {
+      element.removeEventListener("compositionstart", handleCompositionStart);
+      element.removeEventListener("compositionend", handleCompositionEnd);
+    };
+  }, [editor, output, throttledSetValue]);
 
   const { editor: mainEditor } = useEditorState({
     editor,
