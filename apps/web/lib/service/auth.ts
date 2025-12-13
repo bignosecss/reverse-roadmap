@@ -1,4 +1,4 @@
-import { SwitchModeDto } from "../types/apiRequests";
+import { SwitchModeDto } from "@repo/shared/dto";
 import { apiClient } from "./client";
 
 export const checkSwitchMode = async (switchModeDto: SwitchModeDto) => {

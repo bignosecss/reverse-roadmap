@@ -2,8 +2,9 @@ import { useCallback, useEffect, useRef } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 
 import useCanvasStore from "@/lib/stores/canvas";
-import { RrNode, CanvasState } from "@/lib/types/models";
+import { CanvasState } from "@/lib/types/models";
 import { useShallow } from "zustand/react/shallow";
+import { RrNode } from "@repo/shared/models";
 
 const selector = (state: CanvasState) => ({
   selectedRrContentTab: state.selectedRrContentTab,

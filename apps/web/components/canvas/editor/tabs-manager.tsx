@@ -1,15 +1,10 @@
-import { RrNode, RrRootStatus } from "@/lib/types/models";
 import { TabsList } from "../../ui/tabs";
 import { Button } from "../../ui/button";
 import { PlusIcon } from "@radix-ui/react-icons";
-import {
-  useTabAddition,
-  useTabRemoval,
-  useTabRename,
-  useActiveRrContent,
-} from "../hooks";
+import { useTabAddition, useTabRemoval, useTabRename } from "../hooks";
 import { EditableTabTrigger } from "./editable-tab-trigger";
 import useSidebarStore from "@/lib/stores/sidebar";
+import { RrNode, RrRootStatus } from "@repo/shared/models";
 
 interface TabsManagerProps {
   currentRrNode: RrNode;
@@ -32,14 +27,13 @@ export function TabsManager({
     editingState,
     isRrContentTabUpdating,
     startEditing,
+    stopEditing,
     updateTabValue,
     handleRenameTab,
   } = useTabRename(currentRrNode);
 
   const isAnyOperationPending =
     isCreatingRrContentTab || isRemovingRrContentTab || isRrContentTabUpdating;
-
-  const { rrContent } = useActiveRrContent(selectedRrContentTab);
 
   return (
     <>
@@ -55,7 +49,6 @@ export function TabsManager({
                 mode={mode}
                 tabData={{
                   nodeContent,
-                  rrContent,
                   isSelected: selectedRrContentTab === nodeContent.rrContent,
                   shouldDisable: isAnyOperationPending,
                   isUpdating: isRrContentTabUpdating,
@@ -63,6 +56,7 @@ export function TabsManager({
                 editing={{
                   editingState,
                   onStartEditing: startEditing,
+                  onStopEditing: stopEditing,
                   onUpdateValue: updateTabValue,
                   onFinishEditing: handleRenameTab,
                 }}

@@ -5,8 +5,8 @@ import { useCreateRrRoot } from "@/hooks/use-rr-root";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { RrRoot, RrRootStatus } from "@/lib/types/models";
-import { CreateRrRootDto } from "@/lib/types/apiRequests";
+import { RrRoot, RrRootStatus } from "@repo/shared/models";
+import { CreateRrRootDto } from "@repo/shared/dto";
 
 export function useCreateRootDialog() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);

@@ -3,11 +3,11 @@
 import Link from "next/link";
 import { SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
-import { RrRoot, RrRootStatus } from "@/lib/types/models";
 import useCanvasStore from "@/lib/stores/canvas";
 import { useRrRootEdit } from "@/components/sidebar/hooks/use-rr-root-edit";
 import { useRrRootDelete } from "@/components/sidebar/hooks/use-rr-root-delete";
 import { RrRootItemDropdown } from "./rr-root-item-dropdown";
+import { RrRoot, RrRootStatus } from "@repo/shared/models";
 
 interface SidebarProjectItemProps {
   rrRoot: RrRoot;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect } from "react";
 import { useShallow } from "zustand/react/shallow";
 import { useTheme } from "next-themes";
 import {
@@ -21,7 +21,6 @@ import { FlowState } from "@/lib/types/models";
 import useFlowStore from "@/lib/stores/flow";
 import { DagreDirection, getLayoutedNodes } from "@/lib/flow-tree/dagre-layout";
 import { useGetRrTreeById } from "@/hooks/use-rr-node";
-import { convertTreeToFlow } from "@/lib/flow-tree/converter";
 import { SearchNode } from "./search-node";
 import { Spinner } from "../ui/spinner";
 import { Button } from "../ui/button";
@@ -47,7 +46,7 @@ const selector = (state: FlowState) => ({
 
 export default function FlowContent({ treeId }: { treeId: string }) {
   const { theme } = useTheme();
-  const { data: rrTree, isLoading, isError } = useGetRrTreeById(treeId);
+  const { data: flowData, isLoading, isError } = useGetRrTreeById(treeId);
   const {
     nodes,
     edges,
@@ -62,37 +61,38 @@ export default function FlowContent({ treeId }: { treeId: string }) {
   const currentRrNode = useFlowStore((state) => state.currentRrNode);
   const setCanvasOpen = useCanvasStore((state) => state.setCanvasOpen);
 
-  const flowData = useMemo(() => {
-    if (rrTree) {
-      console.log("rr tree", rrTree);
-      return convertTreeToFlow(rrTree);
-    }
-    return { nodes: [], edges: [] };
-  }, [rrTree]);
-
   const onLayout = useCallback(
     (direction: DagreDirection) => {
-      const layouted = getLayoutedNodes(
-        flowData.nodes,
-        flowData.edges,
-        direction,
-      );
-      setNodes(layouted.nodes);
-      setEdges(layouted.edges);
+      if (flowData) {
+        const layouted = getLayoutedNodes(
+          flowData.nodes,
+          flowData.edges,
+          direction,
+        );
+        setNodes(layouted.nodes);
+        setEdges(layouted.edges);
+      }
+    },
+    [flowData, setEdges, setNodes],
+  );
+
+  const handleButtonLayout = useCallback(
+    (d: DagreDirection) => {
+      onLayout(d);
       fitView(FIT_VIEW_OPTIONS);
     },
-    [flowData, setEdges, setNodes, fitView],
+    [fitView, onLayout],
   );
 
   useEffect(() => {
-    if (rrTree) {
+    if (flowData) {
       onLayout(DagreDirection.TB);
     }
     if (currentRrNode && !getNode(currentRrNode._id)) {
       setCanvasOpen(false);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rrTree, onLayout, getNode, setCanvasOpen]);
+  }, [flowData, onLayout, getNode, setCanvasOpen]);
 
   if (isLoading) {
     return (
@@ -102,9 +102,9 @@ export default function FlowContent({ treeId }: { treeId: string }) {
     );
   }
 
-  if (isError || (!isLoading && !rrTree)) {
+  if (isError || (!isLoading && !flowData)) {
     return (
-      <div className="p-4 text-[var(--destructive)]">
+      <div className="p-4 text-[var(--destructive)] size-full flex justify-center items-center">
         Error loading flow data.
       </div>
     );
@@ -133,7 +133,11 @@ export default function FlowContent({ treeId }: { treeId: string }) {
       <Panel position="top-left">
         <ButtonGroup aria-label="Layout Direction">
           {Object.values(DagreDirection).map((dir) => (
-            <Button key={dir} variant="outline" onClick={() => onLayout(dir)}>
+            <Button
+              key={dir}
+              variant="outline"
+              onClick={() => handleButtonLayout(dir)}
+            >
               {dir}
             </Button>
           ))}

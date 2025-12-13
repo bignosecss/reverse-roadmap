@@ -1,7 +1,5 @@
 import { useCallback } from "react";
 import { Cross2Icon } from "@radix-ui/react-icons";
-import { NodeContent, RrContent, RrRootStatus } from "@/lib/types/models";
-import { UpdateRrContentTabDto } from "@/lib/types/apiRequests";
 import { TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -11,10 +9,12 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { formatDate } from "@/lib/utils";
+import { NodeContent, RrRootStatus } from "@repo/shared/models";
+import { UpdateRrContentTabDto } from "@repo/shared/dto";
+import { useActiveRrContent } from "../hooks";
 
 interface TabData {
   nodeContent: NodeContent;
-  rrContent: RrContent | undefined;
   isSelected: boolean;
   shouldDisable: boolean;
   isUpdating: boolean;
@@ -27,6 +27,7 @@ interface Editing {
     editingTabValue: string;
   };
   onStartEditing: (nodeContent: NodeContent) => void;
+  onStopEditing: () => void;
   onUpdateValue: (value: string) => void;
   onFinishEditing: (dto: UpdateRrContentTabDto) => void;
 }
@@ -49,21 +50,30 @@ export function EditableTabTrigger({
   editing,
   operations,
 }: EditableTabTriggerProps) {
-  const { nodeContent, rrContent, isSelected, shouldDisable, isUpdating } =
-    tabData;
-  const { editingState, onStartEditing, onUpdateValue, onFinishEditing } =
-    editing;
+  const { nodeContent, isSelected, shouldDisable, isUpdating } = tabData;
+  const {
+    editingState,
+    onStartEditing,
+    onStopEditing,
+    onUpdateValue,
+    onFinishEditing,
+  } = editing;
   const { onRemove, onSelect } = operations;
+
+  const { rrContent } = useActiveRrContent(nodeContent.rrContent);
 
   const isEditingThisTab =
     editingState.editingTab &&
     editingState.editingTabId === nodeContent.rrContent;
 
+  const handleInputBlur = useCallback(() => {
+    onStopEditing();
+  }, [onStopEditing]);
+
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
       if (e.key === "Escape") {
-        // Cancel editing without saving
-        onStartEditing(nodeContent); // This will stop editing by toggling
+        handleInputBlur();
       }
       if (e.key === "Enter") {
         onFinishEditing({
@@ -74,9 +84,9 @@ export function EditableTabTrigger({
     },
     [
       editingState.editingTabValue,
-      nodeContent,
+      handleInputBlur,
+      nodeContent.rrContent,
       onFinishEditing,
-      onStartEditing,
     ],
   );
 
@@ -101,32 +111,35 @@ export function EditableTabTrigger({
       onClick={() => onSelect(nodeContent.rrContent)}
       onDoubleClick={handleDoubleClick}
     >
-      {isEditingThisTab ? (
+      {isSelected && isEditingThisTab ? (
         <Input
           type="text"
           autoFocus
           value={editingState.editingTabValue}
           onChange={(e) => onUpdateValue(e.target.value)}
           onKeyDown={handleKeyDown}
-          onBlur={() => {
-            // On blur, finish editing with the current value
-            onFinishEditing({
-              rrContent: nodeContent.rrContent,
-              tabTitle: editingState.editingTabValue,
-            } as UpdateRrContentTabDto);
-          }}
+          onBlur={handleInputBlur}
           disabled={isUpdating}
           className="min-w-16"
         />
       ) : (
         <Tooltip>
-          <TooltipTrigger className="truncate max-w-[150px]">
-            {nodeContent.tabTitle}
+          <TooltipTrigger asChild>
+            <span className="truncate max-w-[75px] min-w-[15px]">
+              {nodeContent.tabTitle}
+            </span>
           </TooltipTrigger>
-          <TooltipContent>{`上次修改时间：${rrContent?.updatedAt ? formatDate(rrContent.updatedAt) : ""}`}</TooltipContent>
+          <TooltipContent>
+            <div className="text-center">
+              <div>{rrContent?.tabTitle}</div>
+              <div className="text-xs opacity-80">
+                {`上次修改时间：${rrContent?.updatedAt ? formatDate(rrContent.updatedAt) : ""}`}
+              </div>
+            </div>
+          </TooltipContent>
         </Tooltip>
       )}
-      {mode === RrRootStatus.private && !shouldDisable && (
+      {isSelected && mode === RrRootStatus.private && !shouldDisable && (
         <Button
           variant="ghost"
           size="icon"

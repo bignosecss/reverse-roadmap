@@ -2,9 +2,8 @@ import { useCallback, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter, usePathname } from "next/navigation";
 import { toast } from "sonner";
-import { RrRoot } from "@/lib/types/models";
 import { useDeleteRrRoot } from "@/hooks/use-rr-root";
-import { RootsQueryKey } from "@/lib/types/models";
+import { RootsQueryKey, RrRoot } from "@repo/shared/models";
 
 export function useRrRootDelete(rrRoot: RrRoot) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -15,11 +14,10 @@ export function useRrRootDelete(rrRoot: RrRoot) {
     ? pathname.split("/g/")[1]
     : null;
 
-  const { mutate: deleteRrRoot, isPending: isRootDeleting } = useDeleteRrRoot(
-    rrRoot._id,
-  );
+  const { mutateAsync: deleteRrRootAsync, isPending: isRootDeleting } =
+    useDeleteRrRoot(rrRoot._id);
 
-  const handleDeleteRoot = useCallback(() => {
+  const handleDeleteRoot = useCallback(async () => {
     // Store previous data for both private and public roots
     const previousPrivateData: RrRoot[] | undefined = queryClient.getQueryData([
       RootsQueryKey.private,
@@ -47,33 +45,31 @@ export function useRrRootDelete(rrRoot: RrRoot) {
       router.push(`/g/${currentData![0]!.rootRrNode}`);
     }
 
-    deleteRrRoot(undefined, {
-      onSuccess: (deletedRoot: RrRoot) => {
-        // Invalidate other queries to ensure data stays fresh
-        queryClient.invalidateQueries({ queryKey: ["rrRoot", rrRoot._id] });
+    try {
+      const deletedRoot = await deleteRrRootAsync(undefined);
 
-        toast.success("删除成功", {
-          position: "top-center",
-          description: `成功删除 ${deletedRoot.title}`,
-        });
-      },
-      onError: (err: unknown) => {
-        // If the mutation fails, rollback the optimistic update for both private and public roots
-        queryClient.setQueryData([RootsQueryKey.private], previousPrivateData);
-        queryClient.setQueryData([RootsQueryKey.public], previousPublicData);
+      // Invalidate other queries to ensure data stays fresh
+      queryClient.invalidateQueries({ queryKey: ["rrRoot", rrRoot._id] });
 
-        toast.error("删除失败", {
-          position: "top-center",
-          description: JSON.stringify(err),
-        });
-      },
+      toast.success("删除成功", {
+        position: "top-center",
+        description: `成功删除 ${deletedRoot.title}`,
+      });
+    } catch (err: unknown) {
+      // If the mutation fails, rollback the optimistic update for both private and public roots
+      queryClient.setQueryData([RootsQueryKey.private], previousPrivateData);
+      queryClient.setQueryData([RootsQueryKey.public], previousPublicData);
+
+      toast.error("删除失败", {
+        position: "top-center",
+        description: JSON.stringify(err),
+      });
+    } finally {
       // Always refetch after error or success:
-      onSettled: () => {
-        queryClient.invalidateQueries({ queryKey: [RootsQueryKey.public] });
-        queryClient.invalidateQueries({ queryKey: [RootsQueryKey.private] });
-      },
-    });
-  }, [currentTreeId, deleteRrRoot, queryClient, router, rrRoot]);
+      queryClient.invalidateQueries({ queryKey: [RootsQueryKey.public] });
+      queryClient.invalidateQueries({ queryKey: [RootsQueryKey.private] });
+    }
+  }, [currentTreeId, deleteRrRootAsync, queryClient, router, rrRoot]);
 
   return {
     isDialogOpen,

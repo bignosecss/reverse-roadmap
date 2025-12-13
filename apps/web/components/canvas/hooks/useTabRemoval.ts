@@ -4,8 +4,8 @@ import { useParams } from "next/navigation";
 import { toast } from "sonner";
 
 import useFlowStore from "@/lib/stores/flow";
-import { RrNode, RrContent } from "@/lib/types/models";
 import { useRemoveRrContentForNode } from "@/hooks/use-rr-node";
+import { RrContent, RrNode } from "@repo/shared/models";
 
 export function useTabRemoval(currentRrNode: RrNode | null) {
   const params = useParams();

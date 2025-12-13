@@ -1,6 +1,6 @@
 import { useGetPublicRrRoots, useGetRrRoots } from "@/hooks/use-rr-root";
 import useSidebarStore from "@/lib/stores/sidebar";
-import { RrRootStatus } from "@/lib/types/models";
+import { RrRootStatus } from "@repo/shared/models";
 
 export function useRrRootsList() {
   const mode = useSidebarStore((state) => state.mode);

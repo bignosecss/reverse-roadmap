@@ -4,9 +4,9 @@ import { useParams } from "next/navigation";
 import { toast } from "sonner";
 
 import useFlowStore from "@/lib/stores/flow";
-import { RrNode, NodeContent, RrContent } from "@/lib/types/models";
 import { useUpdateRrContentForNode } from "@/hooks/use-rr-node";
-import { UpdateRrContentTabDto } from "@/lib/types/apiRequests";
+import { NodeContent, RrContent, RrNode } from "@repo/shared/models";
+import { UpdateRrContentTabDto } from "@repo/shared/dto";
 
 export function useTabRename(currentRrNode: RrNode | null) {
   const params = useParams();

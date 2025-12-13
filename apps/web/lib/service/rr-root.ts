@@ -1,6 +1,6 @@
+import { RrRoot } from "@repo/shared/models";
+import { CreateRrRootDto, UpdateRrRootDto } from "@repo/shared/dto";
 import { apiClient } from "./client";
-import { RrRoot } from "../types/models";
-import { CreateRrRootDto, UpdateRrRootDto } from "../types/apiRequests";
 
 export const createRrRoot = async (createRrRootDto: CreateRrRootDto) => {
   const result = await apiClient<RrRoot>("rr-root", {

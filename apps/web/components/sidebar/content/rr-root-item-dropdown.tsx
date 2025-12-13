@@ -8,9 +8,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { RrRoot } from "@/lib/types/models";
 import { BaseDeleteDialog } from "@/components/dialogs";
 import { AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { RrRoot } from "@repo/shared/models";
 
 interface RrRootItemDropdownProps {
   rrRoot: RrRoot;

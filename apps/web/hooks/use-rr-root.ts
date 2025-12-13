@@ -7,8 +7,8 @@ import {
   removeRrRootById,
   fetchAllPublicRrRoots,
 } from "@/lib/service/rr-root";
-import { CreateRrRootDto, UpdateRrRootDto } from "@/lib/types/apiRequests";
-import { RootsQueryKey } from "@/lib/types/models";
+import { CreateRrRootDto, UpdateRrRootDto } from "@repo/shared/dto";
+import { RootsQueryKey } from "@repo/shared/models";
 
 export const useCreateRrRoot = () => {
   const queryClient = useQueryClient();

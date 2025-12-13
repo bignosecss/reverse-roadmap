@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
 import { checkSwitchMode } from "@/lib/service/auth";
-import { SwitchModeDto } from "@/lib/types/apiRequests";
+import { SwitchModeDto } from "@repo/shared/dto";
 
 export const useCheckSwitchMode = () => {
   return useMutation({

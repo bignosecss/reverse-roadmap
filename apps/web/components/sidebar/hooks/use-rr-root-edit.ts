@@ -1,9 +1,9 @@
 import { useCallback, useRef, useState, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { RootsQueryKey, RrRoot, RrRootStatus } from "@/lib/types/models";
 import { useUpdateRrRoot } from "../../../hooks/use-rr-root";
 import useSidebarStore from "@/lib/stores/sidebar";
+import { RootsQueryKey, RrRoot, RrRootStatus } from "@repo/shared/models";
 
 export function useRrRootEdit(rrRoot: RrRoot) {
   const mode = useSidebarStore((state) => state.mode);

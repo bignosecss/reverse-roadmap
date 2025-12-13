@@ -5,13 +5,21 @@ import { usePathname } from "next/navigation";
 import { toast } from "sonner";
 
 import { useUpdateRrNodeById } from "@/hooks/use-rr-node";
-import { UpdateRrNodeDto } from "@/lib/types/apiRequests";
-import { RrNode, RrNodeStatus } from "@/lib/types/models";
 import { useQueryClient } from "@tanstack/react-query";
+import { RrNode, RrNodeStatus } from "@repo/shared/models";
+import { UpdateRrNodeDto } from "@repo/shared/dto";
+import useFlowStore from "@/lib/stores/flow";
+import { FlowState } from "@/lib/types/models";
+import { useShallow } from "zustand/react/shallow";
 
 interface UseEditNodeProps {
   currentNode: RrNode;
 }
+
+const flowStoreSelector = (flowState: FlowState) => ({
+  getNode: flowState.getNode,
+  updateNode: flowState.updateNode,
+});
 
 export function useEditNode({ currentNode }: UseEditNodeProps) {
   const queryClient = useQueryClient();
@@ -27,20 +35,19 @@ export function useEditNode({ currentNode }: UseEditNodeProps) {
     currentNode.status || RrNodeStatus.Active,
   );
 
-  const { mutate: updateRrNode, isPending: isUpdatingNode } =
+  const { mutateAsync: updateRrNodeAsync, isPending: isUpdatingNode } =
     useUpdateRrNodeById(currentNode._id);
+  const { getNode, updateNode } = useFlowStore(useShallow(flowStoreSelector));
 
   useEffect(() => {
     if (isDialogOpen) {
       setTitle(currentNode.title);
       setDescription(currentNode.description || "");
-      console.log("curent node", currentNode.title);
-      console.log("yes", currentNode.status);
       setStatus(currentNode.status || RrNodeStatus.Active);
     }
   }, [isDialogOpen, currentNode]);
 
-  const handleEditRrNode = useCallback(() => {
+  const handleEditRrNode = useCallback(async () => {
     const trimmedTitle = title.trim();
     if (!trimmedTitle) {
       alert("请输入节点标题");
@@ -48,33 +55,55 @@ export function useEditNode({ currentNode }: UseEditNodeProps) {
     }
 
     const trimmedDescription = description.trim();
+    const updateRrNodeDto: UpdateRrNodeDto = {
+      title: trimmedTitle,
+      description: trimmedDescription,
+      status,
+    };
 
-    updateRrNode(
-      {
-        title: trimmedTitle,
-        description: trimmedDescription,
-        status,
-      } as UpdateRrNodeDto,
-      {
-        onSuccess: (updatedNode: RrNode) => {
-          toast.success("节点更新成功", {
-            description: `节点 "${updatedNode.title}" 已更新`,
-          });
-        },
-        onError: (error: Error) => {
-          toast.error("节点更新失败", {
-            description: error?.message || "发生未知错误",
-          });
-        },
-        onSettled: () => {
-          setIsDialogOpen(false);
-          queryClient.invalidateQueries({
-            queryKey: ["rrTree", currentTreeId],
-          });
-        },
-      },
-    );
-  }, [title, description, updateRrNode, status, queryClient, currentTreeId]);
+    // Optimistic update - update the store immediately
+    const previousRrNode = getNode(currentNode._id);
+
+    // Store previous values for potential rollback
+    const previousValues: UpdateRrNodeDto = {
+      title: previousRrNode?.data.rrNode.title || "",
+      description: previousRrNode?.data.rrNode.description || "",
+      status: previousRrNode?.data.rrNode.status || RrNodeStatus.Active,
+    };
+
+    // Update zustand store optimistically
+    updateNode(currentNode._id, updateRrNodeDto);
+
+    try {
+      const updatedNode = await updateRrNodeAsync(updateRrNodeDto);
+      toast.success("节点更新成功", {
+        description: `节点 "${updatedNode.title}" 已更新`,
+      });
+    } catch (error) {
+      // Rollback on error
+      updateNode(currentNode._id, previousValues);
+
+      toast.error("节点更新失败", {
+        description: error instanceof Error ? error.message : "发生未知错误",
+      });
+    } finally {
+      setIsDialogOpen(false);
+      // Invalidate queries to ensure fresh data from server
+      queryClient.invalidateQueries({
+        queryKey: ["rrTree", currentTreeId],
+      });
+    }
+  }, [
+    title,
+    description,
+    updateRrNodeAsync,
+    status,
+    queryClient,
+    currentTreeId,
+    currentNode._id,
+    getNode,
+    updateNode,
+  ]);
 
   const handleOpenChange = useCallback((open: boolean) => {
     setIsDialogOpen(open);

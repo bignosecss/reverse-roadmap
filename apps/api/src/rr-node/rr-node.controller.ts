@@ -11,6 +11,7 @@ import { RrNodeService } from './rr-node.service';
 import { CreateRrNodeDto } from './dto/create-rr-node.dto';
 import { UpdateRrNodeDto } from './dto/update-rr-node.dto';
 import { UpdateRrContentTabDto } from 'src/rr-content/dto/update-rr-content-tab.dto';
+import { convertTreeToFlow } from '@repo/shared/utils';
 
 @Controller('rr-node')
 export class RrNodeController {
@@ -23,7 +24,7 @@ export class RrNodeController {
 
   @Post(':id/contents')
   createRrContentForNode(@Param('id') id: string) {
-    return (this, this.rrNodeService.createRrContentForNode(id));
+    return this.rrNodeService.createRrContentForNode(id);
   }
 
   @Get(':id')
@@ -32,8 +33,13 @@ export class RrNodeController {
   }
 
   @Get('tree/:id')
-  findTree(@Param('id') id: string) {
-    return this.rrNodeService.findTree(id);
+  async findTree(@Param('id') id: string) {
+    const tree = await this.rrNodeService.findTree(id);
+    // 这傻逼 eslint 为什么会给警告
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
+    const flowData = convertTreeToFlow(tree);
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+    return flowData;
   }
 
   @Patch(':id')

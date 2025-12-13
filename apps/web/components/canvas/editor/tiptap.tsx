@@ -2,12 +2,12 @@
 
 import { useCallback, useState } from "react";
 import { Content } from "@tiptap/react";
-import { RrContent, RrRootStatus } from "@/lib/types/models";
 import useCanvasStore from "@/lib/stores/canvas";
 import { UseMutateFunction } from "@tanstack/react-query";
-import { CreateRrContentDto } from "@/lib/types/apiRequests";
 import { MinimalTiptapEditor } from "@/components/ui/minimal-tiptap";
 import useSidebarStore from "@/lib/stores/sidebar";
+import { RrContent, RrRootStatus } from "@repo/shared/models";
+import { CreateRrContentDto } from "@repo/shared/dto";
 
 interface TiptapProps {
   content: RrContent | undefined;

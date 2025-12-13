@@ -1,5 +1,6 @@
 import { create } from "zustand";
-import { RrRootStatus, SidebarState } from "../types/models";
+import { SidebarState } from "../types/models";
+import { RrRootStatus } from "@repo/shared/models";
 
 const useSidebarStore = create<SidebarState>((set) => ({
   mode: RrRootStatus.public,

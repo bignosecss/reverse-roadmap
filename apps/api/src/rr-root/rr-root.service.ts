@@ -4,7 +4,7 @@ import { UpdateRrRootDto } from './dto/update-rr-root.dto';
 import { RrNodeService } from 'src/rr-node/rr-node.service';
 import { RrRootRepository } from './repositories/rr-root.repository';
 import { RrRoot } from './schemas/rr-root.schema';
-import { RrNodeStatus } from 'src/rr-node/schemas/rr-node.schema';
+import { RrNodeStatus } from '@repo/shared/models';
 
 @Injectable()
 export class RrRootService {
@@ -27,7 +27,7 @@ export class RrRootService {
     const newRrRootEntity: Partial<RrRoot> = {
       title: createRrRootDto.title,
       rootRrNode: newRootRrNode._id,
-      status: createRrRootDto.status,
+      status: rootStatus,
     };
 
     // 3. Call repository to save the entity.

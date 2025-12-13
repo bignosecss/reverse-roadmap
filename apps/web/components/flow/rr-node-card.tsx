@@ -8,12 +8,13 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { CanvasState, RrNode, RrNodeStatus } from "@/lib/types/models";
+import { CanvasState } from "@/lib/types/models";
 import useFlowStore from "@/lib/stores/flow";
 import useCanvasStore from "@/lib/stores/canvas";
 import { useSidebar } from "../ui/sidebar";
 import { cn } from "@/lib/utils";
 import { NodeStatusBadge } from "../badges";
+import { RrNode, RrNodeStatus } from "@repo/shared/models";
 
 interface RrNodeCardProps {
   rrNode: RrNode;
@@ -32,6 +33,12 @@ export default function RrNodeCard({
   isRootNode,
 }: RrNodeCardProps) {
   const setCurrentRrNode = useFlowStore((state) => state.setCurrentRrNode);
+  const deletingFlowData = useFlowStore((state) => state.deletingFlowData);
+
+  // Check if current node is in the deleting nodes array
+  const isDeleting = deletingFlowData?.nodes?.some(
+    (node) => node.data.rrNode._id === rrNode._id,
+  );
 
   const { canvasOpen, setCanvasOpen } = useCanvasStore(
     useShallow(canvasSelector),
@@ -51,13 +58,14 @@ export default function RrNodeCard({
 
   return (
     <Card
-      onClick={() => handleNodeClick(rrNode)}
+      onClick={isDeleting ? undefined : () => handleNodeClick(rrNode)}
       className={cn(
         "rr-node",
         "min-w-[250px] max-w-[300px]",
         "transition-all duration-200",
         "hover:shadow-lg",
         selected ? "ring-2 ring-primary shadow-lg" : "",
+        isDeleting ? "opacity-50 cursor-not-allowed pointer-events-none" : "",
       )}
     >
       {/* 输入连接点 */}

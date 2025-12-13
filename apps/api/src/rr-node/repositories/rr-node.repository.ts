@@ -1,21 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import {
-  RrNode,
-  RrNodeDocument,
-  RrNodeStatus,
-} from '../schemas/rr-node.schema';
+import { RrNode, RrNodeDocument } from '../schemas/rr-node.schema';
 import { InjectModel } from '@nestjs/mongoose';
 import { DeleteResult, Model, Types, UpdateQuery } from 'mongoose';
-
-export interface RrNodeTree {
-  _id: Types.ObjectId;
-  title: string;
-  description?: string;
-  parent: Types.ObjectId | null;
-  content: Types.ObjectId | null;
-  status?: RrNodeStatus;
-  children: RrNodeTree[];
-}
+import { RrNode as RrNodeTree } from '@repo/shared/models';
 
 @Injectable()
 export class RrNodeRepository {
@@ -62,6 +49,8 @@ export class RrNodeRepository {
                   content: '$content',
                   children: '$children',
                   status: '$status',
+                  createdAt: '$createdAt',
+                  updatedAt: '$updatedAt',
                 },
               ],
               '$descendants',

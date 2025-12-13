@@ -6,10 +6,7 @@ import {
   removeRrContentById,
   fetchRrContents,
 } from "@/lib/service/rr-content";
-import {
-  CreateRrContentDto,
-  UpdateRrContentDto,
-} from "@/lib/types/apiRequests";
+import { CreateRrContentDto, UpdateRrContentDto } from "@repo/shared/dto";
 
 export const useCreateRrContent = () => {
   return useMutation({

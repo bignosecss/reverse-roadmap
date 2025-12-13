@@ -13,7 +13,7 @@ import {
   CreateRrNodeDto,
   UpdateRrContentTabDto,
   UpdateRrNodeDto,
-} from "@/lib/types/apiRequests";
+} from "@repo/shared/dto";
 
 export const useCreate = () => {
   return useMutation({

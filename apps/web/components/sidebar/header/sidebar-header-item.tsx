@@ -7,7 +7,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { BaseDialogTrigger } from "@/components/dialogs";
 import { useCreateRootDialog } from "../hooks/use-create-root-dialog";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { RrRootStatus } from "@/lib/types/models";
+import { RrRootStatus } from "@repo/shared/models";
 
 interface SidebarHeaderItemProps {
   item: HeadMenuItem;

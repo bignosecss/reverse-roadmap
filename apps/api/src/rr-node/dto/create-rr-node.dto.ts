@@ -1,13 +1,14 @@
 import {
-  IsDefined,
   IsString,
   ValidateIf,
   IsEnum,
   IsOptional,
+  IsDefined,
 } from 'class-validator';
-import { RrNodeStatus } from '../schemas/rr-node.schema';
+import { CreateRrNodeDto as SharedCreateRrNodeDto } from '@repo/shared/dto';
+import { RrNodeStatus } from '@repo/shared/models';
 
-export class CreateRrNodeDto {
+export class CreateRrNodeDto implements SharedCreateRrNodeDto {
   @IsString()
   title!: string;
 
@@ -15,8 +16,8 @@ export class CreateRrNodeDto {
   @IsOptional()
   description?: string;
 
-  @IsDefined() // 确保字段必须存在
-  @ValidateIf((o: CreateRrNodeDto) => o.parent !== null) // 如果不是null，就验证为字符串
+  @IsDefined()
+  @ValidateIf((o: CreateRrNodeDto) => o.parent !== null)
   @IsString()
   parent!: string | null;
 

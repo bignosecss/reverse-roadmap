@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument } from 'mongoose';
+import { RrRootStatus as SharedRrRootStatus } from '@repo/shared/models';
 
 export type RrRootDocument = HydratedDocument<RrRoot>;
 
@@ -11,8 +12,12 @@ export class RrRoot {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'RrNode' })
   rootRrNode!: mongoose.Types.ObjectId;
 
-  @Prop({ type: String, enum: ['active', 'archived'], default: 'active' })
-  status!: string;
+  @Prop({
+    type: String,
+    enum: SharedRrRootStatus,
+    default: SharedRrRootStatus.private,
+  })
+  status!: SharedRrRootStatus;
 }
 
 export const RrRootSchema = SchemaFactory.createForClass(RrRoot);

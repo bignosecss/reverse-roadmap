@@ -1,10 +1,11 @@
-import { apiClient } from "./client";
-import { RrContent, RrNode } from "../types/models";
 import {
   CreateRrNodeDto,
   UpdateRrContentTabDto,
   UpdateRrNodeDto,
-} from "../types/apiRequests";
+} from "@repo/shared/dto";
+import { apiClient } from "./client";
+import { RrContent, RrNode } from "@repo/shared/models";
+import { FlowEdge, FlowNode } from "@repo/shared/flow";
 
 /**
  * Create rr node if the parent attribute in `CreateRrNodeDto` is not null
@@ -39,9 +40,11 @@ export const fetchRrNodeById = async (id: string) => {
 };
 
 export const fetchRrTreeById = async (id: string) => {
-  const result = await apiClient<RrNode>(`rr-node/tree/${id}`);
-  const rrTree = result.data;
-  return rrTree;
+  const result = await apiClient<{ nodes: FlowNode[]; edges: FlowEdge[] }>(
+    `rr-node/tree/${id}`,
+  );
+  const flowData = result.data;
+  return flowData;
 };
 
 export const updateRrNodeById = async (

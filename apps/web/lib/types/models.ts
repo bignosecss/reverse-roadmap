@@ -2,94 +2,17 @@
  * 数据模型类型定义
  */
 
-import type {
-  Node,
-  Edge,
-  OnNodesChange,
-  OnEdgesChange,
-  OnConnect,
-} from "@xyflow/react";
-
-/** 侧边栏数据 */
-export enum RootsQueryKey {
-  public = "publicRrRoots",
-  private = "rrRoots",
-}
-
-export enum RrRootStatus {
-  public = "active",
-  private = "archived",
-}
-
-export interface RrRoot {
-  _id: string;
-  title: string;
-  rootRrNode: string;
-  status: RrRootStatus;
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-/** 思维导图节点状态 */
-export enum RrNodeStatus {
-  Completed = "completed",
-  Deprecated = "deprecated",
-  InProgress = "in-progress",
-  NotStarted = "not-started",
-  Blocked = "blocked",
-  Review = "review",
-  Cancelled = "cancelled",
-  Active = "active",
-}
-
-/** 思维导图节点 */
-export type NodeContent = {
-  rrContent: string;
-  tabTitle: string;
-};
-export interface RrNode {
-  _id: string;
-  title: string;
-  description?: string;
-  parent: string | null;
-  content: NodeContent[];
-  children: RrNode[];
-  status?: RrNodeStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
-export interface RrContent {
-  _id: string;
-  tabTitle: string;
-  type: "doc";
-  // 方便起见，暂时使用 any 作为 tiptap 文档的类型( edirot.getJSON() )
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  content: any[];
-  createdAt: Date;
-  updatedAt: Date;
-}
-
-export type FlowNode = Node<
-  {
-    label: string;
-    rrNode: RrNode;
-  },
-  "rrNode"
->;
-
-export type FlowEdge = Edge;
-
-// 转换结果类型
-export type FlowData = {
-  nodes: FlowNode[];
-  edges: FlowEdge[];
-};
+import type { OnNodesChange, OnEdgesChange, OnConnect } from "@xyflow/react";
+import { RrNode } from "@repo/shared/models";
+import { RrRootStatus } from "@repo/shared/models";
+import { FlowNode, FlowEdge, FlowData } from "@repo/shared/flow";
+import { UpdateRrNodeDto } from "@repo/shared/dto";
 
 export type FlowState = {
   nodes: FlowNode[];
   edges: FlowEdge[];
   currentRrNode: RrNode | null;
+  deletingFlowData: FlowData | null;
   onNodesChange: OnNodesChange<FlowNode>;
   onEdgesChange: OnEdgesChange<FlowEdge>;
   onConnect: OnConnect;
@@ -97,6 +20,8 @@ export type FlowState = {
   setEdges: (edges: FlowEdge[]) => void;
   setCurrentRrNode: (node: RrNode) => void;
   getNode: (rrNodeId: string) => FlowNode | undefined;
+  updateNode: (rrNodeId: string, updateRrNodeDto: UpdateRrNodeDto) => void;
+  setDeletingFlowData: (flowData: FlowData | null) => void;
 };
 
 export type SidebarState = {

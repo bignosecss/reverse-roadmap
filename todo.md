@@ -13,11 +13,28 @@
 
 ### Canvas
 
+- [ ] Canvas 在中文输入，打出字母的时候，onUpdate 也触发了，想想解决方法
+  > 合成事件
+
 ### Flow
 
-- [ ] Canvas 中的操作（除了 content 更新外），如果涉及到外部节点的状态改变，都不会及时反应（重渲染）。比如：1. 外部节点信息更新 Canvas 无法及时更新。2. Canvas 中创建了新的 content，但是 Tab 不会及时更新，只能手动 invalidate 整棵树，然后点击对应节点，这非常低效。需要想办法优化
-  > Flow todo 部分的乐观更新，突然想到的解决方案可以解决该问题
-- [ ] Flow CRUD 节点时，等待途中冻结 Flow，操作结束（成功或失败）后再恢复（增加 UX，也方便探测性能）
+### Sidebar
+
+### Bug Fix Tasks
+
+- [ ] Canvas 中，点击的节点，如果其 content 存在图片，那么 tiptap 初始化之后，会出现 flushSync 的报错
+  > 也是一直没找出时间来了解图片的处理，因为 flushSync 就是在图片处理的代码中引发的
+  > 这个一定得看，长知识啊
+- [ ] Canvas Bubble Menu UX 有些问题。在选中文本后，BubbleMenu 出现 OK 没问题，然后点击其中的 dropdown 组件，BubbleMenu 消失，dropdown item 显示到了屏幕左上角，坐标 (0, 0) 的地方
+  > 我知道了，很可能是 shadcn dropdown 的默认行为，会自动关闭的
+  > 因为在做 sidebar content item 删除的时候就遇到过这种情况，组织默认行为后就好了
+  > 还是要了解一下事件冒泡啊（当然这是浏览器的），太必要了，一直没找出时间来细细品味
+  > 这个得看，基本功啊
+
+## Done
+
+- [x] Flow CRUD 节点时，等待途中冻结 Flow，操作结束（成功或失败）后再恢复（增加 UX，也方便探测性能）
+
   > Optimistic UI + 局部 Loading 标识
   > 用户点击“新增节点”时，先立即在前端添加节点（假设成功）。同时发送后端请求。如果失败 → 显示 toast/error，并 revert。
   > 视觉效果通常是：节点半透明 + loading spinner；其他节点可继续操作；Flow 不会整体锁住。
@@ -34,20 +51,7 @@
   > 缺陷就是数据同步问题，要非常小心
   > 两周时间，这个优先级可以往后稍一稍，先看看 RAG
 
-### Sidebar
-
-### Bug Fix Tasks
-
-- [ ] Canvas 中，点击的节点，如果其 content 存在图片，那么 tiptap 初始化之后，会出现 flushSync 的报错
-  > 也是一直没找出时间来了解图片的处理，因为 flushSync 就是在图片处理的代码中引发的
-  > 这个一定得看，长知识啊
-- [ ] Canvas Bubble Menu UX 有些问题。在选中文本后，BubbleMenu 出现 OK 没问题，然后点击其中的 dropdown 组件，BubbleMenu 消失，dropdown item 显示到了屏幕左上角，坐标 (0, 0) 的地方
-  > 我知道了，很可能是 shadcn dropdown 的默认行为，会自动关闭的
-  > 因为在做 sidebar content item 删除的时候就遇到过这种情况，组织默认行为后就好了
-  > 还是要了解一下事件冒泡啊（当然这是浏览器的），太必要了，一直没找出时间来细细品味
-  > 这个得看，基本功啊
-
-## Done
+  > 虽然效果和预期不太一样，但也凑活
 
 - [x] Canvas 设置每个节点 Content 的访问密码（访问密码在传输过程中的加密，可以参考 TLS 协商中 pre-master secret 的过程）
   > 先暂时给 Sidebar root 设置了 public/private 模式，密码到时候应该存到本地的环境变量文件里面
@@ -107,6 +111,8 @@
 
 这都是有待观察的，其他核心功能做完之后，再做决定看做不做
 
+- [ ] Canvas 中的操作（除了 content 更新外），如果涉及到外部节点的状态改变，都不会及时反应（重渲染）。比如：1. 外部节点信息更新 Canvas 无法及时更新。2. Canvas 中创建了新的 content，但是 Tab 不会及时更新，只能手动 invalidate 整棵树，然后点击对应节点，这非常低效。需要想办法优化
+  > Flow todo 部分的乐观更新，突然想到的解决方案可以解决该问题
 - [ ] Canvas 中添加表格模块
   > 有点难啊！
   > 困难在于，怎么将 shadcn/ui 的 table 组件与 tiptap table extension 联系起来
@@ -119,8 +125,6 @@
   >
   > 有空回头看
 - [ ] Api 做一个定时任务，定期导出数据库的文档，到本地
-- [ ] Canvas 在中文输入，打出字母的时候，onUpdate 也触发了，想想解决方法
-  > 合成事件
 - [ ] Canvas 打开/关闭的动画效果，会导致 Canvas 内容在宽度较小时被挤压，要做一个类似渐变消失的效果
   > ai~没时间咯，后续如果来得及或是仍有余力，就看看吧
 - [ ] 统计每个 `tree` 的信息（节点数等），或是在 Flow 中增加一个绝对定位的类似切换布局方式的按钮来控制显示，或者在 Dashboard 中可视化统计（使用 D3.js）
