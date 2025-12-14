@@ -101,7 +101,7 @@ export default function RrNodeCard({
             ${isRootNode ? "bg-primary/10 text-primary" : "bg-muted text-muted-foreground"}
           `}
           >
-            {isRootNode ? "根节点" : "子节点"}
+            {isRootNode ? "终极目标" : "规划"}
           </span>
 
           {/* Status badge if status exists */}
