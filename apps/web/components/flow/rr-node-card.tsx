@@ -8,8 +8,6 @@ import {
   CardTitle,
 } from "../ui/card";
 import useFlowStore from "@/lib/stores/flow";
-import useCanvasStore from "@/lib/stores/canvas";
-import { useSidebar } from "../ui/sidebar";
 import { cn } from "@/lib/utils";
 import { NodeStatusBadge } from "../badges";
 import { RrNode, RrNodeStatus } from "@repo/shared/models";
@@ -33,15 +31,11 @@ export default function RrNodeCard({
     (node) => node.data.rrNode._id === rrNode._id,
   );
 
-  const canvasOpen = useCanvasStore((state) => state.canvasOpen);
-  const { setOpen } = useSidebar();
-
   const handleNodeClick = useCallback(
     (node: RrNode) => {
       setCurrentRrNode(node);
-      if (!canvasOpen) setOpen(false);
     },
-    [canvasOpen, setCurrentRrNode, setOpen],
+    [setCurrentRrNode],
   );
 
   return (

@@ -6,6 +6,7 @@ import { RrNode } from "@repo/shared";
 import { ChevronsRight } from "lucide-react";
 import { useCallback } from "react";
 import { useShallow } from "zustand/react/shallow";
+import { useSidebar } from "@/components/ui/sidebar";
 
 interface OpenCanvasProps {
   currentNode: RrNode;
@@ -21,12 +22,14 @@ export function OpenCanvasTrigger({ currentNode }: OpenCanvasProps) {
     useShallow(canvasStoreSelector),
   );
   const setCurrentRrNode = useFlowStore((state) => state.setCurrentRrNode);
+  const { open, setOpen } = useSidebar();
 
   const handleClick = useCallback(() => {
     if (canvasOpen) return;
+    if (open) setOpen(false);
     setCurrentRrNode(currentNode);
     setCanvasOpen(true);
-  }, [canvasOpen, currentNode, setCanvasOpen, setCurrentRrNode]);
+  }, [canvasOpen, currentNode, open, setCanvasOpen, setCurrentRrNode, setOpen]);
 
   return (
     <Button
