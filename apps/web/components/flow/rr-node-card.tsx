@@ -1,4 +1,3 @@
-import { useShallow } from "zustand/react/shallow";
 import { useCallback } from "react";
 import { Handle, Position } from "@xyflow/react";
 import {
@@ -8,7 +7,6 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { CanvasState } from "@/lib/types/models";
 import useFlowStore from "@/lib/stores/flow";
 import useCanvasStore from "@/lib/stores/canvas";
 import { useSidebar } from "../ui/sidebar";
@@ -21,11 +19,6 @@ interface RrNodeCardProps {
   isSelected: boolean;
   isRootNode: boolean;
 }
-
-const canvasSelector = (state: CanvasState) => ({
-  canvasOpen: state.canvasOpen,
-  setCanvasOpen: state.setCanvasOpen,
-});
 
 export default function RrNodeCard({
   rrNode,
@@ -40,20 +33,15 @@ export default function RrNodeCard({
     (node) => node.data.rrNode._id === rrNode._id,
   );
 
-  const { canvasOpen, setCanvasOpen } = useCanvasStore(
-    useShallow(canvasSelector),
-  );
+  const canvasOpen = useCanvasStore((state) => state.canvasOpen);
   const { setOpen } = useSidebar();
 
   const handleNodeClick = useCallback(
     (node: RrNode) => {
       setCurrentRrNode(node);
-      if (!canvasOpen) {
-        setCanvasOpen(true);
-        setOpen(false);
-      }
+      if (!canvasOpen) setOpen(false);
     },
-    [canvasOpen, setCanvasOpen, setCurrentRrNode, setOpen],
+    [canvasOpen, setCurrentRrNode, setOpen],
   );
 
   return (
