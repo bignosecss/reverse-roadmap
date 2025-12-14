@@ -8,8 +8,6 @@ async function bootstrap() {
   app.setGlobalPrefix('rag');
   app.enableCors();
   await app.listen(PORT);
-  console.log(
-    `🚀 RAG Server is running  on : http://localhost:${PORT}/rag`,
-  );
+  console.log(`🚀 RAG Server is running  on : http://localhost:${PORT}/rag`);
 }
 void bootstrap();
