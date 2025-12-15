@@ -5,9 +5,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   const PORT = process.env.PORT ?? 3002;
 
-  app.setGlobalPrefix('rag/v1');
+  app.setGlobalPrefix('rag');
   app.enableCors();
   await app.listen(PORT);
-  console.log(`🚀 RAG Server is running  on : http://localhost:${PORT}/rag/v1`);
+  console.log(`🚀 RAG Server is running  on : http://localhost:${PORT}/rag`);
 }
 void bootstrap();

@@ -23,7 +23,7 @@ export class LangchainChatService {
 
       const response = await model.invoke(messages);
 
-      return customMessage(HttpStatus.OK, MESSAGES.SUCCESS, response);
+      return customMessage(HttpStatus.OK, MESSAGES.SUCCESS, response.content);
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e: unknown) {
       throw new HttpException(

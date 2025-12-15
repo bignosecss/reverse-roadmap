@@ -11,7 +11,6 @@
 export enum deepseekAI {
   DEEPSEEK_CHAT = 'deepseek-chat',
   BASIC_CHAT_DEEPSEEK_TEMPERATURE = 0.8,
-  TIMEOUT = 30,
 }
 
 export enum vercelRoles {
