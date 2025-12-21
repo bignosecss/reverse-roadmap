@@ -1,0 +1,112 @@
+version: '3'
+
+services:
+  # MongoDB service for the application
+  mongodb:
+    image: mongo:7.0
+    container_name: reverse-roadmap-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=password
+      - MONGO_DB_NAME=reverse-roadmap
+    networks:
+      - reverse-roadmap-network
+
+  # API service (NestJS backend)
+  api:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.api.dev
+    container_name: reverse-roadmap-api
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./apps/api/src:/app/apps/api/src
+      - ./packages:/app/packages
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+      - MONGODB_URI=mongodb://admin:password@mongodb:27017/reverse-roadmap?authSource=admin
+      - TOGGLE_MODE=toggle-mode-string
+    depends_on:
+      - mongodb
+    networks:
+      - reverse-roadmap-network
+
+  # PostgreSQL with pgvector for RAG service
+  pgvector:
+    hostname: 127.0.0.1
+    image: pgvector/pgvector:pg16
+    container_name: reverse-roadmap-pgvector
+    restart: unless-stopped
+    ports:
+      - "5434:5432"
+    environment:
+      - POSTGRES_DB=pgvector-db
+      - POSTGRES_USER=pgvector
+      - POSTGRES_PASSWORD=admin
+    volumes:
+      - pgvector_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - reverse-roadmap-network
+
+  # RAG service (NestJS with langchain)
+  rag:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.rag.dev
+    container_name: reverse-roadmap-rag
+    restart: unless-stopped
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./apps/rag/src:/app/apps/rag/src
+      - ./packages:/app/packages
+    environment:
+      - NODE_ENV=development
+      - PORT=3002
+      - DATABASE_URL=postgresql://pgvector:admin@pgvector:5432/pgvector-db
+      - DEEPSEEK_API_KEY={$DEEPSEEK_API_KEY}
+    depends_on:
+      - pgvector
+    networks:
+      - reverse-roadmap-network
+
+  # Web application (Next.js frontend)
+  web:
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.web.dev
+    container_name: reverse-roadmap-web
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./apps/web:/app/apps/web
+      - ./packages:/app/packages
+    environment:
+      - NODE_ENV=development
+      - NEXT_PUBLIC_RR_API=http://localhost:3001/api/
+      - PORT=3000
+    depends_on:
+      - api
+    networks:
+      - reverse-roadmap-network
+
+networks:
+  reverse-roadmap-network:
+    driver: bridge
+
+volumes:
+  mongodb_data:
+    driver: local
+  pgvector_data:
+    driver: local

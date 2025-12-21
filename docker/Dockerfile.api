@@ -1,0 +1,60 @@
+# ------------------------------
+# Stage 1: Builder (install deps and build)
+# ------------------------------
+FROM node:20-alpine AS builder
+WORKDIR /app
+
+# 启用 Corepack 并安装 pnpm
+RUN corepack enable pnpm
+
+# 1. Copy root package files to resolve workspaces
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
+
+# 2. Copy workspace package.json files (to install dependencies)
+# Copy api's package.json
+COPY apps/api/package.json ./apps/api/
+# Copy utils's package.json (since api depends on it)
+# COPY packages/*/package.json ./packages/*/
+# 复制 packages 目录下所有子目录的 package.json
+COPY packages/ ./packages/
+
+# 3. Install dependencies for the api workspace (and its dependencies)
+# 3. Install ALL dependencies for the entire monorepo
+RUN pnpm install
+
+# 4. Copy source code for api and utils
+COPY apps/api/src ./apps/api/src
+COPY apps/api/tsconfig.json ./apps/api/
+COPY packages/*/src ./packages/*/
+COPY packages/*/tsconfig.json ./packages/*/
+
+# 5. Build the utils library (required for api to run)
+RUN pnpm build --filter "./packages/*"
+
+# 6. Build the api service
+RUN pnpm build --filter "./apps/api"
+
+# ------------------------------
+# Stage 2: Final runtime image
+# ------------------------------
+FROM node:20-alpine
+WORKDIR /app
+
+# Enable Corepack to get pnpm in the runtime image
+RUN corepack enable pnpm
+
+# 7. Copy only runtime dependencies and built artifacts from builder
+# Copy root node_modules (contains express, utils, etc.)
+COPY --from=builder /app/node_modules ./node_modules
+# Copy built utils library
+COPY --from=builder /app/packages/*/dist ./packages/*/dist
+# Copy built api service
+COPY --from=builder /app/apps/api/dist ./apps/api/dist
+# Copy api's package.json (for scripts like "start")
+COPY --from=builder /app/apps/api/package.json ./apps/api/
+
+# 8. Set working directory to the api service
+WORKDIR /app/apps/api
+
+# 9. Run the service
+CMD ["pnpm", "start"]

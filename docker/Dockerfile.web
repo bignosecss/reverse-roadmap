@@ -1,0 +1,57 @@
+# ------------------------------
+# Stage 1: Builder (install deps and build)
+# ------------------------------
+FROM node:20-alpine AS builder
+WORKDIR /app
+
+# 启用 Corepack 并安装 pnpm
+RUN corepack enable pnpm
+
+# 1. Copy root package files to resolve workspaces
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
+
+# 2. Copy workspace package.json files (to install dependencies)
+# Copy web's package.json
+COPY apps/web/package.json ./apps/web/
+# Copy utils's package.json (since web depends on it)
+COPY packages/ ./packages/
+
+# 3. Install dependencies for the web workspace (and its dependencies)
+RUN pnpm install
+
+# 4. Copy source code for web and utils
+COPY apps/web/ ./apps/web/
+COPY packages/*/src ./packages/*/
+COPY packages/*/tsconfig.json ./packages/*/
+
+# 5. Build the utils library (required for web to run)
+RUN pnpm build --filter "./packages/*"
+
+# 6. Build the web service
+RUN pnpm build --filter "./apps/web"
+
+# ------------------------------
+# Stage 2: Final runtime image
+# ------------------------------
+FROM node:20-alpine
+WORKDIR /app
+
+# Enable Corepack to get pnpm in the runtime image
+RUN corepack enable pnpm
+
+# 7. Copy only runtime dependencies and built artifacts from builder
+# Copy root node_modules (contains next, react, etc.)
+COPY --from=builder /app/node_modules ./node_modules
+# Copy built utils library
+COPY --from=builder /app/packages/*/dist ./packages/*/dist
+# Copy built web service
+COPY --from=builder /app/apps/web/.next ./apps/web/.next
+COPY --from=builder /app/apps/web/public ./apps/web/public
+# Copy web's package.json (for scripts like "start")
+COPY --from=builder /app/apps/web/package.json ./apps/web/
+
+# 8. Set working directory to the web service
+WORKDIR /app/apps/web
+
+# 9. Run the service
+CMD ["pnpm", "start"]

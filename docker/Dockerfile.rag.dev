@@ -1,0 +1,34 @@
+# Development image for RAG service with hot reloading
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Enable Corepack to use pnpm
+RUN corepack enable pnpm
+
+# Copy root package files
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
+
+# Copy workspace package.json files
+COPY apps/rag/package.json ./apps/rag/
+COPY apps/rag/nest-cli.json ./apps/rag/
+COPY packages/ ./packages/
+
+# Install dependencies
+RUN pnpm install
+
+# Copy source code
+COPY apps/rag/src ./apps/rag/src
+COPY apps/rag/tsconfig.json ./apps/rag/
+COPY apps/rag/nest-cli.json ./apps/rag/
+COPY packages/*/src ./packages/*/
+COPY packages/*/tsconfig.json ./packages/*/
+
+# Expose port
+EXPOSE 3002
+
+# Set working directory to rag app
+WORKDIR /app/apps/rag
+
+# Start the development server
+CMD ["pnpm", "dev"]
