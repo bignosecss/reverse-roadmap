@@ -74,7 +74,7 @@ services:
       - NODE_ENV=development
       - PORT=3002
       - DATABASE_URL=postgresql://pgvector:admin@pgvector:5432/pgvector-db
-      - DEEPSEEK_API_KEY={$DEEPSEEK_API_KEY}
+      - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
     depends_on:
       - pgvector
     networks:
