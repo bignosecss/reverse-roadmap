@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { OllamaEmbeddings } from '@langchain/ollama'
+import { OllamaEmbeddings } from '@langchain/ollama';
 import {
   DistanceStrategy,
   PGVectorStore,
@@ -29,7 +29,10 @@ export class VectorStoreService {
     };
 
     this.pgvectorStore = new PGVectorStore(
-      new OllamaEmbeddings({ model: "nomic-embed-text", baseUrl: 'http://ollama:11434' }),
+      new OllamaEmbeddings({
+        model: 'nomic-embed-text',
+        baseUrl: 'http://ollama:11434',
+      }),
       pgVectorConfig,
     );
   }
