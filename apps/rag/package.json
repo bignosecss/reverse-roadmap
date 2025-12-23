@@ -21,8 +21,10 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@langchain/community": "^1.1.1",
     "@langchain/core": "^1.1.5",
     "@langchain/deepseek": "^1.0.3",
+    "@langchain/ollama": "^1.1.0",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
@@ -32,8 +34,21 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.3",
     "langchain": "^1.2.0",
+    "pdf-parse": "^2.4.5",
+    "pg": "^8.16.3",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
+  },
+  "resolutions": {
+    "@langchain/core": "^1.1.5"
+  },
+  "overrides": {
+    "@langchain/core": "^1.1.5"
+  },
+  "pnpm": {
+    "overrides": {
+      "@langchain/core": "^1.1.5"
+    }
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
@@ -46,6 +61,7 @@
     "@types/express": "^5.0.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^22.10.7",
+    "@types/pg": "^8.16.0",
     "@types/supertest": "^6.0.2",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",

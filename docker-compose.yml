@@ -101,6 +101,33 @@ services:
     networks:
       - reverse-roadmap-network
 
+  # Ollama service for local LLM
+  ollama:
+    image: ollama/ollama:latest
+    container_name: reverse-roadmap-ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - reverse-roadmap-network
+
+  # Initialize Ollama with required models
+  ollama-init:
+    image: curlimages/curl:latest
+    container_name: reverse-roadmap-ollama-init
+    depends_on:
+      - ollama
+    command: >
+      sh -c "
+        sleep 10 &&
+        curl -X POST http://ollama:11434/api/pull -H 'Content-Type: application/json' -d '{\"model\": \"nomic-embed-text:latest\"}' &&
+        echo 'Model nomic-embed-text:latest pulled successfully'
+      "
+    networks:
+      - reverse-roadmap-network
+
 networks:
   reverse-roadmap-network:
     driver: bridge
@@ -109,4 +136,6 @@ volumes:
   mongodb_data:
     driver: local
   pgvector_data:
+    driver: local
+  ollama_data:
     driver: local
