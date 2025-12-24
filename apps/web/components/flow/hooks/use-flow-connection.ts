@@ -4,7 +4,7 @@ import { FlowNode, FlowEdge, UpdateConnectionDto } from "@repo/shared";
 import { useUpdateConnection } from "@/hooks/use-rr-node";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
-import { usePathname } from "next/navigation";
+import { useTreeId } from "@/hooks/use-tree-id";
 
 interface UseFlowConnectionProps {
   edges: FlowEdge[];
@@ -19,10 +19,7 @@ export const useFlowConnection = ({
   setEdges,
   setNodes,
 }: UseFlowConnectionProps) => {
-  const pathname = usePathname();
-  const currentTreeId = pathname.startsWith("/g/")
-    ? pathname.split("/g/")[1]
-    : null;
+  const currentTreeId = useTreeId();
 
   const { mutateAsync: updateConnectionAsync } = useUpdateConnection();
   const queryClient = useQueryClient();

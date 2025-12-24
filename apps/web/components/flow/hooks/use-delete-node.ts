@@ -2,7 +2,6 @@
 
 import { useCallback, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { usePathname } from "next/navigation";
 import { toast } from "sonner";
 import { useRemoveRrNodeById } from "@/hooks/use-rr-node";
 import { RrNode } from "@repo/shared/models";
@@ -10,6 +9,7 @@ import { FlowState } from "@/lib/types/models";
 import { FlowData, FlowNode } from "@repo/shared";
 import useFlowStore from "@/lib/stores/flow";
 import { useShallow } from "zustand/react/shallow";
+import { useTreeId } from "@/hooks/use-tree-id";
 
 interface UseDeleteNodeProps {
   currentNode: RrNode;
@@ -24,10 +24,7 @@ const flowStoreSelector = (state: FlowState) => ({
 });
 
 export function useDeleteNode({ currentNode }: UseDeleteNodeProps) {
-  const pathname = usePathname();
-  const currentTreeId = pathname.startsWith("/g/")
-    ? pathname.split("/g/")[1]
-    : null;
+  const currentTreeId = useTreeId();
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
 

@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useState, useEffect } from "react";
-import { usePathname } from "next/navigation";
 import { toast } from "sonner";
 
 import { useUpdateRrNodeById } from "@/hooks/use-rr-node";
@@ -11,6 +10,7 @@ import { UpdateRrNodeDto } from "@repo/shared/dto";
 import useFlowStore from "@/lib/stores/flow";
 import { FlowState } from "@/lib/types/models";
 import { useShallow } from "zustand/react/shallow";
+import { useTreeId } from "@/hooks/use-tree-id";
 
 interface UseEditNodeProps {
   currentNode: RrNode;
@@ -22,11 +22,8 @@ const flowStoreSelector = (flowState: FlowState) => ({
 });
 
 export function useEditNode({ currentNode }: UseEditNodeProps) {
+  const currentTreeId = useTreeId();
   const queryClient = useQueryClient();
-  const pathname = usePathname();
-  const currentTreeId = pathname.startsWith("/g/")
-    ? pathname.split("/g/")[1]
-    : null;
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [title, setTitle] = useState(currentNode.title);

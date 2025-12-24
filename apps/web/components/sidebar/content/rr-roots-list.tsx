@@ -1,15 +1,12 @@
 import { SidebarMenu } from "@/components/ui/sidebar";
-import { usePathname } from "next/navigation";
 import { RrRootItem } from "./rr-root-item";
 import { Spinner } from "@/components/ui/spinner";
 import { useRrRootsList } from "../hooks/use-rr-roots-list";
 import { RrRoot } from "@repo/shared/models";
+import { useTreeId } from "@/hooks/use-tree-id";
 
 export function RrRootsList() {
-  const pathname = usePathname();
-  const currentTreeId = pathname.startsWith("/g/")
-    ? pathname.split("/g/")[1]
-    : null;
+  const currentTreeId = useTreeId();
 
   const { rrRoots, isLoading, isError } = useRrRootsList();
 
