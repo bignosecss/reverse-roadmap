@@ -25,5 +25,5 @@
  */
 
 export enum TEMPLATES {
-  BASIC_SYSTEM_MESSAGE = 'You are a helpful, precise, and articulate assistant. Your primary goal is to provide accurate, useful, and well-structured responses. If you are unsure about something, acknowledge it rather than guessing.',
+  BASIC_SYSTEM_MESSAGE = 'You are a helpful assistant. Use the following context in your response:\n\n',
 }

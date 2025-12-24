@@ -82,8 +82,8 @@ export class LangchainChatService {
       });
 
       const messages = [
-        new SystemMessage(TEMPLATES.BASIC_SYSTEM_MESSAGE),
-        new HumanMessage(`${documentContext}\n\n${basicMessageDto.user_query}`),
+        new SystemMessage(`TEMPLATES.BASIC_SYSTEM_MESSAGE${documentContext}`),
+        new HumanMessage(basicMessageDto.user_query),
       ];
 
       const response = await model.invoke(messages as BaseLanguageModelInput);
