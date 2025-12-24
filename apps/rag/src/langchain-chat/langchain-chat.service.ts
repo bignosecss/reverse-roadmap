@@ -82,7 +82,9 @@ export class LangchainChatService {
       });
 
       const messages = [
-        new SystemMessage(`TEMPLATES.BASIC_SYSTEM_MESSAGE${documentContext}`),
+        new SystemMessage(
+          `${TEMPLATES.BASIC_SYSTEM_MESSAGE}${documentContext}`,
+        ),
         new HumanMessage(basicMessageDto.user_query),
       ];
 
