@@ -19,6 +19,8 @@ import { existsSync } from 'fs';
 import { PDFLoader } from '@langchain/community/document_loaders/fs/pdf';
 import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
 import { VectorStoreService } from 'src/services/vector-store.service';
+import { DocumentDto } from './dto/document.dto';
+import { PDF_BASE_PATH } from 'src/utils/constants/common.constants';
 
 @Injectable()
 export class LangchainChatService {
@@ -65,17 +67,45 @@ export class LangchainChatService {
     }
   }
 
-  async loadPDF() {
+  async documentChat(basicMessageDto: BasicMessageDto) {
     try {
-      const file = './src/pdfs/2312.pdf';
-      const resolvePath = path.resolve(file);
+      // 真烦人这ESLint规则
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const documentContext = await this.vectorStoreService.similaritySearch(
+        basicMessageDto.user_query,
+        3,
+      );
+
+      const model = new ChatDeepSeek({
+        temperature: +deepseekAI.BASIC_CHAT_DEEPSEEK_TEMPERATURE,
+        model: deepseekAI.DEEPSEEK_CHAT.toString(),
+      });
+
+      const messages = [
+        new SystemMessage(TEMPLATES.BASIC_SYSTEM_MESSAGE),
+        new HumanMessage(`${documentContext}\n\n${basicMessageDto.user_query}`)
+      ];
+
+      const response = await model.invoke(messages as BaseLanguageModelInput);
+
+      return this.successResponse(response);
+    } catch (e: unknown) {
+      this.exceptionHandling(e);
+    }
+  }
+
+  async uploadPDF(documentDto: DocumentDto) {
+    try {
+      // Load the file
+      const file = `${PDF_BASE_PATH}/${documentDto.file}`;
+      const resolvedPath = path.resolve(file);
       // Check if the file exists
-      if (!existsSync(resolvePath)) {
-        throw new BadRequestException('File does not exist');
+      if (!existsSync(resolvedPath)) {
+        throw new BadRequestException('File does not exist.');
       }
 
       // Load the PDF using PDFLoader
-      const pdfLoader = new PDFLoader(resolvePath);
+      const pdfLoader = new PDFLoader(resolvedPath);
       const pdf = await pdfLoader.load();
 
       // Split the PDF into texts using RecursiveCharacterTextSplitter
@@ -86,22 +116,22 @@ export class LangchainChatService {
       const texts = await textSplitter.splitDocuments(pdf);
       let embeddings: Document[] = [];
 
-      for (let i = 0; i < texts.length; i++) {
-        const page = texts[i];
+      for (let index = 0; index < texts.length; index++) {
+        const page = texts[index];
         const splitTexts = await textSplitter.splitText(page!.pageContent);
         const pageEmbeddings = splitTexts.map((text) => ({
           pageContent: text,
           metadata: {
-            pageNumber: i,
+            pageNumber: index,
           },
         }));
         embeddings = embeddings.concat(pageEmbeddings);
       }
       await this.vectorStoreService.addDocuments(embeddings);
-
-      return await this.vectorStoreService.similaritySearch('naive rag', 3);
+      return customMessage(HttpStatus.OK, MESSAGES.SUCCESS);
     } catch (e: unknown) {
-      this.logger.error(e);
+      console.log(e);
+
       this.exceptionHandling(e);
     }
   }
