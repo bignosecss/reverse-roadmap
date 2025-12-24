@@ -57,7 +57,10 @@ export class LangchainChatService {
       const systemMsg = new SystemMessage(
         TEMPLATES.BASIC_SYSTEM_MESSAGE.toString(),
       );
-      const messages = [systemMsg, ...contextAwareMessagesDto.messages];
+      const humanMessages = contextAwareMessagesDto.messages.map(
+        (query) => new HumanMessage(query),
+      );
+      const messages = [systemMsg, ...humanMessages];
 
       const response = await model.invoke(messages as BaseLanguageModelInput);
 
