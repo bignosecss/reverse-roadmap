@@ -42,7 +42,6 @@ services:
 
   # PostgreSQL with pgvector for RAG service
   pgvector:
-    hostname: 127.0.0.1
     image: pgvector/pgvector:pg16
     container_name: reverse-roadmap-pgvector
     restart: unless-stopped

@@ -1,5 +1,11 @@
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
-import { AIMessage, HumanMessage, SystemMessage } from 'langchain';
+import {
+  BadRequestException,
+  HttpException,
+  HttpStatus,
+  Injectable,
+  Logger,
+} from '@nestjs/common';
+import { AIMessage, HumanMessage, SystemMessage, Document } from 'langchain';
 import { ChatDeepSeek } from '@langchain/deepseek';
 import { BaseLanguageModelInput } from '@langchain/core/language_models/base';
 import { BasicMessageDto } from './dto/basic-message.dto';
@@ -8,9 +14,17 @@ import { TEMPLATES } from 'src/utils/constants/templates.constants';
 import customMessage from 'src/utils/responses/customMessage.response';
 import { MESSAGES } from 'src/utils/constants/messages.constants';
 import { ContextAwareMessagesDto } from './dto/context-aware-messages.dto';
+import path from 'path';
+import { existsSync } from 'fs';
+import { PDFLoader } from '@langchain/community/document_loaders/fs/pdf';
+import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
+import { VectorStoreService } from 'src/services/vector-store.service';
 
 @Injectable()
 export class LangchainChatService {
+  private readonly logger = new Logger(LangchainChatService.name);
+  constructor(private readonly vectorStoreService: VectorStoreService) {}
+
   async basicChat(basicMessageDto: BasicMessageDto) {
     try {
       const model = new ChatDeepSeek({
@@ -47,6 +61,47 @@ export class LangchainChatService {
 
       return this.successResponse(response);
     } catch (e: unknown) {
+      this.exceptionHandling(e);
+    }
+  }
+
+  async loadPDF() {
+    try {
+      const file = './src/pdfs/2312.pdf';
+      const resolvePath = path.resolve(file);
+      // Check if the file exists
+      if (!existsSync(resolvePath)) {
+        throw new BadRequestException('File does not exist');
+      }
+
+      // Load the PDF using PDFLoader
+      const pdfLoader = new PDFLoader(resolvePath);
+      const pdf = await pdfLoader.load();
+
+      // Split the PDF into texts using RecursiveCharacterTextSplitter
+      const textSplitter = new RecursiveCharacterTextSplitter({
+        chunkSize: 1000,
+        chunkOverlap: 50,
+      });
+      const texts = await textSplitter.splitDocuments(pdf);
+      let embeddings: Document[] = [];
+
+      for (let i = 0; i < texts.length; i++) {
+        const page = texts[i];
+        const splitTexts = await textSplitter.splitText(page!.pageContent);
+        const pageEmbeddings = splitTexts.map((text) => ({
+          pageContent: text,
+          metadata: {
+            pageNumber: i,
+          },
+        }));
+        embeddings = embeddings.concat(pageEmbeddings);
+      }
+      await this.vectorStoreService.addDocuments(embeddings);
+
+      return await this.vectorStoreService.similaritySearch('naive rag', 3);
+    } catch (e: unknown) {
+      this.logger.error(e);
       this.exceptionHandling(e);
     }
   }

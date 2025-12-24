@@ -7,13 +7,11 @@ import {
 import * as pg from 'pg';
 import { Document } from '@langchain/core/documents';
 import { PoolConfig } from 'pg';
-import { OllamaEmbedService } from 'src/ollama-embed/ollama-embed.service';
 
 @Injectable()
 export class VectorStoreService {
   private pgvectorStore!: PGVectorStore;
   private pool!: pg.Pool;
-  constructor(private readonly ollamaEmbedService: OllamaEmbedService) {}
 
   async onModuleInit() {
     const { postgresConnectionOptions, tableName, columns, distanceStrategy } =
@@ -75,8 +73,8 @@ export class VectorStoreService {
 const config = {
   postgresConnectionOptions: {
     type: 'postgres',
-    host: '127.0.0.1',
-    port: 5434,
+    host: 'pgvector',
+    port: 5432,
     user: 'pgvector',
     password: 'admin',
     database: 'pgvector-db',
