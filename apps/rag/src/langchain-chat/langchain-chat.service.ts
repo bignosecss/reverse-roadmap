@@ -130,7 +130,7 @@ export class LangchainChatService {
       await this.vectorStoreService.addDocuments(embeddings);
       return customMessage(HttpStatus.OK, MESSAGES.SUCCESS);
     } catch (e: unknown) {
-      console.log(e);
+      this.logger.error(e);
 
       this.exceptionHandling(e);
     }
