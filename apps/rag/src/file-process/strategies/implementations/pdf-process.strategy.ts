@@ -10,7 +10,7 @@ import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
 
 @Injectable()
 export class PDFProcessStrategy implements FileProcessStrategy {
-  async parse(filePath: string) {
+  async parse(filePath: string): Promise<Document<Record<string, any>>[]> {
     try {
       // Validate file path
       if (!filePath) {
@@ -19,8 +19,12 @@ export class PDFProcessStrategy implements FileProcessStrategy {
 
       const loader = new PDFLoader(filePath);
       const docs = await loader.load();
+      const cleanedDocs = docs.map((doc) => ({
+        ...doc,
+        pageContent: this.cleanPdfText(doc.pageContent),
+      }));
 
-      return docs;
+      return cleanedDocs;
     } catch (e: unknown) {
       if (e instanceof BadRequestException) {
         throw e;
@@ -31,7 +35,9 @@ export class PDFProcessStrategy implements FileProcessStrategy {
     }
   }
 
-  async chunk(docs: Document<Record<string, any>>[]) {
+  async chunk(
+    docs: Document<Record<string, any>>[],
+  ): Promise<Document<Record<string, any>>[]> {
     try {
       if (!docs || docs.length === 0) {
         return [];
@@ -40,33 +46,31 @@ export class PDFProcessStrategy implements FileProcessStrategy {
       // Split the PDF into texts using RecursiveCharacterTextSplitter
       const textSplitter = new RecursiveCharacterTextSplitter({
         chunkSize: 1000,
-        chunkOverlap: 50,
+        chunkOverlap: 200,
+        separators: [
+          '\n\n', // 优先按段落分割
+          '\n', // 其次按换行
+          '. ', // 句子结束
+          '? ',
+          '! ',
+          ' ',
+          '',
+        ],
       });
 
-      const texts = await textSplitter.splitDocuments(docs);
-
-      let embeddings: Document[] = [];
-      for (let index = 0; index < texts.length; index++) {
-        const page = texts[index];
-        if (!page || !page.pageContent) {
-          continue;
-        }
-
-        const splitTexts = await textSplitter.splitText(page.pageContent);
-        const pageEmbeddings = splitTexts.map((text) => ({
-          pageContent: text,
-          metadata: {
-            pageNumber: index,
-          },
-        }));
-        embeddings = embeddings.concat(pageEmbeddings);
-      }
-
-      return embeddings;
+      const pdfChunks = await textSplitter.splitDocuments(docs);
+      return pdfChunks;
     } catch (e: unknown) {
       throw new InternalServerErrorException(
         `Failed to chunk PDF documents: ${e instanceof Error ? e.message : 'Unknown error occurred'}`,
       );
     }
+  }
+
+  private cleanPdfText(text: string) {
+    return text
+      .replace(/Page \d+ of \d+/g, '') // 移除页码
+      .replace(/\n{3,}/g, '\n\n') // 合并多余空行
+      .replace(/[^\S\n]+/g, ' '); // 统一空白字符
   }
 }

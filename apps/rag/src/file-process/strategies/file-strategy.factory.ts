@@ -1,13 +1,20 @@
 import { Injectable } from '@nestjs/common';
 import { FileProcessStrategy } from './file-process-strategy.interface';
 import { PDFProcessStrategy } from './implementations/pdf-process.strategy';
+import { JSONProcessStrategy } from './implementations/json-process.strategy';
 
 @Injectable()
 export class FileStrategyFactory {
   private strategyMap: Map<string, FileProcessStrategy>;
 
-  constructor(private pdfStrategy: PDFProcessStrategy) {
-    this.strategyMap = new Map([['pdf', this.pdfStrategy]]);
+  constructor(
+    private pdfStrategy: PDFProcessStrategy,
+    private jsonStrategy: JSONProcessStrategy,
+  ) {
+    this.strategyMap = new Map([
+      ['pdf', this.pdfStrategy],
+      ['json', this.jsonStrategy],
+    ]);
   }
 
   /**

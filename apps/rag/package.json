@@ -21,6 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@langchain/classic": "^1.0.7",
     "@langchain/community": "^1.1.1",
     "@langchain/core": "^1.1.5",
     "@langchain/deepseek": "^1.0.3",
