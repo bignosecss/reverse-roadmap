@@ -97,6 +97,7 @@ export class FileProcessService {
       // Remove relavant file metadata
       this.fileMetadata.removeMetadata(file.id);
 
+      // TODO: 实现更统一的返回
       return {
         success: true,
         message: 'File processed and added to vector store successfully',
