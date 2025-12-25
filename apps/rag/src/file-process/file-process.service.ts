@@ -93,6 +93,10 @@ export class FileProcessService {
 
       await this.vectorStoreService.addDocuments(embeddings);
 
+      // TODO: 实现一个更完善的清理策略
+      // Remove relavant file metadata
+      this.fileMetadata.removeMetadata(file.id);
+
       return {
         success: true,
         message: 'File processed and added to vector store successfully',
