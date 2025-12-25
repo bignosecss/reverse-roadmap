@@ -1,11 +1,11 @@
 /**
- * Constant for the base path where PDF files are stored.
+ * Constant for the base path where uploaded files are stored.
  *
- * Defines the base path './src/pdfs' for storing uploaded PDF documents in the application.
+ * Defines the base path './src/files' for storing various types of uploaded documents in the application.
  *
  * @constant
  * @type {string}
- * @default './src/pdfs'
+ * @default './src/files'
  */
 
-export const PDF_BASE_PATH = './src/pdfs';
+export const FILE_BASE_PATH = './src/files';
