@@ -49,6 +49,8 @@ export class FileProcessService {
       'text/plain': 'txt',
       'text/csv': 'csv',
       'application/json': 'json',
+      'text/markdown': 'md',
+      'text/x-markdown': 'md',
       'application/msword': 'doc',
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
         'docx',
