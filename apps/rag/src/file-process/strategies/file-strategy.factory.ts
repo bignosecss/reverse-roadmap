@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { FileProcessStrategy } from './file-process-strategy.interface';
 import { PDFProcessStrategy } from './implementations/pdf-process.strategy';
 import { JSONProcessStrategy } from './implementations/json-process.strategy';
+import { MDProcessStrategy } from './implementations/md-process.strategy';
 
 @Injectable()
 export class FileStrategyFactory {
@@ -10,10 +11,12 @@ export class FileStrategyFactory {
   constructor(
     private pdfStrategy: PDFProcessStrategy,
     private jsonStrategy: JSONProcessStrategy,
+    private mdStrategy: MDProcessStrategy,
   ) {
     this.strategyMap = new Map([
       ['pdf', this.pdfStrategy],
       ['json', this.jsonStrategy],
+      ['md', this.mdStrategy],
     ]);
   }
 
