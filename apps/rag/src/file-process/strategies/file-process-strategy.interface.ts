@@ -5,6 +5,7 @@ export interface FileProcessStrategy {
   // 文件解析器
   parse(filePath: string): Promise<Document<Record<string, any>>[]>;
 
+  // TODO: 优化所有文件类型的chunk策略
   // 分块（可复用通用逻辑，也可子类自定义）
   chunk(
     texts: Document<Record<string, any>>[],
