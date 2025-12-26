@@ -6,16 +6,18 @@ import { PDFProcessStrategy } from './strategies/implementations/pdf-process.str
 import { VectorStoreService } from 'src/services/vector-store.service';
 import { FileMetadataService } from './file-metadata.service';
 import { JSONProcessStrategy } from './strategies/implementations/json-process.strategy';
+import { MDProcessStrategy } from './strategies/implementations/md-process.strategy';
 
 @Module({
   controllers: [FileProcessController],
   providers: [
     FileProcessService,
     FileStrategyFactory,
-    PDFProcessStrategy,
-    JSONProcessStrategy,
     VectorStoreService,
     FileMetadataService,
+    PDFProcessStrategy,
+    JSONProcessStrategy,
+    MDProcessStrategy,
   ],
   exports: [FileProcessService],
 })
