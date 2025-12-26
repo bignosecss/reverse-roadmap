@@ -133,6 +133,9 @@ export function EditableTabTrigger({
             <div className="text-center">
               <div>{rrContent?.tabTitle}</div>
               <div className="text-xs opacity-80">
+                {`初次创建时间：${rrContent?.createdAt ? formatDate(rrContent.createdAt) : ""}`}
+              </div>
+              <div className="text-xs opacity-80">
                 {`上次修改时间：${rrContent?.updatedAt ? formatDate(rrContent.updatedAt) : ""}`}
               </div>
             </div>
