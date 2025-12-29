@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "rag",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -10,6 +10,7 @@
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "dev": "nest start --watch",
+    "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
@@ -17,25 +18,39 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
-    "seed": "ts-node -r tsconfig-paths/register src/seeds/seed.ts",
-    "seed:no-clear": "ts-node -r tsconfig-paths/register src/seeds/seed.ts --no-clear",
-    "seed:stats": "ts-node -r tsconfig-paths/register src/seeds/seed.ts --stats"
+    "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@langchain/classic": "^1.0.7",
+    "@langchain/community": "^1.1.1",
+    "@langchain/core": "^1.1.5",
+    "@langchain/deepseek": "^1.0.3",
+    "@langchain/ollama": "^1.1.0",
+    "@langchain/textsplitters": "^1.0.1",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.2",
     "@nestjs/core": "^11.0.1",
     "@nestjs/mapped-types": "*",
-    "@nestjs/mongoose": "^11.0.3",
     "@nestjs/platform-express": "^11.0.1",
     "@repo/shared": "workspace:*",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.3",
-    "dotenv": "^17.2.1",
-    "mongoose": "^8.17.0",
+    "langchain": "^1.2.0",
+    "pdf-parse": "^1.1.1",
+    "pg": "^8.16.3",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
+  },
+  "resolutions": {
+    "@langchain/core": "^1.1.5"
+  },
+  "overrides": {
+    "@langchain/core": "^1.1.5"
+  },
+  "pnpm": {
+    "overrides": {
+      "@langchain/core": "^1.1.5"
+    }
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",
@@ -47,7 +62,9 @@
     "@repo/typescript-config": "workspace:*",
     "@types/express": "^5.0.0",
     "@types/jest": "^30.0.0",
+    "@types/multer": "^2.0.0",
     "@types/node": "^22.10.7",
+    "@types/pg": "^8.16.0",
     "@types/supertest": "^6.0.2",
     "eslint": "^9.18.0",
     "eslint-config-prettier": "^10.0.1",

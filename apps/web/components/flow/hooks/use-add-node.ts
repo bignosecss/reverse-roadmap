@@ -2,7 +2,6 @@
 
 import { useCallback, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { usePathname } from "next/navigation";
 import { toast } from "sonner";
 
 import { useCreate } from "@/hooks/use-rr-node";
@@ -12,6 +11,7 @@ import { FlowState } from "@/lib/types/models";
 import useFlowStore from "@/lib/stores/flow";
 import { useShallow } from "zustand/react/shallow";
 import { FlowEdge, FlowNode } from "@repo/shared/flow";
+import { useTreeId } from "@/hooks/use-tree-id";
 
 interface UseAddNodeProps {
   currentNode: RrNode;
@@ -25,10 +25,7 @@ const flowStoreSelector = (state: FlowState) => ({
 });
 
 export function useAddNode({ currentNode }: UseAddNodeProps) {
-  const pathname = usePathname();
-  const currentTreeId = pathname.startsWith("/g/")
-    ? pathname.split("/g/")[1]
-    : null;
+  const currentTreeId = useTreeId();
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [title, setTitle] = useState("");

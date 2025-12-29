@@ -4,7 +4,7 @@ import { FlowNode, FlowEdge, UpdateConnectionDto } from "@repo/shared";
 import { useUpdateConnection } from "@/hooks/use-rr-node";
 import { toast } from "sonner";
 import { useQueryClient } from "@tanstack/react-query";
-import { usePathname } from "next/navigation";
+import { useTreeId } from "@/hooks/use-tree-id";
 
 interface UseFlowConnectionProps {
   edges: FlowEdge[];
@@ -19,10 +19,7 @@ export const useFlowConnection = ({
   setEdges,
   setNodes,
 }: UseFlowConnectionProps) => {
-  const pathname = usePathname();
-  const currentTreeId = pathname.startsWith("/g/")
-    ? pathname.split("/g/")[1]
-    : null;
+  const currentTreeId = useTreeId();
 
   const { mutateAsync: updateConnectionAsync } = useUpdateConnection();
   const queryClient = useQueryClient();
@@ -46,7 +43,7 @@ export const useFlowConnection = ({
       if (edgeToRemove) {
         // Remove the child from the old parent's children array
         const oldParentNode = updatedNodes.find(
-          (node) => node.id === edgeToRemove.source,
+          (node) => node.data.rrNode._id === edgeToRemove.source,
         );
         if (oldParentNode && oldParentNode.data.rrNode.children) {
           oldParentNode.data.rrNode.children =
@@ -57,7 +54,7 @@ export const useFlowConnection = ({
 
         // Find and update the node that's changing parent (the target node)
         const targetNode = updatedNodes.find(
-          (node) => node.id === connection.target,
+          (node) => node.data.rrNode._id === connection.target,
         );
         if (targetNode) {
           // Set new parent relationship
@@ -67,12 +64,12 @@ export const useFlowConnection = ({
 
       // Add the child to the new parent's children array
       const newParentNode = updatedNodes.find(
-        (node) => node.id === connection.source,
+        (node) => node.data.rrNode._id === connection.source,
       );
       if (newParentNode) {
         // Make sure the target node exists in the nodes array
         const targetNode = updatedNodes.find(
-          (node) => node.id === connection.target,
+          (node) => node.data.rrNode._id === connection.target,
         );
         if (targetNode) {
           if (!newParentNode.data.rrNode.children) {

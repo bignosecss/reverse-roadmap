@@ -1,0 +1,32 @@
+# Development image for API service with hot reloading
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Enable Corepack to use pnpm
+RUN corepack enable pnpm
+
+# Copy root package files
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
+
+# Copy workspace package.json files
+COPY apps/api/package.json ./apps/api/
+COPY packages/ ./packages/
+
+# Install dependencies
+RUN pnpm install
+
+# Copy source code
+COPY apps/api/src ./apps/api/src
+COPY apps/api/tsconfig.json ./apps/api/
+COPY packages/*/src ./packages/*/
+COPY packages/*/tsconfig.json ./packages/*/
+
+# Expose port
+EXPOSE 3001
+
+# Set working directory to api app
+WORKDIR /app/apps/api
+
+# Start the development server
+CMD ["pnpm", "dev"]

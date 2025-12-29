@@ -25,7 +25,7 @@ export default function RrNodeToolbar({
       <AddNodeTrigger currentNode={currentNode} />
       <EditNodeTrigger currentNode={currentNode} />
       {!isRootNode && <DeleteNodeTrigger currentNode={currentNode} />}
-      <div className="w-px h-6 bg-border mx-1" />
+      <div className="w-px h-6 bg-border mx-1 self-center" />
       <OpenCanvasTrigger currentNode={currentNode} />
     </NodeToolbar>
   );

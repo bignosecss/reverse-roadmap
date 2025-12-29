@@ -1,18 +1,16 @@
 import { useCallback, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useRouter, usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { useDeleteRrRoot } from "@/hooks/use-rr-root";
 import { RootsQueryKey, RrRoot } from "@repo/shared/models";
+import { useTreeId } from "@/hooks/use-tree-id";
 
 export function useRrRootDelete(rrRoot: RrRoot) {
+  const currentTreeId = useTreeId();
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const queryClient = useQueryClient();
   const router = useRouter();
-  const pathname = usePathname();
-  const currentTreeId = pathname.startsWith("/g/")
-    ? pathname.split("/g/")[1]
-    : null;
 
   const { mutateAsync: deleteRrRootAsync, isPending: isRootDeleting } =
     useDeleteRrRoot(rrRoot._id);

@@ -1,0 +1,58 @@
+# ------------------------------
+# Stage 1: Builder (install deps and build)
+# ------------------------------
+FROM node:20-alpine AS builder
+WORKDIR /app
+
+# 启用 Corepack 并安装 pnpm
+RUN corepack enable pnpm
+
+# 1. Copy root package files to resolve workspaces
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
+
+# 2. Copy workspace package.json files (to install dependencies)
+# Copy rag's package.json
+COPY apps/rag/package.json ./apps/rag/
+# Copy utils's package.json (since rag depends on it)
+COPY packages/ ./packages/
+
+# 3. Install dependencies for the rag workspace (and its dependencies)
+RUN pnpm install
+
+# 4. Copy source code for rag and utils
+COPY apps/rag/src ./apps/rag/src
+COPY apps/rag/tsconfig.json ./apps/rag/
+COPY apps/rag/nest-cli.json ./apps/rag/
+COPY packages/*/src ./packages/*/
+COPY packages/*/tsconfig.json ./packages/*/
+
+# 5. Build the utils library (required for rag to run)
+RUN pnpm build --filter "./packages/*"
+
+# 6. Build the rag service
+RUN pnpm build --filter "./apps/rag"
+
+# ------------------------------
+# Stage 2: Final runtime image
+# ------------------------------
+FROM node:20-alpine
+WORKDIR /app
+
+# Enable Corepack to get pnpm in the runtime image
+RUN corepack enable pnpm
+
+# 7. Copy only runtime dependencies and built artifacts from builder
+# Copy root node_modules (contains nestjs, langchain, etc.)
+COPY --from=builder /app/node_modules ./node_modules
+# Copy built utils library
+COPY --from=builder /app/packages/*/dist ./packages/*/dist
+# Copy built rag service
+COPY --from=builder /app/apps/rag/dist ./apps/rag/dist
+# Copy rag's package.json (for scripts like "start")
+COPY --from=builder /app/apps/rag/package.json ./apps/rag/
+
+# 8. Set working directory to the rag service
+WORKDIR /app/apps/rag
+
+# 9. Run the service
+CMD ["pnpm", "start"]
