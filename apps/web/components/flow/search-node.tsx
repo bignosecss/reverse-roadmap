@@ -29,7 +29,7 @@ export function SearchNode({ nodes, setCenter }: SearchNodeProps) {
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
-      if (e.key.toLowerCase() === "k" && (e.metaKey || e.ctrlKey)) {
+      if (e.key.toLowerCase() === "k" && e.metaKey) {
         e.preventDefault();
         setOpen((open) => !open);
       }
