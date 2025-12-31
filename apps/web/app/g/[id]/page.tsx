@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import FlowContent from "@/components/flow/flow-content";
 import { ModeToggle } from "@/components/theme-toggle";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Canvas } from "@/components/canvas-panel";
+import { Canvas } from "@/components/canvas";
 import { cn } from "@/lib/utils";
 import useCanvasStore from "@/lib/stores/canvas";
 
