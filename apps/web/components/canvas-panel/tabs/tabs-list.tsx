@@ -31,9 +31,7 @@ export default function TabsList({
             ? activeTabClassName || "bg-background border-b-background"
             : "bg-muted"
         }`}
-        style={{
-          minWidth: "120px", // 保证标签最小宽度
-        }}
+        style={{ width: "130px" }}
       >
         {/* 编辑状态：显示输入框 */}
         {isEditing ? (

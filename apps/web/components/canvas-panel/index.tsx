@@ -47,7 +47,6 @@ export function Canvas() {
         // 自定义样式（Tailwind）
         listClassName="pb-1"
         activeTabClassName="bg-background border-b-background shadow-sm"
-        editInputClassName="text-base font-medium"
         panelClassName="shadow-inner"
       />
     </div>
