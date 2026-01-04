@@ -6,7 +6,6 @@ import FlowContent from "@/components/flow/flow-content";
 import { ModeToggle } from "@/components/theme-toggle";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Canvas } from "@/components/canvas";
-import { cn } from "@/lib/utils";
 
 export default function GoalPage() {
   const params = useParams();
@@ -14,7 +13,7 @@ export default function GoalPage() {
 
   return (
     <div className="flex size-full">
-      <div className={cn("w-full flex flex-col h-full")}>
+      <div className={"w-full flex flex-col h-full"}>
         <div className="flex flex-row justify-between items-center p-4 border-b">
           <SidebarTrigger className="md:hidden" />
           <h1>慢慢来，谁还没有一个努力的过程。</h1>
