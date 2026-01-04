@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import useCanvasStore from "@/lib/stores/canvas";
 import { Header } from "./header";
 import { useTabs } from "./hooks";
+import Tiptap from "./tiptap";
 
 export function Canvas() {
   const canvasOpen = useCanvasStore((state) => state.canvasOpen);
@@ -17,9 +18,12 @@ export function Canvas() {
     if (!currentTab) return <div className="text-gray-500">暂无内容</div>;
 
     return (
-      <div className="flex flex-col items-center justify-center h-full">
+      <div className="flex flex-col items-center justify-center size-full">
         <h2 className="text-2xl font-bold mb-4">{currentTab.label}</h2>
-        <p className="text-gray-600">{currentTab.desc}</p>
+        <p className="text-muted-foreground mb-4">
+          {currentRrNode?.description}
+        </p>
+        <Tiptap />
       </div>
     );
   };
@@ -47,7 +51,6 @@ export function Canvas() {
         // 自定义样式（Tailwind）
         listClassName="pb-1"
         activeTabClassName="bg-background border-b-background shadow-sm"
-        panelClassName="shadow-inner"
       />
     </div>
   );
