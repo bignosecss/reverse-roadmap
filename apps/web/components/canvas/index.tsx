@@ -1,7 +1,8 @@
-import { Tabs } from "./tabs";
+import { useCallback } from "react";
 import useFlowStore from "@/lib/stores/flow";
 import { cn } from "@/lib/utils";
 import useCanvasStore from "@/lib/stores/canvas";
+import { Tabs } from "./tabs";
 import { Header } from "./header";
 import { useTabs } from "./hooks";
 import Tiptap from "./tiptap";
@@ -13,20 +14,23 @@ export function Canvas() {
     useTabs(currentRrNode);
 
   // 渲染 Tab 内容（业务层自定义）
-  const renderTabContent = (tabId: number | string) => {
-    const currentTab = tabs.find((tab) => tab.id === tabId);
-    if (!currentTab) return <div className="text-gray-500">暂无内容</div>;
+  const renderTabContent = useCallback(
+    (tabId: number | string) => {
+      const currentTab = tabs.find((tab) => tab.id === tabId);
+      if (!currentTab) return <div className="text-gray-500">暂无内容</div>;
 
-    return (
-      <div className="flex flex-col items-center justify-center size-full">
-        <h2 className="text-2xl font-bold mb-4">{currentTab.label}</h2>
-        <p className="text-muted-foreground mb-4">
-          {currentRrNode?.description}
-        </p>
-        <Tiptap />
-      </div>
-    );
-  };
+      return (
+        <div className="flex flex-col items-center justify-center size-full">
+          <h2 className="text-2xl font-bold mb-4">{currentTab.label}</h2>
+          <p className="text-muted-foreground mb-4">
+            {currentRrNode?.description}
+          </p>
+          <Tiptap />
+        </div>
+      );
+    },
+    [currentRrNode, tabs],
+  );
 
   return (
     <div
