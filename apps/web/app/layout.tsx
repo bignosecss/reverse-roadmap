@@ -38,7 +38,9 @@ export default function RootLayout({
           <Providers>
             <SidebarProvider defaultOpen={true}>
               <AppSidebar />
-              <SidebarInset className="h-screen">{children}</SidebarInset>
+              <SidebarInset className="h-screen flex-row">
+                {children}
+              </SidebarInset>
             </SidebarProvider>
           </Providers>
         </ThemeProvider>
