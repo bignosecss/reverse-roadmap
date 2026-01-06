@@ -20,7 +20,7 @@ export function Header() {
   }
 
   return (
-    <div className="flex items-center p-8">
+    <div className="flex items-center p-4">
       <Button variant="ghost" size="icon" onClick={() => setCanvasOpen(false)}>
         <Cross1Icon />
       </Button>
