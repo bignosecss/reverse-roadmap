@@ -31,11 +31,12 @@ export function Canvas() {
   return (
     <div
       className={cn(
-        "container mx-auto px-4 py-8",
+        "overflow-hidden",
         "md:shadow-[0_0_18px_var(--border)]",
+        "transition-all duration-300 ease-in-out",
         {
-          block: canvasOpen,
-          hidden: !canvasOpen,
+          "basis-2/3 translate-x-0 opacity-100": canvasOpen,
+          "basis-0 translate-x-full opacity-0 pointer-events-none": !canvasOpen,
         },
       )}
     >

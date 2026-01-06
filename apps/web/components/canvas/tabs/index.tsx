@@ -34,7 +34,7 @@ export function Tabs({
   };
 
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full flex flex-col px-8">
       {/* 标签列表子组件（透传 props + 内部状态） */}
       {/* TODO: tab过多之后，Canvas会变宽，直到container的最大宽度，优化响应式布局 */}
       <TabsList
