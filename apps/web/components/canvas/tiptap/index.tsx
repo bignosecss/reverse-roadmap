@@ -1,7 +1,8 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useGetRrContentById } from "@/hooks/use-rr-content";
-import { Content, EditorContent, useEditor } from "@tiptap/react";
+import { Content, Editor, EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import { useAutoSave } from "../hooks";
 
 interface TiptapProps {
   tabId: string;
@@ -11,6 +12,12 @@ export default function Tiptap({ tabId }: TiptapProps) {
   const { data: rrContent, isLoading: isRrContentLoading } =
     useGetRrContentById(tabId);
   const editorRef = useRef<ReturnType<typeof useEditor> | null>(null);
+  const { handleContentChange } = useAutoSave(tabId);
+
+  const handleUpdate = useCallback(
+    (editor: Editor) => handleContentChange(editor.getJSON()),
+    [handleContentChange],
+  );
 
   // tiptap editor 仅初始化一次
   const editor = useEditor({
@@ -23,6 +30,8 @@ export default function Tiptap({ tabId }: TiptapProps) {
           "prose prose-p:my-2 prose-h1:my-2 prose-h2:my-2 prose-h3:my-2 prose-ul:my-2 prose-ol:my-2 max-w-none",
       },
     },
+    // TODO: 解决只有一个 editor，所以切换 tab 会出发 onUpdate 的问题
+    onUpdate: ({ editor }) => handleUpdate(editor),
   });
 
   useEffect(() => {
