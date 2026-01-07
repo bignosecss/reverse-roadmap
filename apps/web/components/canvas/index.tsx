@@ -22,7 +22,6 @@ export function Canvas() {
 
       return (
         <div className="flex flex-col items-center justify-center size-full">
-          <h2 className="text-2xl font-bold mb-4">{currentTab.label}</h2>
           <p className="text-muted-foreground mb-4">
             {currentRrNode?.description}
           </p>
