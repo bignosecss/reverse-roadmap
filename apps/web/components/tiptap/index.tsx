@@ -5,6 +5,7 @@ import { Content, Editor, EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Typography from "@tiptap/extension-typography";
 import TextAlign from "@tiptap/extension-text-align";
+import { TableKit } from "@tiptap/extension-table";
 import CustomBubbleMenu from "./extensions/bubble-menu";
 
 import "./styles/tiptap.css";
@@ -30,6 +31,7 @@ export default function Tiptap({ tabId }: TiptapProps) {
       StarterKit,
       Typography,
       TextAlign.configure({ types: ["heading", "paragraph", "codeblock"] }),
+      TableKit.configure({ table: { resizable: true } }),
     ],
     immediatelyRender: false,
     content: "",
