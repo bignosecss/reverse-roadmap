@@ -141,7 +141,7 @@ export default function TextStylePopover({
             }`}
             type="button"
           >
-            <span className="mr-2 font-mono text-sm">1.</span>
+            <span className="mr-1 font-mono text-sm">1.</span>
             Numbered list
           </Button>
         </div>
