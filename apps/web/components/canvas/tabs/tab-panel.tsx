@@ -6,9 +6,12 @@ export default function TabPanel({
   panelClassName = "",
 }: TabPanelProps) {
   return (
-    <div className={`w-full h-auto border bg-background p-4 ${panelClassName}`}>
+    <div
+      className={`w-full flex-1 border bg-background p-4 overflow-y-auto overflow-x-hidden ${panelClassName}`}
+      style={{ maxHeight: "calc(100vh - 120px)", scrollbarWidth: "none" }}
+    >
       {/* 动态渲染当前激活 Tab 的内容 */}
-      {renderTabContent(activeTabId)}
+      <div className="h-full w-full">{renderTabContent(activeTabId)}</div>
     </div>
   );
 }
