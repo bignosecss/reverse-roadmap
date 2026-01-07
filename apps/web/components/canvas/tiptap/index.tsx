@@ -27,7 +27,7 @@ export default function Tiptap({ tabId }: TiptapProps) {
     editorProps: {
       attributes: {
         class:
-          "prose prose-p:my-2 prose-h1:my-2 prose-h2:my-2 prose-h3:my-2 prose-ul:my-2 prose-ol:my-2 max-w-none",
+          "prose prose-p:my-2 prose-h1:my-2 prose-h2:my-2 prose-h3:my-2 prose-ul:my-2 prose-ol:my-2 max-w-none focus:outline-none w-full",
       },
     },
     // TODO: 解决只有一个 editor，所以切换 tab 会出发 onUpdate 的问题
