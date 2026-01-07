@@ -6,6 +6,7 @@ import {
   FontItalicIcon,
   QuoteIcon,
   StrikethroughIcon,
+  UnderlineIcon,
 } from "@radix-ui/react-icons";
 import { ButtonSeparator } from "./button-separator";
 import TextStylePopover from "./text-style-popover";
@@ -17,6 +18,7 @@ export default function CustomBubbleMenu({ editor }: { editor: Editor }) {
     isBold,
     isItalic,
     isStrikethrough,
+    isUnderline,
     isHeading1,
     isHeading2,
     isHeading3,
@@ -31,6 +33,7 @@ export default function CustomBubbleMenu({ editor }: { editor: Editor }) {
       isBold: ctx.editor.isActive("bold"),
       isItalic: ctx.editor.isActive("italic"),
       isStrikethrough: ctx.editor.isActive("strike"),
+      isUnderline: ctx.editor.isActive("underline"),
       isHeading1: ctx.editor.isActive("heading", { level: 1 }),
       isHeading2: ctx.editor.isActive("heading", { level: 2 }),
       isHeading3: ctx.editor.isActive("heading", { level: 3 }),
@@ -86,12 +89,22 @@ export default function CustomBubbleMenu({ editor }: { editor: Editor }) {
           <Button
             variant="ghost"
             size="iconsm"
+            onClick={() => editor.chain().focus().toggleUnderline().run()}
+            className={isUnderline ? "is-active" : ""}
+            type="button"
+          >
+            <UnderlineIcon />
+          </Button>
+          <Button
+            variant="ghost"
+            size="iconsm"
             onClick={() => editor.chain().focus().toggleStrike().run()}
             className={isStrikethrough ? "is-active" : ""}
             type="button"
           >
             <StrikethroughIcon />
           </Button>
+          <ButtonSeparator />
           <TablePopover editor={editor} />
           <TextStylePopover
             editor={editor}
