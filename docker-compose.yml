@@ -1,5 +1,6 @@
 version: '3'
 
+# TODO: 分隔各个服务的环境变量
 services:
   # MongoDB service for the application
   mongodb:

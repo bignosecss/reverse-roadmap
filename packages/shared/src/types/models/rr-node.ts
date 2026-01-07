@@ -2,6 +2,7 @@ import { RrNodeStatus } from "./enums";
 
 /** 思维导图节点 */
 export type NodeContent = {
+  _id: string;
   rrContent: string;
   tabTitle: string;
 };
