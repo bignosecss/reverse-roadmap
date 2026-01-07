@@ -46,7 +46,6 @@ export default function Tiptap({ tabId }: TiptapProps) {
       .chain()
       .clearContent()
       .setContent(rrContent as Content)
-      .focus()
       .run();
   }, [isRrContentLoading, rrContent]);
 
