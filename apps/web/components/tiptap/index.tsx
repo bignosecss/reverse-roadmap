@@ -1,8 +1,12 @@
 import { useCallback, useEffect, useRef } from "react";
 import { useGetRrContentById } from "@/hooks/use-rr-content";
+import { useAutoSave } from "./hooks";
 import { Content, Editor, EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { useAutoSave } from "./hooks";
+import Typography from "@tiptap/extension-typography";
+import TextAlign from "@tiptap/extension-text-align";
+import { TableKit } from "@tiptap/extension-table";
+import CustomBubbleMenu from "./extensions/bubble-menu";
 
 import "./styles/tiptap.css";
 
@@ -23,7 +27,12 @@ export default function Tiptap({ tabId }: TiptapProps) {
 
   // tiptap editor 仅初始化一次
   const editor = useEditor({
-    extensions: [StarterKit],
+    extensions: [
+      StarterKit,
+      Typography,
+      TextAlign.configure({ types: ["heading", "paragraph", "codeblock"] }),
+      TableKit.configure({ table: { resizable: true } }),
+    ],
     immediatelyRender: false,
     content: "",
     editorProps: {
@@ -55,5 +64,10 @@ export default function Tiptap({ tabId }: TiptapProps) {
     return <div className="w-2/3">加载中...</div>;
   }
 
-  return <EditorContent className="w-2/3" editor={editor} />;
+  return (
+    <>
+      {!!editor && <CustomBubbleMenu editor={editor} />}
+      <EditorContent className="w-2/3" editor={editor} />
+    </>
+  );
 }

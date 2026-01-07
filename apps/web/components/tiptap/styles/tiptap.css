@@ -39,3 +39,24 @@
     cursor: col-resize; /* Tailwind doesn't have direct utility for this specific cursor type, keeping as custom */
   }
 }
+
+/* Bubble menu */
+.bubble-menu {
+  @apply bg-popover border border-border rounded-lg shadow-md flex p-1;
+
+  button {
+    @apply bg-transparent;
+
+    &:hover {
+      @apply bg-muted;
+    }
+
+    &.is-active {
+      @apply bg-primary text-primary-foreground;
+
+      &:hover {
+        @apply bg-primary/90;
+      }
+    }
+  }
+}
