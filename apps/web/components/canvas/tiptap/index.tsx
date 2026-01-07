@@ -17,6 +17,12 @@ export default function Tiptap({ tabId }: TiptapProps) {
     extensions: [StarterKit],
     immediatelyRender: false,
     content: "",
+    editorProps: {
+      attributes: {
+        class:
+          "prose prose-p:my-2 prose-h1:my-2 prose-h2:my-2 prose-h3:my-2 prose-ul:my-2 prose-ol:my-2 max-w-none",
+      },
+    },
   });
 
   useEffect(() => {
