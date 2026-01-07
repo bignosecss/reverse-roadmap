@@ -1,9 +1,10 @@
 import { useCallback, useEffect, useRef } from "react";
 import { useGetRrContentById } from "@/hooks/use-rr-content";
+import { useAutoSave } from "./hooks";
 import { Content, Editor, EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Typography from "@tiptap/extension-typography";
-import { useAutoSave } from "./hooks";
+import TextAlign from "@tiptap/extension-text-align";
 import CustomBubbleMenu from "./extensions/bubble-menu";
 
 import "./styles/tiptap.css";
@@ -25,7 +26,11 @@ export default function Tiptap({ tabId }: TiptapProps) {
 
   // tiptap editor 仅初始化一次
   const editor = useEditor({
-    extensions: [StarterKit, Typography],
+    extensions: [
+      StarterKit,
+      Typography,
+      TextAlign.configure({ types: ["heading", "paragraph", "codeblock"] }),
+    ],
     immediatelyRender: false,
     content: "",
     editorProps: {
