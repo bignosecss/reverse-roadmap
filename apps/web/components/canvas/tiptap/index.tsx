@@ -48,8 +48,6 @@ export default function Tiptap({ tabId }: TiptapProps) {
       .setContent(rrContent as Content)
       .focus()
       .run();
-
-    console.log("编辑器内容已更新：", rrContent);
   }, [isRrContentLoading, rrContent]);
 
   if (isRrContentLoading) {
