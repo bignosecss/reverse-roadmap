@@ -4,6 +4,8 @@ import { Content, Editor, EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useAutoSave } from "./hooks";
 
+import "./styles/tiptap.css";
+
 interface TiptapProps {
   tabId: string;
 }

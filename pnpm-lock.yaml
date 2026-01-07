@@ -343,6 +343,9 @@ importers:
       '@tiptap/extension-image':
         specifier: ^3.4.4
         version: 3.4.4(@tiptap/core@3.4.4(@tiptap/pm@3.4.4))
+      '@tiptap/extension-table':
+        specifier: ^3.15.1
+        version: 3.15.1(@tiptap/core@3.4.4(@tiptap/pm@3.4.4))(@tiptap/pm@3.4.4)
       '@tiptap/extension-text-align':
         specifier: ^3.9.0
         version: 3.9.0(@tiptap/core@3.4.4(@tiptap/pm@3.4.4))
@@ -2819,6 +2822,12 @@ packages:
     resolution: {integrity: sha512-TDixCHLmE6QXGm86d2LwU8osCVP8m6w4baveEeqJrykVtZk5xecy9/Fo1QGkyKkvvvsz14zajEcMTYS9+7Vu/w==}
     peerDependencies:
       '@tiptap/core': ^3.4.4
+
+  '@tiptap/extension-table@3.15.1':
+    resolution: {integrity: sha512-iamQ9lpNlLq2wjvWDUM/q09MQUKqi7Mk4EqBpEC3TzNLVty2fPmtp5jNc51A0vK3GVPIOfGo8KMsOgmXPOsBMg==}
+    peerDependencies:
+      '@tiptap/core': ^3.15.1
+      '@tiptap/pm': ^3.15.1
 
   '@tiptap/extension-text-align@3.9.0':
     resolution: {integrity: sha512-TCqmyg0U9Lx1C01gjquBIEyNhXOqhIDqoOdG03ICxpbr0HN2ClU/pWtVlKPfxQdA/oZfUcs7mppXF8TcNiG3rg==}
@@ -8694,6 +8703,11 @@ snapshots:
     dependencies:
       '@tiptap/core': 3.4.4(@tiptap/pm@3.4.4)
 
+  '@tiptap/extension-table@3.15.1(@tiptap/core@3.4.4(@tiptap/pm@3.4.4))(@tiptap/pm@3.4.4)':
+    dependencies:
+      '@tiptap/core': 3.4.4(@tiptap/pm@3.4.4)
+      '@tiptap/pm': 3.4.4
+
   '@tiptap/extension-text-align@3.9.0(@tiptap/core@3.4.4(@tiptap/pm@3.4.4))':
     dependencies:
       '@tiptap/core': 3.4.4(@tiptap/pm@3.4.4)
@@ -10642,7 +10656,7 @@ snapshots:
       isstream: 0.1.2
       jsonwebtoken: 9.0.3
       mime-types: 2.1.35
-      retry-axios: 2.6.0(axios@1.13.2)
+      retry-axios: 2.6.0(axios@1.13.2(debug@4.4.1))
       tough-cookie: 4.1.4
     transitivePeerDependencies:
       - supports-color
@@ -12214,7 +12228,7 @@ snapshots:
       onetime: 5.1.2
       signal-exit: 3.0.7
 
-  retry-axios@2.6.0(axios@1.13.2):
+  retry-axios@2.6.0(axios@1.13.2(debug@4.4.1)):
     dependencies:
       axios: 1.13.2(debug@4.4.1)
 
