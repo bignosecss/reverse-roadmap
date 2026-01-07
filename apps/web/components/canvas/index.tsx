@@ -5,7 +5,7 @@ import useCanvasStore from "@/lib/stores/canvas";
 import { Tabs } from "./tabs";
 import { Header } from "./header";
 import { useTabs } from "./hooks";
-import Tiptap from "./tiptap";
+import Tiptap from "../tiptap";
 
 export function Canvas() {
   const canvasOpen = useCanvasStore((state) => state.canvasOpen);

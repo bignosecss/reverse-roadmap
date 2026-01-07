@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef } from "react";
 import { useGetRrContentById } from "@/hooks/use-rr-content";
 import { Content, Editor, EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { useAutoSave } from "../hooks";
+import { useAutoSave } from "./hooks";
 
 interface TiptapProps {
   tabId: string;
