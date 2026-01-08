@@ -1,3 +1,5 @@
+import { AlertDialogTrigger } from "@/components/ui/alert-dialog";
+import { BaseDeleteDialog } from "@/components/dialogs";
 import { Cross2Icon, PlusIcon } from "@radix-ui/react-icons";
 import { TabItem, TabsListProps } from "./props";
 import TabEditInput from "./tab-edit-input";
@@ -55,14 +57,22 @@ export default function TabsList({
               {tab.label}
             </span>
             {/* 删除按钮 */}
-            <button
-              className="px-2 py-1 text-muted-foreground hover:text-destructive transition-colors"
-              onClick={() => onTabRemove(tab.id)}
-              disabled={disableRemove}
-              aria-label={`删除标签 ${tab.label}`}
-            >
-              <Cross2Icon />
-            </button>
+            <BaseDeleteDialog
+              trigger={
+                <AlertDialogTrigger>
+                  <button
+                    className="px-2 py-1 text-muted-foreground hover:text-destructive transition-colors"
+                    disabled={disableRemove}
+                    aria-label={`删除标签 ${tab.label}`}
+                  >
+                    <Cross2Icon />
+                  </button>
+                </AlertDialogTrigger>
+              }
+              title={`确定删除 ${tab.label} 吗？`}
+              description="删除后，将无法恢复。"
+              onConfirm={() => onTabRemove(tab.id)}
+            />
           </>
         )}
       </div>
