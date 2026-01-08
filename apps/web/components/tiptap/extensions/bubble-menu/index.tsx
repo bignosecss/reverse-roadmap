@@ -1,18 +1,9 @@
 import { Editor, useEditorState } from "@tiptap/react";
 import { BubbleMenu } from "@tiptap/react/menus";
 import { Button } from "@/components/ui/button";
-import {
-  FontBoldIcon,
-  FontItalicIcon,
-  ImageIcon,
-  QuoteIcon,
-  StrikethroughIcon,
-  UnderlineIcon,
-  VideoIcon,
-} from "@radix-ui/react-icons";
+import { FontBoldIcon, FontItalicIcon, QuoteIcon } from "@radix-ui/react-icons";
 import { ButtonSeparator } from "./button-separator";
 import TextStylePopover from "./text-style-popover";
-import TablePopover from "./table-popover";
 import { toast } from "sonner";
 
 export default function CustomBubbleMenu({ editor }: { editor: Editor }) {
@@ -88,26 +79,6 @@ export default function CustomBubbleMenu({ editor }: { editor: Editor }) {
           >
             <FontItalicIcon />
           </Button>
-          <Button
-            variant="ghost"
-            size="iconsm"
-            onClick={() => editor.chain().focus().toggleUnderline().run()}
-            className={isUnderline ? "is-active" : ""}
-            type="button"
-          >
-            <UnderlineIcon />
-          </Button>
-          <Button
-            variant="ghost"
-            size="iconsm"
-            onClick={() => editor.chain().focus().toggleStrike().run()}
-            className={isStrikethrough ? "is-active" : ""}
-            type="button"
-          >
-            <StrikethroughIcon />
-          </Button>
-          <ButtonSeparator />
-          <TablePopover editor={editor} />
           <TextStylePopover
             editor={editor}
             isHeading1={isHeading1}
@@ -118,28 +89,9 @@ export default function CustomBubbleMenu({ editor }: { editor: Editor }) {
             isHeading6={isHeading6}
             isBulletList={isBulletList}
             isOrderedList={isOrderedList}
+            isStrikethrough={isStrikethrough}
+            isUnderline={isUnderline}
           />
-          <ButtonSeparator />
-          <Button
-            variant="ghost"
-            size="iconsm"
-            onClick={() =>
-              toast.info("正在开发中...", { position: "top-center" })
-            }
-            type="button"
-          >
-            <ImageIcon />
-          </Button>
-          <Button
-            variant="ghost"
-            size="iconsm"
-            onClick={() =>
-              toast.info("正在开发中...", { position: "top-center" })
-            }
-            type="button"
-          >
-            <VideoIcon />
-          </Button>
         </div>
       </BubbleMenu>
     </>

@@ -5,6 +5,8 @@ import {
   HeadingIcon,
   ListBulletIcon,
   TextIcon,
+  StrikethroughIcon,
+  UnderlineIcon,
 } from "@radix-ui/react-icons";
 import {
   Popover,
@@ -22,6 +24,8 @@ interface TextStylePopoverProps {
   isHeading6: boolean;
   isBulletList: boolean;
   isOrderedList: boolean;
+  isStrikethrough: boolean;
+  isUnderline: boolean;
 }
 
 export default function TextStylePopover({
@@ -34,6 +38,8 @@ export default function TextStylePopover({
   isHeading6,
   isBulletList,
   isOrderedList,
+  isStrikethrough,
+  isUnderline,
 }: TextStylePopoverProps) {
   return (
     <Popover>
@@ -143,6 +149,24 @@ export default function TextStylePopover({
           >
             <span className="mr-1 font-mono text-sm">1.</span>
             Numbered list
+          </Button>
+          <Button
+            variant="ghost"
+            onClick={() => editor.chain().focus().toggleUnderline().run()}
+            className={`w-full justify-start ${isUnderline ? "is-active" : ""}`}
+            type="button"
+          >
+            <UnderlineIcon className="mr-2 h-4 w-4" /> Underline
+          </Button>
+          <Button
+            variant="ghost"
+            onClick={() => editor.chain().focus().toggleStrike().run()}
+            className={`w-full justify-start ${
+              isStrikethrough ? "is-active" : ""
+            }`}
+            type="button"
+          >
+            <StrikethroughIcon className="mr-2 h-4 w-4" /> Strike
           </Button>
         </div>
       </PopoverContent>
