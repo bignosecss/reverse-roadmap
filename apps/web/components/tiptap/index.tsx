@@ -56,12 +56,12 @@ export default function Tiptap({ tabId }: TiptapProps) {
     editorRef.current
       .chain()
       .clearContent()
-      .setContent(rrContent as Content)
+      .setContent(rrContent as Content, { errorOnInvalidContent: true })
       .run();
   }, [isRrContentLoading, rrContent]);
 
   if (isRrContentLoading) {
-    return <div className="w-2/3">加载中...</div>;
+    return null;
   }
 
   return (
