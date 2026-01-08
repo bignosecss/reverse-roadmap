@@ -1,28 +1,17 @@
-import { useCallback } from "react";
 import { Editor } from "@tiptap/react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { ImageIcon, VideoIcon } from "@radix-ui/react-icons";
+import { VideoIcon } from "@radix-ui/react-icons";
 import TablePopover from "../bubble-menu/table-popover";
 import { ButtonSeparator } from "../bubble-menu/button-separator";
-import { toast } from "sonner";
+import AddImageButton from "../image/components/add-image-button";
 
 export default function TempButtonGroup({ editor }: { editor: Editor }) {
-  const addImage = useCallback(() => {
-    if (!editor) return;
-
-    const url = window.prompt("URL");
-    if (url) {
-      editor.chain().focus().setImage({ src: url }).run();
-    }
-  }, [editor]);
-
   return (
-    <div className=".bubble-menu">
+    <div className="flex flex-row items-center gap-1 p-1 rounded-lg border border-input shadow-sm">
       <TablePopover editor={editor} />
       <ButtonSeparator />
-      <Button variant="ghost" size="iconsm" onClick={addImage} type="button">
-        <ImageIcon />
-      </Button>
+      <AddImageButton editor={editor} />
       <Button
         variant="ghost"
         size="iconsm"
