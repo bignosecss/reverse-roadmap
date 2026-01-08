@@ -24,13 +24,15 @@ export default function useAutoSave(docId: string) {
         const res = await updateRrContent(content as UpdateRrContentDto);
         if (res) {
           lastSavedContent.current = contentStr;
-          toast.success("保存成功");
+          toast.success("保存成功", { position: "top-right" });
         } else {
-          toast.error("保存出错（网络/接口问题）");
+          toast.error("保存出错（网络/接口问题）", { position: "top-right" });
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
-        toast.error(`保存失败: ${err?.message || "未知错误"}`);
+        toast.error(`保存失败: ${err?.message || "未知错误"}`, {
+          position: "top-right",
+        });
       }
     },
     [updateRrContent],
@@ -52,7 +54,7 @@ export default function useAutoSave(docId: string) {
       () => {
         if (lastSavedContent.current) {
           saveContent(JSON.parse(lastSavedContent.current));
-          toast.info("定时兜底保存执行 ⏰");
+          toast.info("定时兜底保存执行 ⏰", { position: "top-right" });
         }
       },
       5 * 60 * 1000,

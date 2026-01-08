@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 import {
   FontBoldIcon,
   FontItalicIcon,
+  ImageIcon,
   QuoteIcon,
   StrikethroughIcon,
   UnderlineIcon,
+  VideoIcon,
 } from "@radix-ui/react-icons";
 import { ButtonSeparator } from "./button-separator";
 import TextStylePopover from "./text-style-popover";
@@ -117,6 +119,27 @@ export default function CustomBubbleMenu({ editor }: { editor: Editor }) {
             isBulletList={isBulletList}
             isOrderedList={isOrderedList}
           />
+          <ButtonSeparator />
+          <Button
+            variant="ghost"
+            size="iconsm"
+            onClick={() =>
+              toast.info("正在开发中...", { position: "top-center" })
+            }
+            type="button"
+          >
+            <ImageIcon />
+          </Button>
+          <Button
+            variant="ghost"
+            size="iconsm"
+            onClick={() =>
+              toast.info("正在开发中...", { position: "top-center" })
+            }
+            type="button"
+          >
+            <VideoIcon />
+          </Button>
         </div>
       </BubbleMenu>
     </>
