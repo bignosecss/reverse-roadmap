@@ -3,17 +3,19 @@ import { Input } from "@/components/ui/input";
 import { Editor } from "@tiptap/react";
 import { useCallback, useState } from "react";
 
+interface ImageLinkTabProps {
+  editor: Editor;
+  altText: string;
+  setAltText: (altText: string) => void;
+  setOpen: (open: boolean) => void;
+}
+
 export default function ImageLinkTab({
   editor,
   altText,
   setAltText,
   setOpen,
-}: {
-  editor: Editor;
-  altText: string;
-  setAltText: (altText: string) => void;
-  setOpen: (open: boolean) => void;
-}) {
+}: ImageLinkTabProps) {
   const [imageUrl, setImageUrl] = useState("");
 
   const handleApply = useCallback(() => {

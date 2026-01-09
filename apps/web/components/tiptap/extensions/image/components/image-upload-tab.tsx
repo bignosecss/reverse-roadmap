@@ -1,21 +1,56 @@
-import { useRef } from "react";
+import { useCallback, useRef } from "react";
+import { Editor } from "@tiptap/react";
 import { Button } from "@/components/ui/button";
+import { fileToBase64 } from "@/components/tiptap/utils";
 
-export default function ImageUploadTab() {
+interface ImageUploadTabProps {
+  editor: Editor;
+  altText: string;
+  setAltText: (altText: string) => void;
+  setOpen: (open: boolean) => void;
+}
+
+export default function ImageUploadTab({
+  editor,
+  altText,
+  setAltText,
+  setOpen,
+}: ImageUploadTabProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleButtonClick = () => {
+  const handleButtonClick = useCallback(() => {
     fileInputRef.current?.click();
-  };
+  }, []);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (files && files.length > 0) {
-      const selectedFile = files[0];
-      console.log("Selected file:", selectedFile?.name);
-      // TODO: Implement file upload logic here
-    }
-  };
+  const handleFileChange = useCallback(
+    async (event: React.ChangeEvent<HTMLInputElement>) => {
+      const files = event.target.files;
+      if (files && files.length > 0) {
+        const selectedFile = files[0]!;
+        /**
+         * 临时使用 base64 编码处理图片文件上传
+         *
+         * 优点：
+         *  1. 临时快速处理
+         *  2. 省去了前后端协作的工作量
+         *
+         * 缺点：
+         *  1. 体积暴涨 30%+
+         *  2. 文档变得又臭又长
+         *
+         * 不需要考虑文档大小限制，需求较为简单（远达不到16MB大小）
+         */
+        const imageSrc = await fileToBase64(selectedFile);
+
+        editor.chain().focus().setImage({ src: imageSrc, alt: altText }).run();
+        setOpen(false);
+        setAltText("");
+
+        // TODO: Implement file upload logic here
+      }
+    },
+    [altText, editor, setAltText, setOpen],
+  );
 
   return (
     <div>

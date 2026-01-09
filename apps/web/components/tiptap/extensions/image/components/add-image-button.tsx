@@ -46,7 +46,12 @@ export default function AddImageButton({ editor }: { editor: Editor }) {
               />
             </div>
             <TabsContent value="upload" className="space-y-4">
-              <ImageUploadTab />
+              <ImageUploadTab
+                editor={editor}
+                altText={altText}
+                setAltText={setAltText}
+                setOpen={setOpen}
+              />
             </TabsContent>
             <TabsContent value="link" className="space-y-4">
               <ImageLinkTab
