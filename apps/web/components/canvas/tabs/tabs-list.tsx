@@ -59,7 +59,7 @@ export default function TabsList({
             {/* 删除按钮 */}
             <BaseDeleteDialog
               trigger={
-                <AlertDialogTrigger>
+                <AlertDialogTrigger asChild>
                   <button
                     className="px-2 py-1 text-muted-foreground hover:text-destructive transition-colors"
                     disabled={disableRemove}
