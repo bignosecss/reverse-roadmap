@@ -6,7 +6,7 @@ import StarterKit from "@tiptap/starter-kit";
 import Typography from "@tiptap/extension-typography";
 import TextAlign from "@tiptap/extension-text-align";
 import { TableKit } from "@tiptap/extension-table";
-import Image from "@tiptap/extension-image";
+import { Image } from "./extensions/image";
 import CustomBubbleMenu from "./extensions/bubble-menu";
 import TempButtonGroup from "./extensions/slash-commands/temp-button-group";
 
@@ -63,11 +63,23 @@ export default function Tiptap({ tabId }: TiptapProps) {
   useEffect(() => {
     if (isRrContentLoading || !rrContent || !editorRef.current) return;
 
-    editorRef.current
-      .chain()
-      .clearContent()
-      .setContent(rrContent as Content, { errorOnInvalidContent: true })
-      .run();
+    // editorRef.current
+    //   .chain()
+    //   .clearContent()
+    //   .setContent(rrContent as Content, { errorOnInvalidContent: true })
+    //   .run();
+    // run 内部调用了 React 的 flushSync API
+
+    queueMicrotask(
+      () =>
+        !!editorRef &&
+        !!editorRef.current &&
+        editorRef.current
+          .chain()
+          .clearContent()
+          .setContent(rrContent as Content, { errorOnInvalidContent: true })
+          .run(),
+    );
   }, [isRrContentLoading, rrContent]);
 
   if (isRrContentLoading) {
