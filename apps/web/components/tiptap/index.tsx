@@ -37,6 +37,8 @@ export default function Tiptap({ tabId }: TiptapProps) {
       Image.configure({
         resize: {
           enabled: true,
+          minWidth: 60,
+          minHeight: 60,
           alwaysPreserveAspectRatio: true,
         },
       }),
