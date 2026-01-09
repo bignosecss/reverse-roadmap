@@ -1,62 +1,10 @@
 @import "../../../app/globals.css";
+@import "./partials/_table.css";
+@import "./partials/_bubble-menu.css";
+@import "./partials/_image-resize.css";
 
 .tiptap {
-  /* Table-specific styling */
-  & table {
-    @apply border-collapse m-0 overflow-hidden table-fixed w-full;
-
-    & td,
-    & th {
-      @apply border border-gray-300 box-border min-w-[1em] py-1.5 px-2 relative align-top;
-
-      & > * {
-        @apply mb-0;
-      }
-    }
-
-    & th {
-      background-color: var(--color-muted);
-      @apply font-bold text-left;
-    }
-
-    & .selectedCell:after {
-      background-color: var(--color-muted);
-      @apply content-[''] inset-0 pointer-events-none absolute z-20;
-    }
-
-    & .column-resize-handle {
-      background-color: var(--color-primary);
-      @apply bottom-[-2px] pointer-events-none absolute right-[-2px] top-0 w-1;
-    }
-  }
-
-  & .tableWrapper {
-    @apply my-6 overflow-x-auto;
-  }
-
-  &.resize-cursor {
-    cursor: ew-resize; /* Tailwind doesn't have direct utility for this specific cursor type, keeping as custom */
-    cursor: col-resize; /* Tailwind doesn't have direct utility for this specific cursor type, keeping as custom */
-  }
-}
-
-/* Bubble menu */
-.bubble-menu {
-  @apply bg-popover border border-border rounded-lg shadow-md flex p-1;
-
-  button {
-    @apply bg-transparent;
-
-    &:hover {
-      @apply bg-muted;
-    }
-
-    &.is-active {
-      @apply bg-primary text-primary-foreground;
-
-      &:hover {
-        @apply bg-primary/90;
-      }
-    }
+  :first-child {
+    @apply mt-0 mb-0;
   }
 }

@@ -34,7 +34,12 @@ export default function Tiptap({ tabId }: TiptapProps) {
       Typography,
       TextAlign.configure({ types: ["heading", "paragraph", "codeblock"] }),
       TableKit.configure({ table: { resizable: true } }),
-      Image,
+      Image.configure({
+        resize: {
+          enabled: true,
+          alwaysPreserveAspectRatio: true,
+        },
+      }),
     ],
     immediatelyRender: false,
     content: "",

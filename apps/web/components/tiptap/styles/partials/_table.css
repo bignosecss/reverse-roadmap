@@ -1,0 +1,35 @@
+.tiptap {
+  /* Table-specific styling */
+  & table {
+    @apply border-collapse m-0 overflow-hidden table-fixed w-full;
+
+    & td,
+    & th {
+      @apply border border-gray-300 box-border min-w-[1em] py-1.5 px-2 relative align-top;
+
+      & > * {
+        @apply mb-0;
+      }
+    }
+
+    & th {
+      @apply bg-muted font-bold text-left;
+    }
+
+    & .selectedCell:after {
+      @apply bg-muted content-[''] inset-0 pointer-events-none absolute z-20;
+    }
+
+    & .column-resize-handle {
+      @apply bg-primary bottom-[-2px] pointer-events-none absolute right-[-2px] top-0 w-1;
+    }
+  }
+
+  & .tableWrapper {
+    @apply my-6 overflow-x-auto;
+  }
+
+  &.resize-cursor {
+    @apply cursor-ew-resize cursor-col-resize;
+  }
+}
