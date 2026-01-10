@@ -1,7 +1,6 @@
 @import "../../../app/globals.css";
 @import "./partials/_table.css";
 @import "./partials/_bubble-menu.css";
-@import "./partials/_image-resize.css";
 
 .tiptap {
   :first-child {
