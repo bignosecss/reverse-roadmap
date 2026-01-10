@@ -1,7 +1,8 @@
-import { useEffect, useRef } from "react";
-import { useGetRrContentById } from "@/hooks/use-rr-content";
+import { useRef } from "react";
 import { useAutoSave } from "./hooks";
-import { Content, EditorContent, useEditor } from "@tiptap/react";
+import { RrContent } from "@repo/shared";
+import { EditorContent, useEditor } from "@tiptap/react";
+import { EditorView } from "@tiptap/pm/view";
 import StarterKit from "@tiptap/starter-kit";
 import Typography from "@tiptap/extension-typography";
 import TextAlign from "@tiptap/extension-text-align";
@@ -12,20 +13,15 @@ import { SlashCommands } from "./extensions/slash-commands";
 import ImageDialog from "./extensions/image/components/image-dialog";
 
 import "./styles/tiptap.css";
-import { EditorView } from "@tiptap/pm/view";
-
 interface TiptapProps {
   tabId: string;
+  content: RrContent;
 }
 
-export default function Tiptap({ tabId }: TiptapProps) {
-  const { data: rrContent, isLoading: isRrContentLoading } =
-    useGetRrContentById(tabId);
-  const editorRef = useRef<ReturnType<typeof useEditor> | null>(null);
+export default function Tiptap({ tabId, content: rrContent }: TiptapProps) {
   const { handleContentChange } = useAutoSave(tabId);
   const isComposition = useRef(false);
 
-  // tiptap editor 仅初始化一次
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -61,7 +57,6 @@ export default function Tiptap({ tabId }: TiptapProps) {
         },
       },
     },
-    // TODO: 解决只有一个 editor，所以切换 tab 会出发 onUpdate 的问题
     onUpdate: ({ editor, transaction }) => {
       if (isComposition.current) {
         return;
@@ -71,38 +66,9 @@ export default function Tiptap({ tabId }: TiptapProps) {
         handleContentChange(editor.getJSON());
       }
     },
+    onCreate: ({ editor }) =>
+      editor.commands.setContent(rrContent, { emitUpdate: false }),
   });
-
-  useEffect(() => {
-    editorRef.current = editor;
-    return () => editor?.destroy();
-  }, [editor]);
-
-  useEffect(() => {
-    if (isRrContentLoading || !rrContent || !editorRef.current) return;
-
-    // editorRef.current
-    //   .chain()
-    //   .clearContent()
-    //   .setContent(rrContent as Content, { errorOnInvalidContent: true })
-    //   .run();
-    // run 内部调用了 React 的 flushSync API
-
-    queueMicrotask(
-      () =>
-        !!editorRef &&
-        !!editorRef.current &&
-        editorRef.current
-          .chain()
-          .clearContent()
-          .setContent(rrContent as Content, { errorOnInvalidContent: true })
-          .run(),
-    );
-  }, [isRrContentLoading, rrContent]);
-
-  if (isRrContentLoading) {
-    return null;
-  }
 
   return (
     <>
