@@ -1,12 +1,9 @@
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
-
-interface Item {
-  title: string;
-}
+import { Command } from "../commands";
 
 interface SlashCommandsNodeViewProps {
-  items: Item[];
-  command: (item: Item) => void;
+  items: Command[];
+  command: (item: Command) => void;
 }
 
 export const SlashCommnandsNodeView = forwardRef(
@@ -74,7 +71,8 @@ export const SlashCommnandsNodeView = forwardRef(
             `}
               onClick={() => selectItem(index)}
             >
-              {item.title}
+              {item.icon && <span>{item.icon}</span>}
+              <span>{item.title}</span>
             </button>
           ))
         ) : (
