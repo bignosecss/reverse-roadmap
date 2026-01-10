@@ -112,7 +112,7 @@ export const Image = TiptapImage.extend<CustomImageOptions>({
    * 通常，ProseMirror 无法区分这种情况下是内部移动还是外部拖放，
    * 因此为了安全，默认行为会变成“复制”而不是“移动”。
    */
-  // addNodeView() {
-  //   return ReactNodeViewRenderer(ImageView);
-  // },
+  addNodeView() {
+    return ReactNodeViewRenderer(ImageView);
+  },
 });
