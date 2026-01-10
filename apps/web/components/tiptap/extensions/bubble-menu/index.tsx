@@ -5,6 +5,7 @@ import { FontBoldIcon, FontItalicIcon, QuoteIcon } from "@radix-ui/react-icons";
 import { ButtonSeparator } from "./button-separator";
 import TextStylePopover from "./text-style-popover";
 import { toast } from "sonner";
+import TablePopover from "./table-popover";
 
 export default function CustomBubbleMenu({ editor }: { editor: Editor }) {
   const {
@@ -92,6 +93,8 @@ export default function CustomBubbleMenu({ editor }: { editor: Editor }) {
             isStrikethrough={isStrikethrough}
             isUnderline={isUnderline}
           />
+          <ButtonSeparator />
+          <TablePopover editor={editor} />
         </div>
       </BubbleMenu>
     </>

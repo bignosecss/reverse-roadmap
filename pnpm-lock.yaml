@@ -283,6 +283,9 @@ importers:
       '@dagrejs/dagre':
         specifier: ^1.1.5
         version: 1.1.5
+      '@floating-ui/dom':
+        specifier: ^1.7.4
+        version: 1.7.4
       '@radix-ui/react-alert-dialog':
         specifier: ^1.1.15
         version: 1.1.15(@types/react-dom@19.1.1(@types/react@19.1.0))(@types/react@19.1.0)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -367,6 +370,9 @@ importers:
       '@tiptap/starter-kit':
         specifier: ^3.15.3
         version: 3.15.3
+      '@tiptap/suggestion':
+        specifier: ^3.15.3
+        version: 3.15.3(@tiptap/core@3.15.3(@tiptap/pm@3.15.3))(@tiptap/pm@3.15.3)
       '@xyflow/react':
         specifier: ^12.8.4
         version: 12.8.4(@types/react@19.1.0)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
@@ -2875,6 +2881,12 @@ packages:
 
   '@tiptap/starter-kit@3.15.3':
     resolution: {integrity: sha512-ia+eQr9Mt1ln2UO+kK4kFTJOrZK4GhvZXFjpCCYuHtco3rhr2fZAIxEEY4cl/vo5VO5WWyPqxhkFeLcoWmNjSw==}
+
+  '@tiptap/suggestion@3.15.3':
+    resolution: {integrity: sha512-+CbaHhPfKUe+fNpUIQaOPhh6xI+xL5jbK1zw++U+CZIRrVAAmHRhO+D0O2HdiE1RK7596y8bRqMiB2CRHF7emA==}
+    peerDependencies:
+      '@tiptap/core': ^3.15.3
+      '@tiptap/pm': ^3.15.3
 
   '@tokenizer/inflate@0.2.7':
     resolution: {integrity: sha512-MADQgmZT1eKjp06jpI2yozxaU9uVs4GzzgSL+uEq7bVcJ9V1ZXQkeGNql1fsSI0gMy1vhvNTNbUqrx+pZfJVmg==}
@@ -8825,6 +8837,11 @@ snapshots:
       '@tiptap/extension-text': 3.15.3(@tiptap/core@3.15.3(@tiptap/pm@3.15.3))
       '@tiptap/extension-underline': 3.15.3(@tiptap/core@3.15.3(@tiptap/pm@3.15.3))
       '@tiptap/extensions': 3.15.3(@tiptap/core@3.15.3(@tiptap/pm@3.15.3))(@tiptap/pm@3.15.3)
+      '@tiptap/pm': 3.15.3
+
+  '@tiptap/suggestion@3.15.3(@tiptap/core@3.15.3(@tiptap/pm@3.15.3))(@tiptap/pm@3.15.3)':
+    dependencies:
+      '@tiptap/core': 3.15.3(@tiptap/pm@3.15.3)
       '@tiptap/pm': 3.15.3
 
   '@tokenizer/inflate@0.2.7':
