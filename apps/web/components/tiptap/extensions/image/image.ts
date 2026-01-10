@@ -101,7 +101,7 @@ export const Image = TiptapImage.extend<CustomImageOptions>({
    * 因此为了安全，默认行为会变成“复制”而不是“移动”。
    * 
    * 通过设置 draggable: true 属性
-   * 并在在对应的 DOM 元素中添加 data-drag-handle
+   * 并在对应的 DOM 元素中添加 data-drag-handle
    * 就可以让图片正常的拖动了
    */
   addNodeView() {
