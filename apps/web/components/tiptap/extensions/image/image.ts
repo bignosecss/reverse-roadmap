@@ -35,7 +35,6 @@ declare module "@tiptap/react" {
 const DEFAULT_OPTIONS: any = {
   acceptMimes: ["image/jpeg", "image/gif", "image/png", "image/jpg"],
   maxSize: 1024 * 1024 * 5, // 5MB
-  resourceImage: "both",
 };
 
 export interface CustomImageOptions extends ImageOptions {
@@ -44,22 +43,11 @@ export interface CustomImageOptions extends ImageOptions {
 
   acceptMimes?: string[];
   maxSize?: number;
-
-  /** The source URL of the image */
-  resourceImage: "upload" | "link" | "both";
-
-  /** Function to handle errors during file validation */
-  onError?: (error: {
-    type: "size" | "type" | "upload";
-    message: string;
-    file?: File;
-  }) => void;
 }
 
 export const Image = TiptapImage.extend<CustomImageOptions>({
   atom: true,
   selectable: true,
-  draggable: true,
 
   addOptions() {
     return {
