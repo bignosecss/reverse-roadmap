@@ -60,6 +60,8 @@ export default function ImageView(props: NodeViewProps) {
     >
       <div
         ref={containerRef}
+        data-drag-handle
+        draggable="true"
         className="relative inline-block"
         style={{ width: width ?? "auto" }}
         onMouseEnter={() => setIsHovered(true)}
