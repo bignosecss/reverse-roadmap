@@ -1,7 +1,8 @@
 import { useCallback } from "react";
 import useFlowStore from "@/lib/stores/flow";
-import { cn } from "@/lib/utils";
+import { useGetRrContentById } from "@/hooks/use-rr-content";
 import useCanvasStore from "@/lib/stores/canvas";
+import { cn } from "@/lib/utils";
 import { Tabs } from "./tabs";
 import { Header } from "./header";
 import { useTabs } from "./hooks";
@@ -12,6 +13,8 @@ export function Canvas() {
   const currentRrNode = useFlowStore((state) => state.currentRrNode);
   const { tabs, activeTabId, setActiveTabId, addTab, removeTab, renameTab } =
     useTabs(currentRrNode);
+  const { data: rrContent, isLoading: isRrContentLoading } =
+    useGetRrContentById(activeTabId);
 
   // 渲染 Tab 内容（业务层自定义）
   const renderTabContent = useCallback(
@@ -25,11 +28,13 @@ export function Canvas() {
           <p className="text-muted-foreground mb-4">
             {currentRrNode?.description}
           </p>
-          <Tiptap tabId={tabId} />
+          {!isRrContentLoading && !!rrContent && (
+            <Tiptap tabId={tabId} content={rrContent} />
+          )}
         </div>
       );
     },
-    [currentRrNode, tabs],
+    [currentRrNode, isRrContentLoading, rrContent, tabs],
   );
 
   // transition 属性，只是将组件移动走了；但组件的宽度坑位还在
