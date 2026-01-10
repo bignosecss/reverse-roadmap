@@ -6,7 +6,9 @@ import StarterKit from "@tiptap/starter-kit";
 import Typography from "@tiptap/extension-typography";
 import TextAlign from "@tiptap/extension-text-align";
 import { TableKit } from "@tiptap/extension-table";
+import { Image } from "./extensions/image";
 import CustomBubbleMenu from "./extensions/bubble-menu";
+import TempButtonGroup from "./extensions/slash-commands/temp-button-group";
 
 import "./styles/tiptap.css";
 
@@ -32,6 +34,14 @@ export default function Tiptap({ tabId }: TiptapProps) {
       Typography,
       TextAlign.configure({ types: ["heading", "paragraph", "codeblock"] }),
       TableKit.configure({ table: { resizable: true } }),
+      Image.configure({
+        resize: {
+          enabled: true,
+          minWidth: 60,
+          minHeight: 60,
+          alwaysPreserveAspectRatio: true,
+        },
+      }),
     ],
     immediatelyRender: false,
     content: "",
@@ -53,19 +63,32 @@ export default function Tiptap({ tabId }: TiptapProps) {
   useEffect(() => {
     if (isRrContentLoading || !rrContent || !editorRef.current) return;
 
-    editorRef.current
-      .chain()
-      .clearContent()
-      .setContent(rrContent as Content)
-      .run();
+    // editorRef.current
+    //   .chain()
+    //   .clearContent()
+    //   .setContent(rrContent as Content, { errorOnInvalidContent: true })
+    //   .run();
+    // run 内部调用了 React 的 flushSync API
+
+    queueMicrotask(
+      () =>
+        !!editorRef &&
+        !!editorRef.current &&
+        editorRef.current
+          .chain()
+          .clearContent()
+          .setContent(rrContent as Content, { errorOnInvalidContent: true })
+          .run(),
+    );
   }, [isRrContentLoading, rrContent]);
 
   if (isRrContentLoading) {
-    return <div className="w-2/3">加载中...</div>;
+    return null;
   }
 
   return (
     <>
+      {!!editor && <TempButtonGroup editor={editor} />}
       {!!editor && <CustomBubbleMenu editor={editor} />}
       <EditorContent className="w-2/3" editor={editor} />
     </>

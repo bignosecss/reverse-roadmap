@@ -20,6 +20,8 @@ export const useGetRrContentById = (id: string) => {
     queryKey: ["rrContent", id],
     queryFn: () => fetchRrContentById(id),
     enabled: !!id,
+    gcTime: 0,
+    staleTime: 0,
   });
 };
 
