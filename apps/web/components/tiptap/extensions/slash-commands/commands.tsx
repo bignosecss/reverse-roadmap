@@ -1,7 +1,8 @@
 import React from "react";
 import type { Editor, Range } from "@tiptap/react";
-import { ImageIcon, TableIcon } from "@radix-ui/react-icons";
+import { ImageIcon, QuoteIcon, TableIcon } from "@radix-ui/react-icons";
 import useImageDialogStore from "@/lib/stores/tiptap";
+import { toast } from "sonner";
 
 export interface Command {
   title: string;
@@ -11,6 +12,16 @@ export interface Command {
 }
 
 export const commands: Command[] = [
+  {
+    title: "聊聊～",
+    subtitle: "",
+    icon: <QuoteIcon className="h-4 w-4" />,
+    command: () =>
+      toast.info("Talk to AI", {
+        description: "正在开发...",
+        position: "top-center",
+      }),
+  },
   {
     title: "图片",
     subtitle: "Insert an image from URL or upload",

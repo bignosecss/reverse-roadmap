@@ -1,5 +1,6 @@
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { Command } from "../commands";
+import { Separator } from "@/components/ui/separator";
 
 interface SlashCommandsNodeViewProps {
   items: Command[];
@@ -59,21 +60,25 @@ export const SlashCommnandsNodeView = forwardRef(
       <div className="relative overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md animate-in fade-in-0 zoom-in-95">
         {props.items.length ? (
           props.items.map((item, index) => (
-            <button
-              key={index}
-              className={`flex w-full items-center space-x-2 rounded-sm p-2 text-left text-sm transition-colors
-              ${
-                index === selectedIndex
-                  ? "bg-accent text-accent-foreground"
-                  : "bg-transparent"
-              }
-              hover:bg-accent hover:text-accent-foreground
-            `}
-              onClick={() => selectItem(index)}
-            >
-              {item.icon && <span>{item.icon}</span>}
-              <span>{item.title}</span>
-            </button>
+            <div key={index}>
+              <button
+                className={`flex w-full items-center space-x-2 rounded-sm p-2 text-left text-sm transition-colors
+                ${
+                  index === selectedIndex
+                    ? "bg-accent text-accent-foreground"
+                    : "bg-transparent"
+                }
+                hover:bg-accent hover:text-accent-foreground
+              `}
+                onClick={() => selectItem(index)}
+              >
+                {item.icon && <span>{item.icon}</span>}
+                <span>{item.title}</span>
+              </button>
+              {index === 0 && (
+                <Separator orientation="horizontal" className="my-1" />
+              )}
+            </div>
           ))
         ) : (
           <div className="p-2 text-sm text-muted-foreground">No result</div>
