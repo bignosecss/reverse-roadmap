@@ -99,7 +99,7 @@ export const Image = TiptapImage.extend<CustomImageOptions>({
    * 这引入了一个抽象层，可能干扰 ProseMirror 默认的内部拖拽检测机制。
    * 通常，ProseMirror 无法区分这种情况下是内部移动还是外部拖放，
    * 因此为了安全，默认行为会变成“复制”而不是“移动”。
-   * 
+   *
    * 通过设置 draggable: true 属性
    * 并在对应的 DOM 元素中添加 data-drag-handle
    * 就可以让图片正常的拖动了

@@ -8,7 +8,7 @@ import TextAlign from "@tiptap/extension-text-align";
 import { TableKit } from "@tiptap/extension-table";
 import { Image } from "./extensions/image";
 import CustomBubbleMenu from "./extensions/bubble-menu";
-import TempButtonGroup from "./extensions/slash-commands/temp-button-group";
+import { SlashCommands } from "./extensions/slash-commands";
 
 import "./styles/tiptap.css";
 
@@ -42,6 +42,7 @@ export default function Tiptap({ tabId }: TiptapProps) {
           alwaysPreserveAspectRatio: true,
         },
       }),
+      SlashCommands,
     ],
     immediatelyRender: false,
     content: "",
@@ -88,7 +89,6 @@ export default function Tiptap({ tabId }: TiptapProps) {
 
   return (
     <>
-      {!!editor && <TempButtonGroup editor={editor} />}
       {!!editor && <CustomBubbleMenu editor={editor} />}
       <EditorContent className="w-2/3" editor={editor} />
     </>
