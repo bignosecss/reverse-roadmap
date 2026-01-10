@@ -1,31 +1,39 @@
-import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { useCallback, useState } from "react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
 import { Editor } from "@tiptap/react";
-import { ImageIcon } from "@radix-ui/react-icons";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import ImageLinkTab from "./image-link-tab";
-import ImageUploadTab from "./image-upload-tab";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import ImageLinkTab from "./image-link-tab";
+import ImageUploadTab from "./image-upload-tab";
+import useImageDialogStore from "@/lib/stores/tiptap";
 
-export default function AddImageButton({ editor }: { editor: Editor }) {
+export default function ImageDialog({ editor }: { editor: Editor }) {
+  const { isOpen, close } = useImageDialogStore();
   const [altText, setAltText] = useState("");
-  const [open, setOpen] = useState(false);
+
+  const handleOpenChange = useCallback(
+    (newOpen: boolean) => {
+      if (!newOpen) {
+        close();
+        setAltText(""); // Reset alt text when closing
+      }
+    },
+    [close],
+  );
+
+  // This function will be passed to the tabs to close the dialog
+  const closeDialog = useCallback(() => {
+    handleOpenChange(false);
+  }, [handleOpenChange]);
 
   return (
-    <Dialog open={open} onOpenChange={(newOpen) => setOpen(newOpen)}>
-      <DialogTrigger asChild>
-        <Button variant="ghost" size="iconsm" type="button">
-          <ImageIcon />
-        </Button>
-      </DialogTrigger>
+    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>添加图片</DialogTitle>
@@ -50,7 +58,7 @@ export default function AddImageButton({ editor }: { editor: Editor }) {
                 editor={editor}
                 altText={altText}
                 setAltText={setAltText}
-                setOpen={setOpen}
+                setOpen={closeDialog}
               />
             </TabsContent>
             <TabsContent value="link" className="space-y-4">
@@ -58,7 +66,7 @@ export default function AddImageButton({ editor }: { editor: Editor }) {
                 editor={editor}
                 altText={altText}
                 setAltText={setAltText}
-                setOpen={setOpen}
+                setOpen={closeDialog}
               />
             </TabsContent>
           </Tabs>

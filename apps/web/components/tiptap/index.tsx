@@ -9,6 +9,7 @@ import { TableKit } from "@tiptap/extension-table";
 import { Image } from "./extensions/image";
 import CustomBubbleMenu from "./extensions/bubble-menu";
 import { SlashCommands } from "./extensions/slash-commands";
+import ImageDialog from "./extensions/image/components/image-dialog";
 
 import "./styles/tiptap.css";
 
@@ -89,7 +90,12 @@ export default function Tiptap({ tabId }: TiptapProps) {
 
   return (
     <>
-      {!!editor && <CustomBubbleMenu editor={editor} />}
+      {!!editor && (
+        <>
+          <CustomBubbleMenu editor={editor} />
+          <ImageDialog editor={editor} />
+        </>
+      )}
       <EditorContent className="w-2/3" editor={editor} />
     </>
   );
