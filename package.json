@@ -7,7 +7,8 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
-    "delete-branch": "node scripts/delete-branch.js"
+    "delete-branch": "node scripts/delete-branch.js",
+    "reinstall": "find . -name \"node_modules\" -type d -prune -exec rm -rf '{}' + && rm -rf pnpm-lock.yaml && pnpm install"
   },
   "devDependencies": {
     "prettier": "^3.6.2",
