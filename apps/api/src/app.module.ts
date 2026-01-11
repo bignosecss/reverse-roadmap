@@ -5,7 +5,6 @@ import { AppService } from './app.service';
 import { RrRootModule } from './rr-root/rr-root.module';
 import { RrNodeModule } from './rr-node/rr-node.module';
 import { RrContentModule } from './rr-content/rr-content.module';
-import { DataMigrationModule } from './seeds/data-migration.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 
@@ -19,7 +18,6 @@ import { AuthModule } from './auth/auth.module';
     RrRootModule,
     RrNodeModule,
     RrContentModule,
-    DataMigrationModule,
     AuthModule,
   ],
   controllers: [AppController],
