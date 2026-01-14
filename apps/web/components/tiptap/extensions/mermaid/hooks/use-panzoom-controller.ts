@@ -34,12 +34,15 @@ export const usePanZoomController = ({
     );
     const { svgElement } = getSvgElements();
 
-    if (svgElement) {
-      const center = calculateCenterPosition(
-        svgElement.parentElement!,
-        svgElement,
+    if (svgElement && svgElement.parentElement) {
+      const containerWidth = svgElement.parentElement.clientWidth;
+      const containerHeight = svgElement.parentElement.clientHeight;
+      // 使用容器中心点作为缩放原点（mermaid SVG 已居中）
+      panzoomRef.current.zoomAbs(
+        containerWidth / 2,
+        containerHeight / 2,
+        newScale,
       );
-      panzoomRef.current.zoomAbs(center.x, center.y, newScale);
     }
   }, []);
 
@@ -52,12 +55,15 @@ export const usePanZoomController = ({
     );
     const { svgElement } = getSvgElements();
 
-    if (svgElement) {
-      const center = calculateCenterPosition(
-        svgElement.parentElement!,
-        svgElement,
+    if (svgElement && svgElement.parentElement) {
+      const containerWidth = svgElement.parentElement.clientWidth;
+      const containerHeight = svgElement.parentElement.clientHeight;
+      // 使用容器中心点作为缩放原点（mermaid SVG 已居中）
+      panzoomRef.current.zoomAbs(
+        containerWidth / 2,
+        containerHeight / 2,
+        newScale,
       );
-      panzoomRef.current.zoomAbs(center.x, center.y, newScale);
     }
   }, []);
 
