@@ -48,21 +48,21 @@ export default function MermaidToolbar({
         <button
           onClick={onToggleCode}
           className={`toolbar-btn ${showCode ? "active" : ""}`}
-          title="Edit code"
+          title="编辑代码"
         >
           <Code2 className="h-4 w-4" />
         </button>
         <button
           onClick={onTogglePreview}
           className={`toolbar-btn ${isPreviewMode ? "active" : ""}`}
-          title="Preview"
+          title="预览"
         >
           <Eye className="h-4 w-4" />
         </button>
         <button
           onClick={onZoomOut}
           className="toolbar-btn"
-          title="Zoom out"
+          title="缩小"
           disabled={!hasSvg || showCode}
         >
           <ZoomOut className="h-4 w-4" />
@@ -70,7 +70,7 @@ export default function MermaidToolbar({
         <button
           onClick={onZoomIn}
           className="toolbar-btn"
-          title="Zoom in"
+          title="放大"
           disabled={!hasSvg || showCode}
         >
           <ZoomIn className="h-4 w-4" />
@@ -78,14 +78,14 @@ export default function MermaidToolbar({
         <button
           onClick={onResetView}
           className="toolbar-btn"
-          title="Reset view"
+          title="重置视图"
           disabled={!hasSvg || showCode}
         >
           <RotateCcw className="h-4 w-4" />
         </button>
       </div>
       <div className="toolbar-right">
-        <button onClick={onCopyCode} className="toolbar-btn" title="Copy code">
+        <button onClick={onCopyCode} className="toolbar-btn" title="复制代码">
           {copied ? (
             <Check className="h-4 w-4" />
           ) : (
@@ -95,7 +95,7 @@ export default function MermaidToolbar({
         <button
           onClick={onDownloadSvg}
           className="toolbar-btn"
-          title="Download SVG"
+          title="下载 SVG"
           disabled={!hasSvg}
         >
           <Download className="h-4 w-4" />
@@ -103,7 +103,7 @@ export default function MermaidToolbar({
         <button
           onClick={onToggleFullscreen}
           className="toolbar-btn"
-          title={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
+          title={isFullscreen ? "退出全屏" : "全屏"}
         >
           {isFullscreen ? (
             <Minimize className="h-4 w-4" />

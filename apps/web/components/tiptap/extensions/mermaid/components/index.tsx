@@ -3,7 +3,7 @@ import { NodeViewWrapper } from "@tiptap/react";
 import { NodeViewProps } from "@tiptap/react";
 import { useTheme } from "next-themes";
 import { TOAST_TIMER } from "./constants";
-import { copyToClipboard, downloadSvgFile } from "./utils";
+import { copyToClipboard, downloadSvgFile } from "../utils";
 import { useMermaidRenderer } from "../hooks/use-mermaid-renderer";
 import { usePanZoomController } from "../hooks/use-panzoom-controller";
 import MermaidToolbar from "./mermaid-toolbar";

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from "react";
 import panzoom from "panzoom";
-import { PAN_ZOOM_CONFIG } from "../mermaid-view/constants";
-import { calculateCenterPosition, getSvgElements } from "../mermaid-view/utils";
+import { PAN_ZOOM_CONFIG } from "../components/constants";
+import { calculateCenterPosition, getSvgElements } from "../utils";
 
 interface UsePanZoomControllerProps {
   svg: string;

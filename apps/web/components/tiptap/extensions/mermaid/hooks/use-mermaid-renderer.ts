@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import mermaid from "mermaid";
-import { MERMAID_CONFIG, MERMAID_ID_PREFIX } from "../mermaid-view/constants";
+import { MERMAID_CONFIG, MERMAID_ID_PREFIX } from "../components/constants";
 
 interface UseMermaidRendererProps {
   code: string;
@@ -43,7 +43,7 @@ export const useMermaidRenderer = ({
       setSvg(renderedSvg);
       setError("");
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Invalid mermaid syntax");
+      setError(err instanceof Error ? err.message : "无效的 Mermaid 语法");
       setSvg("");
     }
   }, [code, theme]);

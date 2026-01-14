@@ -1,5 +1,5 @@
 import { Node, mergeAttributes, ReactNodeViewRenderer } from "@tiptap/react";
-import MermaidView from "./components/mermaid-view";
+import MermaidView from "./components";
 
 declare module "@tiptap/react" {
   interface Commands<ReturnType> {

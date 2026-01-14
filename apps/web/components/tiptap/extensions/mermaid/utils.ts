@@ -1,4 +1,4 @@
-import { DOWNLOAD_FILE_NAME } from "./constants";
+import { DOWNLOAD_FILE_NAME } from "./components/constants";
 import { toast } from "sonner";
 
 /**

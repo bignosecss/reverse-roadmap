@@ -16,6 +16,6 @@ export const PAN_ZOOM_CONFIG = {
 
 export const TOAST_TIMER = 2000; // 提示框展示时长
 export const DOWNLOAD_FILE_NAME = "diagram.svg"; // 默认下载文件名
-export const EMPTY_CODE_PLACEHOLDER = "Enter mermaid code here...";
-export const EMPTY_PREVIEW_TEXT = "Add mermaid code to generate diagram";
+export const EMPTY_CODE_PLACEHOLDER = "在此输入 Mermaid 代码...";
+export const EMPTY_PREVIEW_TEXT = "添加 Mermaid 代码以生成图表";
 export const MERMAID_ID_PREFIX = "mermaid-";
