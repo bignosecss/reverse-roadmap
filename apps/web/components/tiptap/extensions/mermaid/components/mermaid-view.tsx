@@ -43,12 +43,13 @@ export default function MermaidView({ node, updateAttributes }: NodeViewProps) {
     const pz = panzoom(svgElement, {
       maxZoom: 5,
       minZoom: 0.2,
-      zoomSpeed: 0.1,
+      zoomSpeed: 0.6,
       smoothScroll: true,
       filterKey: () => {
         // Prevent default browser zoom with Ctrl/Cmd keys
         return true;
       },
+      autocenter: true,
     });
 
     panzoomRef.current = pz;
@@ -106,6 +107,27 @@ export default function MermaidView({ node, updateAttributes }: NodeViewProps) {
     };
   }, []);
 
+  useEffect(() => {
+    // Center chart when fullscreen state changes
+    if (!showCode && panzoomRef.current && svg) {
+      const previewContainer = document.querySelector(".mermaid-svg-container");
+      const svgElement = previewContainer?.querySelector("svg");
+
+      if (previewContainer && svgElement) {
+        const containerWidth = previewContainer.clientWidth;
+        const containerHeight = previewContainer.clientHeight;
+        const svgWidth = svgElement.clientWidth || 800;
+        const svgHeight = svgElement.clientHeight || 600;
+
+        const x = (containerWidth - svgWidth) / 2;
+        const y = (containerHeight - svgHeight) / 2;
+
+        panzoomRef.current.moveTo(x, y);
+        panzoomRef.current.zoomAbs(x, y, 1);
+      }
+    }
+  }, [isFullscreen, showCode, svg]);
+
   const handleCodeChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     updateAttributes({ code: e.target.value });
   };
@@ -148,7 +170,23 @@ export default function MermaidView({ node, updateAttributes }: NodeViewProps) {
     if (panzoomRef.current) {
       const transform = panzoomRef.current.getTransform();
       const newScale = Math.min(transform.scale * 1.2, 5);
-      panzoomRef.current.zoomAbs(transform.x, transform.y, newScale);
+
+      // Get SVG element and calculate its center
+      const previewContainer = document.querySelector(".mermaid-svg-container");
+      const svgElement = previewContainer?.querySelector("svg");
+
+      if (svgElement) {
+        const svgWidth = svgElement.clientWidth || 800;
+        const svgHeight = svgElement.clientHeight || 600;
+
+        // Calculate SVG center in screen coordinates
+        const svgCenterX = (svgWidth / 2) * transform.scale + transform.x;
+        const svgCenterY = (svgHeight / 2) * transform.scale + transform.y;
+
+        panzoomRef.current.zoomAbs(svgCenterX, svgCenterY, newScale);
+      } else {
+        panzoomRef.current.zoomAbs(transform.x, transform.y, newScale);
+      }
     }
   };
 
@@ -156,14 +194,47 @@ export default function MermaidView({ node, updateAttributes }: NodeViewProps) {
     if (panzoomRef.current) {
       const transform = panzoomRef.current.getTransform();
       const newScale = Math.max(transform.scale * 0.8, 0.2);
-      panzoomRef.current.zoomAbs(transform.x, transform.y, newScale);
+
+      // Get SVG element and calculate its center
+      const previewContainer = document.querySelector(".mermaid-svg-container");
+      const svgElement = previewContainer?.querySelector("svg");
+
+      if (svgElement) {
+        const svgWidth = svgElement.clientWidth || 800;
+        const svgHeight = svgElement.clientHeight || 600;
+
+        // Calculate SVG center in screen coordinates
+        const svgCenterX = (svgWidth / 2) * transform.scale + transform.x;
+        const svgCenterY = (svgHeight / 2) * transform.scale + transform.y;
+
+        panzoomRef.current.zoomAbs(svgCenterX, svgCenterY, newScale);
+      } else {
+        panzoomRef.current.zoomAbs(transform.x, transform.y, newScale);
+      }
     }
   };
 
   const handleResetView = () => {
     if (panzoomRef.current) {
-      panzoomRef.current.moveTo(0, 0);
-      panzoomRef.current.zoomAbs(0, 0, 1);
+      // Get the SVG element to center it
+      const previewContainer = document.querySelector(".mermaid-svg-container");
+      const svgElement = previewContainer?.querySelector("svg");
+
+      if (previewContainer && svgElement) {
+        const containerWidth = previewContainer.clientWidth;
+        const containerHeight = previewContainer.clientHeight;
+        const svgWidth = svgElement.clientWidth || 800;
+        const svgHeight = svgElement.clientHeight || 600;
+
+        const x = (containerWidth - svgWidth) / 2;
+        const y = (containerHeight - svgHeight) / 2;
+
+        panzoomRef.current.moveTo(x, y);
+        panzoomRef.current.zoomAbs(x, y, 1);
+      } else {
+        panzoomRef.current.moveTo(0, 0);
+        panzoomRef.current.zoomAbs(0, 0, 1);
+      }
     }
   };
 
