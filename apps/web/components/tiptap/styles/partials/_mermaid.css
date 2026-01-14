@@ -94,27 +94,35 @@
 }
 
 .mermaid-preview {
-  padding: 16px;
+  position: relative;
   min-height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: auto;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
 }
 
 .mermaid-preview svg {
-  max-width: 100%;
-  height: auto;
   display: block;
+  pointer-events: auto;
+  width: 100%;
+  height: 100%;
 }
 
 .mermaid-svg-container {
   display: inline-block;
-  transition: transform 0.2s ease-out;
+  cursor: grab;
+  touch-action: none;
+  width: 100%;
+  height: 100%;
+}
+
+.mermaid-svg-container:active {
+  cursor: grabbing;
 }
 
 .mermaid-svg-container svg {
-  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .zoom-level {
@@ -183,12 +191,19 @@
 .mermaid-container.fullscreen .mermaid-toolbar {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
+  flex-shrink: 0;
 }
 
 .mermaid-container.fullscreen .code-editor,
 .mermaid-container.fullscreen .mermaid-preview {
   flex: 1;
-  overflow: auto;
+  overflow: hidden;
+}
+
+.mermaid-container.fullscreen .mermaid-preview {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .mermaid-container.fullscreen .mermaid-textarea {

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { NodeViewWrapper } from "@tiptap/react";
 import { NodeViewProps } from "@tiptap/react";
 import mermaid from "mermaid";
@@ -9,13 +9,14 @@ import {
   Download,
   Copy,
   Check,
-  Maximize2,
-  Minimize2,
+  Maximize,
+  Minimize,
   ZoomIn,
   ZoomOut,
-  Maximize,
+  RotateCcw,
 } from "lucide-react";
 import { toast } from "sonner";
+import panzoom from "panzoom";
 
 mermaid.initialize({
   startOnLoad: false,
@@ -30,15 +31,42 @@ export default function MermaidView({ node, updateAttributes }: NodeViewProps) {
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [zoom, setZoom] = useState(1);
+
   const code = node.attrs.code || "";
+  const panzoomRef = useRef<ReturnType<typeof panzoom> | null>(null);
+
+  const initializePanzoom = useCallback((svgElement: SVGElement) => {
+    if (panzoomRef.current) {
+      panzoomRef.current.dispose();
+    }
+
+    const pz = panzoom(svgElement, {
+      maxZoom: 5,
+      minZoom: 0.2,
+      zoomSpeed: 0.1,
+      smoothScroll: true,
+      filterKey: (e: Event) => {
+        // Allow drag/zoom but prevent default browser zoom with Ctrl/Cmd
+        const keyboardEvent = e as KeyboardEvent;
+        return !keyboardEvent.ctrlKey && !keyboardEvent.metaKey;
+      },
+    });
+
+    panzoomRef.current = pz;
+  }, []);
+
   const previewRef = useCallback(
     (node: HTMLDivElement | null) => {
       if (node && svg) {
         node.innerHTML = svg;
+        const svgElement = node.querySelector("svg");
+        if (svgElement) {
+          svgElement.style.display = "block";
+          initializePanzoom(svgElement);
+        }
       }
     },
-    [svg],
+    [svg, initializePanzoom],
   );
 
   const renderMermaid = useCallback(async () => {
@@ -71,6 +99,14 @@ export default function MermaidView({ node, updateAttributes }: NodeViewProps) {
     renderMermaid();
   }, [renderMermaid]);
 
+  useEffect(() => {
+    return () => {
+      if (panzoomRef.current) {
+        panzoomRef.current.dispose();
+      }
+    };
+  }, []);
+
   const handleCodeChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     updateAttributes({ code: e.target.value });
   };
@@ -101,21 +137,35 @@ export default function MermaidView({ node, updateAttributes }: NodeViewProps) {
     toast.success("SVG downloaded");
   };
 
-  const handleToggleFullscreen = () => {
-    setIsFullscreen((prev) => !prev);
+  const handleFullscreenToggle = () => {
+    if (isFullscreen) {
+      setIsFullscreen(false);
+    } else {
+      setIsFullscreen(true);
+    }
   };
 
   const handleZoomIn = () => {
-    setZoom((prev) => Math.min(prev + 0.1, 3));
+    if (panzoomRef.current) {
+      const transform = panzoomRef.current.getTransform();
+      const newScale = Math.min(transform.scale * 1.2, 5);
+      panzoomRef.current.zoomAbs(transform.x, transform.y, newScale);
+    }
   };
 
   const handleZoomOut = () => {
-    setZoom((prev) => Math.max(prev - 0.1, 0.3));
+    if (panzoomRef.current) {
+      const transform = panzoomRef.current.getTransform();
+      const newScale = Math.max(transform.scale * 0.8, 0.2);
+      panzoomRef.current.zoomAbs(transform.x, transform.y, newScale);
+    }
   };
 
-  const handleFitView = () => {
-    setZoom(1);
-    toast.success("Fit to view");
+  const handleResetView = () => {
+    if (panzoomRef.current) {
+      panzoomRef.current.moveTo(0, 0);
+      panzoomRef.current.zoomAbs(0, 0, 1);
+    }
   };
 
   return (
@@ -137,6 +187,30 @@ export default function MermaidView({ node, updateAttributes }: NodeViewProps) {
             >
               <Eye className="h-4 w-4" />
             </button>
+            <button
+              onClick={handleZoomOut}
+              className="toolbar-btn"
+              title="Zoom out"
+              disabled={!svg || showCode}
+            >
+              <ZoomOut className="h-4 w-4" />
+            </button>
+            <button
+              onClick={handleZoomIn}
+              className="toolbar-btn"
+              title="Zoom in"
+              disabled={!svg || showCode}
+            >
+              <ZoomIn className="h-4 w-4" />
+            </button>
+            <button
+              onClick={handleResetView}
+              className="toolbar-btn"
+              title="Reset view"
+              disabled={!svg || showCode}
+            >
+              <RotateCcw className="h-4 w-4" />
+            </button>
           </div>
           <div className="toolbar-right">
             <button
@@ -154,42 +228,19 @@ export default function MermaidView({ node, updateAttributes }: NodeViewProps) {
               onClick={handleDownloadSvg}
               className="toolbar-btn"
               title="Download SVG"
+              disabled={!svg}
             >
               <Download className="h-4 w-4" />
             </button>
             <button
-              onClick={handleZoomOut}
-              className="toolbar-btn"
-              title="Zoom out"
-              disabled={zoom <= 0.3}
-            >
-              <ZoomOut className="h-4 w-4" />
-            </button>
-            <span className="zoom-level">{Math.round(zoom * 100)}%</span>
-            <button
-              onClick={handleZoomIn}
-              className="toolbar-btn"
-              title="Zoom in"
-              disabled={zoom >= 3}
-            >
-              <ZoomIn className="h-4 w-4" />
-            </button>
-            <button
-              onClick={handleFitView}
-              className="toolbar-btn"
-              title="Fit to view"
-            >
-              <Maximize className="h-4 w-4" />
-            </button>
-            <button
-              onClick={handleToggleFullscreen}
+              onClick={handleFullscreenToggle}
               className="toolbar-btn"
               title={isFullscreen ? "Exit fullscreen" : "Fullscreen"}
             >
               {isFullscreen ? (
-                <Minimize2 className="h-4 w-4" />
+                <Minimize className="h-4 w-4" />
               ) : (
-                <Maximize2 className="h-4 w-4" />
+                <Maximize className="h-4 w-4" />
               )}
             </button>
           </div>
@@ -216,10 +267,6 @@ export default function MermaidView({ node, updateAttributes }: NodeViewProps) {
               <div
                 ref={previewRef}
                 className="mermaid-svg-container"
-                style={{
-                  transform: `scale(${zoom})`,
-                  transformOrigin: "top left",
-                }}
               />
             ) : (
               <p className="empty-state">
