@@ -263,10 +263,7 @@ export default function MermaidView({ node, updateAttributes }: NodeViewProps) {
                 <p className="error-text">{error}</p>
               </div>
             ) : svg ? (
-              <div
-                ref={previewRef}
-                className="mermaid-svg-container"
-              />
+              <div ref={previewRef} className="mermaid-svg-container" />
             ) : (
               <p className="empty-state">
                 Add mermaid code to generate diagram
