@@ -10,6 +10,7 @@ import { TableKit } from "@tiptap/extension-table";
 import { Image } from "./extensions/image";
 import CustomBubbleMenu from "./extensions/bubble-menu";
 import { SlashCommands } from "./extensions/slash-commands";
+import { Mermaid } from "./extensions/mermaid";
 import ImageDialog from "./extensions/image/components/image-dialog";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import { common, createLowlight } from "lowlight";
@@ -48,6 +49,7 @@ export default function Tiptap({ tabId, content: rrContent }: TiptapProps) {
           alwaysPreserveAspectRatio: true,
         },
       }),
+      Mermaid,
       SlashCommands,
     ],
     immediatelyRender: false,

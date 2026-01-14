@@ -2,6 +2,7 @@
 @import "./partials/_table.css";
 @import "./partials/_bubble-menu.css";
 @import "./partials/_codeblock.css";
+@import "./partials/_mermaid.css";
 
 .tiptap {
   --code-bg: #f6f8fa;
