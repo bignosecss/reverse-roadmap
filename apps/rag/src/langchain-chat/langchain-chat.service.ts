@@ -12,7 +12,6 @@ import { VectorStoreService } from 'src/services/vector-store.service';
 
 @Injectable()
 export class LangchainChatService {
-  private readonly logger = new Logger(LangchainChatService.name);
   constructor(private readonly vectorStoreService: VectorStoreService) {}
 
   async basicChat(basicMessageDto: BasicMessageDto) {
@@ -60,8 +59,6 @@ export class LangchainChatService {
 
   async documentChat(basicMessageDto: BasicMessageDto) {
     try {
-      // 真烦人这ESLint规则
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const documentContext = await this.vectorStoreService.similaritySearch(
         basicMessageDto.user_query,
         3,
@@ -74,6 +71,7 @@ export class LangchainChatService {
 
       const messages = [
         new SystemMessage(
+          // eslint-disable-next-line @typescript-eslint/no-base-to-string, @typescript-eslint/restrict-template-expressions
           `${TEMPLATES.BASIC_SYSTEM_MESSAGE}${documentContext}`,
         ),
         new HumanMessage(basicMessageDto.user_query),

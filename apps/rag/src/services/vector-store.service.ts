@@ -60,7 +60,7 @@ export class VectorStoreService {
     await this.pgvectorStore.addDocuments(documents);
   }
 
-  async similaritySearch(query: string, limit: number): Promise<any> {
+  async similaritySearch(query: string, limit: number): Promise<Document[]> {
     return this.pgvectorStore.similaritySearch(query, limit);
   }
 

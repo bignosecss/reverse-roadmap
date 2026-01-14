@@ -7,6 +7,7 @@ The Reverse Roadmap project is a sophisticated goal management platform that tra
 ### Architecture & Technology Stack
 
 **Frontend (Web App)**:
+
 - Next.js 15 with React 19
 - TailwindCSS for styling with shadcn/ui components
 - React Flow for mind map visualization
@@ -15,11 +16,13 @@ The Reverse Roadmap project is a sophisticated goal management platform that tra
 - React Query for data fetching
 
 **Backend Services**:
+
 - **API Service**: NestJS with MongoDB/Mongoose for core application data
 - **RAG Service**: NestJS with PostgreSQL/pgvector and LangChain for AI-powered features
 - Support for Ollama for local LLM integration
 
 **Shared Components**:
+
 - Shared utilities, DTOs, models, and flow types
 - Reusable UI components
 - Common TypeScript and ESLint configurations
@@ -46,6 +49,7 @@ reverse-roadmap/
 ## Building and Running
 
 ### Prerequisites
+
 - Node.js >= 20
 - pnpm
 - Docker and Docker Compose (for full-stack setup)
@@ -53,27 +57,30 @@ reverse-roadmap/
 ### Development Setup
 
 1. **Install Dependencies**:
+
    ```bash
    pnpm install
    ```
 
 2. **Run Full Development Stack**:
+
    ```bash
    # Using Docker Compose (recommended for full stack)
    docker-compose up
-   
+
    # Or using Turborepo (requires manual database setup)
    pnpm dev
    ```
 
 3. **Individual Services**:
+
    ```bash
    # Frontend only
    cd apps/web && pnpm dev
-   
+
    # Backend API only
    cd apps/api && pnpm dev
-   
+
    # RAG service only
    cd apps/rag && pnpm dev
    ```
@@ -102,6 +109,7 @@ cp .env.example .env
 ```
 
 Key environment variables:
+
 - `MONGODB_URI`: MongoDB connection string
 - `DATABASE_URL`: PostgreSQL connection string for RAG service
 - `NEXT_PUBLIC_RR_API`: API endpoint for frontend
@@ -110,33 +118,39 @@ Key environment variables:
 ## Database Setup
 
 The project uses multiple databases:
+
 - **MongoDB**: For core application data (goals, nodes, user data)
 - **PostgreSQL with pgvector**: For vector storage in the RAG service
 - **Ollama**: For local LLM inference
 
 Docker Compose handles database initialization automatically with:
+
 - `init-mongo.js` for MongoDB setup
 - `init.sql` for PostgreSQL/pgvector setup
 
 ## Development Conventions
 
 ### Code Quality
+
 - TypeScript is used throughout the project
 - ESLint enforces code quality standards
 - Prettier ensures consistent formatting
 - Type checking is performed via `pnpm check-types`
 
 ### Testing
+
 - Jest is configured for unit and E2E testing
 - Test files follow the `*.spec.ts` naming convention
 - Run tests with `pnpm test` in respective service directories
 
 ### Component Architecture
+
 - Shared components are located in the `packages/ui` directory
 - Shared types and utilities are in `packages/shared`
 - Cross-service communication uses well-defined DTOs
 
 ### Feature Highlights
+
 - Mind map visualization for goal decomposition
 - Rich text editing with Tiptap integration
 - Recursive page embedding for complex content
@@ -146,6 +160,7 @@ Docker Compose handles database initialization automatically with:
 ## Docker Orchestration
 
 The `docker-compose.yml` file defines a complete development environment with:
+
 - MongoDB service with automatic initialization
 - API service connected to MongoDB
 - PostgreSQL with pgvector for RAG service
