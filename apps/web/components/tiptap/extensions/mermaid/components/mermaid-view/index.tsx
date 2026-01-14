@@ -12,7 +12,7 @@ import MermaidPreview from "./mermaid-preview";
 
 export default function MermaidView({ node, updateAttributes }: NodeViewProps) {
   const { resolvedTheme } = useTheme();
-  const [showCode, setShowCode] = useState(true);
+  const [showCode, setShowCode] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const code = node.attrs.code || "";
