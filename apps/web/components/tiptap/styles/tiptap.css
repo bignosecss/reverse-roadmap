@@ -1,8 +1,44 @@
 @import "../../../app/globals.css";
 @import "./partials/_table.css";
 @import "./partials/_bubble-menu.css";
+@import "./partials/_codeblock.css";
+@import "./partials/_mermaid.css";
 
 .tiptap {
+  --code-bg: #f6f8fa;
+  --code-text: #24292e;
+  --hljs-comment: #6a737d;
+  --hljs-keyword: #d73a49;
+  --hljs-number: #005cc5;
+  --hljs-string: #032f62;
+  --hljs-title: #6f42c1;
+  --hljs-type: #6f42c1;
+  --hljs-tag: #22863a;
+  --hljs-regexp: #032f62;
+  --hljs-symbol: #005cc5;
+  --hljs-builtin: #005cc5;
+  --hljs-meta: #6a737d;
+  --hljs-deletion-bg: #ffeef0;
+  --hljs-addition-bg: #e6ffec;
+  
+  .dark .tiptap {
+    --code-bg: #1e1e1e;
+    --code-text: #d4d4d4;
+    --hljs-comment: #8b949e;
+    --hljs-keyword: #ff7b72;
+    --hljs-number: #79c0ff;
+    --hljs-string: #a5d6ff;
+    --hljs-title: #d2a8ff;
+    --hljs-type: #d2a8ff;
+    --hljs-tag: #7ee787;
+    --hljs-regexp: #a5d6ff;
+    --hljs-symbol: #79c0ff;
+    --hljs-builtin: #79c0ff;
+    --hljs-meta: #8b949e;
+    --hljs-deletion-bg: rgba(248, 81, 73, 0.15);
+    --hljs-addition-bg: rgba(46, 160, 67, 0.15);
+  }
+
   :first-child {
     @apply mt-0 mb-0;
   }

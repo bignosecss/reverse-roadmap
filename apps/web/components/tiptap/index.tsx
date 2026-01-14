@@ -10,9 +10,13 @@ import { TableKit } from "@tiptap/extension-table";
 import { Image } from "./extensions/image";
 import CustomBubbleMenu from "./extensions/bubble-menu";
 import { SlashCommands } from "./extensions/slash-commands";
+import { Mermaid } from "./extensions/mermaid";
 import ImageDialog from "./extensions/image/components/image-dialog";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import { common, createLowlight } from "lowlight";
 
 import "./styles/tiptap.css";
+
 interface TiptapProps {
   tabId: string;
   content: RrContent;
@@ -21,10 +25,19 @@ interface TiptapProps {
 export default function Tiptap({ tabId, content: rrContent }: TiptapProps) {
   const { handleContentChange } = useAutoSave(tabId);
   const isComposition = useRef(false);
+  const lowlight = createLowlight(common);
 
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        codeBlock: false,
+      }),
+      CodeBlockLowlight.configure({
+        lowlight,
+        defaultLanguage: "plaintext",
+        enableTabIndentation: true,
+        tabSize: 2,
+      }),
       Typography,
       TextAlign.configure({ types: ["heading", "paragraph", "codeblock"] }),
       TableKit.configure({ table: { resizable: true } }),
@@ -36,6 +49,7 @@ export default function Tiptap({ tabId, content: rrContent }: TiptapProps) {
           alwaysPreserveAspectRatio: true,
         },
       }),
+      Mermaid,
       SlashCommands,
     ],
     immediatelyRender: false,

@@ -1,6 +1,7 @@
 import React from "react";
 import type { Editor, Range } from "@tiptap/react";
 import { ImageIcon, QuoteIcon, TableIcon } from "@radix-ui/react-icons";
+import { Workflow } from "lucide-react";
 import useImageDialogStore from "@/lib/stores/tiptap";
 import { toast } from "sonner";
 
@@ -41,6 +42,21 @@ export const commands: Command[] = [
         .focus()
         .deleteRange(range)
         .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+        .run();
+    },
+  },
+  {
+    title: "Mermaid 图表",
+    subtitle: "Create flowcharts, sequence diagrams, and more",
+    icon: <Workflow className="h-4 w-4" />,
+    command: ({ editor, range }) => {
+      editor
+        .chain()
+        .focus()
+        .deleteRange(range)
+        .insertMermaid(
+          "graph TD\n    A[Start] --> B[Process]\n    B --> C[End]",
+        )
         .run();
     },
   },
