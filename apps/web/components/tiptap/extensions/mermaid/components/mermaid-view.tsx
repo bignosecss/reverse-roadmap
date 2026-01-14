@@ -45,10 +45,9 @@ export default function MermaidView({ node, updateAttributes }: NodeViewProps) {
       minZoom: 0.2,
       zoomSpeed: 0.1,
       smoothScroll: true,
-      filterKey: (e: Event) => {
-        // Allow drag/zoom but prevent default browser zoom with Ctrl/Cmd
-        const keyboardEvent = e as KeyboardEvent;
-        return !keyboardEvent.ctrlKey && !keyboardEvent.metaKey;
+      filterKey: () => {
+        // Prevent default browser zoom with Ctrl/Cmd keys
+        return true;
       },
     });
 
