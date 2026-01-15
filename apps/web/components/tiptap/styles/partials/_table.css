@@ -21,7 +21,7 @@
     }
 
     & .column-resize-handle {
-      @apply bg-primary bottom-[-2px] pointer-events-none absolute right-[-2px] top-0 w-1;
+      @apply bg-primary -bottom-0.5 pointer-events-none absolute -right-0.5 top-0 w-1;
     }
   }
 
@@ -30,6 +30,6 @@
   }
 
   &.resize-cursor {
-    @apply cursor-ew-resize cursor-col-resize;
+    @apply cursor-col-resize;
   }
 }

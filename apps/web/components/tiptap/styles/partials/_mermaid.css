@@ -4,11 +4,11 @@
 }
 
 .mermaid-container {
-  @apply border border-(--border-color) rounded-lg overflow-hidden bg-(--code-bg);
+  @apply border rounded-lg overflow-hidden bg-(--code-bg) border-(--border-color);
 }
 
 .mermaid-toolbar {
-  @apply flex justify-between items-center px-3 py-2 bg-(--toolbar-bg) border-b border-(--border-color);
+  @apply flex justify-between items-center px-3 py-2 border-b bg-(--toolbar-bg) border-(--border-color);
 }
 
 .toolbar-left,
@@ -17,7 +17,7 @@
 }
 
 .toolbar-btn {
-  @apply flex items-center justify-center p-1.5 border-none bg-transparent rounded cursor-pointer text-(--toolbar-color) transition-all duration-200;
+  @apply flex items-center justify-center p-1.5 border-0 bg-transparent rounded cursor-pointer transition-all duration-200 text-(--toolbar-color);
 }
 
 .toolbar-btn:hover {
@@ -33,7 +33,7 @@
 }
 
 .mermaid-textarea {
-  @apply w-full min-h-50 px-4 border-none bg-transparent text-(--code-text) font-mono text-sm leading-6 resize-y outline-none;
+  @apply w-full min-h-50 p-4 border-0 bg-transparent font-mono text-sm leading-6 resize-y outline-none text-(--code-text);
 }
 
 .mermaid-preview {
@@ -45,7 +45,11 @@
 }
 
 .mermaid-svg-container {
-  @apply inline-block cursor-grab touch-none w-full h-full active:cursor-grabbing;
+  @apply inline-block cursor-grab touch-none w-full h-full;
+}
+
+.mermaid-svg-container:active {
+  @apply cursor-grabbing;
 }
 
 .mermaid-svg-container svg {
@@ -61,7 +65,7 @@
 }
 
 .error-message {
-  @apply px-4 bg-(--error-bg) rounded text-(--error-color);
+  @apply p-4 rounded bg-(--error-bg) text-(--error-color);
 }
 
 .error-title {
@@ -73,7 +77,7 @@
 }
 
 .empty-state {
-  @apply text-(--empty-color) text-sm text-center;
+  @apply text-sm text-center text-(--empty-color);
 }
 
 /* Fullscreen styles */
