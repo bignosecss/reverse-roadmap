@@ -1,213 +1,99 @@
 /* Mermaid diagram styles */
 .tiptap .mermaid-node {
-  margin: 16px 0;
+  @apply my-4;
 }
 
 .mermaid-container {
-  border: 1px solid var(--border-color, #e2e8f0);
-  border-radius: 8px;
-  overflow: hidden;
-  background: var(--code-bg, #f6f8fa);
-}
-
-.dark .mermaid-container {
-  --border-color: #30363d;
+  @apply border border-(--border-color) rounded-lg overflow-hidden bg-(--code-bg);
 }
 
 .mermaid-toolbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 8px 12px;
-  background: var(--toolbar-bg, #f1f5f9);
-  border-bottom: 1px solid var(--border-color, #e2e8f0);
-}
-
-.dark .mermaid-toolbar {
-  --toolbar-bg: #161b22;
+  @apply flex justify-between items-center px-3 py-2 bg-(--toolbar-bg) border-b border-(--border-color);
 }
 
 .toolbar-left,
 .toolbar-right {
-  display: flex;
-  gap: 4px;
+  @apply flex gap-1;
 }
 
 .toolbar-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px;
-  border: none;
-  background: transparent;
-  border-radius: 4px;
-  cursor: pointer;
-  color: var(--toolbar-color, #64748b);
-  transition: all 0.2s;
+  @apply flex items-center justify-center p-1.5 border-none bg-transparent rounded cursor-pointer text-(--toolbar-color) transition-all duration-200;
 }
 
 .toolbar-btn:hover {
-  background: var(--toolbar-hover-bg, #e2e8f0);
-  color: var(--toolbar-hover-color, #0f172a);
-}
-
-.dark .toolbar-btn {
-  --toolbar-color: #8b949e;
-}
-
-.dark .toolbar-btn:hover {
-  --toolbar-hover-bg: #30363d;
-  --toolbar-hover-color: #e6edf3;
+  @apply bg-(--toolbar-hover-bg) text-(--toolbar-hover-color);
 }
 
 .toolbar-btn.active {
-  background: var(--toolbar-active-bg, #e2e8f0);
-  color: var(--toolbar-active-color, #0f172a);
-}
-
-.dark .toolbar-btn.active {
-  --toolbar-active-bg: #30363d;
-  --toolbar-active-color: #e6edf3;
+  @apply bg-(--toolbar-active-bg) text-(--toolbar-active-color);
 }
 
 .code-editor {
-  padding: 0;
+  @apply p-0;
 }
 
 .mermaid-textarea {
-  width: 100%;
-  min-height: 200px;
-  padding: 16px;
-  border: none;
-  background: transparent;
-  color: var(--code-text, #24292e);
-  font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas,
-    Liberation Mono, monospace;
-  font-size: 14px;
-  line-height: 1.5;
-  resize: vertical;
-  outline: none;
-}
-
-.dark .mermaid-textarea {
-  --code-text: #d4d4d4;
+  @apply w-full min-h-50 px-4 border-none bg-transparent text-(--code-text) font-mono text-sm leading-6 resize-y outline-none;
 }
 
 .mermaid-preview {
-  position: relative;
-  min-height: 200px;
-  overflow: hidden;
-  width: 100%;
-  height: 100%;
+  @apply relative min-h-50 overflow-hidden w-full h-full;
 }
 
 .mermaid-preview svg {
-  display: block;
-  pointer-events: auto;
-  width: 100%;
-  height: 100%;
+  @apply block pointer-events-auto w-full h-full;
 }
 
 .mermaid-svg-container {
-  display: inline-block;
-  cursor: grab;
-  touch-action: none;
-  width: 100%;
-  height: 100%;
-}
-
-.mermaid-svg-container:active {
-  cursor: grabbing;
+  @apply inline-block cursor-grab touch-none w-full h-full active:cursor-grabbing;
 }
 
 .mermaid-svg-container svg {
-  width: 100%;
-  height: 100%;
+  @apply w-full h-full;
 }
 
 .zoom-level {
-  font-size: 12px;
-  font-weight: 500;
-  min-width: 45px;
-  text-align: center;
-  color: var(--toolbar-color, #64748b);
-}
-
-.dark .zoom-level {
-  --toolbar-color: #8b949e;
+  @apply text-xs font-medium min-w-11.25 text-center text-(--toolbar-color);
 }
 
 .toolbar-btn:disabled {
-  opacity: 0.3;
-  cursor: not-allowed;
+  @apply opacity-30 cursor-not-allowed;
 }
 
 .error-message {
-  padding: 16px;
-  background: var(--error-bg, #ffeef0);
-  border-radius: 4px;
-  color: var(--error-color, #d73a49);
-}
-
-.dark .error-message {
-  --error-bg: rgba(248, 81, 73, 0.15);
+  @apply px-4 bg-(--error-bg) rounded text-(--error-color);
 }
 
 .error-title {
-  font-weight: 600;
-  margin-bottom: 4px;
+  @apply font-semibold mb-1;
 }
 
 .error-text {
-  font-size: 14px;
-  font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas,
-    Liberation Mono, monospace;
+  @apply text-sm font-mono;
 }
 
 .empty-state {
-  color: var(--empty-color, #8b949e);
-  font-size: 14px;
-  text-align: center;
-}
-
-.dark .empty-state {
-  --empty-color: #6e7681;
+  @apply text-(--empty-color) text-sm text-center;
 }
 
 /* Fullscreen styles */
 .mermaid-container.fullscreen {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 9999;
-  margin: 0;
-  border-radius: 0;
-  display: flex;
-  flex-direction: column;
+  @apply fixed top-0 left-0 right-0 bottom-0 z-9999 m-0 rounded-none flex flex-col;
 }
 
 .mermaid-container.fullscreen .mermaid-toolbar {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  flex-shrink: 0;
+  @apply rounded-t-none shrink-0;
 }
 
 .mermaid-container.fullscreen .code-editor,
 .mermaid-container.fullscreen .mermaid-preview {
-  flex: 1;
-  overflow: hidden;
+  @apply flex-1 overflow-hidden;
 }
 
 .mermaid-container.fullscreen .mermaid-preview {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @apply flex items-center justify-center;
 }
 
 .mermaid-container.fullscreen .mermaid-textarea {
-  min-height: calc(100vh - 50px);
-  border-radius: 0;
+  @apply min-h-[calc(100vh-50px)] rounded-none;
 }
-

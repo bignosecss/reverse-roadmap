@@ -1,29 +1,22 @@
 /* Code block syntax highlighting styles */
 .tiptap pre {
-  background: var(--code-bg);
-  color: var(--code-text);
-  font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
-  padding: 16px;
-  border-radius: 6px;
-  overflow: auto;
+  @apply bg-(--code-bg) text-(--code-text) font-mono p-4 rounded-md overflow-auto text-sm;
 }
 
 .tiptap code {
-  font-family: ui-monospace, SFMono-Regular, SF Mono, Menlo, Consolas, Liberation Mono, monospace;
-  font-size: 0.875em;
+  @apply font-mono text-sm;
 }
 
 /* Highlight.js syntax colors */
 .hljs-comment,
 .hljs-quote {
-  color: var(--hljs-comment);
-  font-style: italic;
+  @apply text-(--hljs-comment) italic;
 }
 
 .hljs-keyword,
 .hljs-selector-tag,
 .hljs-subst {
-  color: var(--hljs-keyword);
+  @apply text-(--hljs-keyword);
 }
 
 .hljs-number,
@@ -31,64 +24,62 @@
 .hljs-variable,
 .hljs-template-variable,
 .hljs-tag .hljs-attr {
-  color: var(--hljs-number);
+  @apply text-(--hljs-number);
 }
 
 .hljs-string,
 .hljs-doctag {
-  color: var(--hljs-string);
+  @apply text-(--hljs-string);
 }
 
 .hljs-title,
 .hljs-section,
 .hljs-selector-id {
-  color: var(--hljs-title);
-  font-weight: bold;
+  @apply text-(--hljs-title) font-bold;
 }
 
 .hljs-type,
 .hljs-class .hljs-title {
-  color: var(--hljs-type);
+  @apply text-(--hljs-type);
 }
 
 .hljs-tag,
 .hljs-name,
 .hljs-attribute {
-  color: var(--hljs-tag);
-  font-weight: normal;
+  @apply text-(--hljs-tag) font-normal;
 }
 
 .hljs-regexp,
 .hljs-link {
-  color: var(--hljs-regexp);
+  @apply text-(--hljs-regexp);
 }
 
 .hljs-symbol,
 .hljs-bullet {
-  color: var(--hljs-symbol);
+  @apply text-(--hljs-symbol);
 }
 
 .hljs-built_in,
 .hljs-builtin-name {
-  color: var(--hljs-builtin);
+  @apply text-(--hljs-builtin);
 }
 
 .hljs-meta {
-  color: var(--hljs-meta);
+  @apply text-(--hljs-meta);
 }
 
 .hljs-deletion {
-  background: var(--hljs-deletion-bg);
+  @apply bg-(--hljs-deletion-bg);
 }
 
 .hljs-addition {
-  background: var(--hljs-addition-bg);
+  @apply bg-(--hljs-addition-bg);
 }
 
 .hljs-emphasis {
-  font-style: italic;
+  @apply italic;
 }
 
 .hljs-strong {
-  font-weight: bold;
+  @apply font-bold;
 }
