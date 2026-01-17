@@ -1,6 +1,6 @@
 "use client";
 
-import { Edit2, MoreHorizontal, Trash2 } from "lucide-react";
+import { Database, Edit2, MoreHorizontal, Trash2 } from "lucide-react";
 import { SidebarMenuAction } from "@/components/ui/sidebar";
 import {
   DropdownMenu,
@@ -8,7 +8,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { BaseDeleteDialog } from "@/components/dialogs";
+import {
+  BaseDeleteDialog,
+  BaseDialog,
+  BaseDialogTrigger,
+} from "@/components/dialogs";
 import { AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { RrRoot } from "@repo/shared/models";
 
@@ -20,6 +24,10 @@ interface RrRootItemDropdownProps {
   setIsDialogOpen: (open: boolean) => void;
   isRootDeleting: boolean;
   handleDeleteRoot: () => void;
+  isExportDialogOpen: boolean;
+  setIsExportDialogOpen: (open: boolean) => void;
+  isExporting: boolean;
+  handleExportToRag: () => void;
 }
 
 export function RrRootItemDropdown({
@@ -30,6 +38,10 @@ export function RrRootItemDropdown({
   setIsDialogOpen,
   isRootDeleting,
   handleDeleteRoot,
+  isExportDialogOpen,
+  setIsExportDialogOpen,
+  isExporting,
+  handleExportToRag,
 }: RrRootItemDropdownProps) {
   return (
     <DropdownMenu>
@@ -52,6 +64,16 @@ export function RrRootItemDropdown({
           <Edit2 />
           <span>重命名</span>
         </DropdownMenuItem>
+        <BaseDialog
+          open={isExportDialogOpen}
+          onOpenChange={setIsExportDialogOpen}
+          trigger={<BaseDialogTrigger title="导入知识库" Icon={Database} />}
+          title="确认导入知识库"
+          description={`确定要将 "${rrRoot.title}" 导入知识库吗？这将把该项目的所有内容转换为文档并上传到 RAG 系统。`}
+          confirmText="导入"
+          onConfirm={handleExportToRag}
+          disabled={isExporting}
+        />
         <BaseDeleteDialog
           open={isDialogOpen}
           onOpenChange={setIsDialogOpen}

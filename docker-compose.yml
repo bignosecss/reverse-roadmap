@@ -36,6 +36,8 @@ services:
       - PORT=3001
       - MONGODB_URI=mongodb://admin:password@mongodb:27017/reverse-roadmap?authSource=admin
       - TOGGLE_MODE=toggle-mode-string
+      - RAG_API_URL=http://rag:3002/rag/
+      - RAG_SKIP_UPLOAD=true
     depends_on:
       - mongodb
     networks:

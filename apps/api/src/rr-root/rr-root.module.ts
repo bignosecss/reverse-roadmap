@@ -17,5 +17,6 @@ import { RrRootRepository } from './repositories/rr-root.repository';
   ],
   controllers: [RrRootController],
   providers: [RrRootService, RrRootRepository],
+  exports: [RrRootService],
 })
 export class RrRootModule {}

@@ -41,7 +41,7 @@ export function BaseDialog({
       <form>
         {trigger}
         <DialogContent
-          className="sm:max-w-[425px]"
+          className="sm:max-w-106.25"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               onConfirm();

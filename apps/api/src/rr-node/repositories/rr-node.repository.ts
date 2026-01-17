@@ -30,7 +30,7 @@ export class RrNodeRepository {
   }
 
   async findFlatRrNodes(id: string): Promise<RrNode[] | null> {
-    const result: any[] = await this.rrNodeModel.aggregate([
+    const result: RrNode[] = await this.rrNodeModel.aggregate([
       { $match: { _id: new Types.ObjectId(id) } },
       {
         $graphLookup: {
@@ -119,7 +119,7 @@ export class RrNodeRepository {
       },
     ]);
 
-    return result as RrNode[];
+    return result;
   }
 
   async update(id: string, updateQuery: UpdateQuery<RrNodeModel>) {
