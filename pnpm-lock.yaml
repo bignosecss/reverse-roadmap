@@ -518,6 +518,9 @@ importers:
       '@xyflow/react':
         specifier: ^12.8.4
         version: 12.10.0(@types/react@19.1.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+      eslint:
+        specifier: ^9.31.0
+        version: 9.39.2(jiti@2.6.1)
       tsup:
         specifier: ^8.5.1
         version: 8.5.1(jiti@2.6.1)(postcss@8.5.6)(typescript@5.8.3)(yaml@2.8.2)
@@ -11418,7 +11421,7 @@ snapshots:
       isstream: 0.1.2
       jsonwebtoken: 9.0.3
       mime-types: 2.1.35
-      retry-axios: 2.6.0(axios@1.13.2)
+      retry-axios: 2.6.0(axios@1.13.2(debug@4.4.3))
       tough-cookie: 4.1.4
     transitivePeerDependencies:
       - supports-color
@@ -13037,7 +13040,7 @@ snapshots:
       onetime: 5.1.2
       signal-exit: 3.0.7
 
-  retry-axios@2.6.0(axios@1.13.2):
+  retry-axios@2.6.0(axios@1.13.2(debug@4.4.3)):
     dependencies:
       axios: 1.13.2(debug@4.4.3)
 

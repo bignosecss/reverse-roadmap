@@ -56,7 +56,7 @@ export function SidebarHeaderItem({ item }: SidebarHeaderItemProps) {
               id="root-description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              className="min-h-[100px]"
+              className="min-h-25"
               placeholder="请输入目标描述（可选）"
             />
           </div>

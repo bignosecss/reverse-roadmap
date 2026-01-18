@@ -9,7 +9,7 @@
     "check-types": "turbo run check-types",
     "delete-branch": "node scripts/delete-branch.js",
     "reinstall": "find . -name \"node_modules\" -type d -prune -exec rm -rf '{}' + && pnpm install",
-    "allinone": "pnpm reinstall && pnpm format && pnpm check-types && pnpm build"
+    "allinone": "pnpm reinstall && pnpm format && pnpm check-types && pnpm lint && pnpm build"
   },
   "devDependencies": {
     "prettier": "^3.6.2",

@@ -36,6 +36,7 @@
     "@repo/eslint-config": "workspace:*",
     "@repo/typescript-config": "workspace:*",
     "@xyflow/react": "^12.8.4",
+    "eslint": "^9.31.0",
     "tsup": "^8.5.1",
     "typescript": "^5.8.3"
   }
