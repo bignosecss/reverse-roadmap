@@ -30,6 +30,7 @@
   --error-bg: #ffeef0;
   --error-color: #d73a49;
   --empty-color: #8b949e;
+  --link-color: #0969da;
 
   .dark .tiptap {
     --code-bg: #1e1e1e;
@@ -56,6 +57,11 @@
     --toolbar-active-color: #e6edf3;
     --error-bg: rgba(248, 81, 73, 0.15);
     --empty-color: #6e7681;
+    --link-color: #58a6ff;
+  }
+
+  a {
+    @apply text-(--link-color) underline cursor-pointer;
   }
 
   :first-child {
