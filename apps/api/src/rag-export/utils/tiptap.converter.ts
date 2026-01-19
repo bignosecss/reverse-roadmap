@@ -102,27 +102,27 @@ export class TipTapConverter {
   private convertTable(node: TipTapNode): string {
     if (!node.content) return '';
 
-    const rows: string[] = [];
+    // 解析表格所有行
+    const tableRows =
+      node.content.filter((item) => item.type === 'tableRow') || [];
+    const tableContent = tableRows
+      .map((row) => {
+        // 解析每行的单元格
+        const cells =
+          row.content?.filter((item) => item.type === 'tableCell') || [];
+        const cellText = cells
+          .map((cell) =>
+            (
+              cell.content?.map((c) => this.convertNode(c)).join('') || ''
+            ).trim(),
+          )
+          .filter(Boolean);
+        return cellText.length ? cellText.join('，') : '';
+      })
+      .filter(Boolean);
 
-    node.content.forEach((rowNode, index) => {
-      if (rowNode.type !== 'tableRow' || !rowNode.content) return;
-
-      const cells = rowNode.content
-        .map((cellNode) => {
-          if (cellNode.type !== 'tableCell' || !cellNode.content) return '';
-          return cellNode.content.map((c) => this.convertNode(c)).join('');
-        })
-        .join(' | ');
-
-      rows.push(`| ${cells} |`);
-
-      if (index === 0) {
-        const separatorRow = rowNode.content.map(() => '---').join(' | ');
-        rows.push(`| ${separatorRow} |`);
-      }
-    });
-
-    return rows.join('\n');
+    // 表格转语义文本：每行内容用分号分隔，加前缀标识，保留核心信息
+    return `表格内容：${tableContent.join('；')}`;
   }
 
   private convertText(node: TipTapNode): string {
