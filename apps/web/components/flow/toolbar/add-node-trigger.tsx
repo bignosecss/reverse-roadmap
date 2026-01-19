@@ -76,10 +76,6 @@ export function AddNodeTrigger({ currentNode }: AddNodeTriggerProps) {
             placeholder="请输入节点描述（可选）"
           />
         </div>
-        <div className="grid gap-3">
-          <Label>节点状态</Label>
-          <NodeStatusToggleGroup value={status} onChange={setStatus} />
-        </div>
         <div className="flex items-center justify-between">
           <Label htmlFor="exclude-from-rag" className="cursor-pointer">
             从 RAG 排除
@@ -89,6 +85,10 @@ export function AddNodeTrigger({ currentNode }: AddNodeTriggerProps) {
             checked={excludeFromRAG}
             onCheckedChange={setExcludeFromRAG}
           />
+        </div>
+        <div className="grid gap-3">
+          <Label>节点状态</Label>
+          <NodeStatusToggleGroup value={status} onChange={setStatus} />
         </div>
       </div>
     </BaseDialog>
