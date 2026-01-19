@@ -31,6 +31,7 @@ export function useAddNode({ currentNode }: UseAddNodeProps) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState<RrNodeStatus>(RrNodeStatus.Active);
+  const [excludeFromRAG, setExcludeFromRAG] = useState(false);
 
   const { mutateAsync: addRrNodeAsync, isPending: isAddingNode } = useCreate();
   const queryClient = useQueryClient();
@@ -52,6 +53,7 @@ export function useAddNode({ currentNode }: UseAddNodeProps) {
       description: trimmedDescription,
       parent: currentNode._id,
       status,
+      excludeFromRAG,
     };
 
     // Find the FlowNode corresponding to the RrNode to get position info
@@ -135,6 +137,7 @@ export function useAddNode({ currentNode }: UseAddNodeProps) {
     description,
     currentNode._id,
     status,
+    excludeFromRAG,
     nodes,
     setNodes,
     setEdges,
@@ -148,6 +151,7 @@ export function useAddNode({ currentNode }: UseAddNodeProps) {
     setTitle("");
     setDescription("");
     setStatus(RrNodeStatus.Active);
+    setExcludeFromRAG(false);
   }, []);
 
   const handleOpenChange = useCallback(
@@ -167,6 +171,8 @@ export function useAddNode({ currentNode }: UseAddNodeProps) {
     setDescription,
     status,
     setStatus,
+    excludeFromRAG,
+    setExcludeFromRAG,
     handleAddRrNode,
     isAddingNode,
     isConfirmDisabled: title.trim().length === 0,

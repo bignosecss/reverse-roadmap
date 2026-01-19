@@ -38,6 +38,9 @@ export class RrNode {
     default: SharedRrNodeStatus.Active,
   })
   status!: SharedRrNodeStatus;
+
+  @Prop({ type: Boolean, default: false })
+  excludeFromRAG!: boolean;
 }
 
 export const RrNodeSchema = SchemaFactory.createForClass(RrNode);

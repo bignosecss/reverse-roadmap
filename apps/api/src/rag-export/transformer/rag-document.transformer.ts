@@ -176,6 +176,9 @@ export class RagDocumentTransformer {
     // Transform node documents
     const nodeDocuments: RrNodeDocument[] = [];
     for (const node of data.nodes) {
+      if (node.excludeFromRAG) {
+        continue;
+      }
       const doc = this.transformToNodeDocument(node, data);
       nodeDocuments.push(doc);
     }
@@ -190,6 +193,10 @@ export class RagDocumentTransformer {
           (c) => String(c.rrContent) === content._id,
         );
         if (nodeContent) {
+          // Skip if node is excluded from RAG
+          if (node.excludeFromRAG) {
+            break;
+          }
           const doc = this.transformToContentDocument(
             content,
             node._id,

@@ -15,6 +15,7 @@ export interface RrNode {
   content: NodeContent[];
   children: string[];
   status?: RrNodeStatus;
+  excludeFromRAG?: boolean;
   createdAt?: Date;
   updatedAt?: Date;
 }

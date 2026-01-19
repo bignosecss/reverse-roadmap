@@ -31,6 +31,9 @@ export function useEditNode({ currentNode }: UseEditNodeProps) {
   const [status, setStatus] = useState<RrNodeStatus>(
     currentNode.status || RrNodeStatus.Active,
   );
+  const [excludeFromRAG, setExcludeFromRAG] = useState(
+    currentNode.excludeFromRAG || false,
+  );
 
   const { mutateAsync: updateRrNodeAsync, isPending: isUpdatingNode } =
     useUpdateRrNodeById(currentNode._id);
@@ -41,6 +44,7 @@ export function useEditNode({ currentNode }: UseEditNodeProps) {
       setTitle(currentNode.title);
       setDescription(currentNode.description || "");
       setStatus(currentNode.status || RrNodeStatus.Active);
+      setExcludeFromRAG(currentNode.excludeFromRAG || false);
     }
   }, [isDialogOpen, currentNode]);
 
@@ -56,6 +60,7 @@ export function useEditNode({ currentNode }: UseEditNodeProps) {
       title: trimmedTitle,
       description: trimmedDescription,
       status,
+      excludeFromRAG,
     };
 
     // Optimistic update - update the store immediately
@@ -93,13 +98,14 @@ export function useEditNode({ currentNode }: UseEditNodeProps) {
   }, [
     title,
     description,
-    updateRrNodeAsync,
     status,
+    excludeFromRAG,
+    getNode,
+    currentNode._id,
+    updateNode,
+    updateRrNodeAsync,
     queryClient,
     currentTreeId,
-    currentNode._id,
-    getNode,
-    updateNode,
   ]);
 
   const handleOpenChange = useCallback((open: boolean) => {
@@ -115,6 +121,8 @@ export function useEditNode({ currentNode }: UseEditNodeProps) {
     setDescription,
     status,
     setStatus,
+    excludeFromRAG,
+    setExcludeFromRAG,
     handleEditRrNode,
     isUpdatingNode,
     isConfirmDisabled: title.trim().length === 0,

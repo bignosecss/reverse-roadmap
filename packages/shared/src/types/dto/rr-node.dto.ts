@@ -6,6 +6,7 @@ export interface CreateRrNodeDto {
   description?: string;
   parent: string | null;
   status?: RrNodeStatus;
+  excludeFromRAG?: boolean;
 }
 
 export type UpdateRrNodeDto = Partial<CreateRrNodeDto>;
