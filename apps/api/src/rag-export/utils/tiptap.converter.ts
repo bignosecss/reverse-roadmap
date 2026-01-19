@@ -8,6 +8,11 @@ interface TipTapNode {
   marks?: Array<{ type: string; attrs?: Record<string, unknown> }>;
 }
 
+interface TipTapDocument {
+  type: 'doc';
+  content: TipTapNode[];
+}
+
 export class TipTapConverter {
   toMarkdown(tiptapContent: TipTapNode[]): string {
     if (!tiptapContent || !Array.isArray(tiptapContent)) {
@@ -261,10 +266,10 @@ export class TipTapConverter {
     return codeBlocks;
   }
 
-  convertFull(tiptapContent: TipTapNode[]): ConversionResult {
-    const markdown = this.toMarkdown(tiptapContent);
-    const tags = this.extractTags(tiptapContent);
-    const contentType = this.getContentType(tiptapContent);
+  convertFull(tiptapDocument: TipTapDocument): ConversionResult {
+    const markdown = this.toMarkdown(tiptapDocument.content);
+    const tags = this.extractTags(tiptapDocument.content);
+    const contentType = this.getContentType(tiptapDocument.content);
     const contentLength = markdown.length;
 
     return {

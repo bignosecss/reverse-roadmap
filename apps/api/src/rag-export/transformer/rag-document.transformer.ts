@@ -122,8 +122,13 @@ export class RagDocumentTransformer {
     node: RrNode,
     data: FetchedData,
   ): RrContentDocument {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    const conversion = this.tipTapConverter.convertFull(content.content);
+    // RrContent.type and RrContent.content are TipTap JSON properties
+    // Extract the full TipTap document structure: { type: "doc", content: TipTapNode[] }
+    const tipTapDocument = {
+      type: content.type as 'doc',
+      content: content.content,
+    };
+    const conversion = this.tipTapConverter.convertFull(tipTapDocument);
 
     return {
       id: content._id,
