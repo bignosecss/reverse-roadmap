@@ -187,7 +187,7 @@ export class RagDocumentTransformer {
       // Find the node that contains this content
       for (const node of data.nodes) {
         const nodeContent = node.content.find(
-          (c) => c.rrContent === content._id,
+          (c) => String(c.rrContent) === content._id,
         );
         if (nodeContent) {
           const doc = this.transformToContentDocument(

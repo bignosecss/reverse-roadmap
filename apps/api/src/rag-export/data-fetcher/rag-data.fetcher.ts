@@ -69,7 +69,9 @@ export class RagDataFetcher {
     const contentIds = new Set<string>();
     for (const node of nodes) {
       for (const nodeContent of node.content) {
-        contentIds.add(String(nodeContent.rrContent));
+        if (nodeContent.rrContent) {
+          contentIds.add(String(nodeContent.rrContent));
+        }
       }
     }
 
