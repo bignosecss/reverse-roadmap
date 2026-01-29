@@ -1,5 +1,3 @@
-export type ContentType = 'goal' | 'task' | 'note' | 'code';
-
 export interface ConversionResult {
   markdown: string;
   contentLength: number;

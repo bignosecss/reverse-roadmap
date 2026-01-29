@@ -77,29 +77,6 @@ export class RagExportService {
     }
   }
 
-  async reexportToRag(rootId: string): Promise<ExportResult> {
-    this.logger.log(`Starting RAG re-export for root: ${rootId}`);
-
-    try {
-      // Delete existing documents first
-      this.logger.log(`Deleting existing documents for root: ${rootId}`);
-      await this.ragApiClient.deleteDocuments(rootId);
-
-      // Export fresh data
-      return await this.exportToRag(rootId);
-    } catch (error: unknown) {
-      this.logger.error(
-        `Error during RAG re-export for ${rootId}: ${this.getErrorMessage(error)}`,
-      );
-      return {
-        success: false,
-        message: `Re-export failed: ${this.getErrorMessage(error)}`,
-        rootId,
-        totalDocuments: 0,
-      };
-    }
-  }
-
   private getErrorMessage(error: unknown): string {
     if (error instanceof Error) {
       return error.message;

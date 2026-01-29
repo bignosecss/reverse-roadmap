@@ -134,15 +134,6 @@ export class RagApiClient {
     }
   }
 
-  async healthCheck(): Promise<boolean> {
-    try {
-      await firstValueFrom(this.httpService.get(`${this.ragApiUrl}/health`));
-      return true;
-    } catch {
-      return false;
-    }
-  }
-
   private getErrorMessage(error: unknown): string {
     if (error instanceof Error) {
       return error.message;
