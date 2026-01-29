@@ -27,6 +27,7 @@ export class RagExportService {
       // Step 1: Fetch all data from database
       this.logger.log(`Fetching data for root: ${rootId}`);
       const data = await this.ragDataFetcher.fetchAll(rootId);
+      this.logger.log('Retrieved Root: ', JSON.stringify(data.root, null, 2));
 
       // Step 2: Transform data into RAG documents
       this.logger.log('Transforming data into RAG documents');

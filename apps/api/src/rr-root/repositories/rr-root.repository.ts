@@ -25,7 +25,7 @@ export class RrRootRepository {
       .exec();
   }
 
-  async findById(id: string): Promise<RrRoot | null> {
+  async findById(id: string) {
     return this.rrRootModel.findById(id).exec();
   }
 

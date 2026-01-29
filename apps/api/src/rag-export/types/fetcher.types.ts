@@ -1,7 +1,7 @@
 import type { RrRoot, RrNode, RrContent } from '@repo/shared';
 
 export interface FetchedData {
-  root: RrRoot & { rootRrNode: RrNode };
+  root: RrRoot & { rootRrNodeEntity: RrNode };
   nodes: RrNode[];
   contents: RrContent[];
 }

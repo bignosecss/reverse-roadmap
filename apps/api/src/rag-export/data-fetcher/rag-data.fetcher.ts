@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import mongoose from 'mongoose';
 import { RrRootService } from '../../rr-root/rr-root.service';
 import { RrNodeService } from '../../rr-node/rr-node.service';
 import { RrContentService } from '../../rr-content/rr-content.service';
 import type { FetchedData } from '../types';
-import { RrContent, RrNode, RrRoot } from '@repo/shared';
+import { RrContent } from '@repo/shared';
 
 @Injectable()
 export class RagDataFetcher {
@@ -22,10 +23,26 @@ export class RagDataFetcher {
       throw new Error(`Root node with id ${rootRrNodeId} not found`);
     }
 
+    const rootObj = root.toObject();
+    const nodeObj = rootRrNode.toObject();
+
     return {
-      ...(root as unknown as RrRoot),
-      rootRrNode:
-        rootRrNode as unknown as RrNode as FetchedData['root']['rootRrNode'],
+      ...rootObj,
+      _id: String(rootObj._id),
+      rootRrNode: String(rootObj.rootRrNode),
+      rootRrNodeEntity: {
+        ...nodeObj,
+        _id: String(nodeObj._id),
+        parent: String(nodeObj.parent),
+        content: nodeObj.content.map((c) => ({
+          _id: String(c._id),
+          rrContent: String(c.rrContent),
+          tabTitle: c.tabTitle,
+        })),
+        children: nodeObj.children.map((childId: mongoose.Types.ObjectId) =>
+          String(childId),
+        ),
+      },
     };
   }
 
@@ -63,7 +80,10 @@ export class RagDataFetcher {
 
   async fetchAll(rootId: string): Promise<FetchedData> {
     const rootData = await this.fetchRootData(rootId);
-    const nodes = await this.fetchAllNodes(String(rootData.rootRrNode._id));
+    console.log('returned root: ', JSON.stringify(rootData, null, 2));
+    const nodes = await this.fetchAllNodes(
+      String(rootData.rootRrNodeEntity._id),
+    );
 
     // Collect all content IDs from all nodes
     const contentIds = new Set<string>();

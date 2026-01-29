@@ -65,6 +65,9 @@ export class RagApiClient {
         `Root document: ${JSON.stringify(rootDocument, null, 2)}`,
       );
       this.logger.debug(`Node documents count: ${nodeDocuments.length}`);
+      this.logger.debug(
+        `Node documents: ${JSON.stringify(nodeDocuments, null, 2)}`,
+      );
       this.logger.debug(`Content documents count: ${contentDocuments.length}`);
       this.logger.debug(
         `Content documents: ${JSON.stringify(contentDocuments, null, 2)}`,

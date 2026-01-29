@@ -33,14 +33,14 @@ export class RagDocumentTransformer {
     return {
       id: root._id,
       title: root.title,
-      rootRrNodeTitle: root.rootRrNode.title,
+      rootRrNodeTitle: root.rootRrNodeEntity.title,
 
       metadata: {
         // Root node information
-        rootRrNodeId: root.rootRrNode._id,
-        rootRrNodeTitle: root.rootRrNode.title,
-        rootRrNodeDescription: root.rootRrNode.description || '',
-        rootRrNodeStatus: root.rootRrNode.status || 'active',
+        rootRrNodeId: root.rootRrNodeEntity._id,
+        rootRrNodeTitle: root.rootRrNodeEntity.title,
+        rootRrNodeDescription: root.rootRrNodeEntity.description || '',
+        rootRrNodeStatus: root.rootRrNodeEntity.status || 'active',
 
         // Root status
         rootStatus:
