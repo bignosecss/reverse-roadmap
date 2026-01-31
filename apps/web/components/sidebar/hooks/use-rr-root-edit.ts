@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { useUpdateRrRoot } from "../../../hooks/use-rr-root";
 import { RrRoot } from "@repo/shared/models";
 
-export function useRrRootEdit(rrRoot: RrRoot) {
+export function useRrRootRename(rrRoot: RrRoot) {
   const rootsQueryKey = "rrRoots";
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(rrRoot.title);

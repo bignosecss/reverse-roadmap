@@ -4,7 +4,7 @@ import Link from "next/link";
 import { SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
 import useCanvasStore from "@/lib/stores/canvas";
-import { useRrRootEdit } from "@/components/sidebar/hooks/use-rr-root-edit";
+import { useRrRootRename } from "@/components/sidebar/hooks/use-rr-root-edit";
 import { useRrRootDelete } from "@/components/sidebar/hooks/use-rr-root-delete";
 import { useRrRootExport } from "@/components/sidebar/hooks/use-rr-root-export";
 import { useEditRootDialog } from "@/components/sidebar/hooks/use-edit-root-dialog";
@@ -28,7 +28,7 @@ export function RrRootItem({ rrRoot, isActive }: SidebarProjectItemProps) {
     isRootUpdating,
     handleKeyDown,
     handleBlur,
-  } = useRrRootEdit(rrRoot);
+  } = useRrRootRename(rrRoot);
 
   const { isDialogOpen, setIsDialogOpen, isRootDeleting, handleDeleteRoot } =
     useRrRootDelete(rrRoot);
