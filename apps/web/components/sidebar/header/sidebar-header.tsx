@@ -12,7 +12,7 @@ export function SidebarHeaderComponent() {
   return (
     <SidebarHeader className="relative">
       <SidebarMenu>
-        <SidebarMenuItem className="flex flex-row justify-between items-center  group-data-[collapsible=icon]:justify-center">
+        <SidebarMenuItem className="flex flex-row justify-between items-center">
           <div className="w-full flex flex-row justify-between p-2 group-data-[collapsible=icon]:justify-center">
             <Link
               href="/"

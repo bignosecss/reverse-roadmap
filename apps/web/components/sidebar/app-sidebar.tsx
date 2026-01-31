@@ -7,7 +7,7 @@ import { SidebarFooterComponent } from "./footer/sidebar-footer";
 
 export default function AppSidebar() {
   return (
-    <Sidebar collapsible="icon" className="flex flex-col">
+    <Sidebar collapsible="icon">
       <SidebarHeaderComponent />
       <SidebarContentComponent />
       <SidebarFooterComponent />

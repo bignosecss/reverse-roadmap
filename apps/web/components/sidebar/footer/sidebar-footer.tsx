@@ -21,16 +21,18 @@ export function SidebarFooterComponent() {
   return (
     <SidebarFooter>
       <SidebarMenu>
-        <SidebarMenuItem className="flex flex-row justify-between items-center gap-2 group-data-[collapsible=icon]:justify-center">
+        <SidebarMenuItem className="flex flex-row justify-between items-center gap-2">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <SidebarMenuButton className="h-auto">
+              <SidebarMenuButton className="">
                 <User className="size-4 shrink-0" />
-                <div className="flex flex-col text-left group-data-[collapsible=icon]:hidden">
+                <div className="flex flex-col text-left relative whitespace-nowrap transition-all duration-200 ease-linear group-data-[collapsible=icon]:opacity-0 group-data-[collapsible=icon]:-translate-x-2 overflow-hidden">
                   <span className="text-sm font-medium">用户名</span>
                   <span className="text-xs text-muted-foreground truncate">
                     user@example.com
                   </span>
+                  {/* 文字渐变消失效果 */}
+                  <span className="absolute inset-0 bg-linear-to-r from-transparent via-transparent to-background opacity-0 group-data-[collapsible=icon]:opacity-100 transition-opacity duration-200 ease-linear" />
                 </div>
               </SidebarMenuButton>
             </DropdownMenuTrigger>
