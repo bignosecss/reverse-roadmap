@@ -19,12 +19,12 @@ import {
 
 export function SidebarFooterComponent() {
   return (
-    <SidebarFooter className="group-data-[collapsible=icon]:icon">
+    <SidebarFooter>
       <SidebarMenu>
-        <SidebarMenuItem className="flex flex-row justify-between items-center gap-2 p-2">
+        <SidebarMenuItem className="flex flex-row justify-between items-center gap-2 group-[collapsible=icon]:justify-center">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <SidebarMenuButton className="w-full justify-start gap-2 group-data-[collapsible=icon]:justify-center group-data-[collapsible=icon]:p-2">
+              <SidebarMenuButton className="h-auto">
                 <User className="size-4 shrink-0" />
                 <div className="flex flex-col text-left group-data-[collapsible=icon]:hidden">
                   <span className="text-sm font-medium">用户名</span>
