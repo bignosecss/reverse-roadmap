@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/sidebar";
 import { RrRootsList } from "./rr-roots-list";
 
-export function SidebarCustomContent() {
+export function SidebarContentComponent() {
   return (
     <SidebarContent className="group-data-[collapsible=icon]:hidden">
       <SidebarGroup>
