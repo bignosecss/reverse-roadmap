@@ -8,7 +8,7 @@ import { useRrRootEdit } from "@/components/sidebar/hooks/use-rr-root-edit";
 import { useRrRootDelete } from "@/components/sidebar/hooks/use-rr-root-delete";
 import { useRrRootExport } from "@/components/sidebar/hooks/use-rr-root-export";
 import { RrRootItemDropdown } from "./rr-root-item-dropdown";
-import { RrRoot, RrRootStatus } from "@repo/shared/models";
+import { RrRoot } from "@repo/shared/models";
 
 interface SidebarProjectItemProps {
   rrRoot: RrRoot;
@@ -27,7 +27,6 @@ export function RrRootItem({ rrRoot, isActive }: SidebarProjectItemProps) {
     isRootUpdating,
     handleKeyDown,
     handleBlur,
-    mode,
   } = useRrRootEdit(rrRoot);
 
   const { isDialogOpen, setIsDialogOpen, isRootDeleting, handleDeleteRoot } =
@@ -49,9 +48,7 @@ export function RrRootItem({ rrRoot, isActive }: SidebarProjectItemProps) {
             onClick={() => {
               if (!isActive) setCanvasOpen(false);
             }}
-            onDoubleClick={() => {
-              if (mode === RrRootStatus.private) setIsEditing(true);
-            }}
+            onDoubleClick={() => setIsEditing(true)}
           >
             <span className="group-data-[collapsible=icon]:hidden">
               {rrRoot.title}
@@ -69,21 +66,19 @@ export function RrRootItem({ rrRoot, isActive }: SidebarProjectItemProps) {
           />
         )}
       </SidebarMenuButton>
-      {mode === RrRootStatus.private && (
-        <RrRootItemDropdown
-          rrRoot={rrRoot}
-          isEditing={isEditing}
-          setIsEditing={setIsEditing}
-          isDialogOpen={isDialogOpen}
-          setIsDialogOpen={setIsDialogOpen}
-          isRootDeleting={isRootDeleting}
-          handleDeleteRoot={handleDeleteRoot}
-          isExportDialogOpen={isExportDialogOpen}
-          setIsExportDialogOpen={setIsExportDialogOpen}
-          isExporting={isExporting}
-          handleExportToRag={handleExportToRag}
-        />
-      )}
+      <RrRootItemDropdown
+        rrRoot={rrRoot}
+        isEditing={isEditing}
+        setIsEditing={setIsEditing}
+        isDialogOpen={isDialogOpen}
+        setIsDialogOpen={setIsDialogOpen}
+        isRootDeleting={isRootDeleting}
+        handleDeleteRoot={handleDeleteRoot}
+        isExportDialogOpen={isExportDialogOpen}
+        setIsExportDialogOpen={setIsExportDialogOpen}
+        isExporting={isExporting}
+        handleExportToRag={handleExportToRag}
+      />
     </SidebarMenuItem>
   );
 }

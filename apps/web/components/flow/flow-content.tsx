@@ -111,7 +111,7 @@ export default function FlowContent({ treeId }: { treeId: string }) {
 
   if (isError || (!isLoading && !flowData)) {
     return (
-      <div className="p-4 text-[var(--destructive)] size-full flex justify-center items-center">
+      <div className="p-4 text-destructive size-full flex justify-center items-center">
         Error loading flow data.
       </div>
     );

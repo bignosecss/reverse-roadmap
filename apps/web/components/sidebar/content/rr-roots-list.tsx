@@ -1,14 +1,13 @@
 import { SidebarMenu } from "@/components/ui/sidebar";
 import { RrRootItem } from "./rr-root-item";
 import { Spinner } from "@/components/ui/spinner";
-import { useRrRootsList } from "../hooks/use-rr-roots-list";
 import { RrRoot } from "@repo/shared/models";
 import { useTreeId } from "@/hooks/use-tree-id";
+import { useGetRrRoots } from "@/hooks/use-rr-root";
 
 export function RrRootsList() {
   const currentTreeId = useTreeId();
-
-  const { rrRoots, isLoading, isError } = useRrRootsList();
+  const { data: rrRoots, isLoading, isError} = useGetRrRoots();
 
   if (isLoading) {
     return <Spinner className="size-8 w-full flex justify-center mt-8" />;
@@ -16,7 +15,7 @@ export function RrRootsList() {
 
   if (isError) {
     return (
-      <div className="text-[var(--destructive))]">Error Loading Roots</div>
+      <div className="text-destructive">Error Loading Roots</div>
     );
   }
 

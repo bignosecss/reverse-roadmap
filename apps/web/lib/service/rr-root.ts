@@ -11,12 +11,6 @@ export const createRrRoot = async (createRrRootDto: CreateRrRootDto) => {
   return newRrRoot;
 };
 
-export const fetchAllPublicRrRoots = async () => {
-  const result = await apiClient<RrRoot[]>("rr-root/public");
-  const allPublicRrRoots = result.data;
-  return allPublicRrRoots;
-};
-
 export const fetchAllRrRoots = async () => {
   const result = await apiClient<RrRoot[]>("rr-root");
   const allRrRoots = result.data;

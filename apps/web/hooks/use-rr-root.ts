@@ -5,7 +5,6 @@ import {
   fetchRrRootById,
   updateRrRoot,
   removeRrRootById,
-  fetchAllPublicRrRoots,
 } from "@/lib/service/rr-root";
 import { CreateRrRootDto, UpdateRrRootDto } from "@repo/shared/dto";
 import { RootsQueryKey } from "@repo/shared/models";
@@ -19,13 +18,6 @@ export const useCreateRrRoot = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [RootsQueryKey.private] });
     },
-  });
-};
-
-export const useGetPublicRrRoots = () => {
-  return useQuery({
-    queryKey: [RootsQueryKey.public],
-    queryFn: fetchAllPublicRrRoots,
   });
 };
 
