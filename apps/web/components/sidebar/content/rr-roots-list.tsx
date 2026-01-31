@@ -7,16 +7,14 @@ import { useGetRrRoots } from "@/hooks/use-rr-root";
 
 export function RrRootsList() {
   const currentTreeId = useTreeId();
-  const { data: rrRoots, isLoading, isError} = useGetRrRoots();
+  const { data: rrRoots, isLoading, isError } = useGetRrRoots();
 
   if (isLoading) {
     return <Spinner className="size-8 w-full flex justify-center mt-8" />;
   }
 
   if (isError) {
-    return (
-      <div className="text-destructive">Error Loading Roots</div>
-    );
+    return <div className="text-destructive">Error Loading Roots</div>;
   }
 
   return (

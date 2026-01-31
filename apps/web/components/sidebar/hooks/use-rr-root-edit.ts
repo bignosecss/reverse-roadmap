@@ -2,10 +2,10 @@ import { useCallback, useRef, useState, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useUpdateRrRoot } from "../../../hooks/use-rr-root";
-import { RootsQueryKey, RrRoot } from "@repo/shared/models";
+import { RrRoot } from "@repo/shared/models";
 
 export function useRrRootEdit(rrRoot: RrRoot) {
-  const rootsQueryKey = RootsQueryKey.public;
+  const rootsQueryKey = "rrRoots";
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(rrRoot.title);
   const inputRef = useRef<HTMLInputElement | null>(null);

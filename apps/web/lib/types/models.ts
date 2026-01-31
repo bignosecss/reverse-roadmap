@@ -23,8 +23,6 @@ export type FlowState = {
   setDeletingFlowData: (flowData: FlowData | null) => void;
 };
 
-export type SidebarState = {};
-
 export type CanvasState = {
   canvasOpen: boolean;
   savingContent: boolean;
