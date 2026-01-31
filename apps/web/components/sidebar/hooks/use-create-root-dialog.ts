@@ -12,7 +12,7 @@ export function useCreateRootDialog() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [status, setStatus] = useState<RrRootStatus>(RrRootStatus.private);
+  const [status, setStatus] = useState<RrRootStatus>(RrRootStatus.active);
 
   const { mutate: createRrRoot, isPending } = useCreateRrRoot();
   const router = useRouter();
@@ -21,7 +21,7 @@ export function useCreateRootDialog() {
   const resetForm = useCallback(() => {
     setTitle("");
     setDescription("");
-    setStatus(RrRootStatus.private);
+    setStatus(RrRootStatus.active);
   }, []);
 
   const handleOpenChange = useCallback(

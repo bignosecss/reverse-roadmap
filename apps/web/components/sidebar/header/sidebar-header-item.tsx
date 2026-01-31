@@ -71,13 +71,13 @@ export function SidebarHeaderItem({ item }: SidebarHeaderItemProps) {
               className="justify-start"
             >
               <ToggleGroupItem
-                value={RrRootStatus.private}
-                aria-label="Private"
+                value={RrRootStatus.archived}
+                aria-label="Archived"
               >
-                私有
+                归档
               </ToggleGroupItem>
-              <ToggleGroupItem value={RrRootStatus.public} aria-label="Public">
-                公开
+              <ToggleGroupItem value={RrRootStatus.active} aria-label="Active">
+                活跃
               </ToggleGroupItem>
             </ToggleGroup>
           </div>

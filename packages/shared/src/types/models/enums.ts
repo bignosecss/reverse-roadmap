@@ -5,8 +5,8 @@ export enum RootsQueryKey {
 }
 
 export enum RrRootStatus {
-  public = "active",
-  private = "archived",
+  active = "active",
+  archived = "archived",
 }
 
 export enum RrNodeStatus {

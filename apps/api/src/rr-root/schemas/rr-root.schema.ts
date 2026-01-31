@@ -15,7 +15,7 @@ export class RrRoot {
   @Prop({
     type: String,
     enum: SharedRrRootStatus,
-    default: SharedRrRootStatus.private,
+    default: SharedRrRootStatus.active,
   })
   status!: SharedRrRootStatus;
 
