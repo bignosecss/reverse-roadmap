@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import useCanvasStore from "@/lib/stores/canvas";
 import { useRrRootEdit } from "@/components/sidebar/hooks/use-rr-root-edit";
 import { useRrRootDelete } from "@/components/sidebar/hooks/use-rr-root-delete";
+import { useRrRootExport } from "@/components/sidebar/hooks/use-rr-root-export";
 import { RrRootItemDropdown } from "./rr-root-item-dropdown";
 import { RrRoot, RrRootStatus } from "@repo/shared/models";
 
@@ -31,6 +32,13 @@ export function RrRootItem({ rrRoot, isActive }: SidebarProjectItemProps) {
 
   const { isDialogOpen, setIsDialogOpen, isRootDeleting, handleDeleteRoot } =
     useRrRootDelete(rrRoot);
+
+  const {
+    isDialogOpen: isExportDialogOpen,
+    setIsDialogOpen: setIsExportDialogOpen,
+    isExporting,
+    handleExportToRag,
+  } = useRrRootExport(rrRoot);
 
   return (
     <SidebarMenuItem>
@@ -70,6 +78,10 @@ export function RrRootItem({ rrRoot, isActive }: SidebarProjectItemProps) {
           setIsDialogOpen={setIsDialogOpen}
           isRootDeleting={isRootDeleting}
           handleDeleteRoot={handleDeleteRoot}
+          isExportDialogOpen={isExportDialogOpen}
+          setIsExportDialogOpen={setIsExportDialogOpen}
+          isExporting={isExporting}
+          handleExportToRag={handleExportToRag}
         />
       )}
     </SidebarMenuItem>

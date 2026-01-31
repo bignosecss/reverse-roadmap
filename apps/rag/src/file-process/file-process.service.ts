@@ -15,7 +15,7 @@ import { FILE_BASE_PATH } from 'src/utils/constants/common.constants';
 export class FileProcessService {
   constructor(
     private readonly fileStrategyFactory: FileStrategyFactory,
-    private readonly fileMetadata: FileMetadataService,
+    private readonly fileMetadataService: FileMetadataService,
     private readonly vectorStoreService: VectorStoreService,
   ) {}
 
@@ -31,15 +31,15 @@ export class FileProcessService {
     }
 
     // Get file metadata
-    const file = this.fileMetadata.getMetadata(documentDto.file);
+    const fileMetadata = this.fileMetadataService.getMetadata(documentDto.file);
 
-    if (!file) {
+    if (!fileMetadata) {
       throw new BadRequestException(
         `File metadata not found for ID: ${documentDto.file}`,
       );
     }
 
-    return file;
+    return fileMetadata;
   }
 
   private normalizeFileType(fileType: string): string {
@@ -76,10 +76,10 @@ export class FileProcessService {
     try {
       // Validate file and it's metadata exists
       // and return the metadata
-      const file = this.validateFile(documentDto);
+      const fileMetadata = this.validateFile(documentDto);
 
       // Normalize the file type to ensure it matches the strategy mapping
-      const normalizedFileType = this.normalizeFileType(file.type);
+      const normalizedFileType = this.normalizeFileType(fileMetadata.type);
 
       const fileProcessStrategy =
         this.fileStrategyFactory.getStrategy(normalizedFileType);
@@ -90,14 +90,14 @@ export class FileProcessService {
         );
       }
 
-      const docs = await fileProcessStrategy.parse(file.path);
+      const docs = await fileProcessStrategy.parse(fileMetadata.path);
       const embeddings = await fileProcessStrategy.chunk(docs);
 
       await this.vectorStoreService.addDocuments(embeddings);
 
       // TODO: 实现一个更完善的清理策略
       // Remove relavant file metadata
-      this.fileMetadata.removeMetadata(file.id);
+      this.fileMetadataService.removeMetadata(fileMetadata.id);
 
       // TODO: 实现更统一的返回
       return {

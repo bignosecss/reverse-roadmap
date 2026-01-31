@@ -201,6 +201,10 @@ export class RrNodeService {
     };
   }
 
+  async getAllNodesInTree(rootRrNodeId: string) {
+    return await this.rrNodeRepository.findFlatRrNodes(rootRrNodeId);
+  }
+
   async updateConnection(flowNodes: FlowNode[]) {
     // Convert flow nodes to RrNode entities
     const rrNodes = convertToRr(flowNodes);

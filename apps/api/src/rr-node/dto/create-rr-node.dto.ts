@@ -4,6 +4,7 @@ import {
   IsEnum,
   IsOptional,
   IsDefined,
+  IsBoolean,
 } from 'class-validator';
 import { CreateRrNodeDto as SharedCreateRrNodeDto } from '@repo/shared/dto';
 import { RrNodeStatus } from '@repo/shared/models';
@@ -24,4 +25,8 @@ export class CreateRrNodeDto implements SharedCreateRrNodeDto {
   @IsEnum(RrNodeStatus)
   @IsOptional()
   status?: RrNodeStatus;
+
+  @IsBoolean()
+  @IsOptional()
+  excludeFromRAG?: boolean;
 }

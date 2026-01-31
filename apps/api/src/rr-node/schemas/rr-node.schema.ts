@@ -4,7 +4,7 @@ import { RrNodeStatus as SharedRrNodeStatus } from '@repo/shared/models';
 
 export type RrNodeDocument = HydratedDocument<RrNode>;
 
-@Schema({ timestamps: true, collection: 'rr_nodes' })
+@Schema({ collection: 'rr_nodes' })
 export class RrNode {
   @Prop({ required: true, type: String })
   title!: string;
@@ -18,13 +18,18 @@ export class RrNode {
   @Prop({
     type: [
       {
+        _id: { type: mongoose.Schema.Types.ObjectId, auto: true },
         rrContent: { type: mongoose.Schema.Types.ObjectId, ref: 'RrContent' },
         tabTitle: { type: String },
       },
     ],
     default: [],
   })
-  content!: { rrContent: mongoose.Types.ObjectId; tabTitle: string }[];
+  content!: {
+    _id?: mongoose.Types.ObjectId;
+    rrContent: mongoose.Types.ObjectId;
+    tabTitle: string;
+  }[];
 
   @Prop({
     type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'RrNode' }],
@@ -38,6 +43,15 @@ export class RrNode {
     default: SharedRrNodeStatus.Active,
   })
   status!: SharedRrNodeStatus;
+
+  @Prop({ type: Boolean, default: false })
+  excludeFromRAG!: boolean;
+
+  @Prop({ type: Date, required: true })
+  createdAt!: Date;
+
+  @Prop({ type: Date, required: true })
+  updatedAt!: Date;
 }
 
 export const RrNodeSchema = SchemaFactory.createForClass(RrNode);

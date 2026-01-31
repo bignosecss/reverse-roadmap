@@ -4,7 +4,7 @@ import { RrRootStatus as SharedRrRootStatus } from '@repo/shared/models';
 
 export type RrRootDocument = HydratedDocument<RrRoot>;
 
-@Schema({ timestamps: true, collection: 'rr_roots' })
+@Schema({ collection: 'rr_roots' })
 export class RrRoot {
   @Prop({ required: true })
   title!: string;
@@ -18,6 +18,12 @@ export class RrRoot {
     default: SharedRrRootStatus.private,
   })
   status!: SharedRrRootStatus;
+
+  @Prop({ type: Date, required: true })
+  createdAt!: Date;
+
+  @Prop({ type: Date, required: true })
+  updatedAt!: Date;
 }
 
 export const RrRootSchema = SchemaFactory.createForClass(RrRoot);

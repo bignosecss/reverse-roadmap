@@ -1,0 +1,574 @@
+{
+  "rrRoot": {
+    "_id": "root_001",
+    "title": "学习人工智能完整指南",
+    "status": "active",
+    "createdAt": "2024-01-15T10:00:00.000Z",
+    "updatedAt": "2024-01-15T10:00:00.000Z",
+    "rootRrNode": {
+      "_id": "node_001",
+      "title": "人工智能基础",
+      "description": "学习人工智能的基础知识和核心概念",
+      "parent": null,
+      "status": "active",
+      "createdAt": "2024-01-15T10:00:00.000Z",
+      "updatedAt": "2024-01-15T10:00:00.000Z",
+      "content": [
+        {
+          "_id": "content_001",
+          "tabTitle": "介绍",
+          "type": "doc",
+          "content": [
+            {
+              "type": "heading",
+              "attrs": { "level": 1 },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "人工智能基础"
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "content": [
+                {
+                  "type": "text",
+                  "text": "人工智能（Artificial Intelligence，简称AI）是计算机科学的一个分支，旨在创造能够执行通常需要人类智能的任务的机器。这些任务包括学习、推理、问题解决、感知、语言理解等。"
+                }
+              ]
+            },
+            {
+              "type": "heading",
+              "attrs": { "level": 2 },
+              "content": [
+                {
+                  "type": "text",
+                  "text": "AI的主要领域"
+                }
+              ]
+            },
+            {
+              "type": "bulletList",
+              "content": [
+                {
+                  "type": "listItem",
+                  "content": [
+                    {
+                      "type": "paragraph",
+                      "content": [
+                        {
+                          "type": "text",
+                          "text": "机器学习"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "listItem",
+                  "content": [
+                    {
+                      "type": "paragraph",
+                      "content": [
+                        {
+                          "type": "text",
+                          "text": "深度学习"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "listItem",
+                  "content": [
+                    {
+                      "type": "paragraph",
+                      "content": [
+                        {
+                          "type": "text",
+                          "text": "自然语言处理"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "listItem",
+                  "content": [
+                    {
+                      "type": "paragraph",
+                      "content": [
+                        {
+                          "type": "text",
+                          "text": "计算机视觉"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "createdAt": "2024-01-15T10:00:00.000Z",
+          "updatedAt": "2024-01-15T10:00:00.000Z"
+        }
+      ],
+      "children": [
+        {
+          "_id": "node_002",
+          "title": "机器学习入门",
+          "description": "学习机器学习的基本概念和算法",
+          "parent": "node_001",
+          "status": "active",
+          "createdAt": "2024-01-15T10:00:00.000Z",
+          "updatedAt": "2024-01-15T10:00:00.000Z",
+          "content": [
+            {
+              "_id": "content_002",
+              "tabTitle": "概述",
+              "type": "doc",
+              "content": [
+                {
+                  "type": "heading",
+                  "attrs": { "level": 1 },
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "机器学习入门"
+                    }
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "机器学习（Machine Learning，ML）是人工智能的一个子领域，专注于开发能够从数据中学习并做出预测或决策的算法，而无需明确编程来执行特定任务。"
+                    }
+                  ]
+                },
+                {
+                  "type": "heading",
+                  "attrs": { "level": 2 },
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "主要类型"
+                    }
+                  ]
+                },
+                {
+                  "type": "orderedList",
+                  "content": [
+                    {
+                      "type": "listItem",
+                      "content": [
+                        {
+                          "type": "paragraph",
+                          "content": [
+                            {
+                              "type": "text",
+                              "text": "监督学习：使用标记数据进行训练"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "listItem",
+                      "content": [
+                        {
+                          "type": "paragraph",
+                          "content": [
+                            {
+                              "type": "text",
+                              "text": "无监督学习：从未标记数据中发现模式"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "listItem",
+                      "content": [
+                        {
+                          "type": "paragraph",
+                          "content": [
+                            {
+                              "type": "text",
+                              "text": "强化学习：通过奖励机制学习最优策略"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "heading",
+                  "attrs": { "level": 2 },
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "常见算法"
+                    }
+                  ]
+                },
+                {
+                  "type": "bulletList",
+                  "content": [
+                    {
+                      "type": "listItem",
+                      "content": [
+                        {
+                          "type": "paragraph",
+                          "content": [
+                            {
+                              "type": "text",
+                              "text": "线性回归"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "listItem",
+                      "content": [
+                        {
+                          "type": "paragraph",
+                          "content": [
+                            {
+                              "type": "text",
+                              "text": "决策树"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "listItem",
+                      "content": [
+                        {
+                          "type": "paragraph",
+                          "content": [
+                            {
+                              "type": "text",
+                              "text": "支持向量机"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "listItem",
+                      "content": [
+                        {
+                          "type": "paragraph",
+                          "content": [
+                            {
+                              "type": "text",
+                              "text": "神经网络"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "createdAt": "2024-01-15T10:00:00.000Z",
+              "updatedAt": "2024-01-15T10:00:00.000Z"
+            }
+          ],
+          "children": [
+            {
+              "_id": "node_003",
+              "title": "线性回归",
+              "description": "理解线性回归的基本原理和应用",
+              "parent": "node_002",
+              "status": "in-progress",
+              "createdAt": "2024-01-15T10:00:00.000Z",
+              "updatedAt": "2024-01-15T10:00:00.000Z",
+              "content": [
+                {
+                  "_id": "content_003",
+                  "tabTitle": "理论",
+                  "type": "doc",
+                  "content": [
+                    {
+                      "type": "heading",
+                      "attrs": { "level": 1 },
+                      "content": [
+                        {
+                          "type": "text",
+                          "text": "线性回归详解"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "paragraph",
+                      "content": [
+                        {
+                          "type": "text",
+                          "text": "线性回归是一种统计方法，用于建模因变量（目标）和一个或多个自变量（特征）之间的关系。它假设因变量和自变量之间存在线性关系。"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "heading",
+                      "attrs": { "level": 2 },
+                      "content": [
+                        {
+                          "type": "text",
+                          "text": "数学表示"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "codeBlock",
+                      "attrs": { "language": "math" },
+                      "content": [
+                        {
+                          "type": "text",
+                          "text": "y = β₀ + β₁x₁ + β₂x₂ + ... + βₙxₙ + ε"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "paragraph",
+                      "content": [
+                        {
+                          "type": "text",
+                          "text": "其中："
+                        }
+                      ]
+                    },
+                    {
+                      "type": "bulletList",
+                      "content": [
+                        {
+                          "type": "listItem",
+                          "content": [
+                            {
+                              "type": "paragraph",
+                              "content": [
+                                {
+                                  "type": "text",
+                                  "text": "y 是因变量"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "listItem",
+                          "content": [
+                            {
+                              "type": "paragraph",
+                              "content": [
+                                {
+                                  "type": "text",
+                                  "text": "β₀ 是截距项"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "listItem",
+                          "content": [
+                            {
+                              "type": "paragraph",
+                              "content": [
+                                {
+                                  "type": "text",
+                                  "text": "β₁...βₙ 是系数"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "listItem",
+                          "content": [
+                            {
+                              "type": "paragraph",
+                              "content": [
+                                {
+                                  "type": "text",
+                                  "text": "x₁...xₙ 是自变量"
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "type": "listItem",
+                          "content": [
+                            {
+                              "type": "paragraph",
+                              "content": [
+                                {
+                                  "type": "text",
+                                  "text": "ε 是误差项"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "createdAt": "2024-01-15T10:00:00.000Z",
+                  "updatedAt": "2024-01-15T10:00:00.000Z"
+                },
+                {
+                  "_id": "content_004",
+                  "tabTitle": "实践",
+                  "type": "doc",
+                  "content": [
+                    {
+                      "type": "heading",
+                      "attrs": { "level": 1 },
+                      "content": [
+                        {
+                          "type": "text",
+                          "text": "Python实现示例"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "codeBlock",
+                      "attrs": { "language": "python" },
+                      "content": [
+                        {
+                          "type": "text",
+                          "text": "from sklearn.linear_model import LinearRegression\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import mean_squared_error\nimport numpy as np\n\n# 创建示例数据\nX = np.random.rand(100, 1)\ny = 2 * X.squeeze() + 1 + np.random.randn(100) * 0.1\n\n# 分割数据\nX_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)\n\n# 创建并训练模型\nmodel = LinearRegression()\nmodel.fit(X_train, y_train)\n\n# 进行预测\npredictions = model.predict(X_test)\n\n# 计算误差\nmse = mean_squared_error(y_test, predictions)\nprint(f\"均方误差: {mse}\")"
+                        }
+                      ]
+                    }
+                  ],
+                  "createdAt": "2024-01-15T10:00:00.000Z",
+                  "updatedAt": "2024-01-15T10:00:00.000Z"
+                }
+              ],
+              "children": []
+            }
+          ]
+        },
+        {
+          "_id": "node_004",
+          "title": "深度学习基础",
+          "description": "探索深度学习的概念和神经网络架构",
+          "parent": "node_001",
+          "status": "not-started",
+          "createdAt": "2024-01-15T10:00:00.000Z",
+          "updatedAt": "2024-01-15T10:00:00.000Z",
+          "content": [
+            {
+              "_id": "content_005",
+              "tabTitle": "介绍",
+              "type": "doc",
+              "content": [
+                {
+                  "type": "heading",
+                  "attrs": { "level": 1 },
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "深度学习简介"
+                    }
+                  ]
+                },
+                {
+                  "type": "paragraph",
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "深度学习是机器学习的一个子集，基于人工神经网络的概念。它使用多层结构来学习数据中的复杂模式，每层都提取不同级别的特征。"
+                    }
+                  ]
+                },
+                {
+                  "type": "heading",
+                  "attrs": { "level": 2 },
+                  "content": [
+                    {
+                      "type": "text",
+                      "text": "神经网络类型"
+                    }
+                  ]
+                },
+                {
+                  "type": "bulletList",
+                  "content": [
+                    {
+                      "type": "listItem",
+                      "content": [
+                        {
+                          "type": "paragraph",
+                          "content": [
+                            {
+                              "type": "text",
+                              "text": "前馈神经网络（FNN）"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "listItem",
+                      "content": [
+                        {
+                          "type": "paragraph",
+                          "content": [
+                            {
+                              "type": "text",
+                              "text": "卷积神经网络（CNN）"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "listItem",
+                      "content": [
+                        {
+                          "type": "paragraph",
+                          "content": [
+                            {
+                              "type": "text",
+                              "text": "循环神经网络（RNN）"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "type": "listItem",
+                      "content": [
+                        {
+                          "type": "paragraph",
+                          "content": [
+                            {
+                              "type": "text",
+                              "text": "Transformer架构"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "createdAt": "2024-01-15T10:00:00.000Z",
+              "updatedAt": "2024-01-15T10:00:00.000Z"
+            }
+          ],
+          "children": []
+        }
+      ]
+    }
+  }
+}

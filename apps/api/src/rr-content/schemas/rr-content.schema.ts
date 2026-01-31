@@ -3,7 +3,7 @@ import mongoose, { HydratedDocument } from 'mongoose';
 
 export type RrContentDocument = HydratedDocument<RrContent>;
 
-@Schema({ timestamps: true, collection: 'rr_contents' })
+@Schema({ collection: 'rr_contents' })
 export class RrContent {
   @Prop({ type: String })
   tabTitle!: string;
@@ -13,6 +13,12 @@ export class RrContent {
 
   @Prop({ type: mongoose.Schema.Types.Mixed, required: true })
   content!: any[];
+
+  @Prop({ type: Date, required: true })
+  createdAt!: Date;
+
+  @Prop({ type: Date, required: true })
+  updatedAt!: Date;
 }
 
 export const RrContentSchema = SchemaFactory.createForClass(RrContent);
