@@ -21,7 +21,7 @@ export function SidebarFooterComponent() {
   return (
     <SidebarFooter>
       <SidebarMenu>
-        <SidebarMenuItem className="flex flex-row justify-between items-center gap-2 group-[collapsible=icon]:justify-center">
+        <SidebarMenuItem className="flex flex-row justify-between items-center gap-2 group-data-[collapsible=icon]:justify-center">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <SidebarMenuButton className="h-auto">
