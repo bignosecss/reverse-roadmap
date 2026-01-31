@@ -3,11 +3,15 @@ import { RrRootItem } from "./rr-root-item";
 import { Spinner } from "@/components/ui/spinner";
 import { RrRoot } from "@repo/shared/models";
 import { useTreeId } from "@/hooks/use-tree-id";
-import { useGetRrRoots } from "@/hooks/use-rr-root";
 
-export function RrRootsList() {
+interface RrRootsListProps {
+  rrRoots?: RrRoot[];
+  isLoading: boolean;
+  isError: boolean;
+}
+
+export function RrRootsList({ rrRoots, isLoading, isError }: RrRootsListProps) {
   const currentTreeId = useTreeId();
-  const { data: rrRoots, isLoading, isError } = useGetRrRoots();
 
   if (isLoading) {
     return <Spinner className="size-8 w-full flex justify-center mt-8" />;
