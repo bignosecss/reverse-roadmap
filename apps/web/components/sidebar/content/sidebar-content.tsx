@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/sidebar";
 import { RrRootsList } from "./rr-roots-list";
 import { useGetRrRoots } from "@/hooks/use-rr-root";
-import { RrRootStatus } from "@repo/shared/models";
+import { RrRootStatus } from "@repo/shared";
 
 export function SidebarContentComponent() {
   const { data: rrRoots, isLoading, isError } = useGetRrRoots();
