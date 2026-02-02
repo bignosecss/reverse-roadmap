@@ -7,7 +7,11 @@ import { UserDto } from './dto/user.dto';
 import { CreateUserDto } from './dto/user.dto';
 
 // Reverse Roadmap 只有一个用户，使用单一对象存储
-let user: UserDto | null = null;
+const user: UserDto = {
+  _id: "1",
+  username: "admin",
+  password: "admin123",
+};
 
 @Injectable()
 export class AuthService {
@@ -24,15 +28,9 @@ export class AuthService {
   }
 
   register(dto: CreateUserDto): { user: UserDto } {
-    if (user) {
-      throw new ConflictException('用户已存在');
+    if (user && dto) {
+      throw new ConflictException('已存在唯一用户');
     }
-
-    user = {
-      _id: '1',
-      username: dto.username,
-      password: dto.password,
-    };
 
     return { user };
   }
