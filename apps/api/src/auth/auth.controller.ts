@@ -9,7 +9,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { CreateUserDto } from './dto/user.dto';
+import { CreateUserDto, UserDto } from './dto/user.dto';
 
 interface SessionData {
   userId?: string;
@@ -25,6 +25,12 @@ export class AuthController {
     const result = this.authService.login(loginDto);
     session.userId = result.user._id;
     return { user: result.user };
+  }
+
+  @Post('register')
+  @HttpCode(HttpStatus.CREATED)
+  register(@Body() registerDto: CreateUserDto): { user: UserDto } {
+    return this.authService.register(registerDto);
   }
 
   @Post('logout')

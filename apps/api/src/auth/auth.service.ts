@@ -1,30 +1,43 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  ConflictException,
+} from '@nestjs/common';
 import { UserDto } from './dto/user.dto';
 import { CreateUserDto } from './dto/user.dto';
 
-const mockUser: UserDto = {
-  _id: '123',
-  username: 'admin',
-  password: 'admin123',
-};
+// Reverse Roadmap 只有一个用户，使用单一对象存储
+let user: UserDto | null = null;
 
 @Injectable()
 export class AuthService {
   login(dto: CreateUserDto): { user: UserDto } {
-    if (
-      dto.username !== mockUser.username ||
-      dto.password !== mockUser.password
-    ) {
+    if (!user) {
+      throw new UnauthorizedException('用户不存在，请先注册');
+    }
+
+    if (user.username !== dto.username || user.password !== dto.password) {
       throw new UnauthorizedException('用户名或密码错误');
     }
 
-    return { user: mockUser };
+    return { user };
+  }
+
+  register(dto: CreateUserDto): { user: UserDto } {
+    if (user) {
+      throw new ConflictException('用户已存在');
+    }
+
+    user = {
+      _id: '1',
+      username: dto.username,
+      password: dto.password,
+    };
+
+    return { user };
   }
 
   getCurrentUser(userId: string): UserDto | null {
-    if (userId === mockUser._id) {
-      return mockUser;
-    }
-    return null;
+    return user?._id === userId ? user : null;
   }
 }

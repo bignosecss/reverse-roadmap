@@ -7,6 +7,7 @@ import { RrNodeModule } from './rr-node/rr-node.module';
 import { RrContentModule } from './rr-content/rr-content.module';
 import { ConfigModule } from '@nestjs/config';
 import { RagExportModule } from './rag-export/rag-export.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { RagExportModule } from './rag-export/rag-export.module';
       envFilePath: '.env',
     }),
     MongooseModule.forRoot(process.env.MONGODB_URI ?? ''),
+    AuthModule,
     RrRootModule,
     RrNodeModule,
     RrContentModule,
