@@ -10,7 +10,10 @@ async function bootstrap() {
 
   // 设置全局前缀
   app.setGlobalPrefix('api');
-  app.enableCors();
+  app.enableCors({
+    origin: 'http://localhost:3000',
+    credentials: true,
+  });
   app.useGlobalInterceptors(new ResponseInterceptor());
   // 增加 request body 中 JSON 字符串的大小限制
   app.use(json({ limit: '16MB' }));

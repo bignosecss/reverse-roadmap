@@ -26,6 +26,7 @@ export async function apiClient<T>(
     signal: controller.signal,
     ...DEFAULT_FETCH_OPTIONS,
     ...options,
+    credentials: "include",
     headers: {
       "Content-Type": "application/json",
       ...options.headers,

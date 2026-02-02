@@ -1,6 +1,6 @@
 "use client";
 
-import { User, Settings, LogOut } from "lucide-react";
+import { User, Settings, LogOut, Eye } from "lucide-react";
 import { SidebarFooter } from "@/components/ui/sidebar";
 import {
   SidebarMenu,
@@ -16,8 +16,31 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import useAuthStore from "@/lib/stores/auth";
+import { useRouter } from "next/navigation";
 
 export function SidebarFooterComponent() {
+  const user = useAuthStore((state) => state.user);
+  const router = useRouter();
+
+  if (!user) {
+    return (
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton
+              onClick={() => router.push("/login")}
+              tooltip="点击登录"
+            >
+              <Eye className="size-4 shrink-0" />
+              <span className="text-sm font-medium">浏览模式</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
+    );
+  }
+
   return (
     <SidebarFooter>
       <SidebarMenu>

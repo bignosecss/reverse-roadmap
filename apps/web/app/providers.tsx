@@ -2,12 +2,15 @@
 "use client";
 
 // Since QueryClientProvider relies on useContext under the hood, we have to put 'use client' on top
+import { useEffect } from "react";
 import {
   isServer,
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/sonner";
+import { useCurrentUser } from "@/hooks/use-auth";
+import useAuthStore from "@/lib/stores/auth";
 
 function makeQueryClient() {
   return new QueryClient({
@@ -37,6 +40,20 @@ function getQueryClient() {
   }
 }
 
+// AuthInitializer: automatically restore user state from session on app mount
+function AuthInitializer() {
+  const { data } = useCurrentUser();
+  const setUser = useAuthStore((state) => state.setUser);
+
+  useEffect(() => {
+    if (data && data.user) {
+      setUser(data.user);
+    }
+  }, [data, setUser]);
+
+  return null;
+}
+
 export default function Providers({ children }: { children: React.ReactNode }) {
   // NOTE: Avoid useState when initializing the query client if you don't
   //       have a suspense boundary between this and the code that may
@@ -46,6 +63,7 @@ export default function Providers({ children }: { children: React.ReactNode }) {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <AuthInitializer />
       {children}
       <Toaster />
     </QueryClientProvider>
