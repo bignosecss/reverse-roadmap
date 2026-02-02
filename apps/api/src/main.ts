@@ -22,9 +22,11 @@ async function bootstrap() {
       secret: 'my-secret',
       resave: false,
       saveUninitialized: false,
+      rolling: true, // 每次请求重置过期时间
       cookie: {
         httpOnly: true,
         sameSite: true,
+        maxAge: 30 * 60 * 1000, // 30 分钟不活跃后过期
         // secure: true, // 开发环境设置 false
       },
     }),
