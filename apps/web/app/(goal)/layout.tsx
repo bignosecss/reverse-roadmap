@@ -15,9 +15,7 @@ export default function GoalLayout({
   return (
     <SidebarProvider defaultOpen={true}>
       <AppSidebar />
-      <SidebarInset className="h-screen flex-row">
-        {children}
-      </SidebarInset>
+      <SidebarInset className="h-screen flex-row">{children}</SidebarInset>
     </SidebarProvider>
   );
 }
