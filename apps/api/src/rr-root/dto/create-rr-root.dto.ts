@@ -1,4 +1,4 @@
-import { IsString, IsEnum } from 'class-validator';
+import { IsString, IsEnum, IsBoolean } from 'class-validator';
 import { CreateRrRootDto as SharedCreateRrRootDto } from '@repo/shared/dto';
 import { RrRootStatus } from '@repo/shared/models';
 
@@ -11,4 +11,7 @@ export class CreateRrRootDto implements SharedCreateRrRootDto {
 
   @IsEnum(RrRootStatus)
   status!: RrRootStatus;
+
+  @IsBoolean()
+  isPublic?: boolean;
 }

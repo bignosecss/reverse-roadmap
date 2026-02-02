@@ -2,12 +2,10 @@ import { useCallback, useRef, useState, useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useUpdateRrRoot } from "../../../hooks/use-rr-root";
-import useSidebarStore from "@/lib/stores/sidebar";
-import { RootsQueryKey, RrRoot, RrRootStatus } from "@repo/shared/models";
+import { RrRoot } from "@repo/shared/models";
 
-export function useRrRootEdit(rrRoot: RrRoot) {
-  const mode = useSidebarStore((state) => state.mode);
-  const [rootsQueryKey, setRootsQueryKey] = useState(RootsQueryKey.public);
+export function useRrRootRename(rrRoot: RrRoot) {
+  const rootsQueryKey = "rrRoots";
   const [isEditing, setIsEditing] = useState(false);
   const [editValue, setEditValue] = useState(rrRoot.title);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -17,12 +15,7 @@ export function useRrRootEdit(rrRoot: RrRoot) {
       inputRef.current?.focus();
       inputRef.current?.select();
     }
-    setRootsQueryKey(
-      mode === RrRootStatus.public
-        ? RootsQueryKey.public
-        : RootsQueryKey.private,
-    );
-  }, [isEditing, mode]);
+  }, [isEditing]);
 
   const queryClient = useQueryClient();
   const { mutateAsync: updateRrRootAsync, isPending: isRootUpdating } =
@@ -46,7 +39,7 @@ export function useRrRootEdit(rrRoot: RrRoot) {
     );
 
     try {
-      await updateRrRootAsync({ title: trimmedValue });
+      await updateRrRootAsync({ title: trimmedValue, status: rrRoot.status });
       toast.success("重命名成功", {
         position: "top-center",
       });
@@ -65,8 +58,8 @@ export function useRrRootEdit(rrRoot: RrRoot) {
   }, [
     editValue,
     queryClient,
-    rootsQueryKey,
     rrRoot._id,
+    rrRoot.status,
     rrRoot.title,
     updateRrRootAsync,
   ]);
@@ -93,6 +86,5 @@ export function useRrRootEdit(rrRoot: RrRoot) {
     isRootUpdating,
     handleKeyDown,
     handleBlur,
-    mode,
   };
 }

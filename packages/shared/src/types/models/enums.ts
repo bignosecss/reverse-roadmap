@@ -1,12 +1,6 @@
-/** 侧边栏数据 */
-export enum RootsQueryKey {
-  public = "publicRrRoots",
-  private = "rrRoots",
-}
-
 export enum RrRootStatus {
-  public = "active",
-  private = "archived",
+  active = "active",
+  archived = "archived",
 }
 
 export enum RrNodeStatus {

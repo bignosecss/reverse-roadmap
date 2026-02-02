@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
-import AppSidebar from "@/components/sidebar/app-sidebar";
 import Providers from "@/app/providers";
 import { ThemeProvider } from "@/components/theme-provider";
 
@@ -35,14 +33,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Providers>
-            <SidebarProvider defaultOpen={true}>
-              <AppSidebar />
-              <SidebarInset className="h-screen flex-row">
-                {children}
-              </SidebarInset>
-            </SidebarProvider>
-          </Providers>
+          <Providers>{children}</Providers>
         </ThemeProvider>
       </body>
     </html>

@@ -2,37 +2,32 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import {
   createRrRoot,
   fetchAllRrRoots,
+  fetchPublicRrRoots,
   fetchRrRootById,
   updateRrRoot,
   removeRrRootById,
-  fetchAllPublicRrRoots,
 } from "@/lib/service/rr-root";
 import { CreateRrRootDto, UpdateRrRootDto } from "@repo/shared/dto";
-import { RootsQueryKey } from "@repo/shared/models";
+import useAuthStore from "@/lib/stores/auth";
 
 export const useCreateRrRoot = () => {
   const queryClient = useQueryClient();
+  const user = useAuthStore((state) => state.user);
 
   return useMutation({
     mutationFn: (createRrRootDto: CreateRrRootDto) =>
       createRrRoot(createRrRootDto),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [RootsQueryKey.private] });
+      queryClient.invalidateQueries({ queryKey: ["rrRoots", !!user] });
     },
   });
 };
 
-export const useGetPublicRrRoots = () => {
-  return useQuery({
-    queryKey: [RootsQueryKey.public],
-    queryFn: fetchAllPublicRrRoots,
-  });
-};
-
 export const useGetRrRoots = () => {
+  const user = useAuthStore((state) => state.user);
   return useQuery({
-    queryKey: [RootsQueryKey.private],
-    queryFn: fetchAllRrRoots,
+    queryKey: ["rrRoots", !!user],
+    queryFn: user ? fetchAllRrRoots : fetchPublicRrRoots,
   });
 };
 

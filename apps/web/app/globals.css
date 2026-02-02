@@ -113,7 +113,14 @@
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
+  }
+  *:focus-visible {
+    outline: none !important;
+    outline-style: none !important;
+    outline-width: 0 !important;
+    box-shadow: none !important;
+    -webkit-focus-ring-color: transparent !important;
   }
   body {
     @apply bg-background text-foreground;

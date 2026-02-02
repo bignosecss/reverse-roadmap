@@ -4,6 +4,7 @@ export interface CreateRrRootDto {
   title: string;
   description?: string;
   status: RrRootStatus;
+  isPublic?: boolean;
 }
 
-export type UpdateRrRootDto = Partial<CreateRrRootDto>;
+export type UpdateRrRootDto = CreateRrRootDto;

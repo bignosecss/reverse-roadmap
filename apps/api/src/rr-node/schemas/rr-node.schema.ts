@@ -4,7 +4,7 @@ import { RrNodeStatus as SharedRrNodeStatus } from '@repo/shared/models';
 
 export type RrNodeDocument = HydratedDocument<RrNode>;
 
-@Schema({ collection: 'rr_nodes' })
+@Schema({ collection: 'rr_nodes', timestamps: true })
 export class RrNode {
   @Prop({ required: true, type: String })
   title!: string;
@@ -47,10 +47,8 @@ export class RrNode {
   @Prop({ type: Boolean, default: false })
   excludeFromRAG!: boolean;
 
-  @Prop({ type: Date, required: true })
+  // Timestamps managed by Mongoose
   createdAt!: Date;
-
-  @Prop({ type: Date, required: true })
   updatedAt!: Date;
 }
 

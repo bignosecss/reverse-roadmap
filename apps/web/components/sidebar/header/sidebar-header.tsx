@@ -7,16 +7,12 @@ import {
 } from "@/components/ui/sidebar";
 import { HEAD_MENU_ITEMS } from "./constants";
 import { SidebarHeaderItem } from "./sidebar-header-item";
-import useSidebarStore from "@/lib/stores/sidebar";
-import { RrRootStatus } from "@repo/shared/models";
 
 export function SidebarHeaderComponent() {
-  const mode = useSidebarStore((state) => state.mode);
-
   return (
     <SidebarHeader className="relative">
       <SidebarMenu>
-        <SidebarMenuItem className="flex flex-row justify-between items-center  group-data-[collapsible=icon]:justify-center">
+        <SidebarMenuItem className="flex flex-row justify-between items-center">
           <div className="w-full flex flex-row justify-between p-2 group-data-[collapsible=icon]:justify-center">
             <Link
               href="/"
@@ -27,10 +23,9 @@ export function SidebarHeaderComponent() {
             <SidebarTrigger />
           </div>
         </SidebarMenuItem>
-        {mode === RrRootStatus.private &&
-          HEAD_MENU_ITEMS.map((item) => (
-            <SidebarHeaderItem key={item.operation} item={item} />
-          ))}
+        {HEAD_MENU_ITEMS.map((item) => (
+          <SidebarHeaderItem key={item.operation} item={item} />
+        ))}
       </SidebarMenu>
     </SidebarHeader>
   );

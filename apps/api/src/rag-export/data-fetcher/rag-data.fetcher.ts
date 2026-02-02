@@ -30,6 +30,8 @@ export class RagDataFetcher {
       ...rootObj,
       _id: String(rootObj._id),
       rootRrNode: String(rootObj.rootRrNode),
+      createdAt: root.createdAt,
+      updatedAt: root.updatedAt,
       rootRrNodeEntity: {
         ...nodeObj,
         _id: String(nodeObj._id),
@@ -42,6 +44,8 @@ export class RagDataFetcher {
         children: nodeObj.children.map((childId: mongoose.Types.ObjectId) =>
           String(childId),
         ),
+        createdAt: rootRrNode.createdAt,
+        updatedAt: rootRrNode.updatedAt,
       },
     };
   }

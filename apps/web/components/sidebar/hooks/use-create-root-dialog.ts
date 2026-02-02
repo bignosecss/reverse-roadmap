@@ -7,21 +7,25 @@ import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { RrRoot, RrRootStatus } from "@repo/shared/models";
 import { CreateRrRootDto } from "@repo/shared/dto";
+import useAuthStore from "@/lib/stores/auth";
 
 export function useCreateRootDialog() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [status, setStatus] = useState<RrRootStatus>(RrRootStatus.private);
+  const [status, setStatus] = useState<RrRootStatus>(RrRootStatus.active);
+  const [isPublic, setIsPublic] = useState<boolean>(false);
 
   const { mutate: createRrRoot, isPending } = useCreateRrRoot();
   const router = useRouter();
   const queryClient = useQueryClient();
+  const user = useAuthStore((state) => state.user);
 
   const resetForm = useCallback(() => {
     setTitle("");
     setDescription("");
-    setStatus(RrRootStatus.private);
+    setStatus(RrRootStatus.active);
+    setIsPublic(false);
   }, []);
 
   const handleOpenChange = useCallback(
@@ -39,8 +43,7 @@ export function useCreateRootDialog() {
       createRrRoot(data, {
         onSuccess: (newRrRoot: RrRoot) => {
           handleOpenChange(false); // Close dialog and reset form
-          queryClient.invalidateQueries({ queryKey: ["publicRrRoots"] });
-          queryClient.invalidateQueries({ queryKey: ["rrRoots"] });
+          queryClient.invalidateQueries({ queryKey: ["rrRoots", !!user] });
           toast.success("创建新目标成功", {
             description: `新目标 "${newRrRoot.title}" 已创建`,
           });
@@ -53,7 +56,7 @@ export function useCreateRootDialog() {
         },
       });
     },
-    [createRrRoot, queryClient, router, handleOpenChange],
+    [createRrRoot, handleOpenChange, queryClient, user, router],
   );
 
   const handleConfirm = useCallback(() => {
@@ -70,10 +73,11 @@ export function useCreateRootDialog() {
       title: trimmedTitle,
       description: trimmedDescription || undefined,
       status,
+      isPublic,
     };
 
     handleCreateRoot(data);
-  }, [description, handleCreateRoot, title, status]);
+  }, [title, description, status, isPublic, handleCreateRoot]);
 
   const isFormValid = title.trim().length > 0;
 
@@ -86,6 +90,8 @@ export function useCreateRootDialog() {
     setDescription,
     status,
     setStatus,
+    isPublic,
+    setIsPublic,
     handleConfirm,
     isFormValid,
     isPending,

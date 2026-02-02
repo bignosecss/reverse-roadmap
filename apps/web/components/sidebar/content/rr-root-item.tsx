@@ -4,11 +4,12 @@ import Link from "next/link";
 import { SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar";
 import { Input } from "@/components/ui/input";
 import useCanvasStore from "@/lib/stores/canvas";
-import { useRrRootEdit } from "@/components/sidebar/hooks/use-rr-root-edit";
+import { useRrRootRename } from "@/components/sidebar/hooks/use-rr-root-edit";
 import { useRrRootDelete } from "@/components/sidebar/hooks/use-rr-root-delete";
 import { useRrRootExport } from "@/components/sidebar/hooks/use-rr-root-export";
+import { useEditRootDialog } from "@/components/sidebar/hooks/use-edit-root-dialog";
 import { RrRootItemDropdown } from "./rr-root-item-dropdown";
-import { RrRoot, RrRootStatus } from "@repo/shared/models";
+import { RrRoot } from "@repo/shared/models";
 
 interface SidebarProjectItemProps {
   rrRoot: RrRoot;
@@ -27,8 +28,7 @@ export function RrRootItem({ rrRoot, isActive }: SidebarProjectItemProps) {
     isRootUpdating,
     handleKeyDown,
     handleBlur,
-    mode,
-  } = useRrRootEdit(rrRoot);
+  } = useRrRootRename(rrRoot);
 
   const { isDialogOpen, setIsDialogOpen, isRootDeleting, handleDeleteRoot } =
     useRrRootDelete(rrRoot);
@@ -40,6 +40,20 @@ export function RrRootItem({ rrRoot, isActive }: SidebarProjectItemProps) {
     handleExportToRag,
   } = useRrRootExport(rrRoot);
 
+  const {
+    isDialogOpen: isEditDialogOpen,
+    handleOpenChange: setIsEditDialogOpen,
+    title: editTitle,
+    setTitle: setEditTitle,
+    status: editStatus,
+    setStatus: setEditStatus,
+    isPublic: editIsPublic,
+    setIsPublic: setEditIsPublic,
+    handleConfirm: handleEditRoot,
+    isFormValid: isEditFormValid,
+    isPending: isEditPending,
+  } = useEditRootDialog(rrRoot);
+
   return (
     <SidebarMenuItem>
       <SidebarMenuButton asChild isActive={isActive}>
@@ -49,9 +63,7 @@ export function RrRootItem({ rrRoot, isActive }: SidebarProjectItemProps) {
             onClick={() => {
               if (!isActive) setCanvasOpen(false);
             }}
-            onDoubleClick={() => {
-              if (mode === RrRootStatus.private) setIsEditing(true);
-            }}
+            onDoubleClick={() => setIsEditing(true)}
           >
             <span className="group-data-[collapsible=icon]:hidden">
               {rrRoot.title}
@@ -69,11 +81,9 @@ export function RrRootItem({ rrRoot, isActive }: SidebarProjectItemProps) {
           />
         )}
       </SidebarMenuButton>
-      {mode === RrRootStatus.private && (
+      {!isEditing && (
         <RrRootItemDropdown
           rrRoot={rrRoot}
-          isEditing={isEditing}
-          setIsEditing={setIsEditing}
           isDialogOpen={isDialogOpen}
           setIsDialogOpen={setIsDialogOpen}
           isRootDeleting={isRootDeleting}
@@ -82,6 +92,17 @@ export function RrRootItem({ rrRoot, isActive }: SidebarProjectItemProps) {
           setIsExportDialogOpen={setIsExportDialogOpen}
           isExporting={isExporting}
           handleExportToRag={handleExportToRag}
+          isEditDialogOpen={isEditDialogOpen}
+          setIsEditDialogOpen={setIsEditDialogOpen}
+          editTitle={editTitle}
+          setEditTitle={setEditTitle}
+          editStatus={editStatus}
+          setEditStatus={setEditStatus}
+          handleEditRoot={handleEditRoot}
+          isEditPending={isEditPending}
+          isEditFormValid={isEditFormValid}
+          editIsPublic={editIsPublic}
+          setEditIsPublic={setEditIsPublic}
         />
       )}
     </SidebarMenuItem>

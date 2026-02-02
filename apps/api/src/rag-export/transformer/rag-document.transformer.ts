@@ -44,9 +44,9 @@ export class RagDocumentTransformer {
 
         // Root status
         rootStatus:
-          root.status === RrRootStatus.public
-            ? RrRootStatus.public
-            : RrRootStatus.private,
+          root.status === RrRootStatus.active
+            ? RrRootStatus.active
+            : RrRootStatus.archived,
 
         // Hierarchy structure information
         totalNodes: nodes.length,

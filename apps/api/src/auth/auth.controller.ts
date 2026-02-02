@@ -2,24 +2,53 @@ import {
   Controller,
   Post,
   Body,
-  UnauthorizedException,
+  Get,
+  Session,
   HttpCode,
   HttpStatus,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { SwitchModeDto } from './dto/switch-mode.dto';
+import { CreateUserDto, UserDto } from './dto/user.dto';
+
+interface SessionData {
+  userId?: string;
+}
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post('switch-mode')
+  @Post('login')
   @HttpCode(HttpStatus.OK)
-  switchMode(@Body() switchModeDto: SwitchModeDto) {
-    const isValid = this.authService.validatePassword(switchModeDto.password);
-    if (!isValid) {
-      throw new UnauthorizedException('Invalid password.');
+  login(@Body() loginDto: CreateUserDto, @Session() session: SessionData) {
+    const result = this.authService.login(loginDto);
+    session.userId = result.user._id;
+    return { user: result.user };
+  }
+
+  @Post('register')
+  @HttpCode(HttpStatus.CREATED)
+  register(@Body() registerDto: CreateUserDto): { user: UserDto } {
+    return this.authService.register(registerDto);
+  }
+
+  @Post('logout')
+  @HttpCode(HttpStatus.OK)
+  logout(@Session() session: SessionData) {
+    session.userId = undefined;
+    return { message: '登出成功' };
+  }
+
+  @Get('me')
+  getCurrentUser(@Session() session: SessionData) {
+    if (!session.userId) {
+      throw new UnauthorizedException('未登录');
     }
-    return { success: true, message: 'Authentication successful.' };
+    const user = this.authService.getCurrentUser(session.userId);
+    if (!user) {
+      throw new UnauthorizedException('用户不存在');
+    }
+    return { user };
   }
 }

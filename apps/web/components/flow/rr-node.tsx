@@ -5,8 +5,6 @@ import { NodeProps } from "@xyflow/react";
 import { FlowNode } from "@repo/shared/flow";
 import RrNodeToolbar from "./toolbar/rr-node-toolbar";
 import RrNodeCard from "./rr-node-card";
-import useSidebarStore from "@/lib/stores/sidebar";
-import { RrRootStatus } from "@repo/shared/models";
 
 /**
  * 自定义 RrNode 组件
@@ -21,18 +19,15 @@ export default function RrNodeComponent({
   // 判断是否为根节点
   const treeId = useParams().id as string;
   const isRootNode = rrNode._id === treeId;
-  const mode = useSidebarStore((state) => state.mode);
 
   return (
     <>
       {/* 工具栏 */}
-      {mode === RrRootStatus.private && (
-        <RrNodeToolbar
-          isVisible={selected}
-          isRootNode={isRootNode}
-          currentNode={rrNode}
-        />
-      )}
+      <RrNodeToolbar
+        isVisible={selected}
+        isRootNode={isRootNode}
+        currentNode={rrNode}
+      />
 
       {/* 节点卡片 */}
       <RrNodeCard

@@ -25,7 +25,7 @@ export class RrRootService {
 
     // 2. Map DTO to a new RrRoot entity.
     const newRrRootEntity: Partial<RrRoot> = {
-      title: createRrRootDto.title,
+      ...createRrRootDto,
       rootRrNode: newRootRrNode._id,
       status: rootStatus,
     };
@@ -36,7 +36,7 @@ export class RrRootService {
   }
 
   findAllPublic() {
-    return this.rrRootRepository.findAll({ status: 'active' });
+    return this.rrRootRepository.findAll({ isPublic: true });
   }
 
   findAll() {

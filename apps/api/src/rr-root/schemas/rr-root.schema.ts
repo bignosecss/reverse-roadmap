@@ -4,7 +4,7 @@ import { RrRootStatus as SharedRrRootStatus } from '@repo/shared/models';
 
 export type RrRootDocument = HydratedDocument<RrRoot>;
 
-@Schema({ collection: 'rr_roots' })
+@Schema({ collection: 'rr_roots', timestamps: true })
 export class RrRoot {
   @Prop({ required: true })
   title!: string;
@@ -15,14 +15,18 @@ export class RrRoot {
   @Prop({
     type: String,
     enum: SharedRrRootStatus,
-    default: SharedRrRootStatus.private,
+    default: SharedRrRootStatus.active,
   })
   status!: SharedRrRootStatus;
 
-  @Prop({ type: Date, required: true })
-  createdAt!: Date;
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  isPublic?: boolean;
 
-  @Prop({ type: Date, required: true })
+  // Timestamps managed by Mongoose
+  createdAt!: Date;
   updatedAt!: Date;
 }
 
