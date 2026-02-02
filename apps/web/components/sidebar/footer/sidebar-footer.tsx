@@ -1,5 +1,7 @@
 "use client";
 
+import { useCallback } from "react";
+import { useShallow } from "zustand/react/shallow";
 import { User, Settings, LogOut, Eye } from "lucide-react";
 import { SidebarFooter } from "@/components/ui/sidebar";
 import {
@@ -18,10 +20,31 @@ import {
 } from "@/components/ui/dropdown-menu";
 import useAuthStore from "@/lib/stores/auth";
 import { useRouter } from "next/navigation";
+import { useLogout } from "@/hooks/use-auth";
+import { toast } from "sonner";
+import { AuthState } from "@/lib/types/models";
+
+const selector = (state: AuthState) => ({
+  user: state.user,
+  clearUser: state.clearUser,
+});
 
 export function SidebarFooterComponent() {
-  const user = useAuthStore((state) => state.user);
+  const { user, clearUser } = useAuthStore(useShallow(selector));
   const router = useRouter();
+  const { mutate: logout } = useLogout();
+
+  const handleLogout = useCallback(() => {
+    logout(undefined, {
+      onSuccess: () => {
+        clearUser();
+        toast.success("退出~");
+      },
+      onError: () => {
+        toast.error("登出失败");
+      },
+    });
+  }, [clearUser, logout]);
 
   if (!user) {
     return (
@@ -73,7 +96,7 @@ export function SidebarFooterComponent() {
                 </DropdownMenuItem>
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
-              <DropdownMenuItem variant="destructive">
+              <DropdownMenuItem variant="destructive" onClick={handleLogout}>
                 <LogOut className="size-4" />
                 <span>退出</span>
               </DropdownMenuItem>

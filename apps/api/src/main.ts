@@ -3,6 +3,7 @@ import { AppModule } from './app.module';
 import { ResponseInterceptor } from './common/response.interceptor';
 import { json } from 'express';
 import session from 'express-session';
+import { AuthGuard } from './auth/auth.guard';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -31,6 +32,7 @@ async function bootstrap() {
       },
     }),
   );
+  app.useGlobalGuards(new AuthGuard());
 
   await app.listen(PORT);
   console.log(`🚀 API Server is running on: http://localhost:${PORT}/api`);

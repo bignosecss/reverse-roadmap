@@ -5,7 +5,7 @@
 import type { OnNodesChange, OnEdgesChange, OnConnect } from "@xyflow/react";
 import { RrNode } from "@repo/shared/models";
 import { FlowNode, FlowEdge, FlowData } from "@repo/shared/flow";
-import { UpdateRrNodeDto } from "@repo/shared/dto";
+import { UpdateRrNodeDto, UserDto } from "@repo/shared/dto";
 
 export type FlowState = {
   nodes: FlowNode[];
@@ -31,3 +31,9 @@ export type CanvasState = {
   setSavingContent: (saving: boolean) => void;
   setSelectedRrContentTab: (rrContentTab: string) => void;
 };
+
+export interface AuthState {
+  user: UserDto | null;
+  setUser: (user: UserDto | null) => void;
+  clearUser: () => void;
+}
