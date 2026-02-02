@@ -7,6 +7,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { RrRoot, RrRootStatus } from "@repo/shared/models";
 import { CreateRrRootDto } from "@repo/shared/dto";
+import useAuthStore from "@/lib/stores/auth";
 
 export function useCreateRootDialog() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -18,6 +19,7 @@ export function useCreateRootDialog() {
   const { mutate: createRrRoot, isPending } = useCreateRrRoot();
   const router = useRouter();
   const queryClient = useQueryClient();
+  const user = useAuthStore((state) => state.user);
 
   const resetForm = useCallback(() => {
     setTitle("");
@@ -41,8 +43,7 @@ export function useCreateRootDialog() {
       createRrRoot(data, {
         onSuccess: (newRrRoot: RrRoot) => {
           handleOpenChange(false); // Close dialog and reset form
-          queryClient.invalidateQueries({ queryKey: ["publicRrRoots"] });
-          queryClient.invalidateQueries({ queryKey: ["rrRoots"] });
+          queryClient.invalidateQueries({ queryKey: ["rrRoots", !!user] });
           toast.success("创建新目标成功", {
             description: `新目标 "${newRrRoot.title}" 已创建`,
           });
@@ -55,7 +56,7 @@ export function useCreateRootDialog() {
         },
       });
     },
-    [createRrRoot, queryClient, router, handleOpenChange],
+    [createRrRoot, handleOpenChange, queryClient, user, router],
   );
 
   const handleConfirm = useCallback(() => {
@@ -76,7 +77,7 @@ export function useCreateRootDialog() {
     };
 
     handleCreateRoot(data);
-  }, [description, handleCreateRoot, title, status]);
+  }, [title, description, status, isPublic, handleCreateRoot]);
 
   const isFormValid = title.trim().length > 0;
 

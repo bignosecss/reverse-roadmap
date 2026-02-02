@@ -58,8 +58,8 @@ export function useRrRootRename(rrRoot: RrRoot) {
   }, [
     editValue,
     queryClient,
-    rootsQueryKey,
     rrRoot._id,
+    rrRoot.status,
     rrRoot.title,
     updateRrRootAsync,
   ]);
