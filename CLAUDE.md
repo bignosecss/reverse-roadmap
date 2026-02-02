@@ -115,7 +115,6 @@ Key env vars (defined in `turbo.json` as globalEnv):
 - `PORT` - API server port
 - `NEXT_PUBLIC_RR_API` - Frontend API endpoint
 - `MONGODB_URI` - MongoDB connection string
-- `TOGGLE_MODE` - Feature flagging
 
 ## Package Manager
 

@@ -47,4 +47,4 @@ pnpm dev
 - **TypeScript**: All applications and packages are written in TypeScript.
 - **Linting and Formatting**: The project uses ESLint and Prettier to enforce a consistent coding style.
 - **Database**: The `api` application uses MongoDB as its database.
-- **Environment Variables**: The `turbo.json` file lists `PORT`, `NEXT_PUBLIC_RR_API`, `TOGGLE_MODE`, and `MONGODB_URI` as global environment variables. You will likely need to create a `.env` file in the root of the project to set these variables. You can use `.env.example` as a template.
+- **Environment Variables**: The `turbo.json` file lists `PORT`, `NEXT_PUBLIC_RR_API`, and `MONGODB_URI` as global environment variables. You will likely need to create a `.env` file in the root of the project to set these variables. You can use `.env.example` as a template.

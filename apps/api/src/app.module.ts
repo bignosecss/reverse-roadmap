@@ -6,7 +6,6 @@ import { RrRootModule } from './rr-root/rr-root.module';
 import { RrNodeModule } from './rr-node/rr-node.module';
 import { RrContentModule } from './rr-content/rr-content.module';
 import { ConfigModule } from '@nestjs/config';
-import { AuthModule } from './auth/auth.module';
 import { RagExportModule } from './rag-export/rag-export.module';
 
 @Module({
@@ -19,7 +18,6 @@ import { RagExportModule } from './rag-export/rag-export.module';
     RrRootModule,
     RrNodeModule,
     RrContentModule,
-    AuthModule,
     RagExportModule,
   ],
   controllers: [AppController],
