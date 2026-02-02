@@ -24,8 +24,8 @@ export const DEFAULT_AUTH_CONFIG: AuthConfig = {
     { pattern: '^/api/auth/logout$', methods: ['POST'] }, // 登出
     { pattern: '^/api/auth/me$', methods: ['GET'] }, // 获取当前用户信息
 
-    // 公开 root （前端控制）及其相关资源的 GET 请求
-    { pattern: '^/api/rr-root$', methods: ['GET'] },
+    // 公开 root 及其相关资源的 GET 请求
+    { pattern: '^/api/rr-root/public$', methods: ['GET'] },
     { pattern: '^/api/rr-node/flow-data/[a-f0-9]{24}$', methods: ['GET'] }, // 获取 node 的 flow 数据
     { pattern: '^/api/rr-content/[a-f0-9]{24}$', methods: ['GET'] }, // 获取单个 content
   ],

@@ -1,7 +1,7 @@
 {
   "$schema": "https://turborepo.com/schema.json",
   "ui": "tui",
-  "globalEnv": ["PORT", "NEXT_PUBLIC_RR_API", "MONGODB_URI"],
+  "globalEnv": ["PORT", "NEXT_PUBLIC_RR_API", "MONGODB_URI", "ADMIN_USERNAME", "ADMIN_PASSWORD"],
   "globalDependencies": [],
   "tasks": {
     "build": {
