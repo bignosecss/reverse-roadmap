@@ -37,8 +37,8 @@ services:
       - MONGODB_URI=mongodb://admin:password@mongodb:27017/reverse-roadmap?authSource=admin
       - RAG_API_URL=http://rag:3002/rag/
       - RAG_SKIP_UPLOAD=true
-      - ADMIN_USERNAME=admin
-      - ADMIN_PASSWORD=admin123
+      - ADMIN_USERNAME=${ADMIN_USERNAME}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
     depends_on:
       - mongodb
     networks:
