@@ -18,6 +18,7 @@ import { RrRoot, RrRootStatus } from "@repo/shared/models";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Switch } from "@/components/ui/switch";
 
 interface RrRootItemDropdownProps {
   rrRoot: RrRoot;
@@ -35,6 +36,8 @@ interface RrRootItemDropdownProps {
   setEditTitle: (title: string) => void;
   editStatus: RrRootStatus;
   setEditStatus: (status: RrRootStatus) => void;
+  editIsPublic: boolean;
+  setEditIsPublic: (isPublic: boolean) => void;
   handleEditRoot: () => void;
   isEditPending: boolean;
   isEditFormValid: boolean;
@@ -56,6 +59,8 @@ export function RrRootItemDropdown({
   setEditTitle,
   editStatus,
   setEditStatus,
+  editIsPublic,
+  setEditIsPublic,
   handleEditRoot,
   isEditPending,
   isEditFormValid,
@@ -115,6 +120,18 @@ export function RrRootItemDropdown({
                   活跃
                 </ToggleGroupItem>
               </ToggleGroup>
+            </div>
+            <div className="grid gap-3">
+              <div className="flex items-center justify-between">
+                <Label>公开目标</Label>
+                <Switch
+                  checked={editIsPublic}
+                  onCheckedChange={setEditIsPublic}
+                />
+              </div>
+              <p className="text-xs text-muted-foreground">
+                {editIsPublic ? "此目标对所有用户可见" : "此目标仅对自己可见"}
+              </p>
             </div>
           </div>
         </BaseDialog>

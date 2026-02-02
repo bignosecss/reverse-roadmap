@@ -13,6 +13,7 @@ export function useCreateRootDialog() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [status, setStatus] = useState<RrRootStatus>(RrRootStatus.active);
+  const [isPublic, setIsPublic] = useState<boolean>(false);
 
   const { mutate: createRrRoot, isPending } = useCreateRrRoot();
   const router = useRouter();
@@ -22,6 +23,7 @@ export function useCreateRootDialog() {
     setTitle("");
     setDescription("");
     setStatus(RrRootStatus.active);
+    setIsPublic(false);
   }, []);
 
   const handleOpenChange = useCallback(
@@ -70,6 +72,7 @@ export function useCreateRootDialog() {
       title: trimmedTitle,
       description: trimmedDescription || undefined,
       status,
+      isPublic,
     };
 
     handleCreateRoot(data);
@@ -86,6 +89,8 @@ export function useCreateRootDialog() {
     setDescription,
     status,
     setStatus,
+    isPublic,
+    setIsPublic,
     handleConfirm,
     isFormValid,
     isPending,

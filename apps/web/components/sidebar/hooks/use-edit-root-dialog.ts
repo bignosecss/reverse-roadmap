@@ -11,23 +11,18 @@ export function useEditRootDialog(rrRoot: RrRoot) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [title, setTitle] = useState(rrRoot.title);
   const [status, setStatus] = useState<RrRootStatus>(rrRoot.status);
+  const [isPublic, setIsPublic] = useState(rrRoot.isPublic ?? false);
 
   const { mutate: updateRrRoot, isPending } = useUpdateRrRoot(rrRoot._id);
   const queryClient = useQueryClient();
 
-  const resetForm = useCallback(() => {
-    setTitle(rrRoot.title);
-    setStatus(rrRoot.status);
-  }, [rrRoot]);
-
   const handleOpenChange = useCallback(
     (open: boolean) => {
       setIsDialogOpen(open);
-      if (!open) {
-        resetForm();
-      }
     },
-    [resetForm],
+
+    // 更新不需要 resetForm
+    [],
   );
 
   const handleConfirm = useCallback(() => {
@@ -41,14 +36,13 @@ export function useEditRootDialog(rrRoot: RrRoot) {
     const data: UpdateRrRootDto = {
       title: trimmedTitle,
       status,
+      isPublic,
     };
 
     updateRrRoot(data, {
       onSuccess: (updatedRrRoot: RrRoot) => {
         handleOpenChange(false);
         queryClient.invalidateQueries({ queryKey: ["rrRoots"] });
-        queryClient.invalidateQueries({ queryKey: ["publicRrRoots"] });
-        queryClient.invalidateQueries({ queryKey: ["rrRoot", rrRoot._id] });
         toast.success("编辑目标成功", {
           description: `目标 "${updatedRrRoot.title}" 已更新`,
         });
@@ -59,7 +53,7 @@ export function useEditRootDialog(rrRoot: RrRoot) {
         });
       },
     });
-  }, [title, status, updateRrRoot, queryClient, handleOpenChange, rrRoot._id]);
+  }, [title, status, isPublic, updateRrRoot, queryClient, handleOpenChange]);
 
   const isFormValid = title.trim().length > 0;
 
@@ -70,6 +64,8 @@ export function useEditRootDialog(rrRoot: RrRoot) {
     setTitle,
     status,
     setStatus,
+    isPublic,
+    setIsPublic,
     handleConfirm,
     isFormValid,
     isPending,

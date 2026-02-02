@@ -23,26 +23,20 @@ export class AuthGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const request = context.switchToHttp().getRequest();
-    const path = request.path;
+    const { path, method } = request;
     const session: SessionData = request.session || {};
 
-    // 如果路径在白名单中，允许访问
-    if (AuthPathMatcher.isWhitelisted(path)) {
+    // 已登录，直接放行所有操作
+    if (session && session.userId) {
       return true;
     }
 
-    // 检查路径是否需要认证
-    if (!AuthPathMatcher.isProtected(path)) {
+    // 未登录，只允许白名单中的 GET 请求
+    if (method === 'GET' && AuthPathMatcher.isWhitelisted(path)) {
       return true;
     }
 
-    // 检查用户是否已登录
-    const userId = session?.userId;
-    if (!userId) {
-      throw new UnauthorizedException('请先登录');
-    }
-
-    // 用户已登录，允许访问
-    return true;
+    // 其他情况拒绝访问
+    throw new UnauthorizedException('请先登录');
   }
 }

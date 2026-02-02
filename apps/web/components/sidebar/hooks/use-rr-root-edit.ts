@@ -39,7 +39,7 @@ export function useRrRootRename(rrRoot: RrRoot) {
     );
 
     try {
-      await updateRrRootAsync({ title: trimmedValue });
+      await updateRrRootAsync({ title: trimmedValue, status: rrRoot.status });
       toast.success("重命名成功", {
         position: "top-center",
       });

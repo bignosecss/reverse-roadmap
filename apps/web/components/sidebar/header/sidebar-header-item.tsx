@@ -8,6 +8,7 @@ import { BaseDialogTrigger } from "@/components/dialogs";
 import { useCreateRootDialog } from "../hooks/use-create-root-dialog";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { RrRootStatus } from "@repo/shared/models";
+import { Switch } from "@/components/ui/switch";
 
 interface SidebarHeaderItemProps {
   item: HeadMenuItem;
@@ -23,6 +24,8 @@ export function SidebarHeaderItem({ item }: SidebarHeaderItemProps) {
     setDescription,
     status,
     setStatus,
+    isPublic,
+    setIsPublic,
     handleConfirm,
     isFormValid,
     isPending,
@@ -80,6 +83,15 @@ export function SidebarHeaderItem({ item }: SidebarHeaderItemProps) {
                 活跃
               </ToggleGroupItem>
             </ToggleGroup>
+          </div>
+          <div className="grid gap-3">
+            <div className="flex items-center justify-between">
+              <Label>公开目标</Label>
+              <Switch checked={isPublic} onCheckedChange={setIsPublic} />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              {isPublic ? "此目标对所有用户可见" : "此目标仅对自己可见"}
+            </p>
           </div>
         </div>
       </BaseDialog>

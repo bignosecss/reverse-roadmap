@@ -1,33 +1,28 @@
 /**
  * 权限管理配置
- * 定义白名单和需要登录认证的路由路径
+ * 定义白名单路径（未登录时只允许这些路径的 GET 请求）
  */
 
 export interface AuthConfig {
-  whitelist: string[]; // 白名单路径，不需要登录认证
-  protectedPaths: string[]; // 需要登录认证的路径模式
+  whitelist: string[]; // 白名单路径（未登录时只允许这些路径的 GET 请求）
 }
 
 /**
  * 默认权限配置
  */
 export const DEFAULT_AUTH_CONFIG: AuthConfig = {
-  // 白名单路径（不需要登录认证）
+  // 白名单路径（未登录时只允许这些路径的 GET 请求）
   // 正则表达式匹配，支持 * 通配符
   whitelist: [
     '^/api/auth/login$', // 登录
     '^/api/auth/register$', // 注册
     '^/api/auth/logout$', // 登出
     '^/api/auth/me$', // 获取当前用户信息
-    '^/api/rr-root/public$', // 公开的根节点
-    '^/api/health$', // 健康检查（如果存在）
-    '^/api/docs$', // API文档（如果存在）
-  ],
 
-  // 需要登录认证的路径模式
-  // 其他所有未明确列出的路径都需要认证
-  protectedPaths: [
-    '^/api/.*$', // 所有以 /api/ 开头的路径都需要认证（除了白名单）
+    // 公开 root （前端控制）及其相关资源的 GET 请求
+    '^/api/rr-root$',
+    '^/api/rr-node/flow-data/[a-f0-9]{24}$', // 获取 node 的 flow 数据
+    '^/api/rr-content/[a-f0-9]{24}$', // 获取单个 content
   ],
 };
 
@@ -43,25 +38,6 @@ export class AuthPathMatcher {
     config: AuthConfig = DEFAULT_AUTH_CONFIG,
   ): boolean {
     return config.whitelist.some((pattern) => {
-      const regex = new RegExp(pattern);
-      return regex.test(path);
-    });
-  }
-
-  /**
-   * 检查路径是否需要认证
-   */
-  static isProtected(
-    path: string,
-    config: AuthConfig = DEFAULT_AUTH_CONFIG,
-  ): boolean {
-    // 如果在白名单中，不需要认证
-    if (this.isWhitelisted(path, config)) {
-      return false;
-    }
-
-    // 检查是否在保护路径列表中
-    return config.protectedPaths.some((pattern) => {
       const regex = new RegExp(pattern);
       return regex.test(path);
     });

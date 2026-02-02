@@ -5,6 +5,7 @@ export interface RrRoot {
   title: string;
   rootRrNode: string;
   status: RrRootStatus;
+  isPublic?: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

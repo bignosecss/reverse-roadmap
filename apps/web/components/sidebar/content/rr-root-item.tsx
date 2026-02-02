@@ -47,6 +47,8 @@ export function RrRootItem({ rrRoot, isActive }: SidebarProjectItemProps) {
     setTitle: setEditTitle,
     status: editStatus,
     setStatus: setEditStatus,
+    isPublic: editIsPublic,
+    setIsPublic: setEditIsPublic,
     handleConfirm: handleEditRoot,
     isFormValid: isEditFormValid,
     isPending: isEditPending,
@@ -99,6 +101,8 @@ export function RrRootItem({ rrRoot, isActive }: SidebarProjectItemProps) {
           handleEditRoot={handleEditRoot}
           isEditPending={isEditPending}
           isEditFormValid={isEditFormValid}
+          editIsPublic={editIsPublic}
+          setEditIsPublic={setEditIsPublic}
         />
       )}
     </SidebarMenuItem>

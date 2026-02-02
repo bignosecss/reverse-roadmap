@@ -10,18 +10,25 @@ import {
 import { RrRootsList } from "./rr-roots-list";
 import { useGetRrRoots } from "@/hooks/use-rr-root";
 import { RrRootStatus } from "@repo/shared";
+import useAuthStore from "@/lib/stores/auth";
 
 export function SidebarContentComponent() {
+  const user = useAuthStore((state) => state.user);
   const { data: rrRoots, isLoading, isError } = useGetRrRoots();
 
+  const allRrRoots = useMemo(
+    () => (user ? rrRoots : rrRoots?.filter((root) => root.isPublic)),
+    [rrRoots, user],
+  );
+
   const activeRoots = useMemo(
-    () => rrRoots?.filter((root) => root.status === RrRootStatus.active),
-    [rrRoots],
+    () => allRrRoots?.filter((root) => root.status === RrRootStatus.active),
+    [allRrRoots],
   );
 
   const archivedRoots = useMemo(
-    () => rrRoots?.filter((root) => root.status === RrRootStatus.archived),
-    [rrRoots],
+    () => allRrRoots?.filter((root) => root.status === RrRootStatus.archived),
+    [allRrRoots],
   );
 
   return (

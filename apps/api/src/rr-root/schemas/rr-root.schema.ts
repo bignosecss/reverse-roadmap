@@ -19,6 +19,12 @@ export class RrRoot {
   })
   status!: SharedRrRootStatus;
 
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  isPublic?: boolean;
+
   // Timestamps managed by Mongoose
   createdAt!: Date;
   updatedAt!: Date;
