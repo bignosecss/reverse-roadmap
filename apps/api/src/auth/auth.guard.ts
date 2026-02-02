@@ -31,8 +31,8 @@ export class AuthGuard implements CanActivate {
       return true;
     }
 
-    // 未登录，只允许白名单中的 GET 请求
-    if (method === 'GET' && AuthPathMatcher.isWhitelisted(path)) {
+    // 未登录，只允许白名单中指定方法的请求
+    if (AuthPathMatcher.isPathAndMethodWhitelisted(path, method)) {
       return true;
     }
 
