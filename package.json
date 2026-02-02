@@ -8,8 +8,10 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
     "delete-branch": "node scripts/delete-branch.js",
+    "clean": "find . -name \".next\" -type d -prune -exec rm -rf '{}' + && find . -name \".turbo\" -type d -prune -exec rm -rf '{}' +",
+    "clean:all": "pnpm clean && pnpm reinstall",
     "reinstall": "find . -name \"node_modules\" -type d -prune -exec rm -rf '{}' + && pnpm install",
-    "allinone": "pnpm reinstall && pnpm format && pnpm check-types && pnpm lint && pnpm build"
+    "allinone": "pnpm clean:all && pnpm format && pnpm check-types && pnpm lint && pnpm build"
   },
   "devDependencies": {
     "prettier": "^3.6.2",

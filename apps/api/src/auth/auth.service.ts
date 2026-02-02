@@ -8,9 +8,9 @@ import { CreateUserDto } from './dto/user.dto';
 
 // Reverse Roadmap 只有一个用户，使用单一对象存储
 const user: UserDto = {
-  _id: "1",
-  username: "admin",
-  password: "admin123",
+  _id: '1',
+  username: 'admin',
+  password: 'admin123',
 };
 
 @Injectable()
