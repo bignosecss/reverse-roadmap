@@ -12,13 +12,12 @@ import useAuthStore from "@/lib/stores/auth";
 
 export const useCreateRrRoot = () => {
   const queryClient = useQueryClient();
-  const user = useAuthStore((state) => state.user);
 
   return useMutation({
     mutationFn: (createRrRootDto: CreateRrRootDto) =>
       createRrRoot(createRrRootDto),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["rrRoots", !!user] });
+      queryClient.invalidateQueries({ queryKey: ["rrRoots"] });
     },
   });
 };

@@ -6,7 +6,6 @@ import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { RrRoot, RrRootStatus } from "@repo/shared/models";
 import { UpdateRrRootDto } from "@repo/shared/dto";
-import useAuthStore from "@/lib/stores/auth";
 
 export function useEditRootDialog(rrRoot: RrRoot) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -16,7 +15,6 @@ export function useEditRootDialog(rrRoot: RrRoot) {
 
   const { mutate: updateRrRoot, isPending } = useUpdateRrRoot(rrRoot._id);
   const queryClient = useQueryClient();
-  const user = useAuthStore((state) => state.user);
 
   const handleOpenChange = useCallback(
     (open: boolean) => {
@@ -44,7 +42,7 @@ export function useEditRootDialog(rrRoot: RrRoot) {
     updateRrRoot(data, {
       onSuccess: (updatedRrRoot: RrRoot) => {
         handleOpenChange(false);
-        queryClient.invalidateQueries({ queryKey: ["rrRoots", !!user] });
+        queryClient.invalidateQueries({ queryKey: ["rrRoots"] });
         toast.success("编辑目标成功", {
           description: `目标 "${updatedRrRoot.title}" 已更新`,
         });
@@ -55,15 +53,7 @@ export function useEditRootDialog(rrRoot: RrRoot) {
         });
       },
     });
-  }, [
-    title,
-    status,
-    isPublic,
-    updateRrRoot,
-    handleOpenChange,
-    queryClient,
-    user,
-  ]);
+  }, [title, status, isPublic, updateRrRoot, handleOpenChange, queryClient]);
 
   const isFormValid = title.trim().length > 0;
 
