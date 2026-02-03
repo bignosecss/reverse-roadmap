@@ -2,9 +2,10 @@ import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
 import type {
-  RrRootDocument,
-  RrNodeDocument,
-  RrContentDocument,
+  SemanticContentDocument,
+  SemanticDocumentUnion,
+  SemanticNodeDocument,
+  SemanticRootDocument,
 } from '@repo/shared';
 import { firstValueFrom } from 'rxjs';
 
@@ -23,84 +24,41 @@ export interface RagApiError {
 @Injectable()
 export class RagApiClient {
   private readonly logger = new Logger(RagApiClient.name);
-  private readonly ragApiUrl: string;
   private readonly nativeDocumentEndpoint: string;
 
   constructor(
     private readonly httpService: HttpService,
     private readonly configService: ConfigService,
   ) {
-    const ragApiUrl = this.configService.get<string>('RAG_API_URL');
+    let ragApiUrl = this.configService.get<string>('RAG_API_URL');
     if (!ragApiUrl) {
       throw new Error('RAG_API_URL configuration is required for RagApiClient');
     }
-    this.ragApiUrl = ragApiUrl.replace(/\/$/, ''); // Remove trailing slash
-    this.nativeDocumentEndpoint = `${this.ragApiUrl}/file-process/native-documents`;
+    ragApiUrl = ragApiUrl.replace(/\/$/, ''); // Remove trailing slash
+    this.nativeDocumentEndpoint = `${ragApiUrl}/add-native-documents`;
   }
 
-  async uploadDocuments(
-    rootDocument: RrRootDocument,
-    nodeDocuments: RrNodeDocument[],
-    contentDocuments: RrContentDocument[],
-  ): Promise<UploadResult> {
-    const allDocuments = [
-      { type: 'root', data: rootDocument },
-      ...nodeDocuments.map((doc) => ({ type: 'node', data: doc })),
-      ...contentDocuments.map((doc) => ({ type: 'content', data: doc })),
-    ];
-
-    // TODO: Remove this skip flag for production
-    const skipRealUpload = this.configService.get<boolean>(
-      'RAG_SKIP_UPLOAD',
-      false,
-    );
-
-    if (skipRealUpload) {
-      this.logger.log(
-        `Skipping real upload (RAG_SKIP_UPLOAD=true). Returning mock result for ${allDocuments.length} documents.`,
-      );
-
-      // Log document details for testing
-      this.logger.debug(
-        `Root document: ${JSON.stringify(rootDocument, null, 2)}`,
-      );
-      this.logger.debug(`Node documents count: ${nodeDocuments.length}`);
-      this.logger.debug(
-        `Node documents: ${JSON.stringify(nodeDocuments, null, 2)}`,
-      );
-      this.logger.debug(`Content documents count: ${contentDocuments.length}`);
-      this.logger.debug(
-        `Content documents: ${JSON.stringify(contentDocuments, null, 2)}`,
-      );
-
-      return {
-        success: true,
-        message: `[TEST MODE] Mock upload for ${allDocuments.length} documents (no real API call)`,
-        uploadedCount: allDocuments.length,
-        failedCount: 0,
-      };
-    }
-
+  async uploadDocuments(semanticDocuments: {
+    semanticRoot: SemanticRootDocument;
+    semanticNodes: SemanticNodeDocument[];
+    semanticContents: SemanticContentDocument[];
+    all: SemanticDocumentUnion[];
+  }): Promise<UploadResult> {
     try {
       this.logger.log(
-        `Uploading ${allDocuments.length} documents to RAG API (${this.ragApiUrl})`,
+        `Uploading ${semanticDocuments.all.length} documents to RAG API (${this.nativeDocumentEndpoint})`,
       );
 
       await firstValueFrom(
         this.httpService.post(this.nativeDocumentEndpoint, {
-          rootId: rootDocument.id,
-          documents: allDocuments,
+          docs: semanticDocuments.all,
         }),
-      );
-
-      this.logger.log(
-        `Successfully uploaded ${allDocuments.length} documents to RAG API`,
       );
 
       return {
         success: true,
-        message: `Successfully uploaded ${allDocuments.length} documents`,
-        uploadedCount: allDocuments.length,
+        message: `Successfully uploaded ${semanticDocuments.all.length} documents`,
+        uploadedCount: semanticDocuments.all.length,
         failedCount: 0,
       };
     } catch (error: unknown) {
@@ -112,7 +70,7 @@ export class RagApiClient {
         success: false,
         message: `Failed to upload documents: ${this.getErrorMessage(error)}`,
         uploadedCount: 0,
-        failedCount: allDocuments.length,
+        failedCount: semanticDocuments.all.length,
       };
     }
   }

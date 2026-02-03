@@ -35,7 +35,6 @@ services:
       - PORT=3001
       - MONGODB_URI=mongodb://admin:password@mongodb:27017/reverse-roadmap?authSource=admin
       - RAG_API_URL=http://rag:3002/rag/
-      - RAG_SKIP_UPLOAD=true
       - ADMIN_USERNAME=${ADMIN_USERNAME}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
     depends_on:
@@ -44,21 +43,21 @@ services:
       - reverse-roadmap-network
 
   # PostgreSQL with pgvector for RAG service
-  # pgvector:
-  #   image: pgvector/pgvector:pg16
-  #   container_name: reverse-roadmap-pgvector
-  #   restart: unless-stopped
-  #   ports:
-  #     - "5434:5432"
-  #   environment:
-  #     - POSTGRES_DB=pgvector-db
-  #     - POSTGRES_USER=pgvector
-  #     - POSTGRES_PASSWORD=admin
-  #   volumes:
-  #     - pgvector_data:/var/lib/postgresql/data
-  #     - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
-  #   networks:
-  #     - reverse-roadmap-network
+  pgvector:
+    image: pgvector/pgvector:pg16
+    container_name: reverse-roadmap-pgvector
+    restart: unless-stopped
+    ports:
+      - "5434:5432"
+    environment:
+      - POSTGRES_DB=pgvector-db
+      - POSTGRES_USER=pgvector
+      - POSTGRES_PASSWORD=admin
+    volumes:
+      - pgvector_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - reverse-roadmap-network
 
   # RAG service (NestJS with langchain)
   rag:
@@ -136,7 +135,7 @@ networks:
 volumes:
   mongodb_data:
     driver: local
-  # pgvector_data:
-  #   driver: local
+  pgvector_data:
+    driver: local
   ollama_data:
     driver: local

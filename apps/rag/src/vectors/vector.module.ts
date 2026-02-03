@@ -1,13 +1,5 @@
 import { Module } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import { VectorRepository } from './vector.repository';
-import { Vector, VectorSchema } from './vector.schema';
+import { VectorStoreService } from './vector-store.service';
 
-@Module({
-  imports: [
-    MongooseModule.forFeature([{ name: Vector.name, schema: VectorSchema }]),
-  ],
-  providers: [VectorRepository],
-  exports: [VectorRepository],
-})
+@Module({ providers: [VectorStoreService] })
 export class VectorModule {}

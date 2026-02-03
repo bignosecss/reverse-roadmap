@@ -3,16 +3,15 @@ import { RecursiveCharacterTextSplitter } from '@langchain/textsplitters';
 
 @Injectable()
 export class LoaderService {
-  async rawTextLoader(text: string) {
-    const chunker = new RecursiveCharacterTextSplitter({
+  async rawTextLoader(nativeRawTextDocument: string): Promise<string[]> {
+    const splitter = new RecursiveCharacterTextSplitter({
       chunkSize: 1800,
       chunkOverlap: 200,
       separators: ['\n\n'],
     });
+    const textChunks = await splitter.splitText(nativeRawTextDocument);
 
-    const chunks = await chunker.splitText(text);
-
-    return chunks.map((chunk) => this.cleanString(chunk));
+    return textChunks.map((chunk) => this.cleanString(chunk));
   }
 
   private cleanString(text: string) {

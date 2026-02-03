@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { RagDataFetcher } from './data-fetcher/rag-data.fetcher';
 import { RagDocumentTransformer } from './transformer/rag-document.transformer';
 import { RagApiClient } from './client/rag-api.client';
+import { SemanticDocumentTransformer } from './transformer/semantic-document.transformer';
 
 export interface ExportResult {
   success: boolean;
@@ -17,6 +18,7 @@ export class RagExportService {
   constructor(
     private readonly ragDataFetcher: RagDataFetcher,
     private readonly ragDocumentTransformer: RagDocumentTransformer,
+    private readonly semanticDocumentTransformer: SemanticDocumentTransformer,
     private readonly ragApiClient: RagApiClient,
   ) {}
 
@@ -31,18 +33,17 @@ export class RagExportService {
 
       // Step 2: Transform data into RAG documents
       this.logger.log('Transforming data into RAG documents');
-      const { rootDocument, nodeDocuments, contentDocuments } =
+      const structuredDocuments =
         this.ragDocumentTransformer.transformAll(data);
+      const semanticDocuments =
+        this.semanticDocumentTransformer.transformAll(structuredDocuments);
 
       // Step 3: Upload documents to RAG API
       this.logger.log(
-        `Uploading ${1 + nodeDocuments.length + contentDocuments.length} documents to RAG API`,
+        `Uploading ${1 + semanticDocuments.semanticNodes.length + semanticDocuments.semanticContents.length} documents to RAG API`,
       );
-      const uploadResult = await this.ragApiClient.uploadDocuments(
-        rootDocument,
-        nodeDocuments,
-        contentDocuments,
-      );
+      const uploadResult =
+        await this.ragApiClient.uploadDocuments(semanticDocuments);
 
       if (uploadResult.success) {
         this.logger.log(
