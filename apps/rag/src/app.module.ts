@@ -1,6 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { LangchainChatModule } from './langchain-chat/langchain-chat.module';
+import { MongooseModule } from '@nestjs/mongoose';
+import { EmbeddingModule } from './embeddings/embedding.module';
+import { LoaderModule } from './loaders/loader.module';
+import { VectorModule } from './vectors/vector.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -8,9 +13,12 @@ import { LangchainChatModule } from './langchain-chat/langchain-chat.module';
       isGlobal: true,
       envFilePath: '.env',
     }),
-    LangchainChatModule,
+    MongooseModule.forRoot(process.env.MONGODB_URI ?? ''),
+    EmbeddingModule,
+    VectorModule,
+    LoaderModule,
   ],
-  controllers: [],
-  providers: [],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
