@@ -10,16 +10,24 @@ export function useRrRootExport(rrRoot: RrRoot) {
     useExportToRag();
 
   const handleExportToRag = useCallback(async () => {
+    setIsDialogOpen(false);
+
+    const toastId = toast.loading("正在导入知识库...", {
+      position: "top-center",
+      description: `正在将 "${rrRoot.title}" 导入知识库，请稍候`,
+    });
+
     try {
       const result = await exportToRagAsync(rrRoot._id);
-      setIsDialogOpen(false);
 
       toast.success("导入知识库成功", {
+        id: toastId,
         position: "top-center",
         description: `成功将 "${rrRoot.title}" 导入知识库，共处理 ${result.totalDocuments} 个文档`,
       });
     } catch (err: unknown) {
       toast.error("导入知识库失败", {
+        id: toastId,
         position: "top-center",
         description: JSON.stringify(err),
       });
