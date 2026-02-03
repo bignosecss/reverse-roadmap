@@ -136,7 +136,7 @@ networks:
 volumes:
   mongodb_data:
     driver: local
-  pgvector_data:
-    driver: local
+  # pgvector_data:
+  #   driver: local
   ollama_data:
     driver: local
