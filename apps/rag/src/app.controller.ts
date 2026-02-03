@@ -7,14 +7,14 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
 
   @Post('add-native-documents')
-  async addText(
+  async addDocuments(
     @Body('docs') semanticNativeDocuments: SemanticDocumentUnion[],
   ) {
     return await this.appService.addSemanticDocuments(semanticNativeDocuments);
   }
 
   @Post('query')
-  async getTexts(@Body('query') query: string) {
-    return await this.appService.getText(query);
+  async chat(@Body('query') query: string) {
+    return await this.appService.AugmentedReply(query);
   }
 }

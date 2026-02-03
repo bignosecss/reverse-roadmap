@@ -18,7 +18,7 @@ export class AppService {
     await this.vectorStore.addDocuments(documents);
   }
 
-  async getText(query: string) {
+  async AugmentedReply(query: string) {
     return await this.vectorStore.similaritySearch(query, 3);
   }
 }
