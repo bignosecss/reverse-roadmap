@@ -32,7 +32,6 @@ services:
       - ./apps/api/src:/app/apps/api/src
       - ./packages:/app/packages
     environment:
-      - NODE_ENV=development
       - PORT=3001
       - MONGODB_URI=mongodb://admin:password@mongodb:27017/reverse-roadmap?authSource=admin
       - RAG_API_URL=http://rag:3002/rag/
@@ -74,7 +73,6 @@ services:
       - ./apps/rag/src:/app/apps/rag/src
       - ./packages:/app/packages
     environment:
-      - NODE_ENV=development
       - PORT=3002
       - MONGODB_URI=mongodb://admin:password@mongodb:27017/reverse-roadmap?authSource=admin
       - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
@@ -97,7 +95,6 @@ services:
       - ./apps/web:/app/apps/web
       - ./packages:/app/packages
     environment:
-      - NODE_ENV=development
       - NEXT_PUBLIC_RR_API=http://localhost:3001/api/
       - PORT=3000
     depends_on:
