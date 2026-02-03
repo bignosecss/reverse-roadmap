@@ -179,42 +179,15 @@ export class SemanticDocumentTransformer {
 
   /**
    * 将 RrContentDocument 转换为语义化文档
+   *
+   * 注意：content 字段只包含纯 markdown 内容（来自 TipTap → Markdown 转换）
+   * 所有描述信息存储在 metadata 中，保持向量检索时只搜索用户实际内容
    */
   transformToSemanticContent(doc: RrContentDocument): SemanticContentDocument {
-    const lines: string[] = [];
-
-    lines.push(`标签页名称：${doc.tabTitle}`);
-    lines.push(`所属节点：${doc.nodeTitle}`);
-    lines.push(`所属目标：${doc.rrRootTitle}`);
-    lines.push('');
-
-    // 节点状态信息
-    lines.push('节点信息：');
-    lines.push(`  节点名称：${doc.nodeTitle}`);
-    if (doc.metadata.nodeDescription) {
-      lines.push(`  节点描述：${doc.metadata.nodeDescription}`);
-    }
-    lines.push(`  节点状态：${doc.metadata.nodeStatus}`);
-    lines.push('');
-
-    // 内容详情
-    lines.push('内容详情：');
-    lines.push(`  标签页名称：${doc.tabTitle}`);
-    lines.push(`  内容长度：${doc.metadata.contentLength} 字符`);
-    lines.push('');
-
-    // 实际内容
-    if (doc.content) {
-      lines.push('内容：');
-      lines.push(doc.content);
-    }
-
-    const content = lines.join('\n');
-
     return {
       type: 'content',
       id: doc.id,
-      content,
+      content: doc.content, // 直接使用 markdown 内容，不添加描述文本
       metadata: {
         contentId: doc.id,
         tabTitle: doc.tabTitle,
