@@ -3,7 +3,7 @@ import { CONFIG } from "./config";
 
 const BASE_URL = CONFIG.RR_API;
 const DEFAULT_FETCH_OPTIONS: RequestInit = {};
-const REQUEST_TIMEOUT = 15000; // 15 seconds
+const REQUEST_TIMEOUT = 60000; // 60 seconds - increased for RAG export operations
 
 export async function apiClient<T>(
   endpoint: string,
