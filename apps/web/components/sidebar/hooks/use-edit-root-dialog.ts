@@ -17,11 +17,7 @@ export function useEditRootDialog(rrRoot: RrRoot) {
   const queryClient = useQueryClient();
 
   const handleOpenChange = useCallback(
-    (open: boolean) => {
-      setIsDialogOpen(open);
-    },
-
-    // 更新不需要 resetForm
+    (open: boolean) => setIsDialogOpen(open),
     [],
   );
 
