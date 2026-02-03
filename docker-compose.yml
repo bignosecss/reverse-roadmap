@@ -79,6 +79,7 @@ services:
       - MONGODB_URI=mongodb://admin:password@mongodb:27017/reverse-roadmap?authSource=admin
       - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
     depends_on:
+      - mongodb
       - ollama-init
     networks:
       - reverse-roadmap-network
