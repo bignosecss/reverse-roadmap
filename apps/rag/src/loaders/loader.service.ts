@@ -29,7 +29,9 @@ export class LoaderService {
         documents.push(...loaded);
       } else if (doc.type === 'content') {
         // TODO: 实现 content 文档的加载策略
-        this.logger.warn(`Content document loader not implemented yet: ${doc.id}`);
+        this.logger.warn(
+          `Content document loader not implemented yet: ${doc.id}`,
+        );
       }
     }
 
