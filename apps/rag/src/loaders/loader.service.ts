@@ -12,12 +12,6 @@ import type {
 export class LoaderService {
   private readonly logger = new Logger(LoaderService.name);
 
-  private textSplitter = new RecursiveCharacterTextSplitter({
-    chunkSize: 1000,
-    chunkOverlap: 200,
-    separators: ['\n\n', '\n', '。', '，', ' ', ''],
-  });
-
   /**
    * 处理语义化文档，根据类型选择不同的加载策略
    */
@@ -45,7 +39,13 @@ export class LoaderService {
   private async loadStructuredDocument(
     doc: SemanticRootDocument | SemanticNodeDocument,
   ): Promise<Document[]> {
-    const chunks = await this.textSplitter.splitText(doc.content);
+    const textSplitter = new RecursiveCharacterTextSplitter({
+      chunkSize: 1000,
+      chunkOverlap: 200,
+      separators: ['\n\n', '\n', '。', '，', ' ', ''],
+    });
+
+    const chunks = await textSplitter.splitText(doc.content);
 
     return chunks.map((chunk, index) => ({
       pageContent: chunk,
