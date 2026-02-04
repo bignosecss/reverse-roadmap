@@ -17,6 +17,7 @@ export interface RrRootMetadata {
 
   // 根目标属性
   rootStatus: RrRootStatus;
+  isPublic: boolean;
 
   // 层级结构信息
   totalNodes: number;

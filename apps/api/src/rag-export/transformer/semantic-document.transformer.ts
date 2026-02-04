@@ -70,6 +70,7 @@ export class SemanticDocumentTransformer {
         rootRrNodeDescription: doc.metadata.rootRrNodeDescription,
         rootRrNodeStatus: doc.metadata.rootRrNodeStatus,
         rootStatus: doc.metadata.rootStatus,
+        isPublic: doc.metadata.isPublic,
         totalNodes: doc.metadata.totalNodes,
         totalTabs: doc.metadata.totalTabs,
         completedNodesCount: doc.metadata.completedNodesCount,
