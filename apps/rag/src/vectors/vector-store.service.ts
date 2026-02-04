@@ -4,9 +4,9 @@ import {
   DistanceStrategy,
   PGVectorStore,
 } from '@langchain/community/vectorstores/pgvector';
-import * as pg from 'pg';
 import { Document } from '@langchain/core/documents';
-import { PoolConfig } from 'pg';
+import * as pg from 'pg';
+import type { MetadataFilter } from '@repo/shared';
 
 @Injectable()
 export class VectorStoreService {
@@ -60,8 +60,12 @@ export class VectorStoreService {
     await this.pgvectorStore.addDocuments(documents);
   }
 
-  async similaritySearch(query: string, limit: number): Promise<Document[]> {
-    return this.pgvectorStore.similaritySearch(query, limit);
+  async similaritySearch(
+    query: string,
+    limit: number,
+    filter?: MetadataFilter,
+  ): Promise<Document[]> {
+    return this.pgvectorStore.similaritySearch(query, limit, filter);
   }
 
   async onModuleDestroy() {
@@ -78,7 +82,7 @@ const config = {
     user: 'pgvector',
     password: 'admin',
     database: 'pgvector-db',
-  } as PoolConfig,
+  } as pg.PoolConfig,
   tableName: 'testlangchain',
   columns: {
     idColumnName: 'id',

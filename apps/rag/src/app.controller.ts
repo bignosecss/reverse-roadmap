@@ -1,6 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { AppService } from './app.service';
-import type { SemanticDocumentUnion } from '@repo/shared';
+import type { SemanticDocumentUnion, RAGQueryRequest } from '@repo/shared';
 
 @Controller()
 export class AppController {
@@ -14,7 +14,7 @@ export class AppController {
   }
 
   @Post('query')
-  async chat(@Body('query') query: string) {
-    return await this.appService.AugmentedReply(query);
+  async chat(@Body() request: RAGQueryRequest) {
+    return await this.appService.AugmentedReply(request);
   }
 }

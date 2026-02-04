@@ -12,6 +12,7 @@ export interface RrNodeMetadata {
   // 所属目标
   rrRootId: string;
   rrRootTitle: string;
+  isPublic: boolean;
 
   // 层级信息
   hierarchy: string[];

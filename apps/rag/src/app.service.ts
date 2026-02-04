@@ -1,7 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { LoaderService } from './loaders/loader.service';
 import { VectorStoreService } from './vectors/vector-store.service';
-import { SemanticDocumentUnion } from '@repo/shared';
+import type {
+  SemanticDocumentUnion,
+  RAGQueryRequest,
+  MetadataFilter,
+} from '@repo/shared';
 
 @Injectable()
 export class AppService {
@@ -18,7 +22,42 @@ export class AppService {
     await this.vectorStore.addDocuments(documents);
   }
 
-  async AugmentedReply(query: string) {
-    return await this.vectorStore.similaritySearch(query, 3);
+  /**
+   * 根据查询请求生成增强回复
+   */
+  async AugmentedReply(request: RAGQueryRequest) {
+    const { query, context } = request;
+
+    // 构建基于上下文的过滤条件
+    const filter = this.buildMetadataFilter(context);
+
+    const semanticSearchDocuments = await this.vectorStore.similaritySearch(
+      query,
+      3,
+      filter,
+    );
+
+    return semanticSearchDocuments;
+  }
+
+  /**
+   * 根据上下文构建 metadata 过滤条件
+   */
+  private buildMetadataFilter(
+    context?: RAGQueryRequest['context'],
+  ): MetadataFilter | undefined {
+    if (!context) {
+      return undefined;
+    }
+
+    const { isAuthenticated } = context;
+
+    // 如果用户已登录，没有过滤条件
+    if (isAuthenticated) {
+      return undefined;
+    }
+
+    // 如果用户未登录，仅允许查找 isPublic 的文档
+    return { isPublic: true };
   }
 }

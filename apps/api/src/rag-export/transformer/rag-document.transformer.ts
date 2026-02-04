@@ -103,6 +103,7 @@ export class RagDocumentTransformer {
         // 所属目标
         rrRootId: data.root._id,
         rrRootTitle: data.root.title,
+        isPublic: data.root.isPublic ?? false,
 
         // Hierarchy information
         hierarchy,
@@ -162,6 +163,7 @@ export class RagDocumentTransformer {
         // 所属目标
         rrRootId: data.root._id,
         rrRootTitle: data.root.title,
+        isPublic: data.root.isPublic ?? false,
 
         // Time information
         createdAt: content.createdAt,

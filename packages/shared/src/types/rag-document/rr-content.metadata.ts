@@ -17,6 +17,7 @@ export interface RrContentMetadata {
   // 所属目标
   rrRootId: string;
   rrRootTitle: string;
+  isPublic: boolean;
 
   // 时间信息
   createdAt: Date;
