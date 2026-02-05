@@ -40,9 +40,6 @@ export class VectorStoreService implements OnModuleInit, OnModuleDestroy {
         user: this.configService.get('PGVECTOR_USER', 'pgvector'),
         password: this.configService.get('PGVECTOR_PASSWORD', 'admin'),
         database: this.configService.get('PGVECTOR_DB', 'pgvector-db'),
-        max: 20,
-        idleTimeoutMillis: 30000,
-        connectionTimeoutMillis: 5000,
       },
       tableName: this.configService.get('PGVECTOR_TABLE', 'testlangchain'),
       columns: {
@@ -104,11 +101,6 @@ export class VectorStoreService implements OnModuleInit, OnModuleDestroy {
           ${this.config.columns.contentColumnName} TEXT NOT NULL,
           ${this.config.columns.metadataColumnName} JSONB
         );
-
-        CREATE INDEX IF NOT EXISTS ${this.config.tableName}_vector_idx
-        ON ${this.config.tableName}
-        USING ivfflat (${this.config.columns.vectorColumnName} ${this.config.distanceStrategy === 'cosine' ? 'cosine_ops' : 'l2_ops'})
-        WITH (lists = 100);
       `;
 
       await client.query(createTableQuery);
