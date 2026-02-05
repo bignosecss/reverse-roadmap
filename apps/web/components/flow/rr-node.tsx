@@ -3,7 +3,7 @@ import React from "react";
 import { NodeProps } from "@xyflow/react";
 
 import { FlowNode } from "@repo/shared/flow";
-import RrNodeToolbar from "./toolbar/rr-node-toolbar";
+import RrNodeToolbar from "./toolbar";
 import RrNodeCard from "./rr-node-card";
 
 /**

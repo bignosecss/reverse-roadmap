@@ -3,6 +3,7 @@
 import { useCallback, useState } from "react";
 import { DndContext, DragEndEvent, useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
+import { useChatStore } from "@/lib/stores/chat";
 
 interface DraggableChatBoxProps {
   children?: React.ReactNode;
@@ -54,6 +55,7 @@ export default function DraggableChat({
   defaultPosition = { x: 100, y: 100 },
   className = "",
 }: DraggableChatBoxProps) {
+  const chatOpen = useChatStore((state) => state.chatOpen);
   const [position, setPosition] = useState(defaultPosition);
 
   const handleDragEnd = useCallback((event: DragEndEvent) => {
@@ -63,6 +65,8 @@ export default function DraggableChat({
       y: prev.y + delta.y,
     }));
   }, []);
+
+  if (!chatOpen) return null;
 
   return (
     <DndContext onDragEnd={handleDragEnd}>

@@ -37,3 +37,8 @@ export interface AuthState {
   setUser: (user: UserDto | null) => void;
   clearUser: () => void;
 }
+
+export interface ChatState {
+  chatOpen: boolean;
+  toggleChat: (open: boolean) => void;
+}
