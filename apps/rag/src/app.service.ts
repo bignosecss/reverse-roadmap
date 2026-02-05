@@ -70,14 +70,16 @@ export class AppService {
       return undefined;
     }
 
-    const { isAuthenticated } = context;
+    const { isAuthenticated, rrRootId } = context;
 
-    // 如果用户已登录，没有过滤条件
-    if (isAuthenticated) {
-      return undefined;
+    // 基础过滤条件：仅允许查询当前 root
+    const filter: Record<string, any> = { rrRootId };
+
+    // 如果用户未登录，额外限制为 isPublic 的文档
+    if (!isAuthenticated) {
+      filter.isPublic = true;
     }
 
-    // 如果用户未登录，仅允许查找 isPublic 的文档
-    return { isPublic: true };
+    return filter;
   }
 }

@@ -5,6 +5,8 @@
 export interface RAGQueryContext {
   /** 用户是否已登录 */
   isAuthenticated: boolean;
+  /** 根目标 ID，用于限制查询范围 */
+  rrRootId: string;
 }
 
 /**
