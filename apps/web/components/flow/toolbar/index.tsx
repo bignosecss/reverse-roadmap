@@ -6,6 +6,10 @@ import { OpenCanvasTrigger } from "./open-canvas-trigger";
 import { RrNode } from "@repo/shared/models";
 import { OpenChatTrigger } from "./open-chat-trigger";
 
+function ToolbarDivider() {
+  return <div className="w-px h-6 bg-border mx-1 self-center" />;
+}
+
 interface RrNodeToolbarProps {
   isVisible: boolean;
   currentNode: RrNode;
@@ -24,11 +28,11 @@ export default function RrNodeToolbar({
       className="flex gap-1 p-1 bg-background border rounded-md shadow-lg"
     >
       <OpenChatTrigger />
-      <div className="w-px h-6 bg-border mx-1 self-center" />
+      <ToolbarDivider />
       <AddNodeTrigger currentNode={currentNode} />
       <EditNodeTrigger currentNode={currentNode} />
       {!isRootNode && <DeleteNodeTrigger currentNode={currentNode} />}
-      <div className="w-px h-6 bg-border mx-1 self-center" />
+      <ToolbarDivider />
       <OpenCanvasTrigger currentNode={currentNode} />
     </NodeToolbar>
   );
