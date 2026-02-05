@@ -75,8 +75,19 @@ services:
       - PORT=3002
       - MONGODB_URI=mongodb://admin:password@mongodb:27017/reverse-roadmap?authSource=admin
       - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
+      # PGVector configuration
+      - PGVECTOR_HOST=pgvector
+      - PGVECTOR_PORT=5432
+      - PGVECTOR_USER=pgvector
+      - PGVECTOR_PASSWORD=admin
+      - PGVECTOR_DB=pgvector-db
+      - PGVECTOR_TABLE=testlangchain
+      - PGVECTOR_DISTANCE=cosine
+      # Ollama configuration
+      - OLLAMA_BASE_URL=http://ollama:11434
     depends_on:
       - mongodb
+      - pgvector
       - ollama-init
     networks:
       - reverse-roadmap-network

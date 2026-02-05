@@ -1,103 +1,132 @@
-import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
+import { Injectable, OnModuleInit, OnModuleDestroy, Logger } from '@nestjs/common';
 import { OllamaEmbeddings } from '@langchain/ollama';
 import {
   DistanceStrategy,
   PGVectorStore,
 } from '@langchain/community/vectorstores/pgvector';
 import * as pg from 'pg';
+import { ConfigService } from '@nestjs/config';
+
+interface PGVectorConfig {
+  poolConfig: pg.PoolConfig;
+  tableName: string;
+  columns: {
+    idColumnName: string;
+    vectorColumnName: string;
+    contentColumnName: string;
+    metadataColumnName: string;
+  };
+  distanceStrategy: DistanceStrategy;
+  vectorDimension: number;
+}
 
 @Injectable()
-export class VectorStoreService
-  extends PGVectorStore
-  implements OnModuleInit, OnModuleDestroy
-{
-  private poolClient!: pg.Pool;
+export class VectorStoreService implements OnModuleInit, OnModuleDestroy {
+  private vectorStore!: PGVectorStore;
+  private pool!: pg.Pool;
+  private readonly logger = new Logger(VectorStoreService.name);
+  private readonly config: PGVectorConfig;
 
-  // Override constructor to accept no args (NestJS requirement)
-  constructor() {
-    // Pass temporary values, will be properly initialized in onModuleInit
-    super(
-      new OllamaEmbeddings({
-        model: 'nomic-embed-text',
-        baseUrl: 'http://ollama:11434',
-      }),
-      {
-        pool: new pg.Pool(),
-        tableName: '',
-        columns: {
-          idColumnName: '',
-          vectorColumnName: '',
-          contentColumnName: '',
-          metadataColumnName: '',
-        },
-        distanceStrategy: 'cosine',
+  constructor(private readonly configService: ConfigService) {
+    this.config = {
+      poolConfig: {
+        host: this.configService.get('PGVECTOR_HOST', 'pgvector'),
+        port: this.configService.get('PGVECTOR_PORT', 5432),
+        user: this.configService.get('PGVECTOR_USER', 'pgvector'),
+        password: this.configService.get('PGVECTOR_PASSWORD', 'admin'),
+        database: this.configService.get('PGVECTOR_DB', 'pgvector-db'),
+        max: 20,
+        idleTimeoutMillis: 30000,
+        connectionTimeoutMillis: 5000,
       },
-    );
+      tableName: this.configService.get('PGVECTOR_TABLE', 'testlangchain'),
+      columns: {
+        idColumnName: 'id',
+        vectorColumnName: 'vector',
+        contentColumnName: 'content',
+        metadataColumnName: 'metadata',
+      },
+      distanceStrategy: this.configService.get<DistanceStrategy>('PGVECTOR_DISTANCE', 'cosine'),
+      vectorDimension: 768,
+    };
   }
 
   async onModuleInit() {
-    const { postgresConnectionOptions, tableName, columns, distanceStrategy } =
-      config;
-    this.poolClient = new pg.Pool(postgresConnectionOptions);
-    await this.ensureDatabaseSchema();
+    try {
+      this.pool = new pg.Pool(this.config.poolConfig);
+      await this.pool.query('SELECT 1');
+      this.logger.log('PGVector connection pool initialized successfully');
 
-    // Reinitialize the PGVectorStore with proper config
-    const pgVectorStore = await PGVectorStore.initialize(
-      new OllamaEmbeddings({
-        model: 'nomic-embed-text',
-        baseUrl: 'http://ollama:11434',
-      }),
-      {
-        pool: this.poolClient,
-        tableName,
-        columns,
-        distanceStrategy,
-      },
-    );
-    // Copy all properties from the properly initialized instance
-    Object.assign(this, pgVectorStore);
+      await this.ensureDatabaseSchema();
+
+      this.vectorStore = await PGVectorStore.initialize(
+        new OllamaEmbeddings({
+          model: 'nomic-embed-text',
+          baseUrl: this.configService.get('OLLAMA_BASE_URL', 'http://ollama:11434'),
+        }),
+        {
+          pool: this.pool,
+          tableName: this.config.tableName,
+          columns: this.config.columns,
+          distanceStrategy: this.config.distanceStrategy,
+        },
+      );
+      this.logger.log('PGVectorStore initialized successfully');
+    } catch (error) {
+      this.logger.error('Failed to initialize VectorStoreService', error);
+      throw new Error('Vector store initialization failed');
+    }
   }
 
   private async ensureDatabaseSchema() {
-    const client = await this.poolClient.connect();
+    let client: pg.PoolClient | null = null;
     try {
-      const query = `
-      CREATE TABLE IF NOT EXISTS ${config.tableName} (
-        ${config.columns.idColumnName} UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-        ${config.columns.vectorColumnName} VECTOR,
-        ${config.columns.contentColumnName} TEXT,
-        ${config.columns.metadataColumnName} JSONB
-      );
-    `;
+      client = await this.pool.connect();
+
       await client.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"');
       await client.query('CREATE EXTENSION IF NOT EXISTS vector');
-      await client.query(query);
+
+      const createTableQuery = `
+        CREATE TABLE IF NOT EXISTS ${this.config.tableName} (
+          ${this.config.columns.idColumnName} UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+          ${this.config.columns.vectorColumnName} VECTOR(${this.config.vectorDimension}),
+          ${this.config.columns.contentColumnName} TEXT NOT NULL,
+          ${this.config.columns.metadataColumnName} JSONB
+        );
+
+        CREATE INDEX IF NOT EXISTS ${this.config.tableName}_vector_idx
+        ON ${this.config.tableName}
+        USING ivfflat (${this.config.columns.vectorColumnName} ${this.config.distanceStrategy === 'cosine' ? 'cosine_ops' : 'l2_ops'})
+        WITH (lists = 100);
+      `;
+
+      await client.query(createTableQuery);
+      this.logger.log(`PGVector table ${this.config.tableName} ensured with schema`);
+    } catch (error) {
+      this.logger.error('Failed to ensure database schema', error);
+      throw error;
     } finally {
-      client.release();
+      if (client) {
+        client.release();
+      }
     }
   }
 
   async onModuleDestroy() {
-    await this.poolClient.end();
+    if (this.pool) {
+      try {
+        await this.pool.end();
+        this.logger.log('PGVector connection pool closed successfully');
+      } catch (error) {
+        this.logger.error('Failed to close connection pool', error);
+      }
+    }
+  }
+
+  get instance(): PGVectorStore {
+    if (!this.vectorStore) {
+      throw new Error('Vector store not initialized');
+    }
+    return this.vectorStore;
   }
 }
-
-// Define the config
-const config = {
-  postgresConnectionOptions: {
-    type: 'postgres',
-    host: 'pgvector',
-    port: 5432,
-    user: 'pgvector',
-    password: 'admin',
-    database: 'pgvector-db',
-  } as pg.PoolConfig,
-  tableName: 'testlangchain',
-  columns: {
-    idColumnName: 'id',
-    vectorColumnName: 'vector',
-    contentColumnName: 'content',
-    metadataColumnName: 'metadata',
-  },
-  distanceStrategy: 'cosine' as DistanceStrategy,
-};
