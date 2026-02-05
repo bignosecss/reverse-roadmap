@@ -1,44 +1,66 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, OnModuleInit, OnModuleDestroy } from '@nestjs/common';
 import { OllamaEmbeddings } from '@langchain/ollama';
 import {
   DistanceStrategy,
   PGVectorStore,
 } from '@langchain/community/vectorstores/pgvector';
-import { Document } from '@langchain/core/documents';
 import * as pg from 'pg';
-import type { MetadataFilter } from '@repo/shared';
 
 @Injectable()
-export class VectorStoreService {
-  private pgvectorStore!: PGVectorStore;
-  private pool!: pg.Pool;
+export class VectorStoreService
+  extends PGVectorStore
+  implements OnModuleInit, OnModuleDestroy
+{
+  private poolClient!: pg.Pool;
 
-  async onModuleInit() {
-    const { postgresConnectionOptions, tableName, columns, distanceStrategy } =
-      config;
-    this.pool = new pg.Pool(postgresConnectionOptions);
-    await this.ensureDatabaseSchema();
-
-    const pgVectorConfig = {
-      pool: this.pool,
-      tableName,
-      columns,
-      distanceStrategy,
-    };
-
-    this.pgvectorStore = new PGVectorStore(
+  // Override constructor to accept no args (NestJS requirement)
+  constructor() {
+    // Pass temporary values, will be properly initialized in onModuleInit
+    super(
       new OllamaEmbeddings({
         model: 'nomic-embed-text',
         baseUrl: 'http://ollama:11434',
       }),
-      pgVectorConfig,
+      {
+        pool: new pg.Pool(),
+        tableName: '',
+        columns: {
+          idColumnName: '',
+          vectorColumnName: '',
+          contentColumnName: '',
+          metadataColumnName: '',
+        },
+        distanceStrategy: 'cosine',
+      },
     );
   }
 
+  async onModuleInit() {
+    const { postgresConnectionOptions, tableName, columns, distanceStrategy } =
+      config;
+    this.poolClient = new pg.Pool(postgresConnectionOptions);
+    await this.ensureDatabaseSchema();
+
+    // Reinitialize the PGVectorStore with proper config
+    const pgVectorStore = await PGVectorStore.initialize(
+      new OllamaEmbeddings({
+        model: 'nomic-embed-text',
+        baseUrl: 'http://ollama:11434',
+      }),
+      {
+        pool: this.poolClient,
+        tableName,
+        columns,
+        distanceStrategy,
+      },
+    );
+    // Copy all properties from the properly initialized instance
+    Object.assign(this, pgVectorStore);
+  }
+
   private async ensureDatabaseSchema() {
-    const client = await this.pool.connect();
+    const client = await this.poolClient.connect();
     try {
-      // Check and create table and columns
       const query = `
       CREATE TABLE IF NOT EXISTS ${config.tableName} (
         ${config.columns.idColumnName} UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -47,7 +69,6 @@ export class VectorStoreService {
         ${config.columns.metadataColumnName} JSONB
       );
     `;
-      // Create requried extensions first
       await client.query('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"');
       await client.query('CREATE EXTENSION IF NOT EXISTS vector');
       await client.query(query);
@@ -56,20 +77,8 @@ export class VectorStoreService {
     }
   }
 
-  async addDocuments(documents: Document[]): Promise<void> {
-    await this.pgvectorStore.addDocuments(documents);
-  }
-
-  async similaritySearch(
-    query: string,
-    limit: number,
-    filter?: MetadataFilter,
-  ): Promise<Document[]> {
-    return this.pgvectorStore.similaritySearch(query, limit, filter);
-  }
-
   async onModuleDestroy() {
-    await this.pool.end();
+    await this.poolClient.end();
   }
 }
 
