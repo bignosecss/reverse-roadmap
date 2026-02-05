@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { DndContext, DragEndEvent, useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 
@@ -56,13 +56,13 @@ export default function DraggableChat({
 }: DraggableChatBoxProps) {
   const [position, setPosition] = useState(defaultPosition);
 
-  const handleDragEnd = (event: DragEndEvent) => {
+  const handleDragEnd = useCallback((event: DragEndEvent) => {
     const { delta } = event;
     setPosition((prev) => ({
       x: prev.x + delta.x,
       y: prev.y + delta.y,
     }));
-  };
+  }, []);
 
   return (
     <DndContext onDragEnd={handleDragEnd}>
