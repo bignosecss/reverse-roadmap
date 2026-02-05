@@ -26,6 +26,7 @@
     "@langchain/community": "^1.1.1",
     "@langchain/core": "^1.1.5",
     "@langchain/deepseek": "^1.0.3",
+    "@langchain/mongodb": "^1.1.0",
     "@langchain/ollama": "^1.1.0",
     "@langchain/textsplitters": "^1.0.1",
     "@nestjs/common": "^11.0.1",
@@ -38,7 +39,7 @@
     "class-validator": "^0.14.3",
     "langchain": "^1.2.0",
     "pdf-parse": "^1.1.1",
-    "pg": "^8.16.3",
+    "pg": "^8.18.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },

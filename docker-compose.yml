@@ -32,11 +32,9 @@ services:
       - ./apps/api/src:/app/apps/api/src
       - ./packages:/app/packages
     environment:
-      - NODE_ENV=development
       - PORT=3001
       - MONGODB_URI=mongodb://admin:password@mongodb:27017/reverse-roadmap?authSource=admin
       - RAG_API_URL=http://rag:3002/rag/
-      - RAG_SKIP_UPLOAD=true
       - ADMIN_USERNAME=${ADMIN_USERNAME}
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
     depends_on:
@@ -74,12 +72,23 @@ services:
       - ./apps/rag/src:/app/apps/rag/src
       - ./packages:/app/packages
     environment:
-      - NODE_ENV=development
       - PORT=3002
-      - DATABASE_URL=postgresql://pgvector:admin@pgvector:5432/pgvector-db
+      - MONGODB_URI=mongodb://admin:password@mongodb:27017/reverse-roadmap?authSource=admin
       - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
+      # PGVector configuration
+      - PGVECTOR_HOST=pgvector
+      - PGVECTOR_PORT=5432
+      - PGVECTOR_USER=pgvector
+      - PGVECTOR_PASSWORD=admin
+      - PGVECTOR_DB=pgvector-db
+      - PGVECTOR_TABLE=testlangchain
+      - PGVECTOR_DISTANCE=cosine
+      # Ollama configuration
+      - OLLAMA_BASE_URL=http://ollama:11434
     depends_on:
+      - mongodb
       - pgvector
+      - ollama-init
     networks:
       - reverse-roadmap-network
 
@@ -96,7 +105,6 @@ services:
       - ./apps/web:/app/apps/web
       - ./packages:/app/packages
     environment:
-      - NODE_ENV=development
       - NEXT_PUBLIC_RR_API=http://localhost:3001/api/
       - PORT=3000
     depends_on:
@@ -105,31 +113,31 @@ services:
       - reverse-roadmap-network
 
   # Ollama service for local LLM
-  # ollama:
-  #   image: ollama/ollama:latest
-  #   container_name: reverse-roadmap-ollama
-  #   restart: unless-stopped
-  #   ports:
-  #     - "11434:11434"
-  #   volumes:
-  #     - ollama_data:/root/.ollama
-  #   networks:
-  #     - reverse-roadmap-network
+  ollama:
+    image: ollama/ollama:latest
+    container_name: reverse-roadmap-ollama
+    restart: unless-stopped
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    networks:
+      - reverse-roadmap-network
 
-  # # Initialize Ollama with required models
-  # ollama-init:
-  #   image: curlimages/curl:latest
-  #   container_name: reverse-roadmap-ollama-init
-  #   depends_on:
-  #     - ollama
-  #   command: >
-  #     sh -c "
-  #       sleep 10 &&
-  #       curl -X POST http://ollama:11434/api/pull -H 'Content-Type: application/json' -d '{\"model\": \"nomic-embed-text:latest\"}' &&
-  #       echo 'Model nomic-embed-text:latest pulled successfully'
-  #     "
-  #   networks:
-  #     - reverse-roadmap-network
+  # Initialize Ollama with required models
+  ollama-init:
+    image: curlimages/curl:latest
+    container_name: reverse-roadmap-ollama-init
+    depends_on:
+      - ollama
+    command: >
+      sh -c "
+        sleep 10 &&
+        curl -X POST http://ollama:11434/api/pull -H 'Content-Type: application/json' -d '{\"model\": \"nomic-embed-text:latest\"}' &&
+        echo 'Model nomic-embed-text:latest pulled successfully'
+      "
+    networks:
+      - reverse-roadmap-network
 
 networks:
   reverse-roadmap-network:

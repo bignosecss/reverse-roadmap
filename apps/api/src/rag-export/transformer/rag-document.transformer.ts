@@ -36,6 +36,10 @@ export class RagDocumentTransformer {
       rootRrNodeTitle: root.rootRrNodeEntity.title,
 
       metadata: {
+        // 原始数据标识
+        rrRootId: root._id,
+        rrRootTitle: root.title,
+
         // Root node information
         rootRrNodeId: root.rootRrNodeEntity._id,
         rootRrNodeTitle: root.rootRrNodeEntity.title,
@@ -47,6 +51,7 @@ export class RagDocumentTransformer {
           root.status === RrRootStatus.active
             ? RrRootStatus.active
             : RrRootStatus.archived,
+        isPublic: root.isPublic ?? false,
 
         // Hierarchy structure information
         totalNodes: nodes.length,
@@ -58,7 +63,7 @@ export class RagDocumentTransformer {
         inProgressNodesCount: statusCounts.inProgress,
         notStartedNodesCount: statusCounts.notStarted,
         blockedNodesCount: statusCounts.blocked,
-        reviwNodesCount: statusCounts.review,
+        reviewNodesCount: statusCounts.review,
         cancelledNodesCount: statusCounts.cancelled,
         activeNodesCount: statusCounts.active,
 
@@ -89,29 +94,35 @@ export class RagDocumentTransformer {
       childrenTitles,
 
       metadata: {
-        // Hierarchy information
-        hierarchy,
-        level,
-
-        // Node properties
+        // 节点标识
+        nodeId: node._id,
         nodeTitle: node.title,
         nodeDescription: node.description,
         nodeStatus: node.status || 'active',
 
-        // Content properties
+        // 所属目标
+        rrRootId: data.root._id,
+        rrRootTitle: data.root.title,
+        isPublic: data.root.isPublic ?? false,
+
+        // Hierarchy information
+        hierarchy,
+        level,
+
+        // 父节点信息
+        parentNodeId,
+        parentNodeTitle,
+
+        // 子节点信息
+        childrenCount,
+        childrenTitles,
+
+        // 内容标签页
         tabTitles: node.content.map((c) => c.tabTitle),
 
         // Time information
         createdAt: node.createdAt || new Date(),
         updatedAt: node.updatedAt || new Date(),
-
-        // Relationship information
-        rrRootId: data.root._id,
-        rrRootTitle: data.root.title,
-        parentNodeId,
-        parentNodeTitle,
-        childrenCount,
-        childrenTitles,
       },
     };
   }
@@ -138,19 +149,21 @@ export class RagDocumentTransformer {
       content: conversion.markdown,
 
       metadata: {
-        // Content identification
+        // 内容标识
+        contentId: content._id,
         tabTitle: content.tabTitle,
         contentLength: conversion.contentLength,
 
-        // Node relationship
+        // 所属节点
         nodeId,
         nodeTitle: node.title,
         nodeDescription: node.description,
         nodeStatus: node.status || 'active',
 
-        // Root relationship
+        // 所属目标
         rrRootId: data.root._id,
         rrRootTitle: data.root.title,
+        isPublic: data.root.isPublic ?? false,
 
         // Time information
         createdAt: content.createdAt,
