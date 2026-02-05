@@ -39,7 +39,7 @@ export class AppService {
     const prompt = ChatPromptTemplate.fromTemplate(
       TEMPLATES.NATIVE_DOCUMENT_CONTEXT_CHAT,
     );
-    const retriever = this.vectorStore.instance.asRetriever(3, filter);
+    const retriever = this.vectorStore.instance.asRetriever(999, filter);
     const model = new ChatDeepSeek({
       temperature: 0.8,
       model: 'deepseek-chat',
