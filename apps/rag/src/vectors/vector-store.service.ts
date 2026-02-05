@@ -1,4 +1,9 @@
-import { Injectable, OnModuleInit, OnModuleDestroy, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  OnModuleInit,
+  OnModuleDestroy,
+  Logger,
+} from '@nestjs/common';
 import { OllamaEmbeddings } from '@langchain/ollama';
 import {
   DistanceStrategy,
@@ -46,7 +51,10 @@ export class VectorStoreService implements OnModuleInit, OnModuleDestroy {
         contentColumnName: 'content',
         metadataColumnName: 'metadata',
       },
-      distanceStrategy: this.configService.get<DistanceStrategy>('PGVECTOR_DISTANCE', 'cosine'),
+      distanceStrategy: this.configService.get<DistanceStrategy>(
+        'PGVECTOR_DISTANCE',
+        'cosine',
+      ),
       vectorDimension: 768,
     };
   }
@@ -62,7 +70,10 @@ export class VectorStoreService implements OnModuleInit, OnModuleDestroy {
       this.vectorStore = await PGVectorStore.initialize(
         new OllamaEmbeddings({
           model: 'nomic-embed-text',
-          baseUrl: this.configService.get('OLLAMA_BASE_URL', 'http://ollama:11434'),
+          baseUrl: this.configService.get(
+            'OLLAMA_BASE_URL',
+            'http://ollama:11434',
+          ),
         }),
         {
           pool: this.pool,
@@ -101,7 +112,9 @@ export class VectorStoreService implements OnModuleInit, OnModuleDestroy {
       `;
 
       await client.query(createTableQuery);
-      this.logger.log(`PGVector table ${this.config.tableName} ensured with schema`);
+      this.logger.log(
+        `PGVector table ${this.config.tableName} ensured with schema`,
+      );
     } catch (error) {
       this.logger.error('Failed to ensure database schema', error);
       throw error;
