@@ -20,7 +20,7 @@ export class LoaderService {
 
     for (const doc of docs) {
       if (doc.type === 'root' || doc.type === 'node') {
-        const loaded = await this.loadStructuredDocument(doc);
+        const loaded = this.loadStructuredDocument(doc);
         documents.push(...loaded);
       } else if (doc.type === 'content') {
         const loaded = await this.loadContentDocument(doc);
@@ -34,29 +34,23 @@ export class LoaderService {
 
   /**
    * 加载结构化文档（root 或 node）
-   * 将结构化文本分割成小块，便于向量检索
+   * root & node 的语义化文档较简单，直接作为整体迁入，无需 chunk 策略
    */
-  private async loadStructuredDocument(
+  private loadStructuredDocument(
     doc: SemanticRootDocument | SemanticNodeDocument,
-  ): Promise<Document[]> {
-    const textSplitter = new RecursiveCharacterTextSplitter({
-      chunkSize: 1000,
-      chunkOverlap: 200,
-      separators: ['\n\n', '\n', '。', '，', ' ', ''],
-    });
-
-    const chunks = await textSplitter.splitText(doc.content);
-
-    return chunks.map((chunk, index) => ({
-      pageContent: chunk,
-      metadata: {
-        ...doc.metadata,
-        docType: doc.type,
-        docId: doc.id,
-        chunkIndex: index,
-        totalChunks: chunks.length,
+  ): Document[] {
+    return [
+      {
+        pageContent: doc.content,
+        metadata: {
+          ...doc.metadata,
+          docType: doc.type,
+          docId: doc.id,
+          chunkIndex: 0,
+          totalChunks: 1,
+        },
       },
-    }));
+    ];
   }
 
   /**
@@ -68,8 +62,8 @@ export class LoaderService {
   ): Promise<Document[]> {
     // 使用 markdown 优化的分隔符
     const markdownSplitter = new RecursiveCharacterTextSplitter({
-      chunkSize: 1500,
-      chunkOverlap: 300,
+      chunkSize: 500,
+      chunkOverlap: 50,
       separators: [
         '\n## ', // 二级标题
         '\n### ', // 三级标题
