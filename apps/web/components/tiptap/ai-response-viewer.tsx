@@ -10,7 +10,6 @@ import Typography from "@tiptap/extension-typography";
 import TextAlign from "@tiptap/extension-text-align";
 import { TableKit } from "@tiptap/extension-table";
 import { Mermaid } from "./extensions/mermaid";
-import HorizontalRule from "@tiptap/extension-horizontal-rule";
 import { Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -40,7 +39,6 @@ export const AIResponseViewer = ({
       TextAlign.configure({ types: ["heading", "paragraph", "codeblock"] }),
       TableKit.configure({ table: { resizable: true } }),
       Mermaid,
-      HorizontalRule,
     ],
     content: aiMDResponse,
     contentType: "markdown",
