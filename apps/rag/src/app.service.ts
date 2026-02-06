@@ -33,7 +33,6 @@ export class AppService {
   async AugmentedReply(request: RAGQueryRequest) {
     const { query, context } = request;
 
-    // 构建基于上下文的过滤条件
     const filter = this.buildMetadataFilter(context);
 
     const prompt = ChatPromptTemplate.fromTemplate(
@@ -45,11 +44,9 @@ export class AppService {
       model: 'deepseek-chat',
     });
     const ragChain = RunnableSequence.from([
-      // 这一步是关键：并行处理 context 和 question
       {
-        // 自动将检索到的 Docs 转为字符串
         context: retriever.pipe(formatDocumentsAsString),
-        query: new RunnablePassthrough(), // 保持原始 query 不变
+        query: new RunnablePassthrough(),
       },
       prompt,
       model,
