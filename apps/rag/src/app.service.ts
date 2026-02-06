@@ -11,11 +11,7 @@ import {
   HumanMessage,
   SystemMessage,
 } from '@langchain/core/messages';
-import {
-  RunnablePassthrough,
-  RunnablePick,
-  RunnableSequence,
-} from '@langchain/core/runnables';
+import { RunnablePick, RunnableSequence } from '@langchain/core/runnables';
 import { StringOutputParser } from '@langchain/core/output_parsers';
 import { formatDocumentsAsString } from '@langchain/classic/util/document';
 import { ChatDeepSeek } from '@langchain/deepseek';
