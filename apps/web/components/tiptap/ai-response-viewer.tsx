@@ -22,7 +22,6 @@ export const AIResponseViewer = ({
   aiMDResponse: string;
 }) => {
   const lowlight = createLowlight(common);
-  const [copied, setCopied] = useState(false);
 
   const editor = useEditor({
     editable: false,
@@ -53,6 +52,8 @@ export const AIResponseViewer = ({
       },
     },
   });
+
+  const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
     await navigator.clipboard.writeText(aiMDResponse);
