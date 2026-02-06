@@ -60,9 +60,9 @@ export const AIResponseViewer = ({
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full group">
       <EditorContent editor={editor} />
-      <div className="flex justify-start mt-2">
+      <div className="flex justify-start mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
         <Button
           variant="ghost"
           size="iconsm"
