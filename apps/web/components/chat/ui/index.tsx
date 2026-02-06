@@ -41,7 +41,7 @@ export function ChatUI() {
               <AIResponseViewer aiMDResponse={message.content} />
             ) : (
               <div className={cn("max-w-[80%] rounded-lg px-4 py-2 bg-muted")}>
-                message.content
+                {message.content}
               </div>
             )}
           </div>
