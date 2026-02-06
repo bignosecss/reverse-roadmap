@@ -45,6 +45,7 @@ export function useChatMessage() {
         isThinking: true,
       };
 
+      const historyMessages = messages.slice(1);
       setMessages((prev) => [...prev, userMessage, thinkingMessage]);
       const queryText = inputMsg;
 
@@ -55,10 +56,13 @@ export function useChatMessage() {
             isAuthenticated: !!user,
             rrRootId: currentRoot?._id ?? "",
           },
+          history: historyMessages.map((m) => ({
+            role: m.role,
+            content: m.content,
+          })),
         },
         {
           onSuccess: (response) => {
-            console.log("yes", response);
             setMessages((prev) =>
               prev.map((msg) =>
                 msg.id === thinkingMessage.id
@@ -84,7 +88,7 @@ export function useChatMessage() {
         },
       );
     },
-    [currentRoot?._id, ragQuery, user],
+    [currentRoot?._id, messages, ragQuery, user],
   );
 
   return { messages, handleSend, isPending };

@@ -10,7 +10,6 @@ import Typography from "@tiptap/extension-typography";
 import TextAlign from "@tiptap/extension-text-align";
 import { TableKit } from "@tiptap/extension-table";
 import { Mermaid } from "./extensions/mermaid";
-import HorizontalRule from "@tiptap/extension-horizontal-rule";
 import { Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -22,7 +21,6 @@ export const AIResponseViewer = ({
   aiMDResponse: string;
 }) => {
   const lowlight = createLowlight(common);
-  const [copied, setCopied] = useState(false);
 
   const editor = useEditor({
     editable: false,
@@ -41,7 +39,6 @@ export const AIResponseViewer = ({
       TextAlign.configure({ types: ["heading", "paragraph", "codeblock"] }),
       TableKit.configure({ table: { resizable: true } }),
       Mermaid,
-      HorizontalRule,
     ],
     content: aiMDResponse,
     contentType: "markdown",
@@ -54,6 +51,8 @@ export const AIResponseViewer = ({
     },
   });
 
+  const [copied, setCopied] = useState(false);
+
   const handleCopy = async () => {
     await navigator.clipboard.writeText(aiMDResponse);
     setCopied(true);
@@ -61,9 +60,9 @@ export const AIResponseViewer = ({
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full group">
       <EditorContent editor={editor} />
-      <div className="flex justify-start mt-2">
+      <div className="flex justify-start mt-2 opacity-0 group-hover:opacity-100 transition-opacity">
         <Button
           variant="ghost"
           size="iconsm"
