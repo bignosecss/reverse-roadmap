@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { DndContext, DragEndEvent, useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { useChatStore } from "@/lib/stores/chat";
@@ -8,7 +8,6 @@ import { X } from "lucide-react";
 
 interface DraggableChatBoxProps {
   children?: React.ReactNode;
-  defaultPosition?: { x: number; y: number };
   className?: string;
 }
 
@@ -59,21 +58,21 @@ function DraggableItem({
   );
 }
 
-export default function DraggableChat({
-  children,
-  defaultPosition = { x: 100, y: 100 },
-}: DraggableChatBoxProps) {
+export default function DraggableChat({ children }: DraggableChatBoxProps) {
   const chatOpen = useChatStore((state) => state.chatOpen);
   const toggleChat = useChatStore((state) => state.toggleChat);
-  const [position, setPosition] = useState(defaultPosition);
+  const chatPosition = useChatStore((state) => state.chatPosition);
 
-  const handleDragEnd = useCallback((event: DragEndEvent) => {
-    const { delta } = event;
-    setPosition((prev) => ({
-      x: prev.x + delta.x,
-      y: prev.y + delta.y,
-    }));
-  }, []);
+  const handleDragEnd = useCallback(
+    (event: DragEndEvent) => {
+      const { delta } = event;
+      toggleChat(true, {
+        x: chatPosition.x + delta.x,
+        y: chatPosition.y + delta.y,
+      });
+    },
+    [toggleChat, chatPosition],
+  );
 
   const handleClose = useCallback(() => {
     toggleChat(false);
@@ -85,7 +84,7 @@ export default function DraggableChat({
     <DndContext onDragEnd={handleDragEnd}>
       <DraggableItem
         id="draggable-chat-box"
-        position={position}
+        position={chatPosition}
         onClose={handleClose}
       >
         {children}

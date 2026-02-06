@@ -3,7 +3,11 @@ import { ChatState } from "../types/models";
 
 export const useChatStore = create<ChatState>((set) => ({
   chatOpen: false,
-  toggleChat: (open) => {
-    set({ chatOpen: open });
+  chatPosition: { x: 100, y: 100 },
+  toggleChat: (open, position) => {
+    set(() => ({
+      chatOpen: open,
+      ...(position && { chatPosition: position }),
+    }));
   },
 }));

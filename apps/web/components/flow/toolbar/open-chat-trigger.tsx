@@ -1,8 +1,8 @@
+import { useCallback } from "react";
+import { useShallow } from "zustand/react/shallow";
 import { Button } from "@/components/ui/button";
 import { ChatState } from "@/lib/types/models";
 import { QuoteIcon } from "lucide-react";
-import { useCallback } from "react";
-import { useShallow } from "zustand/react/shallow";
 import { useChatStore } from "@/lib/stores/chat";
 
 const chatStoreSelector = (state: ChatState) => ({
@@ -13,9 +13,13 @@ const chatStoreSelector = (state: ChatState) => ({
 export function OpenChatTrigger() {
   const { chatOpen, toggleChat } = useChatStore(useShallow(chatStoreSelector));
 
-  const handleClick = useCallback(() => {
-    toggleChat(true);
-  }, [toggleChat]);
+  const handleClick = useCallback(
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      const { clientX, clientY } = event;
+      toggleChat(true, { x: clientX, y: clientY });
+    },
+    [toggleChat],
+  );
 
   return (
     <Button
