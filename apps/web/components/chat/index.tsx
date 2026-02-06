@@ -70,7 +70,7 @@ export default function DraggableChat({
 
   return (
     <DndContext onDragEnd={handleDragEnd}>
-      <DraggableItem id="draggable-box" position={position}>
+      <DraggableItem id="draggable-chat-box" position={position}>
         <div
           className={`w-80 bg-background border border-border rounded-lg shadow-lg overflow-hidden ${className}`}
         >
