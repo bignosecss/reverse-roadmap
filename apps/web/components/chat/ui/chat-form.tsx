@@ -8,12 +8,7 @@ import {
   InputGroupButton,
   InputGroupTextarea,
 } from "@/components/ui/input-group";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { ArrowUp, Paperclip } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 
 interface ChatFormProps {
   onSend: (message: string) => void;
@@ -55,7 +50,7 @@ export function ChatForm({ onSend, isGenerating }: ChatFormProps) {
             disabled={isGenerating}
           />
           <InputGroupAddon align="block-end" className="gap-1">
-            <Tooltip>
+            {/* <Tooltip>
               <TooltipTrigger asChild>
                 <InputGroupButton
                   size="icon-sm"
@@ -66,7 +61,7 @@ export function ChatForm({ onSend, isGenerating }: ChatFormProps) {
                 </InputGroupButton>
               </TooltipTrigger>
               <TooltipContent>添加文件</TooltipContent>
-            </Tooltip>
+            </Tooltip> */}
 
             <InputGroupButton
               aria-label="Send"
