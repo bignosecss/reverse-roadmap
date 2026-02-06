@@ -22,8 +22,9 @@ import { TEMPLATES } from './utils/template.constant';
 
 @Injectable()
 export class AppService {
+  private readonly logger = new Logger(AppService.name);
+
   constructor(
-    private readonly logger: Logger,
     private readonly loader: LoaderService,
     private readonly vectorStore: VectorStoreService,
   ) {}
@@ -57,6 +58,7 @@ export class AppService {
         }
       })
       .filter(Boolean) as BaseMessage[];
+    this.logger.debug(`[HISTORY] ${JSON.stringify(historyMessages, null, 2)}`);
 
     const systemMessages = SystemMessagePromptTemplate.fromTemplate(
       TEMPLATES.NATIVE_DOCUMENT_SYSTEM_PROMPT,
