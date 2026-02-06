@@ -5,11 +5,7 @@ import { DndContext, DragEndEvent, useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import { useChatStore } from "@/lib/stores/chat";
 import { X } from "lucide-react";
-
-interface DraggableChatBoxProps {
-  children?: React.ReactNode;
-  className?: string;
-}
+import { ChatUI } from "./ui";
 
 function DraggableItem({
   id,
@@ -36,10 +32,16 @@ function DraggableItem({
   return (
     <div ref={setNodeRef} style={style}>
       <div
-        className={`w-80 bg-background border border-border rounded-lg shadow-lg overflow-hidden`}
+        className={
+          "w-80 bg-background border border-border rounded-lg shadow-lg overflow-hidden"
+        }
       >
         <div className="flex items-center justify-between h-6 bg-muted/50 border-b border-border">
-          <div className="flex gap-1 pl-3" {...attributes} {...listeners}>
+          <div
+            className="flex gap-1 pl-3 cursor-grab"
+            {...attributes}
+            {...listeners}
+          >
             <div className="w-3 h-3 rounded-full bg-muted-foreground/30" />
             <div className="w-3 h-3 rounded-full bg-muted-foreground/30" />
             <div className="w-3 h-3 rounded-full bg-muted-foreground/30" />
@@ -49,16 +51,16 @@ function DraggableItem({
             className="p-1 cursor-pointer"
             aria-label="Close"
           >
-            <X className="w-3 h-3" />
+            <X className="w-4 h-4" />
           </button>
         </div>
-        <div className="p-4">{children}</div>
+        <div>{children}</div>
       </div>
     </div>
   );
 }
 
-export default function DraggableChat({ children }: DraggableChatBoxProps) {
+export default function DraggableChat() {
   const chatOpen = useChatStore((state) => state.chatOpen);
   const toggleChat = useChatStore((state) => state.toggleChat);
   const chatPosition = useChatStore((state) => state.chatPosition);
@@ -87,7 +89,7 @@ export default function DraggableChat({ children }: DraggableChatBoxProps) {
         position={chatPosition}
         onClose={handleClose}
       >
-        {children}
+        <ChatUI />
       </DraggableItem>
     </DndContext>
   );
