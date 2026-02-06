@@ -1,29 +1,12 @@
-import { useCallback, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { ButtonGroup } from "@/components/ui/button-group";
-import { Field } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useScrollToBottom } from "../hooks/use-scroll-to-bottom";
 import { useChatMessage } from "../hooks/use-chat-message";
 import { AIResponseViewer } from "@/components/tiptap/ai-response-viewer";
+import { ChatForm } from "./chat-form";
 
 export function ChatUI() {
-  const [inputMsg, setInputMsg] = useState("");
   const { messages, handleSend, isPending } = useChatMessage();
   const messagesEndRef = useScrollToBottom([messages]);
-
-  const handleSendAndClear = useCallback(() => {
-    handleSend(inputMsg);
-    setInputMsg("");
-  }, [handleSend, inputMsg]);
-
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === "Enter") handleSendAndClear();
-    },
-    [handleSendAndClear],
-  );
 
   return (
     <div className="size-full flex flex-col bg-background">
@@ -47,21 +30,9 @@ export function ChatUI() {
       </div>
 
       {/* Input */}
-      <Field className="p-4 pt-0">
-        <ButtonGroup>
-          <Input
-            id="input-message"
-            placeholder="聊聊～"
-            value={inputMsg}
-            onChange={(e) => setInputMsg(e.target.value)}
-            onKeyDown={handleKeyDown}
-            disabled={isPending}
-          />
-          <Button onClick={handleSendAndClear} disabled={isPending}>
-            发送
-          </Button>
-        </ButtonGroup>
-      </Field>
+      <div className="p-4 pt-0">
+        <ChatForm onSend={handleSend} isGenerating={isPending} />
+      </div>
     </div>
   );
 }
