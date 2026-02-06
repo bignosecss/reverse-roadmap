@@ -48,6 +48,7 @@ export function ChatForm({ onSend, isGenerating }: ChatFormProps) {
             onChange={(e) => setInputMsg(e.target.value)}
             onKeyDown={handleKeyDown}
             disabled={isGenerating}
+            className="max-h-48 field-sizing-content"
           />
           <InputGroupAddon align="block-end" className="gap-1">
             {/* <Tooltip>
