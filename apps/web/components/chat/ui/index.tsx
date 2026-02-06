@@ -20,7 +20,7 @@ export function ChatUI() {
     {
       id: generateId(),
       role: "assistant",
-      content: "Hello! How can I help you today?",
+      content: "聊聊～",
     },
   ]);
   const [inputMsg, setInputMsg] = useState("");
