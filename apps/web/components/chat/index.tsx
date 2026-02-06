@@ -3,6 +3,7 @@
 import { useCallback } from "react";
 import { DndContext, DragEndEvent, useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
+import { restrictToWindowEdges } from "@dnd-kit/modifiers";
 import { useChatStore } from "@/lib/stores/chat";
 import { X } from "lucide-react";
 import { ChatUI } from "./ui";
@@ -85,7 +86,7 @@ export default function DraggableChat() {
   if (!chatOpen) return null;
 
   return (
-    <DndContext onDragEnd={handleDragEnd}>
+    <DndContext onDragEnd={handleDragEnd} modifiers={[restrictToWindowEdges]}>
       <DraggableItem
         id="draggable-chat-box"
         position={chatPosition}
