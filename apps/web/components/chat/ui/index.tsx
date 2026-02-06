@@ -32,15 +32,12 @@ export function ChatUI() {
         {messages.map((message) => (
           <div
             key={message.id}
-            className={cn(
-              "flex",
-              message.role === "user" ? "justify-end" : "justify-start",
-            )}
+            className={cn("flex", message.role === "user" ? "justify-end" : "")}
           >
             {message.role === "assistant" ? (
               <AIResponseViewer aiMDResponse={message.content} />
             ) : (
-              <div className={cn("max-w-[80%] rounded-lg px-4 py-2 bg-muted")}>
+              <div className={cn("rounded-lg px-4 py-2 bg-muted max-w-4/5")}>
                 {message.content}
               </div>
             )}

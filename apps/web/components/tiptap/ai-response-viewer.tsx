@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Markdown } from "@tiptap/markdown";
@@ -8,6 +11,8 @@ import TextAlign from "@tiptap/extension-text-align";
 import { TableKit } from "@tiptap/extension-table";
 import { Mermaid } from "./extensions/mermaid";
 import HorizontalRule from "@tiptap/extension-horizontal-rule";
+import { Copy, Check } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 import "./styles/tiptap.css";
 
@@ -17,6 +22,7 @@ export const AIResponseViewer = ({
   aiMDResponse: string;
 }) => {
   const lowlight = createLowlight(common);
+  const [copied, setCopied] = useState(false);
 
   const editor = useEditor({
     editable: false,
@@ -48,5 +54,29 @@ export const AIResponseViewer = ({
     },
   });
 
-  return <EditorContent editor={editor} />;
+  const handleCopy = async () => {
+    await navigator.clipboard.writeText(aiMDResponse);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    <div className="w-full">
+      <EditorContent editor={editor} />
+      <div className="flex justify-start mt-2">
+        <Button
+          variant="ghost"
+          size="iconsm"
+          onClick={handleCopy}
+          className="h-8 text-muted-foreground hover:text-foreground"
+        >
+          {copied ? (
+            <Check className="h-4 w-4" />
+          ) : (
+            <Copy className="h-4 w-4" />
+          )}
+        </Button>
+      </div>
+    </div>
+  );
 };
