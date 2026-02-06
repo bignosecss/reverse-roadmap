@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { Field } from "@/components/ui/field";
@@ -11,20 +11,39 @@ interface Message {
   content: string;
 }
 
+// 生成唯一id，用于消息标识
+const generateId = () =>
+  Date.now().toString() + Math.random().toString(36).slice(2);
+
 export function ChatUI() {
-  const [messages] = useState<Message[]>([
+  const [messages, setMessages] = useState<Message[]>([
     {
-      id: "1",
+      id: generateId(),
       role: "assistant",
-      content: "Hello! How can I help you today?",
-    },
-    {
-      id: "2",
-      role: "user",
       content: "Hello! How can I help you today?",
     },
   ]);
   const [inputMsg, setInputMsg] = useState("");
+
+  const handleSend = useCallback(() => {
+    if (!inputMsg.trim()) return;
+
+    const userMessage: Message = {
+      id: generateId(),
+      role: "user",
+      content: inputMsg,
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+    setInputMsg("");
+  }, [inputMsg]);
+
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Enter") handleSend();
+    },
+    [handleSend],
+  );
 
   return (
     <div className="size-full flex flex-col bg-background">
@@ -53,8 +72,9 @@ export function ChatUI() {
             placeholder="聊聊～"
             value={inputMsg}
             onChange={(e) => setInputMsg(e.target.value)}
+            onKeyDown={handleKeyDown}
           />
-          <Button>发送</Button>
+          <Button onClick={handleSend}>发送</Button>
         </ButtonGroup>
       </Field>
     </div>
