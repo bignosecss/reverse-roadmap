@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { useScrollToBottom } from "../hooks/use-scroll-to-bottom";
 import { useChatMessage } from "../hooks/use-chat-message";
+import { AIResponseViewer } from "@/components/tiptap/ai-response-viewer";
 
 export function ChatUI() {
   const [inputMsg, setInputMsg] = useState("");
@@ -37,7 +38,11 @@ export function ChatUI() {
             )}
           >
             <div className={cn("max-w-[80%] rounded-lg px-4 py-2 bg-muted")}>
-              {message.content}
+              {message.role === "assistant" ? (
+                <AIResponseViewer aiMDResponse={message.content} />
+              ) : (
+                message.content
+              )}
             </div>
           </div>
         ))}

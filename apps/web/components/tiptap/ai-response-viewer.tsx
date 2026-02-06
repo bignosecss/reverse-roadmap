@@ -21,10 +21,10 @@ export const AIResponseViewer = ({
   const editor = useEditor({
     editable: false,
     extensions: [
+      Markdown,
       StarterKit.configure({
         codeBlock: false,
       }),
-      Markdown,
       CodeBlockLowlight.configure({
         lowlight,
         defaultLanguage: "plaintext",
@@ -38,7 +38,14 @@ export const AIResponseViewer = ({
       HorizontalRule,
     ],
     content: aiMDResponse,
+    contentType: "markdown",
     immediatelyRender: true,
+    editorProps: {
+      attributes: {
+        class:
+          "prose dark:prose-invert prose-p:my-2 prose-h1:my-2 prose-h2:my-2 prose-h3:my-2 prose-ul:my-2 prose-ol:my-2 max-w-none focus:outline-none w-full",
+      },
+    },
   });
 
   return <EditorContent editor={editor} />;
