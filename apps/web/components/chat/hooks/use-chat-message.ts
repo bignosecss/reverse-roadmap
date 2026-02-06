@@ -63,7 +63,6 @@ export function useChatMessage() {
         },
         {
           onSuccess: (response) => {
-            console.log("yes", response);
             setMessages((prev) =>
               prev.map((msg) =>
                 msg.id === thinkingMessage.id
