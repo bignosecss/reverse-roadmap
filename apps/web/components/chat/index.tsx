@@ -71,9 +71,19 @@ export default function DraggableChat() {
   const handleDragEnd = useCallback(
     (event: DragEndEvent) => {
       const { delta } = event;
-      toggleChat(true, {
+      const newPosition = {
         x: chatPosition.x + delta.x,
         y: chatPosition.y + delta.y,
+      };
+
+      // 确保位置在视口内（防止窗口尺寸变化导致位置溢出）
+      const { innerWidth, innerHeight } = window;
+      const chatWidth = 448; // w-md
+      const chatHeight = 512; // h-128
+
+      toggleChat(true, {
+        x: Math.max(0, Math.min(newPosition.x, innerWidth - chatWidth)),
+        y: Math.max(0, Math.min(newPosition.y, innerHeight - chatHeight)),
       });
     },
     [toggleChat, chatPosition],
