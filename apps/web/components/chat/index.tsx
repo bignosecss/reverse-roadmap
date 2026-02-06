@@ -76,6 +76,9 @@ export default function DraggableChat() {
         y: chatPosition.y + delta.y,
       };
 
+      // TODO: 优化边界检测
+      // 现在 Sidebar 打开时，边界检测有些问题
+      // Chat UI 仍然会拉伸屏幕导致白屏（类似 transition 白屏）
       // 确保位置在视口内（防止窗口尺寸变化导致位置溢出）
       const { innerWidth, innerHeight } = window;
       const chatWidth = 448; // w-md
