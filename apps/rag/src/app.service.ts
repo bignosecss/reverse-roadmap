@@ -1,7 +1,19 @@
-import { Injectable } from '@nestjs/common';
-import { ChatPromptTemplate } from '@langchain/core/prompts';
+import { Injectable, Logger } from '@nestjs/common';
+import {
+  ChatPromptTemplate,
+  HumanMessagePromptTemplate,
+  MessagesPlaceholder,
+  SystemMessagePromptTemplate,
+} from '@langchain/core/prompts';
+import {
+  AIMessage,
+  BaseMessage,
+  HumanMessage,
+  SystemMessage,
+} from '@langchain/core/messages';
 import {
   RunnablePassthrough,
+  RunnablePick,
   RunnableSequence,
 } from '@langchain/core/runnables';
 import { StringOutputParser } from '@langchain/core/output_parsers';
@@ -15,6 +27,7 @@ import { TEMPLATES } from './utils/template.constant';
 @Injectable()
 export class AppService {
   constructor(
+    private readonly logger: Logger,
     private readonly loader: LoaderService,
     private readonly vectorStore: VectorStoreService,
   ) {}
@@ -31,13 +44,36 @@ export class AppService {
    * 根据查询请求生成增强回复
    */
   async AugmentedReply(request: RAGQueryRequest) {
-    const { query, context } = request;
-
+    const { query, context, history } = request;
     const filter = this.buildMetadataFilter(context);
 
-    const prompt = ChatPromptTemplate.fromTemplate(
-      TEMPLATES.NATIVE_DOCUMENT_CONTEXT_CHAT,
+    const historyMessages = history
+      ?.map((msg) => {
+        switch (msg.role) {
+          case 'system':
+            return new SystemMessage(msg.content);
+          case 'assistant':
+            return new AIMessage(msg.content);
+          case 'user':
+            return new HumanMessage(msg.content);
+          default:
+            return null;
+        }
+      })
+      .filter(Boolean) as BaseMessage[];
+
+    const systemMessages = SystemMessagePromptTemplate.fromTemplate(
+      TEMPLATES.NATIVE_DOCUMENT_SYSTEM_PROMPT,
     );
+    const humanMessages = HumanMessagePromptTemplate.fromTemplate(
+      TEMPLATES.NATIVE_DOCUMENT_HUMAN_PROMPT,
+    );
+    const prompt = ChatPromptTemplate.fromMessages([
+      systemMessages,
+      new MessagesPlaceholder('chat_history'),
+      humanMessages,
+    ]);
+
     const retriever = this.vectorStore.instance.asRetriever(999, filter);
     const model = new ChatDeepSeek({
       temperature: 0.8,
@@ -45,14 +81,28 @@ export class AppService {
     });
     const ragChain = RunnableSequence.from([
       {
-        context: retriever.pipe(formatDocumentsAsString),
-        query: new RunnablePassthrough(),
+        context: new RunnablePick('query')
+          .pipe(retriever)
+          .pipe(formatDocumentsAsString),
+        chat_history: new RunnablePick('chat_history'),
+        query: new RunnablePick('query'),
       },
       prompt,
       model,
       new StringOutputParser(),
     ]);
-    const response = await ragChain.invoke(query);
+    const response = await ragChain.invoke({
+      query,
+      chat_history: historyMessages,
+    });
+
+    const retrievedDocs = await retriever.invoke(query);
+    const formattedPrompt = await prompt.format({
+      context: formatDocumentsAsString(retrievedDocs),
+      query,
+      chat_history: historyMessages,
+    });
+    this.logger.log(`[RAG] 最终渲染的提示词:\n${formattedPrompt}`);
 
     return {
       success: true,

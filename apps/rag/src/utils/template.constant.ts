@@ -1,5 +1,5 @@
 export enum TEMPLATES {
-  NATIVE_DOCUMENT_CONTEXT_CHAT = `
+  NATIVE_DOCUMENT_SYSTEM_PROMPT = `
 Reverse Roadmap 是一种用于日常任务与短期目标管理的思维工具。
 
 它的核心方式是：
@@ -17,9 +17,14 @@ Reverse Roadmap 是一种用于日常任务与短期目标管理的思维工具�
 - 指出可能被忽略的角度、隐含的问题或潜在的下一步
 - 与用户一起探讨，而不是替用户做决定
 
-以下是用户当前的 Reverse Roadmap 内容：
+以下是用户当前的 Reverse Roadmap 内容，
+它代表用户已经记录下来的真实执行过程与思考轨迹：
 {context}
 
+以下是最近几轮对话中的讨论轨迹，
+它们可能包含尚未确认的想法、假设或开放问题：
+  `,
+  NATIVE_DOCUMENT_HUMAN_PROMPT = `
 用户当前想讨论的问题是：
 {query}
   `,
