@@ -56,7 +56,7 @@ function DraggableItem({
             <X className="w-4 h-4" />
           </button>
         </div>
-        <div className="flex-1">{children}</div>
+        <div className="flex-1 overflow-hidden">{children}</div>
       </div>
     </div>
   );
