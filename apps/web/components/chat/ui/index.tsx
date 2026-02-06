@@ -38,13 +38,7 @@ export function ChatUI() {
               message.role === "user" ? "justify-end" : "justify-start",
             )}
           >
-            <div
-              className={cn(
-                "max-w-[80%] rounded-lg px-4 py-2",
-                "bg-muted",
-                // message.role === "user" && "bg-muted",
-              )}
-            >
+            <div className={cn("max-w-[80%] rounded-lg px-4 py-2 bg-muted")}>
               {message.content}
             </div>
           </div>
