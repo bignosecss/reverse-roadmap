@@ -10,6 +10,7 @@ import { useRrRootExport } from "@/components/sidebar/hooks/use-rr-root-export";
 import { useEditRootDialog } from "@/components/sidebar/hooks/use-edit-root-dialog";
 import { RrRootItemDropdown } from "./rr-root-item-dropdown";
 import { RrRoot } from "@repo/shared/models";
+import useRootStore from "@/lib/stores/root";
 
 interface SidebarProjectItemProps {
   rrRoot: RrRoot;
@@ -18,6 +19,7 @@ interface SidebarProjectItemProps {
 
 export function RrRootItem({ rrRoot, isActive }: SidebarProjectItemProps) {
   const setCanvasOpen = useCanvasStore((state) => state.setCanvasOpen);
+  const setCurrentRoot = useRootStore((state) => state.setCurrentRoot);
 
   const {
     isEditing,
@@ -61,7 +63,10 @@ export function RrRootItem({ rrRoot, isActive }: SidebarProjectItemProps) {
           <Link
             href={`/g/${rrRoot.rootRrNode}`}
             onClick={() => {
-              if (!isActive) setCanvasOpen(false);
+              if (!isActive) {
+                setCanvasOpen(false);
+                setCurrentRoot(rrRoot);
+              }
             }}
             onDoubleClick={() => setIsEditing(true)}
           >

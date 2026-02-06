@@ -43,7 +43,7 @@ export default function RrNodeCard({
       onClick={isDeleting ? undefined : () => handleNodeClick(rrNode)}
       className={cn(
         "rr-node",
-        "min-w-[250px] max-w-[300px]",
+        "min-w-62.5 max-w-75",
         "transition-all duration-200",
         "hover:shadow-lg",
         selected ? "ring-2 ring-primary shadow-lg" : "",

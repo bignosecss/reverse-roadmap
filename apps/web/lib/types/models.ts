@@ -3,7 +3,7 @@
  */
 
 import type { OnNodesChange, OnEdgesChange, OnConnect } from "@xyflow/react";
-import { RrNode } from "@repo/shared/models";
+import { RrNode, RrRoot } from "@repo/shared/models";
 import { FlowNode, FlowEdge, FlowData } from "@repo/shared/flow";
 import { UpdateRrNodeDto, UserDto } from "@repo/shared/dto";
 
@@ -36,4 +36,15 @@ export interface AuthState {
   user: UserDto | null;
   setUser: (user: UserDto | null) => void;
   clearUser: () => void;
+}
+
+export interface ChatState {
+  chatOpen: boolean;
+  chatPosition: { x: number; y: number };
+  toggleChat: (open: boolean, position?: { x: number; y: number }) => void;
+}
+
+export interface RootState {
+  currentRoot: RrRoot | null;
+  setCurrentRoot: (root: RrRoot | null) => void;
 }

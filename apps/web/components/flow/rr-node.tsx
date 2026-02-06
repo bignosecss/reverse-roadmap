@@ -1,9 +1,9 @@
-import { useParams } from "next/navigation";
 import React from "react";
 import { NodeProps } from "@xyflow/react";
+import { useTreeId } from "@/hooks/use-tree-id";
 
 import { FlowNode } from "@repo/shared/flow";
-import RrNodeToolbar from "./toolbar/rr-node-toolbar";
+import RrNodeToolbar from "./toolbar";
 import RrNodeCard from "./rr-node-card";
 
 /**
@@ -17,7 +17,7 @@ export default function RrNodeComponent({
   const { rrNode } = data;
 
   // 判断是否为根节点
-  const treeId = useParams().id as string;
+  const treeId = useTreeId();
   const isRootNode = rrNode._id === treeId;
 
   return (
