@@ -8,6 +8,7 @@ export interface Message {
   id: string;
   role: "user" | "assistant";
   content: string;
+  isThinking?: boolean;
 }
 
 // 生成唯一id，用于消息标识
@@ -37,7 +38,14 @@ export function useChatMessage() {
         content: inputMsg,
       };
 
-      setMessages((prev) => [...prev, userMessage]);
+      const thinkingMessage: Message = {
+        id: generateId(),
+        role: "assistant",
+        content: "正在思考中...",
+        isThinking: true,
+      };
+
+      setMessages((prev) => [...prev, userMessage, thinkingMessage]);
       const queryText = inputMsg;
 
       ragQuery(
@@ -51,22 +59,27 @@ export function useChatMessage() {
         {
           onSuccess: (response) => {
             console.log("yes", response);
-            const assistantMessage: Message = {
-              id: generateId(),
-              role: "assistant",
-              content: response,
-            };
-
-            setMessages((prev) => [...prev, assistantMessage]);
+            setMessages((prev) =>
+              prev.map((msg) =>
+                msg.id === thinkingMessage.id
+                  ? { ...msg, content: response, isThinking: false }
+                  : msg,
+              ),
+            );
           },
           onError: (err) => {
             toast.error("RAG query failed", { description: `${err}` });
-            const errorMessage: Message = {
-              id: generateId(),
-              role: "assistant",
-              content: `Error: ${err instanceof Error ? err.message : "Failed to get response"}`,
-            };
-            setMessages((prev) => [...prev, errorMessage]);
+            setMessages((prev) =>
+              prev.map((msg) =>
+                msg.id === thinkingMessage.id
+                  ? {
+                      ...msg,
+                      content: `Error: ${err instanceof Error ? err.message : "Failed to get response"}`,
+                      isThinking: false,
+                    }
+                  : msg,
+              ),
+            );
           },
         },
       );

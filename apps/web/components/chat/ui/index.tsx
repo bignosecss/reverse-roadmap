@@ -3,6 +3,7 @@ import { useScrollToBottom } from "../hooks/use-scroll-to-bottom";
 import { useChatMessage } from "../hooks/use-chat-message";
 import { AIResponseViewer } from "@/components/tiptap/ai-response-viewer";
 import { ChatForm } from "./chat-form";
+import { Spinner } from "@/components/ui/spinner";
 
 export function ChatUI() {
   const { messages, handleSend, isPending } = useChatMessage();
@@ -18,7 +19,14 @@ export function ChatUI() {
             className={cn("flex", message.role === "user" ? "justify-end" : "")}
           >
             {message.role === "assistant" ? (
-              <AIResponseViewer aiMDResponse={message.content} />
+              message.isThinking ? (
+                <div className="flex items-center gap-2 text-muted-foreground">
+                  <Spinner />
+                  <span>{message.content}</span>
+                </div>
+              ) : (
+                <AIResponseViewer aiMDResponse={message.content} />
+              )
             ) : (
               <div className={cn("rounded-lg px-4 py-2 bg-muted max-w-4/5")}>
                 {message.content}
