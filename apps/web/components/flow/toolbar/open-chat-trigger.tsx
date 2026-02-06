@@ -14,8 +14,8 @@ export function OpenChatTrigger() {
   const { chatOpen, toggleChat } = useChatStore(useShallow(chatStoreSelector));
 
   const handleClick = useCallback(() => {
-    toggleChat(!chatOpen);
-  }, [chatOpen, toggleChat]);
+    toggleChat(true);
+  }, [toggleChat]);
 
   return (
     <Button
@@ -23,6 +23,7 @@ export function OpenChatTrigger() {
       size="sm"
       onClick={handleClick}
       className="h-7 w-7 p-0"
+      disabled={chatOpen}
       title="打开Chat"
     >
       <QuoteIcon />
