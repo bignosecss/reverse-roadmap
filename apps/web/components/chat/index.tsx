@@ -6,6 +6,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { useChatStore } from "@/lib/stores/chat";
 import { X } from "lucide-react";
 import { ChatUI } from "./ui";
+import { cn } from "@/lib/utils";
 
 function DraggableItem({
   id,
@@ -32,9 +33,10 @@ function DraggableItem({
   return (
     <div ref={setNodeRef} style={style}>
       <div
-        className={
-          "w-80 bg-background border border-border rounded-lg shadow-lg overflow-hidden"
-        }
+        className={cn(
+          "w-md h-128 bg-background border border-border rounded-lg shadow-lg overflow-hidden",
+          "flex flex-col",
+        )}
       >
         <div className="flex items-center justify-between h-6 bg-muted/50 border-b border-border">
           <div
@@ -54,7 +56,7 @@ function DraggableItem({
             <X className="w-4 h-4" />
           </button>
         </div>
-        <div>{children}</div>
+        <div className="flex-1">{children}</div>
       </div>
     </div>
   );
