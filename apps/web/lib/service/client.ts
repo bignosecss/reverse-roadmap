@@ -1,13 +1,15 @@
 import { ApiResponse } from "@repo/shared";
 import { CONFIG } from "./config";
 
-const BASE_URL = CONFIG.RR_API;
+type ApiType = "api" | "rag";
+
 const DEFAULT_FETCH_OPTIONS: RequestInit = {};
 const REQUEST_TIMEOUT = 60000; // 60 seconds - increased for RAG export operations
 
 export async function apiClient<T>(
   endpoint: string,
   options: RequestInit = {},
+  apiType: ApiType = "api",
 ): Promise<ApiResponse<T>> {
   /**
    * React-Query默认设置了重试机制，所以在 apiClient 里不需要再实现重试逻辑。
@@ -19,10 +21,11 @@ export async function apiClient<T>(
    * and displaying an error to the UI.
    */
 
+  const baseUrl = apiType === "api" ? CONFIG.RR_API : CONFIG.RAG_API;
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), REQUEST_TIMEOUT);
 
-  const response = await fetch(`${BASE_URL}${endpoint}`, {
+  const response = await fetch(`${baseUrl}${endpoint}`, {
     signal: controller.signal,
     ...DEFAULT_FETCH_OPTIONS,
     ...options,

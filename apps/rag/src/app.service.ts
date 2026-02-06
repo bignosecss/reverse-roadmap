@@ -57,7 +57,11 @@ export class AppService {
     ]);
     const response = await ragChain.invoke(query);
 
-    return response;
+    return {
+      success: true,
+      message: 'AI Message',
+      data: response,
+    };
   }
 
   /**

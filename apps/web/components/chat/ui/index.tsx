@@ -1,9 +1,14 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ButtonGroup } from "@/components/ui/button-group";
 import { Field } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { useRagQuery } from "@/hooks/use-rag-query";
+import { useScrollToBottom } from "../hooks/use-scroll-to-bottom";
+import { toast } from "sonner";
+import useAuthStore from "@/lib/stores/auth";
+import useRootStore from "@/lib/stores/root";
 
 interface Message {
   id: string;
@@ -24,17 +29,12 @@ export function ChatUI() {
     },
   ]);
   const [inputMsg, setInputMsg] = useState("");
-  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useScrollToBottom([messages]);
+  const { mutate: ragQuery, isPending } = useRagQuery();
+  const user = useAuthStore((state) => state.user);
+  const currentRoot = useRootStore((state) => state.currentRoot);
 
-  const scrollToBottom = useCallback(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, []);
-
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages, scrollToBottom]);
-
-  const handleSend = useCallback(() => {
+  const handleSend = useCallback(async () => {
     if (!inputMsg.trim()) return;
 
     const userMessage: Message = {
@@ -44,8 +44,39 @@ export function ChatUI() {
     };
 
     setMessages((prev) => [...prev, userMessage]);
+    const queryText = inputMsg;
     setInputMsg("");
-  }, [inputMsg]);
+    ragQuery(
+      {
+        query: queryText,
+        context: {
+          isAuthenticated: !!user,
+          rrRootId: currentRoot?._id ?? "",
+        },
+      },
+      {
+        onSuccess: (response) => {
+          console.log("yes", response);
+          const assistantMessage: Message = {
+            id: generateId(),
+            role: "assistant",
+            content: response,
+          };
+
+          setMessages((prev) => [...prev, assistantMessage]);
+        },
+        onError: (err) => {
+          toast.error("RAG query failed", { description: `${err}` });
+          const errorMessage: Message = {
+            id: generateId(),
+            role: "assistant",
+            content: `Error: ${err instanceof Error ? err.message : "Failed to get response"}`,
+          };
+          setMessages((prev) => [...prev, errorMessage]);
+        },
+      },
+    );
+  }, [currentRoot?._id, inputMsg, ragQuery, user]);
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -83,8 +114,11 @@ export function ChatUI() {
             value={inputMsg}
             onChange={(e) => setInputMsg(e.target.value)}
             onKeyDown={handleKeyDown}
+            disabled={isPending}
           />
-          <Button onClick={handleSend}>发送</Button>
+          <Button onClick={handleSend} disabled={isPending}>
+            发送
+          </Button>
         </ButtonGroup>
       </Field>
     </div>

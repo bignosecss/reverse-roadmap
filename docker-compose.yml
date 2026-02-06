@@ -106,9 +106,11 @@ services:
       - ./packages:/app/packages
     environment:
       - NEXT_PUBLIC_RR_API=http://localhost:3001/api/
+      - NEXT_PUBLIC_RAG_API=http://localhost:3002/rag/
       - PORT=3000
     depends_on:
       - api
+      - rag
     networks:
       - reverse-roadmap-network
 
