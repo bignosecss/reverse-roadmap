@@ -51,7 +51,7 @@ function DraggableItem({
           </div>
           <button
             onClick={onClose}
-            className="p-1 cursor-pointer"
+            className="p-1 pr-3 cursor-pointer"
             aria-label="Close"
           >
             <X className="w-4 h-4" />

@@ -37,20 +37,20 @@ export function ChatUI() {
               message.role === "user" ? "justify-end" : "justify-start",
             )}
           >
-            <div className={cn("max-w-[80%] rounded-lg px-4 py-2 bg-muted")}>
-              {message.role === "assistant" ? (
-                <AIResponseViewer aiMDResponse={message.content} />
-              ) : (
+            {message.role === "assistant" ? (
+              <AIResponseViewer aiMDResponse={message.content} />
+            ) : (
+              <div className={cn("max-w-[80%] rounded-lg px-4 py-2 bg-muted")}>
                 message.content
-              )}
-            </div>
+              </div>
+            )}
           </div>
         ))}
         <div ref={messagesEndRef} />
       </div>
 
       {/* Input */}
-      <Field className="p-4">
+      <Field className="p-4 pt-0">
         <ButtonGroup>
           <Input
             id="input-message"
