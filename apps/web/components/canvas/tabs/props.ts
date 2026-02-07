@@ -25,6 +25,8 @@ export interface TabsProps {
   onTabRemove: (tabId: string) => Promise<void>;
   /** 重命名 Tab 回调（触发 API 调用） */
   onTabRename: (tabId: string, newLabel: string) => Promise<void>;
+  /** Tab 拖拽排序结束时的回调 (oldIndex: number, newIndex: number) => void */
+  onTabReorder?: (oldIndex: number, newIndex: number) => void;
   /** 自定义 Tab 内容渲染（按 ID 匹配） */
   renderTabContent: (tabId: string) => ReactNode;
   /** 可选：是否禁用新增按钮 */
@@ -52,6 +54,8 @@ export interface TabsListProps {
   onTabAdd: () => void;
   onEditConfirm: (tabId: string, newLabel: string) => void;
   onEditCancel: () => void;
+  /** Tab 拖拽排序结束时的回调 (oldIndex: number, newIndex: number) => void */
+  onTabReorder?: (oldIndex: number, newIndex: number) => void;
   disableAdd?: boolean;
   disableRemove?: boolean;
   listClassName?: string;

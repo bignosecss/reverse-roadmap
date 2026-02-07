@@ -116,6 +116,34 @@ export class RrNodeService {
     return this.rrNodeRepository.update(id, updateData);
   }
 
+  async updateRrContentOrder(
+    nodeId: string,
+    orderedContent: Array<{ _id: string; rrContent: string; tabTitle: string }>,
+  ) {
+    const targetRrNode = await this.rrNodeRepository.findById(nodeId);
+    if (!targetRrNode) {
+      throw new NotFoundException(`Node with ID ${nodeId} not found`);
+    }
+
+    // 根据传入的顺序重新排列 content
+    // 使用 rrContent 作为 key，因为它是唯一且总是存在的
+    const contentMap = new Map(
+      targetRrNode.content.map((c) => [c.rrContent.toString(), c]),
+    );
+    const reorderedContent = orderedContent
+      .map((item) => contentMap.get(item.rrContent))
+      .filter((c): c is NonNullable<typeof c> => c !== undefined);
+
+    if (reorderedContent.length !== targetRrNode.content.length) {
+      throw new Error(
+        'Content count mismatch: some content items may be missing or duplicated',
+      );
+    }
+
+    targetRrNode.content = reorderedContent;
+    return await targetRrNode.save();
+  }
+
   async updateRrContentForNode(
     nodeId: string,
     updateRrContentTabDto: UpdateRrContentTabDto,

@@ -10,6 +10,7 @@ import {
 import { RrNodeService } from './rr-node.service';
 import { CreateRrNodeDto } from './dto/create-rr-node.dto';
 import { UpdateRrNodeDto } from './dto/update-rr-node.dto';
+import { NodeContentOrderDto } from './dto/update-rr-node.dto';
 import { UpdateRrContentTabDto } from 'src/rr-content/dto/update-rr-content-tab.dto';
 import { UpdateConnectionDto } from './dto/update-connection';
 
@@ -56,6 +57,14 @@ export class RrNodeController {
       nodeId,
       updateRrContentTabDto,
     );
+  }
+
+  @Patch(':nodeId/contents/order')
+  updateRrContentOrder(
+    @Param('nodeId') nodeId: string,
+    @Body() orderedContent: NodeContentOrderDto[],
+  ) {
+    return this.rrNodeService.updateRrContentOrder(nodeId, orderedContent);
   }
 
   @Delete(':id')

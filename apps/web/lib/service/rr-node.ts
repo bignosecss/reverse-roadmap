@@ -3,7 +3,8 @@ import {
   UpdateConnectionDto,
   UpdateRrContentTabDto,
   UpdateRrNodeDto,
-} from "@repo/shared/dto";
+  NodeContent,
+} from "@repo/shared";
 import { apiClient } from "./client";
 import { RrContent, RrNode } from "@repo/shared/models";
 import { FlowEdge, FlowNode } from "@repo/shared/flow";
@@ -105,4 +106,16 @@ export const updateConnection = async (
     body: JSON.stringify(updateConnectionDto),
   });
   return result.data;
+};
+
+export const updateRrContentOrder = async (
+  nodeId: string,
+  orderedContent: NodeContent[],
+) => {
+  const result = await apiClient<RrNode>(`rr-node/${nodeId}/contents/order`, {
+    method: "PATCH",
+    body: JSON.stringify(orderedContent),
+  });
+  const updatedRrNode = result.data;
+  return updatedRrNode;
 };

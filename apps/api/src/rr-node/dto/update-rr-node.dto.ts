@@ -1,6 +1,27 @@
 import { UpdateRrNodeDto as SharedUpdateRrNodeDto } from '@repo/shared/dto';
 import { RrNodeStatus } from '@repo/shared/models';
-import { IsString, IsOptional, IsBoolean, IsEnum } from 'class-validator';
+import {
+  IsString,
+  IsOptional,
+  IsBoolean,
+  IsEnum,
+  IsArray,
+  IsNotEmpty,
+} from 'class-validator';
+
+export class NodeContentOrderDto {
+  @IsNotEmpty()
+  @IsString()
+  _id!: string;
+
+  @IsNotEmpty()
+  @IsString()
+  rrContent!: string;
+
+  @IsNotEmpty()
+  @IsString()
+  tabTitle!: string;
+}
 
 export class UpdateRrNodeDto implements SharedUpdateRrNodeDto {
   @IsString()
@@ -21,4 +42,8 @@ export class UpdateRrNodeDto implements SharedUpdateRrNodeDto {
   @IsBoolean()
   @IsOptional()
   excludeFromRAG?: boolean;
+
+  @IsArray()
+  @IsOptional()
+  content?: NodeContentOrderDto[];
 }
