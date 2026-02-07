@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { TabsProps } from "./props";
-import TabsList from "./tabs-list";
+import { TabsList } from "./list";
 import TabPanel from "./tab-panel";
 
 export function Tabs({
