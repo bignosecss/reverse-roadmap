@@ -29,6 +29,16 @@ export default function useTabs(currentRrNode: RrNode | null) {
     await renameTabImpl(tabId, newLabel, tabs, setTabs);
   };
 
+  const reorderTab = (oldIndex: number, newIndex: number) => {
+    if (oldIndex === newIndex) return;
+
+    const newTabs = [...tabs];
+    const [removed] = newTabs.splice(oldIndex, 1);
+    newTabs.splice(newIndex, 0, removed!);
+
+    setTabs(newTabs);
+  };
+
   useEffect(() => {
     if (!currentRrNode) return;
 
@@ -51,5 +61,6 @@ export default function useTabs(currentRrNode: RrNode | null) {
     addTab,
     removeTab,
     renameTab,
+    reorderTab,
   };
 }

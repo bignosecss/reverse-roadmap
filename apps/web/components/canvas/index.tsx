@@ -11,8 +11,15 @@ import Tiptap from "../tiptap";
 export function Canvas() {
   const canvasOpen = useCanvasStore((state) => state.canvasOpen);
   const currentRrNode = useFlowStore((state) => state.currentRrNode);
-  const { tabs, activeTabId, setActiveTabId, addTab, removeTab, renameTab } =
-    useTabs(currentRrNode);
+  const {
+    tabs,
+    activeTabId,
+    setActiveTabId,
+    addTab,
+    removeTab,
+    renameTab,
+    reorderTab,
+  } = useTabs(currentRrNode);
   const { data: rrContent, isLoading: isRrContentLoading } =
     useGetRrContentById(activeTabId);
 
@@ -80,6 +87,7 @@ export function Canvas() {
         onTabAdd={addTab}
         onTabRemove={removeTab}
         onTabRename={renameTab}
+        onTabReorder={reorderTab}
         renderTabContent={renderTabContent}
         // 自定义样式（Tailwind）
         listClassName="pb-1"

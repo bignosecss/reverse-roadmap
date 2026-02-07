@@ -10,6 +10,7 @@ export function Tabs({
   onTabAdd,
   onTabRemove,
   onTabRename,
+  onTabReorder,
   renderTabContent,
   disableAdd = false,
   disableRemove = false,
@@ -47,6 +48,7 @@ export function Tabs({
         onTabAdd={onTabAdd}
         onEditConfirm={handleEditConfirm}
         onEditCancel={handleEditCancel}
+        onTabReorder={onTabReorder}
         disableAdd={disableAdd}
         disableRemove={disableRemove}
         listClassName={listClassName}
