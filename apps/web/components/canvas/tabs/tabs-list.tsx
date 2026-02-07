@@ -91,7 +91,7 @@ function SortableTabItem({
           <div
             {...attributes}
             {...listeners}
-            className="absolute left-1 w-4 h-full cursor-grab flex items-center justify-center hover:bg-muted-foreground/10 rounded z-10"
+            className="absolute left-1 w-4 h-full cursor-grab flex items-center justify-center rounded z-10"
             aria-label={`拖动标签 ${tab.label}`}
           >
             <svg
