@@ -9,13 +9,15 @@ import {
   removeRrContentForNode,
   updateRrContentForNode,
   updateConnection,
+  updateRrContentOrder,
 } from "@/lib/service/rr-node";
 import {
   CreateRrNodeDto,
   UpdateConnectionDto,
   UpdateRrContentTabDto,
   UpdateRrNodeDto,
-} from "@repo/shared/dto";
+  NodeContent,
+} from "@repo/shared";
 
 export const useCreate = () => {
   return useMutation({
@@ -79,5 +81,17 @@ export const useRemoveRrContentForNode = () => {
       nodeId: string;
       contentId: string;
     }) => removeRrContentForNode(nodeId, contentId),
+  });
+};
+
+export const useUpdateRrContentOrder = () => {
+  return useMutation({
+    mutationFn: ({
+      nodeId,
+      orderedContent,
+    }: {
+      nodeId: string;
+      orderedContent: NodeContent[];
+    }) => updateRrContentOrder(nodeId, orderedContent),
   });
 };
