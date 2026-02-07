@@ -49,14 +49,13 @@ export default function SortableTabItem({
     transform: CSS.Translate.toString(transform),
     transition,
     opacity: isDragging ? 0.5 : 1,
-    width: "130px",
   };
 
   return (
     <div
       ref={setNodeRef}
       style={style}
-      className={`relative flex items-center h-10 border rounded-t-md ${
+      className={`relative flex items-center h-10 border rounded-t-md shrink-0 max-w-50 ${
         isActive
           ? activeTabClassName || "bg-background border-b-background"
           : "bg-muted"

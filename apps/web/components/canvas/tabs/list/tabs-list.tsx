@@ -83,7 +83,7 @@ export default function TabsList({
         strategy={horizontalListSortingStrategy}
       >
         <div
-          className={`flex items-center gap-1 overflow-x-auto ${listClassName}`}
+          className={`flex items-center gap-1 overflow-x-auto min-w-0 ${listClassName}`}
           style={{ scrollbarWidth: "none" }}
         >
           {tabs.map((tab) => (

@@ -8,7 +8,7 @@ interface AddTabButtonProps {
 export default function AddTabButton({ onClick, disabled }: AddTabButtonProps) {
   return (
     <button
-      className="flex items-center justify-center w-10 h-10 border rounded-t-md bg-muted hover:bg-muted/50 transition-colors"
+      className="flex items-center justify-center w-10 h-10 border rounded-t-md bg-muted hover:bg-muted/50 transition-colors shrink-0"
       onClick={onClick}
       disabled={disabled}
       aria-label="新增标签"
