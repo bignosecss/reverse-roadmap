@@ -12,7 +12,6 @@ import {
 } from "@dnd-kit/sortable";
 import { restrictToHorizontalAxis } from "@dnd-kit/modifiers";
 import { TabsListProps } from "../props";
-import TabItemComponent from "./tab-item";
 import SortableTabItem from "./sortable-tab-item";
 import AddTabButton from "./add-tab-button";
 
@@ -72,21 +71,6 @@ export default function TabsList({
     editInputClassName,
   };
 
-  // 非拖拽状态：显示原始列表
-  if (!onTabReorder) {
-    return (
-      <div
-        className={`flex items-center gap-1 overflow-x-auto ${listClassName}`}
-      >
-        {tabs.map((tab) => (
-          <TabItemComponent key={tab.id} tab={tab} {...tabItemProps} />
-        ))}
-        <AddTabButton onClick={onTabAdd} disabled={disableAdd} />
-      </div>
-    );
-  }
-
-  // 拖拽排序状态
   return (
     <DndContext
       sensors={sensors}
