@@ -3,11 +3,10 @@ import { useRagQuery } from "@/hooks/use-rag-query";
 import { toast } from "sonner";
 import useAuthStore from "@/lib/stores/auth";
 import useRootStore from "@/lib/stores/root";
+import { ChatMessage } from "@repo/shared";
 
-export interface Message {
+export interface UIMessage extends ChatMessage {
   id: string;
-  role: "user" | "assistant";
-  content: string;
   isThinking?: boolean;
 }
 
@@ -16,7 +15,7 @@ export const generateId = () =>
   Date.now().toString() + Math.random().toString(36).slice(2);
 
 export function useChatMessage() {
-  const [messages, setMessages] = useState<Message[]>([
+  const [messages, setMessages] = useState<UIMessage[]>([
     {
       id: generateId(),
       role: "assistant",
@@ -32,13 +31,13 @@ export function useChatMessage() {
     (inputMsg: string) => {
       if (!inputMsg.trim()) return;
 
-      const userMessage: Message = {
+      const userMessage: UIMessage = {
         id: generateId(),
         role: "user",
         content: inputMsg,
       };
 
-      const thinkingMessage: Message = {
+      const thinkingMessage: UIMessage = {
         id: generateId(),
         role: "assistant",
         content: "正在思考中...",
