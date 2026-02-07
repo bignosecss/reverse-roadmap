@@ -84,6 +84,7 @@ export default function TabsList({
       >
         <div
           className={`flex items-center gap-1 overflow-x-auto ${listClassName}`}
+          style={{ scrollbarWidth: "none" }}
         >
           {tabs.map((tab) => (
             <SortableTabItem key={tab.id} tab={tab} {...tabItemProps} />
