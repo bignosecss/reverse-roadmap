@@ -3,7 +3,7 @@ import type { Editor, Range } from "@tiptap/react";
 import { ImageIcon, QuoteIcon, TableIcon } from "@radix-ui/react-icons";
 import { Workflow, Minus } from "lucide-react";
 import useImageDialogStore from "@/lib/stores/tiptap";
-import { toast } from "sonner";
+import { useChatStore } from "@/lib/stores/chat";
 
 export interface Command {
   title: string;
@@ -17,11 +17,10 @@ export const commands: Command[] = [
     title: "聊聊～",
     subtitle: "",
     icon: <QuoteIcon className="h-4 w-4" />,
-    command: () =>
-      toast.info("Talk to AI", {
-        description: "正在开发...",
-        position: "top-center",
-      }),
+    command: ({ editor, range }) => {
+      editor.chain().focus().deleteRange(range).run();
+      useChatStore.getState().toggleChat(true, undefined, "");
+    },
   },
   {
     title: "图片",
