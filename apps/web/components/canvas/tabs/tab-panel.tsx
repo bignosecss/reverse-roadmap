@@ -8,6 +8,7 @@ export default function TabPanel({
   return (
     // TODO: 打开动画细节
     // 打开 Canvas 后，tiptap content 内容出现过程会出现文字挤压问题
+    // 将动画从 `flex-basis` -> `width` 之后不存在这个问题了
     <div
       className={`w-full flex-1 border bg-background p-4 overflow-y-auto overflow-x-hidden ${panelClassName}`}
       style={{ maxHeight: "calc(100vh - 120px)", scrollbarWidth: "none" }}
