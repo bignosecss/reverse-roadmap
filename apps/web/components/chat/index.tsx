@@ -64,9 +64,7 @@ function DraggableItem({
 }
 
 export default function DraggableChat() {
-  const chatOpen = useChatStore((state) => state.chatOpen);
-  const toggleChat = useChatStore((state) => state.toggleChat);
-  const chatPosition = useChatStore((state) => state.chatPosition);
+  const { chatOpen, toggleChat, chatPosition } = useChatStore();
 
   const handleDragEnd = useCallback(
     (event: DragEndEvent) => {
