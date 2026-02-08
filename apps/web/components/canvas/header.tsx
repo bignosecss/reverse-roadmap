@@ -5,9 +5,13 @@ import { Badge } from "@/components/ui/badge";
 import useFlowStore from "@/lib/stores/flow";
 import useCanvasStore from "@/lib/stores/canvas";
 import { useShallow } from "zustand/react/shallow";
+import { useQueryClient } from "@tanstack/react-query";
+import { useCallback } from "react";
 
-export function Header() {
-  const currentRrNode = useFlowStore((state) => state.currentRrNode);
+export function Header({ activeTabId }: { activeTabId: string }) {
+  const currentRrNode = useFlowStore(
+    useShallow((state) => state.currentRrNode),
+  );
   const { savingContent, setCanvasOpen } = useCanvasStore(
     useShallow((state) => ({
       savingContent: state.savingContent,
@@ -15,13 +19,19 @@ export function Header() {
     })),
   );
 
+  const queryClient = useQueryClient();
+  const handleClose = useCallback(() => {
+    setCanvasOpen(false);
+    queryClient.invalidateQueries({ queryKey: ["rrContent", activeTabId] });
+  }, [activeTabId, queryClient, setCanvasOpen]);
+
   if (!currentRrNode) {
     return null;
   }
 
   return (
     <div className="flex items-center p-4">
-      <Button variant="ghost" size="icon" onClick={() => setCanvasOpen(false)}>
+      <Button variant="ghost" size="icon" onClick={handleClose}>
         <Cross1Icon />
       </Button>
       <h1 className="text-3xl font-bold">{currentRrNode.title}</h1>

@@ -79,7 +79,7 @@ export function Canvas() {
         },
       )}
     >
-      <Header />
+      <Header activeTabId={activeTabId} />
       <Tabs
         tabs={tabs}
         activeTabId={activeTabId}
