@@ -27,7 +27,7 @@ export default function RrNodeToolbar({
       position={Position.Top}
       className="flex gap-1 p-1 bg-background border rounded-md shadow-lg"
     >
-      <OpenChatTrigger />
+      <OpenChatTrigger currentNode={currentNode} />
       <ToolbarDivider />
       <AddNodeTrigger currentNode={currentNode} />
       <EditNodeTrigger currentNode={currentNode} />

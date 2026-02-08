@@ -1,7 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import {
   ChatPromptTemplate,
-  HumanMessagePromptTemplate,
   MessagesPlaceholder,
   SystemMessagePromptTemplate,
 } from '@langchain/core/prompts';
@@ -63,13 +62,9 @@ export class AppService {
     const systemMessages = SystemMessagePromptTemplate.fromTemplate(
       TEMPLATES.NATIVE_DOCUMENT_SYSTEM_PROMPT,
     );
-    const humanMessages = HumanMessagePromptTemplate.fromTemplate(
-      TEMPLATES.NATIVE_DOCUMENT_HUMAN_PROMPT,
-    );
     const prompt = ChatPromptTemplate.fromMessages([
       systemMessages,
       new MessagesPlaceholder('chat_history'),
-      humanMessages,
     ]);
 
     const retriever = this.vectorStore.instance.asRetriever(999, filter);
@@ -79,11 +74,12 @@ export class AppService {
     });
     const ragChain = RunnableSequence.from([
       {
+        around_info: new RunnablePick('around_info'),
         context: new RunnablePick('query')
           .pipe(retriever)
           .pipe(formatDocumentsAsString),
-        chat_history: new RunnablePick('chat_history'),
         query: new RunnablePick('query'),
+        chat_history: new RunnablePick('chat_history'),
       },
       prompt,
       model,
@@ -96,6 +92,7 @@ export class AppService {
 
     const retrievedDocs = await retriever.invoke(query);
     const formattedPrompt = await prompt.format({
+      around_info: context?.aroundInfo,
       context: formatDocumentsAsString(retrievedDocs),
       query,
       chat_history: historyMessages,

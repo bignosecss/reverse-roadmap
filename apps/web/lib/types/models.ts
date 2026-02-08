@@ -41,7 +41,13 @@ export interface AuthState {
 export interface ChatState {
   chatOpen: boolean;
   chatPosition: { x: number; y: number };
-  toggleChat: (open: boolean, position?: { x: number; y: number }) => void;
+  aroundInfo: string;
+  toggleChat: (
+    open: boolean,
+    position?: { x: number; y: number },
+    aroundInfo?: string,
+  ) => void;
+  setAroundInfo: (info: string) => void;
 }
 
 export interface RootState {
