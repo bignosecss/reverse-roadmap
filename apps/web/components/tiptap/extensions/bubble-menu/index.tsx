@@ -4,10 +4,28 @@ import { Button } from "@/components/ui/button";
 import { FontBoldIcon, FontItalicIcon, QuoteIcon } from "@radix-ui/react-icons";
 import { ButtonSeparator } from "./button-separator";
 import TextStylePopover from "./text-style-popover";
-import { toast } from "sonner";
 import TablePopover from "./table-popover";
+import { useChatStore } from "@/lib/stores/chat";
+import { ChatState } from "@/lib/types/models";
+import { useShallow } from "zustand/react/shallow";
+
+const chatStoreSelector = (state: ChatState) => ({
+  chatOpen: state.chatOpen,
+  toggleChat: state.toggleChat,
+});
 
 export default function CustomBubbleMenu({ editor }: { editor: Editor }) {
+  const { chatOpen, toggleChat } = useChatStore(useShallow(chatStoreSelector));
+
+  const handleOpenChat = () => {
+    // Get selected text from editor
+    const { from, to, empty } = editor.state.selection;
+    const selectedText = empty
+      ? ""
+      : editor.state.doc.textBetween(from, to, " ");
+    toggleChat(true, undefined, selectedText);
+  };
+
   const {
     isBold,
     isItalic,
@@ -49,12 +67,8 @@ export default function CustomBubbleMenu({ editor }: { editor: Editor }) {
           <Button
             variant="ghost"
             size="iconsm"
-            onClick={() =>
-              toast.info("Talk to AI", {
-                description: "正在开发...",
-                position: "top-center",
-              })
-            }
+            onClick={handleOpenChat}
+            disabled={chatOpen}
             className="w-fit px-1.5"
             type="button"
           >

@@ -1,18 +1,22 @@
 import { useState, useCallback } from "react";
+import { useShallow } from "zustand/react/shallow";
 import { useRagQuery } from "@/hooks/use-rag-query";
 import { toast } from "sonner";
 import useAuthStore from "@/lib/stores/auth";
 import useRootStore from "@/lib/stores/root";
+import { useChatStore } from "@/lib/stores/chat";
 import { ChatMessage } from "@repo/shared";
+import { ChatState } from "@/lib/types/models";
+import { generateId } from "@/lib/utils/unique-id";
 
 export interface UIMessage extends ChatMessage {
   id: string;
   isThinking?: boolean;
 }
 
-// 生成唯一id，用于消息标识
-export const generateId = () =>
-  Date.now().toString() + Math.random().toString(36).slice(2);
+const chatStoreSelector = (state: ChatState) => ({
+  aroundInfo: state.aroundInfo,
+});
 
 export function useChatMessage() {
   const [messages, setMessages] = useState<UIMessage[]>([
@@ -26,6 +30,7 @@ export function useChatMessage() {
   const { mutate: ragQuery, isPending } = useRagQuery();
   const user = useAuthStore((state) => state.user);
   const currentRoot = useRootStore((state) => state.currentRoot);
+  const { aroundInfo } = useChatStore(useShallow(chatStoreSelector));
 
   const handleSend = useCallback(
     (inputMsg: string) => {
@@ -54,6 +59,7 @@ export function useChatMessage() {
           context: {
             isAuthenticated: !!user,
             rrRootId: currentRoot?._id ?? "",
+            aroundInfo,
           },
           history: historyMessages.map((m) => ({
             role: m.role,
@@ -87,7 +93,7 @@ export function useChatMessage() {
         },
       );
     },
-    [currentRoot?._id, messages, ragQuery, user],
+    [aroundInfo, currentRoot?._id, messages, ragQuery, user],
   );
 
   return { messages, handleSend, isPending };
