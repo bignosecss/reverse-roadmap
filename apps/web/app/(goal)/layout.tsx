@@ -15,7 +15,7 @@ export default function GoalLayout({
   return (
     <SidebarProvider defaultOpen={true}>
       <AppSidebar />
-      <SidebarInset className="h-screen flex-row overflow-hidden min-w-7xl">
+      <SidebarInset className="h-screen flex-row overflow-hidden">
         {children}
       </SidebarInset>
     </SidebarProvider>
