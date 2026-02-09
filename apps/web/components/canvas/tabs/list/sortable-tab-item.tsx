@@ -61,6 +61,8 @@ export default function SortableTabItem({
           : "bg-muted"
       } ${isDragging ? "cursor-grabbing" : "cursor-grab"}`}
     >
+      {/* TODO: 双击显示 input 元素后，tab 容器被撑满，w-50，导致 tab 显示不一致 */}
+      {/* 因为父容器的宽度有内容决定，而 input 元素 w-full；与拖拽内容宽度没有保持一致 */}
       {isEditing ? (
         <TabEditInput
           initialValue={tab.label}
