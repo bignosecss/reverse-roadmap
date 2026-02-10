@@ -20,7 +20,7 @@ function ensurePositionInViewport(position: { x: number; y: number }): {
 export const useChatStore = create<ChatState>((set) => ({
   chatOpen: false,
   chatPosition: { x: 100, y: 100 },
-  aroundInfo: "",
+  aroundInfo: { aroundText: "" },
   toggleChat: (open, position, aroundInfo) => {
     set(() => {
       const adjustedPosition = position

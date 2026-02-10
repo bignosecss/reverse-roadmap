@@ -5,7 +5,7 @@
 import type { OnNodesChange, OnEdgesChange, OnConnect } from "@xyflow/react";
 import { RrNode, RrRoot } from "@repo/shared/models";
 import { FlowNode, FlowEdge, FlowData } from "@repo/shared/flow";
-import { UpdateRrNodeDto, UserDto } from "@repo/shared/dto";
+import { UpdateRrNodeDto, UserDto, AroundInfo } from "@repo/shared/dto";
 
 export type FlowState = {
   nodes: FlowNode[];
@@ -41,13 +41,13 @@ export interface AuthState {
 export interface ChatState {
   chatOpen: boolean;
   chatPosition: { x: number; y: number };
-  aroundInfo: string;
+  aroundInfo: AroundInfo;
   toggleChat: (
     open: boolean,
     position?: { x: number; y: number },
-    aroundInfo?: string,
+    aroundInfo?: AroundInfo,
   ) => void;
-  setAroundInfo: (info: string) => void;
+  setAroundInfo: (info: AroundInfo) => void;
 }
 
 export interface RootState {

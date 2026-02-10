@@ -19,7 +19,7 @@ export const commands: Command[] = [
     icon: <QuoteIcon className="h-4 w-4" />,
     command: ({ editor, range }) => {
       editor.chain().focus().deleteRange(range).run();
-      useChatStore.getState().toggleChat(true, undefined, "");
+      useChatStore.getState().toggleChat(true, undefined, { aroundText: "" });
     },
   },
   {

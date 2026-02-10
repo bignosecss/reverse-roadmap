@@ -22,7 +22,10 @@ export function OpenChatTrigger({ currentNode }: OpenChatTriggerProps) {
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       const { clientX, clientY } = event;
-      const aroundInfo = rrNodeToText(currentNode);
+      const aroundInfo = {
+        aroundText: rrNodeToText(currentNode),
+        rrNodeId: currentNode._id,
+      };
       toggleChat(true, { x: clientX, y: clientY }, aroundInfo);
     },
     [toggleChat, currentNode],

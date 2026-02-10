@@ -23,7 +23,7 @@ export default function CustomBubbleMenu({ editor }: { editor: Editor }) {
     const selectedText = empty
       ? ""
       : editor.state.doc.textBetween(from, to, " ");
-    toggleChat(true, undefined, selectedText);
+    toggleChat(true, undefined, { aroundText: selectedText });
   };
 
   const {

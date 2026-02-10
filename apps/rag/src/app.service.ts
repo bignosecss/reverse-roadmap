@@ -17,7 +17,8 @@ import { ChatDeepSeek } from '@langchain/deepseek';
 import { LoaderService } from './loaders/loader.service';
 import { VectorStoreService } from './vectors/vector-store.service';
 import type { SemanticDocumentUnion, RAGQueryRequest } from '@repo/shared';
-import { TEMPLATES } from './utils/template.constant';
+import { TEMPLATES } from './utils/constants/template.constant';
+import { LLM_CONFIG } from './utils/constants/model.constants';
 
 @Injectable()
 export class AppService {
@@ -68,10 +69,7 @@ export class AppService {
     ]);
 
     const retriever = this.vectorStore.instance.asRetriever(999, filter);
-    const model = new ChatDeepSeek({
-      temperature: 0.8,
-      model: 'deepseek-chat',
-    });
+    const model = new ChatDeepSeek(LLM_CONFIG.DEEPSEEK);
     const ragChain = RunnableSequence.from([
       {
         around_info: new RunnablePick('around_info'),
@@ -92,7 +90,7 @@ export class AppService {
 
     const retrievedDocs = await retriever.invoke(query);
     const formattedPrompt = await prompt.format({
-      around_info: context?.aroundInfo,
+      around_info: context?.aroundInfo?.aroundText,
       context: formatDocumentsAsString(retrievedDocs),
       query,
       chat_history: historyMessages,
