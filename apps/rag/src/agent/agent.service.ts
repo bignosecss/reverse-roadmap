@@ -7,26 +7,62 @@ import {
   AIMessage,
 } from 'langchain';
 import { ChatDeepSeek } from '@langchain/deepseek';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { LLM_CONFIG } from 'src/utils/constants/model.constants';
-import { AgentResponse, ToolCallInfo, ModelInfo } from '@repo/shared';
+import { AgentResponse, ToolCallInfo, ModelInfo, AgentQueryContext } from '@repo/shared';
 import { TEMPLATES } from 'src/utils/constants/template.constant';
 import { getTools } from './tools';
+import { ApiNodeClient } from './client/api-node.client';
 
 @Injectable()
 export class AgentService {
-  async agent(query: string): Promise<AgentResponse> {
+  private readonly logger = new Logger(AgentService.name);
+
+  constructor(private readonly apiNodeClient: ApiNodeClient) {}
+
+  async agent(query: string, context?: AgentQueryContext): Promise<AgentResponse> {
     const model = new ChatDeepSeek(LLM_CONFIG.DEEPSEEK);
+
+    // 如果有节点上下文，将其注入到系统提示词中
+    const systemPrompt = context
+      ? this.buildSystemPromptWithContext(context)
+      : TEMPLATES.AGENT_SYSTEM_PROMPT;
+
+    if (context) {
+      this.logger.debug(
+        `[Agent Context] Node ID: ${context.rrNodeId}, Title: ${context.title}`,
+      );
+    }
 
     const agent = createAgent({
       model,
-      tools: getTools(),
+      tools: getTools(this.apiNodeClient, context?.rrNodeId),
       middleware: [this.handleToolErrors()],
-      systemPrompt: TEMPLATES.AGENT_SYSTEM_PROMPT,
+      systemPrompt,
     });
     const result = await agent.invoke({ messages: new HumanMessage(query) });
 
     return this.formatAgentResponse(result.messages as BaseMessage[]);
+  }
+
+  /**
+   * 构建带节点上下文的系统提示词
+   */
+  private buildSystemPromptWithContext(context: AgentQueryContext): string {
+    return `${TEMPLATES.AGENT_SYSTEM_PROMPT}
+
+---
+## 当前节点上下文
+
+你正在为一个 Reverse Roadmap 节点生成内容。以下是该节点的信息：
+
+- **节点 ID**: ${context.rrNodeId}
+- **节点标题**: ${context.title}
+- **节点描述**: ${context.description}
+
+请根据以上上下文信息，为该节点生成合适的子节点或内容。
+生成的子任务应该与当前节点的目标紧密相关，具有可执行性。
+---`;
   }
 
   private formatAgentResponse(messages: BaseMessage[]): AgentResponse {

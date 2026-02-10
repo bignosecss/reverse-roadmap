@@ -7,6 +7,7 @@ export default defineConfig({
     "src/types/dto/index.ts",
     "src/types/models/index.ts",
     "src/types/flow/index.ts",
+    "src/types/agent/index.ts",
     "src/utils/index.ts",
   ],
   format: ["esm", "cjs"],

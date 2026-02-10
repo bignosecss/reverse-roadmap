@@ -13,10 +13,16 @@ import { UpdateRrNodeDto } from './dto/update-rr-node.dto';
 import { NodeContentOrderDto } from './dto/update-rr-node.dto';
 import { UpdateRrContentTabDto } from 'src/rr-content/dto/update-rr-content-tab.dto';
 import { UpdateConnectionDto } from './dto/update-connection';
+import { SaveReverseRoadmapDto } from './dto/save-reverse-roadmap.dto';
 
 @Controller('rr-node')
 export class RrNodeController {
   constructor(private readonly rrNodeService: RrNodeService) {}
+
+  @Post('save-reverse-roadmap')
+  async saveReverseRoadmap(@Body() dto: SaveReverseRoadmapDto) {
+    return this.rrNodeService.saveReverseRoadmap(dto);
+  }
 
   @Post()
   create(@Body() createRrNodeDto: CreateRrNodeDto) {

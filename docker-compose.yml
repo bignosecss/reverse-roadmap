@@ -73,6 +73,7 @@ services:
       - ./packages:/app/packages
     environment:
       - PORT=3002
+      - API_URL=http://api:3001/api/
       - MONGODB_URI=mongodb://admin:password@mongodb:27017/reverse-roadmap?authSource=admin
       - DEEPSEEK_API_KEY=${DEEPSEEK_API_KEY}
       # PGVector configuration

@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Logger } from '@nestjs/common';
 import { CreateRrNodeDto } from './dto/create-rr-node.dto';
 import {
   RrNode as RrNodeModel,
@@ -17,9 +17,16 @@ import { RrContentService } from 'src/rr-content/rr-content.service';
 import { CreateRrContentDto } from 'src/rr-content/dto/create-rr-content.dto';
 import { UpdateRrContentTabDto } from 'src/rr-content/dto/update-rr-content-tab.dto';
 import { UpdateRrContentDto } from 'src/rr-content/dto/update-rr-content.dto';
+import {
+  SaveReverseRoadmapDto,
+  SaveReverseRoadmapResponse,
+} from './dto/save-reverse-roadmap.dto';
+import { Types } from 'mongoose';
 
 @Injectable()
 export class RrNodeService {
+  private readonly logger = new Logger(RrNodeService.name);
+
   constructor(
     private readonly rrNodeRepository: RrNodeRepository,
     private readonly rrContentService: RrContentService,
@@ -286,5 +293,36 @@ export class RrNodeService {
       totalProcessed: rrNodes.length,
       totalUpdated: nodesToUpdate.length,
     };
+  }
+
+  /**
+   * 保存 Reverse Roadmap
+   * @param dto - 包含节点树和可选的父节点 ID
+   * @returns 保存结果
+   */
+  async saveReverseRoadmap(
+    dto: SaveReverseRoadmapDto,
+  ) {
+    console.log('yes', JSON.stringify(dto, null, 2));
+    // try {
+    //   // 递归保存节点树
+    //   const result = await this.saveNodeTree(dto.node);
+
+    //   return {
+    //     success: true,
+    //     message: 'Reverse roadmap saved successfully',
+    //     nodeId: result.nodeId,
+    //     childCount: result.childNodeIds.length,
+    //   };
+    // } catch (error) {
+    //   this.logger.error(
+    //     `Failed to save reverse roadmap: ${error instanceof Error ? error.message : 'Unknown error'}`,
+    //   );
+
+    //   return {
+    //     success: false,
+    //     message: `Failed to save reverse roadmap: ${error instanceof Error ? error.message : 'Unknown error'}`,
+    //   };
+    // }
   }
 }
