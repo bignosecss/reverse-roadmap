@@ -300,9 +300,7 @@ export class RrNodeService {
    * @param dto - 包含节点树和可选的父节点 ID
    * @returns 保存结果
    */
-  async saveReverseRoadmap(
-    dto: SaveReverseRoadmapDto,
-  ) {
+  async saveReverseRoadmap(dto: SaveReverseRoadmapDto) {
     console.log('yes', JSON.stringify(dto, null, 2));
     // try {
     //   // 递归保存节点树

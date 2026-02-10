@@ -9,7 +9,12 @@ import {
 import { ChatDeepSeek } from '@langchain/deepseek';
 import { Injectable, Logger } from '@nestjs/common';
 import { LLM_CONFIG } from 'src/utils/constants/model.constants';
-import { AgentResponse, ToolCallInfo, ModelInfo, AgentQueryContext } from '@repo/shared';
+import {
+  AgentResponse,
+  ToolCallInfo,
+  ModelInfo,
+  AgentQueryContext,
+} from '@repo/shared';
 import { TEMPLATES } from 'src/utils/constants/template.constant';
 import { getTools } from './tools';
 import { ApiNodeClient } from './client/api-node.client';
@@ -20,7 +25,10 @@ export class AgentService {
 
   constructor(private readonly apiNodeClient: ApiNodeClient) {}
 
-  async agent(query: string, context?: AgentQueryContext): Promise<AgentResponse> {
+  async agent(
+    query: string,
+    context?: AgentQueryContext,
+  ): Promise<AgentResponse> {
     const model = new ChatDeepSeek(LLM_CONFIG.DEEPSEEK);
 
     // 如果有节点上下文，将其注入到系统提示词中

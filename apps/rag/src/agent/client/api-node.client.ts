@@ -30,12 +30,12 @@ export class ApiNodeClient {
   /**
    * 保存 reverse roadmap
    * 将 agent 生成的节点树完整发送给 API，由 API 端处理所有逻辑
-  */
- async saveReverseRoadmap(dto: SaveReverseRoadmapDto): Promise<{
-   success: boolean;
-   nodeId?: string;
-   childCount?: number;
-   message: string;
+   */
+  async saveReverseRoadmap(dto: SaveReverseRoadmapDto): Promise<{
+    success: boolean;
+    nodeId?: string;
+    childCount?: number;
+    message: string;
   }> {
     try {
       const response = await firstValueFrom(
