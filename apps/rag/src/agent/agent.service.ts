@@ -1,71 +1,106 @@
-import * as z from 'zod';
 import {
   createAgent,
-  tool,
   createMiddleware,
   ToolMessage,
   HumanMessage,
+  BaseMessage,
+  AIMessage,
 } from 'langchain';
 import { ChatDeepSeek } from '@langchain/deepseek';
 import { Injectable } from '@nestjs/common';
 import { LLM_CONFIG } from 'src/utils/constants/model.constants';
+import { AgentResponse, ToolCallInfo, ModelInfo } from '@repo/shared';
+import { TEMPLATES } from 'src/utils/constants/template.constant';
+import { getTools } from './tools';
 
 @Injectable()
 export class AgentService {
-  async agent(query: string) {
+  async agent(query: string): Promise<AgentResponse> {
     const model = new ChatDeepSeek(LLM_CONFIG.DEEPSEEK);
 
     const agent = createAgent({
       model,
-      tools: this.getTools(),
+      tools: getTools(),
       middleware: [this.handleToolErrors()],
-      systemPrompt: this.getSystemPrompt(),
+      systemPrompt: TEMPLATES.AGENT_SYSTEM_PROMPT,
     });
     const result = await agent.invoke({ messages: new HumanMessage(query) });
-    return result;
+
+    return this.formatAgentResponse(result.messages as BaseMessage[]);
   }
 
-  private getSystemPrompt() {
-    return `你是一个智能助手，可以帮助用户完成各种任务。
+  private formatAgentResponse(messages: BaseMessage[]): AgentResponse {
+    // 获取最后一条消息（最终回复）
+    const lastMessage = messages.at(-1);
+    if (!lastMessage) {
+      return { reply: '', model: { provider: 'unknown', name: 'unknown' } };
+    }
+    const reply = lastMessage.content as string;
 
-## 你的能力
-- 使用 search 工具搜索信息
-- 使用 get_weather 工具获取天气信息
+    // 提取所有工具调用
+    const toolCalls: ToolCallInfo[] = [];
 
-## 使用工具的准则
-1. 在使用任何工具前，先从用户的请求中提取必要的参数
-2. 如果用户提供的参数不完整或不明确，主动询问用户
-3. 工具调用失败时，根据错误信息给出友好的反馈并建议用户如何改进
-4. 不要编造工具返回的结果，始终基于实际返回的信息回答用户
-5. 合理组合使用多个工具来满足复杂的需求
+    for (const message of messages) {
+      if (
+        AIMessage.isInstance(message) &&
+        (message as AIMessage).tool_calls?.length
+      ) {
+        const aiMessage = message as AIMessage;
+        for (const toolCall of aiMessage.tool_calls!) {
+          // 找到对应的工具返回消息
+          const toolMessage = messages.find(
+            (m) =>
+              ToolMessage.isInstance(m) &&
+              (m as ToolMessage).tool_call_id === toolCall.id,
+          ) as ToolMessage | undefined;
 
-## 回答风格
-- 回答简洁明了，避免冗余
-- 保持专业和友好的语气
-- 如果无法确定答案，诚实地说明而不是猜测`;
-  }
+          toolCalls.push({
+            name: toolCall.name,
+            input: toolCall.args,
+            output: (toolMessage?.content as string) || '',
+          });
+        }
+      }
+    }
 
-  private getTools() {
-    const search = tool(({ query }) => `Results for: ${query}`, {
-      name: 'search',
-      description: 'Search for information',
-      schema: z.object({
-        query: z.string().describe('The query to search for'),
-      }),
-    });
+    // 提取 AI 消息的元数据
+    const aiMessages = messages.filter((m) =>
+      AIMessage.isInstance(m),
+    ) as AIMessage[];
+    const lastAIMessage = aiMessages.at(-1);
+    const metadata = lastAIMessage?.response_metadata;
 
-    const getWeather = tool(
-      ({ location }) => `Weather in ${location}: Sunny, 72°F`,
-      {
-        name: 'get_weather',
-        description: 'Get weather information for a location',
-        schema: z.object({
-          location: z.string().describe('The location to get weather for'),
-        }),
-      },
-    );
+    // 提取模型信息
+    const modelInfo: ModelInfo = {
+      provider: (metadata?.model_provider as string) || 'unknown',
+      name: (metadata?.model_name as string) || 'unknown',
+    };
 
-    return [search, getWeather];
+    // 提取 token 使用统计
+    const tokenUsage = metadata?.usage as
+      | {
+          prompt_tokens?: number;
+          completion_tokens?: number;
+          total_tokens?: number;
+          prompt_cache_hit_tokens?: number;
+          prompt_cache_miss_tokens?: number;
+        }
+      | undefined;
+
+    return {
+      reply,
+      toolCalls: toolCalls.length > 0 ? toolCalls : undefined,
+      usage: tokenUsage
+        ? {
+            promptTokens: tokenUsage.prompt_tokens,
+            completionTokens: tokenUsage.completion_tokens,
+            totalTokens: tokenUsage.total_tokens,
+            promptCacheHitTokens: tokenUsage.prompt_cache_hit_tokens,
+            promptCacheMissTokens: tokenUsage.prompt_cache_miss_tokens,
+          }
+        : undefined,
+      model: modelInfo,
+    };
   }
 
   private handleToolErrors() {
