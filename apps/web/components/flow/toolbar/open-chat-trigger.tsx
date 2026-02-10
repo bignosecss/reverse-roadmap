@@ -35,7 +35,7 @@ export function OpenChatTrigger({ currentNode }: OpenChatTriggerProps) {
       onClick={handleClick}
       className="h-7 w-7 p-0"
       disabled={chatOpen}
-      title="打开Chat"
+      title="聊聊～"
     >
       <QuoteIcon />
     </Button>
