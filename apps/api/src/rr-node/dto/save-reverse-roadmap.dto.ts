@@ -15,6 +15,4 @@ export class SaveReverseRoadmapDto {
 export interface SaveReverseRoadmapResponse {
   success: boolean;
   message: string;
-  nodeId?: string;
-  childCount?: number;
 }

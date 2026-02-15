@@ -1,4 +1,5 @@
 import { Injectable, NotFoundException, Logger } from '@nestjs/common';
+import mongoose from 'mongoose';
 import { CreateRrNodeDto } from './dto/create-rr-node.dto';
 import {
   RrNode as RrNodeModel,
@@ -10,6 +11,7 @@ import {
   FlowNode,
   convertToFlow,
   convertToRr,
+  AgentRrNodeDto,
 } from '@repo/shared';
 import { RrNodeRepository } from './repositories/rr-node.repository';
 import { UpdateRrNodeDto } from './dto/update-rr-node.dto';
@@ -21,7 +23,6 @@ import {
   SaveReverseRoadmapDto,
   SaveReverseRoadmapResponse,
 } from './dto/save-reverse-roadmap.dto';
-import { Types } from 'mongoose';
 
 @Injectable()
 export class RrNodeService {
@@ -300,27 +301,99 @@ export class RrNodeService {
    * @param dto - 包含节点树和可选的父节点 ID
    * @returns 保存结果
    */
-  async saveReverseRoadmap(dto: SaveReverseRoadmapDto) {
-    console.log('yes', JSON.stringify(dto, null, 2));
-    // try {
-    //   // 递归保存节点树
-    //   const result = await this.saveNodeTree(dto.node);
+  async saveReverseRoadmap(
+    dto: SaveReverseRoadmapDto,
+  ): Promise<SaveReverseRoadmapResponse> {
+    try {
+      // 递归保存节点树
+      await this.saveNodeTree(dto.node);
 
-    //   return {
-    //     success: true,
-    //     message: 'Reverse roadmap saved successfully',
-    //     nodeId: result.nodeId,
-    //     childCount: result.childNodeIds.length,
-    //   };
-    // } catch (error) {
-    //   this.logger.error(
-    //     `Failed to save reverse roadmap: ${error instanceof Error ? error.message : 'Unknown error'}`,
-    //   );
+      return {
+        success: true,
+        message: 'Reverse roadmap saved successfully',
+      };
+    } catch (error) {
+      this.logger.error(
+        `Failed to save reverse roadmap: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      );
 
-    //   return {
-    //     success: false,
-    //     message: `Failed to save reverse roadmap: ${error instanceof Error ? error.message : 'Unknown error'}`,
-    //   };
-    // }
+      return {
+        success: false,
+        message: `Failed to save reverse roadmap: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      };
+    }
+  }
+
+  /**
+   * 保存节点树
+   * 递归创建节点树，使用 MongoDB 生成的 _id 建立父子关系
+   */
+  private async saveNodeTree(
+    rootNode: AgentRrNodeDto,
+  ): Promise<{ rootNodeId: string; totalNodes: number }> {
+    const result = await this.createNodeTreeRecursively(rootNode);
+    return {
+      rootNodeId: result.nodeId,
+      totalNodes: result.totalNodes,
+    };
+  }
+
+  /**
+   * 递归创建节点树
+   * @param node - 要创建的节点
+   * @param parentRealId - 父节点的真实 ID（如果是根节点则为 null）
+   * @returns 创建结果，包含节点 ID 和节点总数
+   */
+  private async createNodeTreeRecursively(
+    node: AgentRrNodeDto,
+    parentRealId: string | null = null,
+  ): Promise<{ nodeId: string; totalNodes: number }> {
+    // 创建所有 content
+    const contentIds: string[] = [];
+    for (const contentDto of node.content) {
+      const newContent = await this.rrContentService.create({
+        tabTitle: contentDto.tabTitle,
+        type: contentDto.type,
+        content: contentDto.content,
+      });
+      contentIds.push(newContent._id.toString());
+    }
+
+    // 创建节点
+    const rrNodeEntity: Partial<RrNodeModel> = {
+      title: node.title,
+      description: node.description || '',
+      status: node.status || RrNodeStatus.Active,
+      excludeFromRAG: node.excludeFromRAG ?? false,
+      content: contentIds.map((rrContent) => ({
+        rrContent: new mongoose.Types.ObjectId(rrContent),
+        tabTitle: node.title,
+      })),
+      parent: parentRealId ? new mongoose.Types.ObjectId(parentRealId) : null,
+      children: [],
+    };
+
+    const newRrNode = this.rrNodeRepository.create(rrNodeEntity);
+    const savedNode = await this.rrNodeRepository.save(newRrNode);
+    const realNodeId = savedNode._id.toString();
+
+    // 更新父节点的 children 数组
+    if (parentRealId) {
+      await this.rrNodeRepository.update(parentRealId, {
+        $push: { children: realNodeId },
+      });
+    }
+
+    // 递归创建子节点
+    const childrenIds: string[] = [];
+    for (const child of node.children) {
+      const childResult = await this.createNodeTreeRecursively(child, realNodeId);
+      childrenIds.push(childResult.nodeId);
+    }
+
+    return {
+      nodeId: realNodeId,
+      totalNodes: 1 + childrenIds.length,
+    };
   }
 }

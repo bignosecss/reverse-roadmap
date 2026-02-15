@@ -31,12 +31,9 @@ export class ApiNodeClient {
    * 保存 reverse roadmap
    * 将 agent 生成的节点树完整发送给 API，由 API 端处理所有逻辑
    */
-  async saveReverseRoadmap(dto: SaveReverseRoadmapDto): Promise<{
-    success: boolean;
-    nodeId?: string;
-    childCount?: number;
-    message: string;
-  }> {
+  async saveReverseRoadmap(
+    dto: SaveReverseRoadmapDto,
+  ): Promise<{ success: boolean; message: string }> {
     try {
       const response = await firstValueFrom(
         this.httpService.post(
@@ -44,7 +41,7 @@ export class ApiNodeClient {
           dto,
         ),
       );
-      return response.data;
+      return response.data as { success: boolean; message: string };
     } catch (err) {
       const errorMessage = this.getErrorMessage(err);
       this.logger.error(`Failed to save reverse roadmap: ${errorMessage}`);
