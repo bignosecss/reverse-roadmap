@@ -92,7 +92,7 @@ export default function Tiptap({ tabId, content: rrContent }: TiptapProps) {
           <ImageDialog editor={editor} />
         </>
       )}
-      <EditorContent className="w-2/3" editor={editor} />
+      <EditorContent className="w-3/4" editor={editor} />
     </>
   );
 }

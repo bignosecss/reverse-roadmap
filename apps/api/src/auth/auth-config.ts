@@ -23,6 +23,7 @@ export const DEFAULT_AUTH_CONFIG: AuthConfig = {
     { pattern: '^/api/auth/register$', methods: ['POST'] }, // 注册
     { pattern: '^/api/auth/logout$', methods: ['POST'] }, // 登出
     { pattern: '^/api/auth/me$', methods: ['GET'] }, // 获取当前用户信息
+    { pattern: '^/api/rr-node/save-reverse-roadmap$', methods: ['POST'] }, // 保存反向路线图
 
     // 公开 root 及其相关资源的 GET 请求
     { pattern: '^/api/rr-root/public$', methods: ['GET'] },

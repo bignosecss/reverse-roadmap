@@ -12,3 +12,6 @@ export * from "./flow/index";
 
 // Rag Documents
 export * from "./rag-document/index";
+
+// Agent Types
+export * from "./agent/index";

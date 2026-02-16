@@ -1,12 +1,16 @@
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { useScrollToBottom } from "../hooks/use-scroll-to-bottom";
 import { useChatMessage } from "../hooks/use-chat-message";
 import { AIResponseViewer } from "@/components/tiptap/ai-response-viewer";
 import { ChatForm } from "./chat-form";
 import { Spinner } from "@/components/ui/spinner";
+import { Skill } from "../types";
 
 export function ChatUI() {
-  const { messages, handleSend, isPending } = useChatMessage();
+  const [selectedSkill, setSelectedSkill] = useState<Skill>("chat");
+
+  const { messages, handleSend, isPending } = useChatMessage(selectedSkill);
   const messagesEndRef = useScrollToBottom([messages]);
 
   return (
@@ -20,7 +24,7 @@ export function ChatUI() {
           >
             {message.role === "assistant" ? (
               message.isThinking ? (
-                <div className="flex items-center gap-2 text-muted-foreground">
+                <div className="mt-2 flex items-center gap-2 text-muted-foreground">
                   <Spinner />
                   <span>{message.content}</span>
                 </div>
@@ -39,7 +43,12 @@ export function ChatUI() {
 
       {/* Input */}
       <div className="p-4 pt-0">
-        <ChatForm onSend={handleSend} isGenerating={isPending} />
+        <ChatForm
+          onSend={handleSend}
+          isGenerating={isPending}
+          selectedSkill={selectedSkill}
+          onSkillChange={setSelectedSkill}
+        />
       </div>
     </div>
   );

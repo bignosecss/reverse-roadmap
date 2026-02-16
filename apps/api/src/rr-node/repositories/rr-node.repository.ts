@@ -4,7 +4,7 @@ import {
   RrNodeDocument,
 } from '../schemas/rr-node.schema';
 import { InjectModel } from '@nestjs/mongoose';
-import { DeleteResult, Model, Types, UpdateQuery } from 'mongoose';
+import { DeleteResult, FilterQuery, Model, Types, UpdateQuery } from 'mongoose';
 import { RrNode } from '@repo/shared/models';
 
 @Injectable()
@@ -130,6 +130,25 @@ export class RrNodeRepository {
       throw new NotFoundException(`RrNode with ID ${id} not found`);
     }
     return existingRrNode;
+  }
+
+  async updateMany(
+    filter: FilterQuery<RrNodeModel>,
+    update: UpdateQuery<RrNodeModel>,
+  ): Promise<{ matchedCount: number; modifiedCount: number }> {
+    try {
+      // 执行批量更新
+      const result = await this.rrNodeModel.updateMany(filter, update).exec();
+
+      // 返回关键结果（匹配数、修改数）
+      return {
+        matchedCount: result.matchedCount,
+        modifiedCount: result.modifiedCount,
+      };
+    } catch (error) {
+      console.error('RrNodeRepository updateMany 执行失败:', error);
+      throw new Error(`批量更新节点失败: ${(error as Error).message}`);
+    }
   }
 
   async removeNode(id: string) {

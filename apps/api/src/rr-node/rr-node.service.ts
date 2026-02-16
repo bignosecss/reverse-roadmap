@@ -1,4 +1,5 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException, Logger } from '@nestjs/common';
+import mongoose from 'mongoose';
 import { CreateRrNodeDto } from './dto/create-rr-node.dto';
 import {
   RrNode as RrNodeModel,
@@ -10,6 +11,7 @@ import {
   FlowNode,
   convertToFlow,
   convertToRr,
+  AgentRrNodeDto,
 } from '@repo/shared';
 import { RrNodeRepository } from './repositories/rr-node.repository';
 import { UpdateRrNodeDto } from './dto/update-rr-node.dto';
@@ -17,9 +19,15 @@ import { RrContentService } from 'src/rr-content/rr-content.service';
 import { CreateRrContentDto } from 'src/rr-content/dto/create-rr-content.dto';
 import { UpdateRrContentTabDto } from 'src/rr-content/dto/update-rr-content-tab.dto';
 import { UpdateRrContentDto } from 'src/rr-content/dto/update-rr-content.dto';
+import {
+  SaveReverseRoadmapDto,
+  SaveReverseRoadmapResponse,
+} from './dto/save-reverse-roadmap.dto';
 
 @Injectable()
 export class RrNodeService {
+  private readonly logger = new Logger(RrNodeService.name);
+
   constructor(
     private readonly rrNodeRepository: RrNodeRepository,
     private readonly rrContentService: RrContentService,
@@ -285,6 +293,139 @@ export class RrNodeService {
       message: `Successfully processed ${rrNodes.length} nodes, updated ${nodesToUpdate.length} nodes with connection changes`,
       totalProcessed: rrNodes.length,
       totalUpdated: nodesToUpdate.length,
+    };
+  }
+
+  /**
+   * 保存 Reverse Roadmap
+   * @param dto - 包含节点树和可选的父节点 ID
+   * @returns 保存结果
+   */
+  async saveReverseRoadmap(
+    dto: SaveReverseRoadmapDto,
+  ): Promise<SaveReverseRoadmapResponse> {
+    try {
+      // 递归保存节点树
+      await this.saveNodeTree(dto.node, dto.rrNodeId);
+
+      return {
+        success: true,
+        message: 'Reverse roadmap saved successfully',
+      };
+    } catch (error) {
+      this.logger.error(
+        `Failed to save reverse roadmap: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      );
+
+      return {
+        success: false,
+        message: `Failed to save reverse roadmap: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      };
+    }
+  }
+
+  private async saveNodeTree(
+    rootNode: AgentRrNodeDto,
+    rootNodeId: string,
+  ): Promise<{ rootNodeId: string; totalNodes: number }> {
+    const result = await this.createNodeTreeRecursively(rootNode, rootNodeId);
+
+    return {
+      rootNodeId: result.nodeId,
+      totalNodes: result.totalNodes,
+    };
+  }
+
+  /**
+   * 递归创建节点树
+   * @param node - 要创建的树结构，最外层及为子树根节点的内容
+   * @param rootNodeId - 根节点的真实 ID
+   * @param parentRealId - 父节点的真实 ID（如果是根节点则为 null）
+   * @returns 创建结果，包含节点 ID 和节点总数
+   */
+  private async createNodeTreeRecursively(
+    node: AgentRrNodeDto,
+    rootNodeId: string,
+    parentRealId: string | null = null,
+  ): Promise<{ nodeId: string; totalNodes: number }> {
+    let realNodeId: string;
+
+    if (parentRealId === null) {
+      // 更新子树的根节点
+      realNodeId = rootNodeId;
+
+      const contentIds: string[] = [];
+      for (const contentDto of node.content) {
+        const newContent = await this.rrContentService.create({
+          tabTitle: contentDto.tabTitle,
+          type: contentDto.type,
+          content: contentDto.content,
+        });
+        contentIds.push(newContent._id.toString());
+      }
+
+      await this.rrNodeRepository.update(rootNodeId, {
+        title: node.title,
+        description: node.description || '',
+        status: node.status || RrNodeStatus.Active,
+        excludeFromRAG: node.excludeFromRAG ?? false,
+        content: contentIds.map((rrContent) => ({
+          rrContent: new mongoose.Types.ObjectId(rrContent),
+          tabTitle: node.title,
+        })),
+      });
+    } else {
+      // 创建新节点
+      const contentIds: string[] = [];
+      for (const contentDto of node.content) {
+        const newContent = await this.rrContentService.create({
+          tabTitle: contentDto.tabTitle,
+          type: contentDto.type,
+          content: contentDto.content,
+        });
+        contentIds.push(newContent._id.toString());
+      }
+
+      const rrNodeEntity: Partial<RrNodeModel> = {
+        title: node.title,
+        description: node.description || '',
+        status: node.status || RrNodeStatus.Active,
+        excludeFromRAG: node.excludeFromRAG ?? false,
+        content: contentIds.map((rrContent) => ({
+          rrContent: new mongoose.Types.ObjectId(rrContent),
+          tabTitle: node.title,
+        })),
+        parent: new mongoose.Types.ObjectId(parentRealId),
+        children: [],
+      };
+
+      const newRrNode = this.rrNodeRepository.create(rrNodeEntity);
+      const savedNode = await this.rrNodeRepository.save(newRrNode);
+      realNodeId = savedNode._id.toString();
+
+      await this.rrNodeRepository.update(parentRealId, {
+        $push: { children: realNodeId },
+      });
+    }
+
+    const childrenResults: { nodeId: string; totalNodes: number }[] = [];
+    for (const child of node.children) {
+      const childResult = await this.createNodeTreeRecursively(
+        child,
+        rootNodeId,
+        realNodeId,
+      );
+      childrenResults.push(childResult);
+    }
+
+    const totalChildrenNodes = childrenResults.reduce(
+      (sum, result) => sum + result.totalNodes,
+      0,
+    );
+
+    return {
+      nodeId: realNodeId,
+      totalNodes: 1 + totalChildrenNodes,
     };
   }
 }
