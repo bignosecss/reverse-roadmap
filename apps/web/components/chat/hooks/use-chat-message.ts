@@ -13,6 +13,7 @@ import useFlowStore from "@/lib/stores/flow";
 import { Skill } from "../types";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTreeId } from "@/hooks/use-tree-id";
+import { AgentSuccessToast } from "../agent-success-toast";
 
 export interface UIMessage extends ChatMessage {
   id: string;
@@ -125,19 +126,9 @@ export function useChatMessage(skill: Skill = "chat") {
               );
 
               const { model, usage, toolCalls } = response;
-              const usageInfo = usage
-                ? `\nInput: ${usage.promptTokens ?? 0} | Output: ${usage.completionTokens ?? 0} | Total: ${usage.totalTokens ?? 0}`
-                : "";
-              const toolInfo =
-                toolCalls && toolCalls.length > 0
-                  ? `\nTools: ${toolCalls.map((t) => t.name).join(", ")}`
-                  : "";
-              const cacheInfo = usage?.promptCacheHitTokens
-                ? `\nCache: ${usage.promptCacheHitTokens} hit, ${usage.promptCacheMissTokens ?? 0} miss`
-                : "";
 
-              toast.success("Agent completed", {
-                description: `${model.provider}/${model.name}${usageInfo}${toolInfo}${cacheInfo}`,
+              toast("🤖 Agent 执行成功", {
+                description: AgentSuccessToast({ model, usage, toolCalls }),
               });
             },
             onError: (err) => {
