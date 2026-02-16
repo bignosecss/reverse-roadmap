@@ -22,22 +22,27 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Skill, PlaceholerText } from "../types";
 
 interface ChatFormProps {
   onSend: (message: string) => void;
   isGenerating?: boolean;
+  selectedSkill: Skill;
+  onSkillChange: (skill: Skill) => void;
 }
-
-type Skill = "chat" | "agent";
 
 const SKILLS: Array<{ value: Skill; label: string; description: string }> = [
   { value: "chat", label: "Chat", description: "普通对话" },
   { value: "agent", label: "Agent", description: "智能路线图生成" },
 ];
 
-export function ChatForm({ onSend, isGenerating }: ChatFormProps) {
+export function ChatForm({
+  onSend,
+  isGenerating,
+  selectedSkill,
+  onSkillChange,
+}: ChatFormProps) {
   const [inputMsg, setInputMsg] = useState("");
-  const [selectedSkill, setSelectedSkill] = useState<Skill>("chat");
   const [skillPopoverOpen, setSkillPopoverOpen] = useState(false);
 
   const handleSendAndClear = useCallback(() => {
@@ -65,7 +70,11 @@ export function ChatForm({ onSend, isGenerating }: ChatFormProps) {
         <InputGroup className="rounded-xl has-[[data-slot=input-group-control]:focus-visible]:ring-0!">
           <InputGroupTextarea
             id="notion-prompt"
-            placeholder="聊聊～"
+            placeholder={
+              selectedSkill === "chat"
+                ? PlaceholerText.chat
+                : PlaceholerText.agent
+            }
             value={inputMsg}
             onChange={(e) => setInputMsg(e.target.value)}
             onKeyDown={handleKeyDown}
@@ -102,7 +111,7 @@ export function ChatForm({ onSend, isGenerating }: ChatFormProps) {
                       checked={skill.value === selectedSkill}
                       onCheckedChange={(checked) => {
                         if (checked) {
-                          setSelectedSkill(skill.value);
+                          onSkillChange(skill.value);
                         }
                       }}
                       className="pl-2 *:[span:first-child]:right-2 *:[span:first-child]:left-auto"

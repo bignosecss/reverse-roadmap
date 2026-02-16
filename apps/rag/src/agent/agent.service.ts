@@ -9,12 +9,7 @@ import {
 import { ChatDeepSeek } from '@langchain/deepseek';
 import { Injectable, Logger } from '@nestjs/common';
 import { LLM_CONFIG } from 'src/utils/constants/model.constants';
-import {
-  AgentResponse,
-  ToolCallInfo,
-  ModelInfo,
-  AgentQueryContext,
-} from '@repo/shared';
+import { ToolCallInfo, ModelInfo, AgentQueryContext } from '@repo/shared';
 import { TEMPLATES } from 'src/utils/constants/template.constant';
 import { getTools } from './tools';
 import { ApiNodeClient } from './client/api-node.client';
@@ -25,10 +20,7 @@ export class AgentService {
 
   constructor(private readonly apiNodeClient: ApiNodeClient) {}
 
-  async agent(
-    query: string,
-    context?: AgentQueryContext,
-  ): Promise<AgentResponse> {
+  async agent(query: string, context?: AgentQueryContext) {
     const model = new ChatDeepSeek(LLM_CONFIG.DEEPSEEK);
 
     // 如果有节点上下文，将其注入到系统提示词中
@@ -73,7 +65,7 @@ export class AgentService {
 ---`;
   }
 
-  private formatAgentResponse(messages: BaseMessage[]): AgentResponse {
+  private formatAgentResponse(messages: BaseMessage[]) {
     // 获取最后一条消息（最终回复）
     const lastMessage = messages.at(-1);
     if (!lastMessage) {
@@ -132,18 +124,22 @@ export class AgentService {
       | undefined;
 
     return {
-      reply,
-      toolCalls: toolCalls.length > 0 ? toolCalls : undefined,
-      usage: tokenUsage
-        ? {
-            promptTokens: tokenUsage.prompt_tokens,
-            completionTokens: tokenUsage.completion_tokens,
-            totalTokens: tokenUsage.total_tokens,
-            promptCacheHitTokens: tokenUsage.prompt_cache_hit_tokens,
-            promptCacheMissTokens: tokenUsage.prompt_cache_miss_tokens,
-          }
-        : undefined,
-      model: modelInfo,
+      success: true,
+      message: 'Agent Message',
+      data: {
+        reply,
+        toolCalls: toolCalls.length > 0 ? toolCalls : undefined,
+        usage: tokenUsage
+          ? {
+              promptTokens: tokenUsage.prompt_tokens,
+              completionTokens: tokenUsage.completion_tokens,
+              totalTokens: tokenUsage.total_tokens,
+              promptCacheHitTokens: tokenUsage.prompt_cache_hit_tokens,
+              promptCacheMissTokens: tokenUsage.prompt_cache_miss_tokens,
+            }
+          : undefined,
+        model: modelInfo,
+      },
     };
   }
 
