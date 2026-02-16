@@ -8,7 +8,7 @@ import type { GenerateReverseRoadmapInput } from '@repo/shared';
  * 这个工具让 agent 根据用户输入的目标，生成一个完整的 AgentRrNode 结构。
  * 这个结构包含节点及其所有子节点和内容的递归定义。
  */
-export function generateReverseRoadmapTool(rrRootId?: string) {
+export function generateReverseRoadmapTool(rrRootNodeId?: string) {
   const description = `根据用户的目标，生成一个 Reverse Roadmap（倒推路线图）结构。
 
 这个工具会将一个大目标分解为 3-5 个具体的、可执行的子目标，并为每个子节点创建详细的节点。
@@ -24,7 +24,7 @@ export function generateReverseRoadmapTool(rrRootId?: string) {
 
 请生成一个合理、可执行的 roadmap 结构。每个子节点应该是父节点的具体行动步骤，可以进一步分解。
 
-${rrRootId ? `**重要：生成的所有节点都将关联到当前的 rrRootId: ${rrRootId}**` : ''}`;
+${rrRootNodeId ? `**重要：生成的所有节点都将关联到当前的 rrRootId: ${rrRootNodeId}**` : ''}`;
 
   return tool(
     ({
@@ -40,7 +40,7 @@ ${rrRootId ? `**重要：生成的所有节点都将关联到当前的 rrRootId:
         message: 'Reverse roadmap structure generated',
         goal,
         description,
-        rrRootId,
+        rrRootNodeId,
       });
     },
     {

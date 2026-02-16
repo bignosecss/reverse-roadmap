@@ -1,4 +1,4 @@
-import { IsObject } from 'class-validator';
+import { IsObject, IsString } from 'class-validator';
 import type { AgentRrNodeDto } from '@repo/shared';
 
 /**
@@ -7,6 +7,9 @@ import type { AgentRrNodeDto } from '@repo/shared';
 export class SaveReverseRoadmapDto {
   @IsObject()
   node!: AgentRrNodeDto;
+
+  @IsString()
+  rrNodeId!: string;
 }
 
 /**

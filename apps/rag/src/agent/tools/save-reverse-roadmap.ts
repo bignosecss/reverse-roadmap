@@ -9,11 +9,17 @@ import type { AgentRrNodeDto } from '@repo/shared';
  * 这个工具接收 generate_reverse_roadmap 生成的 AgentRrNode 结构，
  * 然后调用 API 接口将数据保存到 MongoDB。
  */
-export function saveReverseRoadmapTool(apiClient: ApiNodeClient) {
+export function saveReverseRoadmapTool(
+  apiClient: ApiNodeClient,
+  rrRootNodeId?: string,
+) {
   return tool(
     async ({ node }: { node: AgentRrNodeDto }) => {
       try {
-        const result = await apiClient.saveReverseRoadmap({ node });
+        const result = await apiClient.saveReverseRoadmap({
+          node,
+          rrNodeId: rrRootNodeId || '',
+        });
         return JSON.stringify(result);
       } catch (err) {
         const errorMessage =

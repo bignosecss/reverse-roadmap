@@ -9,6 +9,7 @@ import type { AgentRrNodeDto } from '@repo/shared';
  */
 interface SaveReverseRoadmapDto {
   node: AgentRrNodeDto;
+  rrNodeId: string;
 }
 
 @Injectable()

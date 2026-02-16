@@ -306,7 +306,7 @@ export class RrNodeService {
   ): Promise<SaveReverseRoadmapResponse> {
     try {
       // 递归保存节点树
-      await this.saveNodeTree(dto.node);
+      await this.saveNodeTree(dto.node, dto.rrNodeId);
 
       return {
         success: true,
@@ -324,14 +324,12 @@ export class RrNodeService {
     }
   }
 
-  /**
-   * 保存节点树
-   * 递归创建节点树，使用 MongoDB 生成的 _id 建立父子关系
-   */
   private async saveNodeTree(
     rootNode: AgentRrNodeDto,
+    rootNodeId: string,
   ): Promise<{ rootNodeId: string; totalNodes: number }> {
-    const result = await this.createNodeTreeRecursively(rootNode);
+    const result = await this.createNodeTreeRecursively(rootNode, rootNodeId);
+
     return {
       rootNodeId: result.nodeId,
       totalNodes: result.totalNodes,
@@ -340,60 +338,94 @@ export class RrNodeService {
 
   /**
    * 递归创建节点树
-   * @param node - 要创建的节点
+   * @param node - 要创建的树结构，最外层及为子树根节点的内容
+   * @param rootNodeId - 根节点的真实 ID
    * @param parentRealId - 父节点的真实 ID（如果是根节点则为 null）
    * @returns 创建结果，包含节点 ID 和节点总数
    */
   private async createNodeTreeRecursively(
     node: AgentRrNodeDto,
+    rootNodeId: string,
     parentRealId: string | null = null,
   ): Promise<{ nodeId: string; totalNodes: number }> {
-    // 创建所有 content
-    const contentIds: string[] = [];
-    for (const contentDto of node.content) {
-      const newContent = await this.rrContentService.create({
-        tabTitle: contentDto.tabTitle,
-        type: contentDto.type,
-        content: contentDto.content,
+    let realNodeId: string;
+
+    if (parentRealId === null) {
+      // 更新子树的根节点
+      realNodeId = rootNodeId;
+
+      const contentIds: string[] = [];
+      for (const contentDto of node.content) {
+        const newContent = await this.rrContentService.create({
+          tabTitle: contentDto.tabTitle,
+          type: contentDto.type,
+          content: contentDto.content,
+        });
+        contentIds.push(newContent._id.toString());
+      }
+
+      await this.rrNodeRepository.update(rootNodeId, {
+        title: node.title,
+        description: node.description || '',
+        status: node.status || RrNodeStatus.Active,
+        excludeFromRAG: node.excludeFromRAG ?? false,
+        content: contentIds.map((rrContent) => ({
+          rrContent: new mongoose.Types.ObjectId(rrContent),
+          tabTitle: node.title,
+        })),
       });
-      contentIds.push(newContent._id.toString());
-    }
+    } else {
+      // 创建新节点
+      const contentIds: string[] = [];
+      for (const contentDto of node.content) {
+        const newContent = await this.rrContentService.create({
+          tabTitle: contentDto.tabTitle,
+          type: contentDto.type,
+          content: contentDto.content,
+        });
+        contentIds.push(newContent._id.toString());
+      }
 
-    // 创建节点
-    const rrNodeEntity: Partial<RrNodeModel> = {
-      title: node.title,
-      description: node.description || '',
-      status: node.status || RrNodeStatus.Active,
-      excludeFromRAG: node.excludeFromRAG ?? false,
-      content: contentIds.map((rrContent) => ({
-        rrContent: new mongoose.Types.ObjectId(rrContent),
-        tabTitle: node.title,
-      })),
-      parent: parentRealId ? new mongoose.Types.ObjectId(parentRealId) : null,
-      children: [],
-    };
+      const rrNodeEntity: Partial<RrNodeModel> = {
+        title: node.title,
+        description: node.description || '',
+        status: node.status || RrNodeStatus.Active,
+        excludeFromRAG: node.excludeFromRAG ?? false,
+        content: contentIds.map((rrContent) => ({
+          rrContent: new mongoose.Types.ObjectId(rrContent),
+          tabTitle: node.title,
+        })),
+        parent: new mongoose.Types.ObjectId(parentRealId),
+        children: [],
+      };
 
-    const newRrNode = this.rrNodeRepository.create(rrNodeEntity);
-    const savedNode = await this.rrNodeRepository.save(newRrNode);
-    const realNodeId = savedNode._id.toString();
+      const newRrNode = this.rrNodeRepository.create(rrNodeEntity);
+      const savedNode = await this.rrNodeRepository.save(newRrNode);
+      realNodeId = savedNode._id.toString();
 
-    // 更新父节点的 children 数组
-    if (parentRealId) {
       await this.rrNodeRepository.update(parentRealId, {
         $push: { children: realNodeId },
       });
     }
 
-    // 递归创建子节点
-    const childrenIds: string[] = [];
+    const childrenResults: { nodeId: string; totalNodes: number }[] = [];
     for (const child of node.children) {
-      const childResult = await this.createNodeTreeRecursively(child, realNodeId);
-      childrenIds.push(childResult.nodeId);
+      const childResult = await this.createNodeTreeRecursively(
+        child,
+        rootNodeId,
+        realNodeId,
+      );
+      childrenResults.push(childResult);
     }
+
+    const totalChildrenNodes = childrenResults.reduce(
+      (sum, result) => sum + result.totalNodes,
+      0,
+    );
 
     return {
       nodeId: realNodeId,
-      totalNodes: 1 + childrenIds.length,
+      totalNodes: 1 + totalChildrenNodes,
     };
   }
 }
