@@ -15,7 +15,7 @@
 ### 1. 克隆仓库
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/bignosecss/reverse-roadmap.git
 cd reverse-roadmap
 ```
 
