@@ -72,4 +72,9 @@
     @apply px-1.5 py-0.5 text-sm font-mono rounded bg-(--code-bg) text-(--code-text);
     @apply before:content-none after:content-none;
   }
+  
+  blockquote p {
+    @apply text-muted-foreground font-normal;
+    @apply before:content-none after:content-none;
+  }
 }
