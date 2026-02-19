@@ -67,4 +67,9 @@
   :first-child {
     @apply mt-0 mb-0;
   }
+
+  :where(p, li, td, th) > code:not(pre code) {
+    @apply px-1.5 py-0.5 text-sm font-mono rounded bg-(--code-bg) text-(--code-text);
+    @apply before:content-none after:content-none;
+  }
 }
